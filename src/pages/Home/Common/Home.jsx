@@ -7,29 +7,29 @@ import allowance from "../../../assets/img/Home/allowance.svg";
 import mission from "../../../assets/img/Home/mission.svg";
 import loan from "../../../assets/img/Home/loan.svg";
 
-const Home = () => {
+const Home = ({ texts }) => {
   return (
     <Container>
-      <Account $accountNum={1}></Account>
+      <Account accountNum={1}></Account>
       <RowDiv $isFirst>
         <Btn $width={165}>
-          투자하기
+          {texts[0]}
           <Img src={invest} $right={10} $imgwidth={130} />
         </Btn>
         <Btn $width={115}>
-          용돈
-          <Img src={allowance} $bottom={-10} $right={-20} $imgwidth={140} />
+          {texts[1]}
           <br />
-          조르기
+          {texts[2]}
+          <Img src={allowance} $bottom={-10} $right={-20} $imgwidth={140} />
         </Btn>
       </RowDiv>
       <RowDiv>
         <Btn $width={115}>
-          미션
+          {texts[3]}
           <Img src={mission} $bottom={10} $right={5} $imgwidth={100} />
         </Btn>
         <Btn $width={165}>
-          대출하기
+          {texts[4]}
           <Img src={loan} $bottom={-20} $imgwidth={120} />
         </Btn>
       </RowDiv>
@@ -43,8 +43,13 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 110px 30px;
-  height: ${screen.height < 800 ? "100%" : "100vh"};
+  padding: 100px 30px 0px 30px;
+  height: ${screen.height < 700
+    ? "123vh"
+    : screen.height < 800
+    ? "115vh"
+    : "100vh"};
+  /* height: 100vh; */
   width: 100vw;
   background-image: url(${backgroundImage});
   background-size: cover;
@@ -60,14 +65,14 @@ const Btn = styled.div`
   margin-top: 20px;
   padding: 15px;
 
-  font-size: 25px;
+  font-size: 23px;
 `;
 
 const RowDiv = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap: 30px;
+  gap: ${(props) => `calc(${window.innerWidth}px / 10.5)`};
   margin-top: ${(props) => (props.$isFirst ? "40px" : "20px")};
 `;
 

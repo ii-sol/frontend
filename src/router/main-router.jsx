@@ -2,23 +2,25 @@ import * as React from "react";
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../pages/layout/MainLayout";
 
-// pages
-import Home from "../pages/Home/Child/Home";
+//pages
+import HomeC from "../pages/Home/Child/HomeC";
+import NavLayout from "../pages/layout/NavLayout";
 import InsideLayout from "../pages/layout/InsideLayout";
 import FromWho from "../pages/Loan/Child/FromWho";
 import Money from "../pages/Loan/Child/Money"; // Import the Money component
 import Period from "../pages/Loan/Child/Period";
 import Message from "../pages/Loan/Child/Message";
 import Complete from "../pages/Loan/Child/Complete";
+import HomeP from "../pages/Home/Parent/HomeP";
 
 const MainRouter = [
   {
     path: "/",
-    element: <MainLayout />,
+    element: <NavLayout />,
     children: [
       {
         index: true,
-        element: <Home />,
+        element: <HomeP />,
       },
     ],
   },

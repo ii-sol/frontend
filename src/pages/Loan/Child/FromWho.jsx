@@ -1,6 +1,6 @@
 import React from "react";
 import tw from "twin.macro";
-import momIcon from "~/assets/img/child/MomIcon.svg"; // 올바른 경로
+// import momIcon from "~/assets/img/child/MomIcon.svg"; // 올바른 경로
 
 const FromWho = () => {
   return (
