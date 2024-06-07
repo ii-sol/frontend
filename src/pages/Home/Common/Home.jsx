@@ -43,8 +43,13 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 110px 30px;
-  height: ${screen.height < 800 ? "100%" : "100vh"};
+  padding: 100px 30px 0px 30px;
+  height: ${screen.height < 700
+    ? "123vh"
+    : screen.height < 800
+    ? "115vh"
+    : "100vh"};
+  /* height: 100vh; */
   width: 100vw;
   background-image: url(${backgroundImage});
   background-size: cover;
@@ -67,7 +72,7 @@ const RowDiv = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap: 30px;
+  gap: ${(props) => `calc(${window.innerWidth}px / 10.5)`};
   margin-top: ${(props) => (props.$isFirst ? "40px" : "20px")};
 `;
 
