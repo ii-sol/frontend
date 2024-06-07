@@ -2,10 +2,11 @@ import * as React from "react";
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../pages/layout/MainLayout";
 
-//pages
+// pages
 import Home from "../pages/Home/Child/Home";
 import InsideLayout from "../pages/layout/InsideLayout";
 import FromWho from "../pages/Loan/Child/FromWho";
+import Money from "../pages/Loan/Child/Money"; // Import the Money component
 
 const MainRouter = [
   {
@@ -26,6 +27,10 @@ const MainRouter = [
         path: "who",
         index: true,
         element: <FromWho />,
+      },
+      {
+        path: "money",
+        element: <Money />, // Remove the index: true property
       },
     ],
   },
