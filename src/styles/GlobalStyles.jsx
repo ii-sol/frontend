@@ -1,18 +1,13 @@
-import React from "react";
-import { createGlobalStyle } from "styled-components";
-import tw, { theme, GlobalStyles as BaseStyles } from "twin.macro";
+import styled from "styled-components";
 
-const CustomStyles = createGlobalStyle`
-  body {
-
-  }
+// Sidebar
+export const RowDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
 `;
 
-const GlobalStyles = () => (
-  <>
-    <BaseStyles />
-    <CustomStyles />
-  </>
-);
-
-export default GlobalStyles;
+export const ColumnDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
