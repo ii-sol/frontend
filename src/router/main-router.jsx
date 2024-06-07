@@ -7,6 +7,9 @@ import Home from "../pages/Home/Child/Home";
 import InsideLayout from "../pages/layout/InsideLayout";
 import FromWho from "../pages/Loan/Child/FromWho";
 import Money from "../pages/Loan/Child/Money"; // Import the Money component
+import Period from "../pages/Loan/Child/Period";
+import Message from "../pages/Loan/Child/Message";
+import Complete from "../pages/Loan/Child/Complete";
 
 const MainRouter = [
   {
@@ -30,7 +33,19 @@ const MainRouter = [
       },
       {
         path: "money",
-        element: <Money />, // Remove the index: true property
+        element: <Money />,
+      },
+      {
+        path: "period",
+        element: <Period />,
+      },
+      {
+        path: "message",
+        element: <Message />,
+      },
+      {
+        path: "complete",
+        element: <Complete />,
       },
     ],
   },

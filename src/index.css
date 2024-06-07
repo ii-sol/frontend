@@ -137,3 +137,11 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+input {
+  border: none;
+}
+button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}

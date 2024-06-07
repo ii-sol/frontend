@@ -9,20 +9,20 @@ const FromWho = () => {
         <p tw="text-2xl text-center mt-4"> 누구에게 돈을 빌릴까요?</p>
       </div>
 
-      <div tw="flex flex-row w-full h-20 bg-blue-100 mt-6 rounded-2xl">
+      <div tw="flex flex-row w-10/12 h-20 bg-blue-100 m-6 ml-9 rounded-2xl">
         <img
           src={momIcon}
           alt="Mom Icon"
-          tw="h-16 w-9 rounded-l-2xl ml-6 mt-2"
+          tw="h-16 w-16 rounded-l-2xl ml-6 mt-2"
         />
         <p tw="text-xl ml-6 mt-6">엄마</p>
       </div>
 
-      <div tw="flex flex-row w-full h-20 bg-blue-100 mt-5 rounded-2xl">
+      <div tw="flex flex-row w-10/12 h-20 bg-blue-100 m-6 ml-9 rounded-2xl">
         <img
           src={momIcon}
           alt="Mom Icon"
-          tw="h-16 w-9 rounded-l-2xl ml-6 mt-2"
+          tw="h-16 w-16 rounded-l-2xl ml-6 mt-2"
         />
         <p tw="text-xl ml-6 mt-6">아빠</p>
       </div>
