@@ -1,10 +1,16 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 import tw from "twin.macro";
 
 import Button from "~/components/common/Button";
 
 const Login = () => {
+  const login = () => {
+    // TODO: 로그인 하기
+    console.log("로그인");
+  };
+
   return (
     <Layout>
       <div tw="text-2xl font-bold">iSOL{/* TODO: 로고 넣기 */}</div>
@@ -18,8 +24,8 @@ const Login = () => {
         </LoginWrapper>
         <Input type="password" name="pw" placeholder="비밀번호를 입력해주세요"></Input>
       </LoginForm>
-      <div tw="text-sm text-[#5055C6] text-right mb-4">회원이 아니신가요?</div>
-      <Button text="로그인"></Button>
+      <StyledLink to="/signup">회원이 아니신가요?</StyledLink>
+      <Button text="로그인" onClick={login}></Button>
     </Layout>
   );
 };
@@ -40,7 +46,7 @@ const LoginForm = styled.div`
   flex-direction: column;
   gap: 5px;
   width: 100%;
-  height: 254px;
+  height: 248px;
   padding: 20px;
   background-color: #f4f9ff;
   border-radius: 15px;
@@ -57,8 +63,15 @@ const LoginWrapper = tw.div`
 
 const Input = tw.input`
   text-base
-  h-[56px]
   rounded-[15px]
   p-3
   my-2
+`;
+
+const StyledLink = tw(Link)`
+  text-sm 
+  text-[#5055C6] 
+  text-right 
+  mb-4
+  no-underline
 `;
