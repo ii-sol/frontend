@@ -7,6 +7,7 @@ import Home from "../pages/Home/Common/Home";
 import NavLayout from "../pages/layout/NavLayout";
 import InsideLayout from "../pages/layout/InsideLayout";
 import FromWho from "../pages/Loan/Child/FromWho";
+import Money from "../pages/Loan/Child/Money"; // Import the Money component
 
 const MainRouter = [
   {
@@ -27,6 +28,10 @@ const MainRouter = [
         path: "who",
         index: true,
         element: <FromWho />,
+      },
+      {
+        path: "money",
+        element: <Money />, // Remove the index: true property
       },
     ],
   },
