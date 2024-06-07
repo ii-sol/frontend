@@ -12,6 +12,9 @@ import Period from "../pages/Loan/Child/Period";
 import Message from "../pages/Loan/Child/Message";
 import Complete from "../pages/Loan/Child/Complete";
 import HomeP from "../pages/Home/Parent/HomeP";
+import LoanHistory from "../pages/Loan/Child/LoanHistoryNull";
+import LoanHistoryExist from "../pages/Loan/Child/LoanHistoryExist";
+import Main from "../pages/Loan/Child/Main";
 
 const MainRouter = [
   {
@@ -28,6 +31,10 @@ const MainRouter = [
     path: "/loan",
     element: <InsideLayout />,
     children: [
+      {
+        path: "main",
+        element: <Main />,
+      },
       {
         path: "who",
         index: true,
@@ -48,6 +55,14 @@ const MainRouter = [
       {
         path: "complete",
         element: <Complete />,
+      },
+      {
+        path: "history",
+        element: <LoanHistory />,
+      },
+      {
+        path: "historyexist",
+        element: <LoanHistoryExist />,
       },
     ],
   },
