@@ -7,29 +7,29 @@ import allowance from "../../../assets/img/Home/allowance.svg";
 import mission from "../../../assets/img/Home/mission.svg";
 import loan from "../../../assets/img/Home/loan.svg";
 
-const Home = () => {
+const Home = ({ texts }) => {
   return (
     <Container>
-      <Account $accountNum={1}></Account>
+      <Account accountNum={1}></Account>
       <RowDiv $isFirst>
         <Btn $width={165}>
-          투자하기
+          {texts[0]}
           <Img src={invest} $right={10} $imgwidth={130} />
         </Btn>
         <Btn $width={115}>
-          용돈
-          <Img src={allowance} $bottom={-10} $right={-20} $imgwidth={140} />
+          {texts[1]}
           <br />
-          조르기
+          {texts[2]}
+          <Img src={allowance} $bottom={-10} $right={-20} $imgwidth={140} />
         </Btn>
       </RowDiv>
       <RowDiv>
         <Btn $width={115}>
-          미션
+          {texts[3]}
           <Img src={mission} $bottom={10} $right={5} $imgwidth={100} />
         </Btn>
         <Btn $width={165}>
-          대출하기
+          {texts[4]}
           <Img src={loan} $bottom={-20} $imgwidth={120} />
         </Btn>
       </RowDiv>
@@ -65,7 +65,7 @@ const Btn = styled.div`
   margin-top: 20px;
   padding: 15px;
 
-  font-size: 25px;
+  font-size: 23px;
 `;
 
 const RowDiv = styled.div`

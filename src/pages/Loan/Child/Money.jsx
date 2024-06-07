@@ -1,6 +1,6 @@
 import React from "react";
 import tw from "twin.macro";
-import piggyBank from "~/assets/img/child/piggyBank.svg"; // 이미지 파일 경로를 확인하세요.
+// import piggyBank from "~/assets/img/child/piggyBank.svg"; // 이미지 파일 경로를 확인하세요.
 
 const Money = () => {
   return (
