@@ -7,6 +7,8 @@ import HomeC from "../pages/Home/Child/HomeC";
 import NavLayout from "../pages/layout/NavLayout";
 import InsideLayout from "../pages/layout/InsideLayout";
 import FromWho from "../pages/Loan/Child/FromWho";
+import Signup from "../pages/Auth/Signup";
+import Login from "../pages/Auth/Login";
 import Money from "../pages/Loan/Child/Money"; // Import the Money component
 import Period from "../pages/Loan/Child/Period";
 import Message from "../pages/Loan/Child/Message";
@@ -19,12 +21,8 @@ import Main from "../pages/Loan/Child/Main";
 const MainRouter = [
   {
     path: "/",
-    element: <NavLayout />,
+    element: <MainLayout />,
     children: [
-      {
-        index: true,
-        element: <HomeP />,
-      },
       {
         path: "signup",
         index: true,
@@ -34,6 +32,16 @@ const MainRouter = [
         path: "login",
         index: true,
         element: <Login />,
+      },
+    ],
+  },
+  {
+    path: "/",
+    element: <NavLayout />,
+    children: [
+      {
+        index: true,
+        element: <HomeP />,
       },
     ],
   },
