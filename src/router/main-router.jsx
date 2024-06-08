@@ -25,6 +25,16 @@ const MainRouter = [
         index: true,
         element: <HomeP />,
       },
+      {
+        path: "signup",
+        index: true,
+        element: <Signup />,
+      },
+      {
+        path: "login",
+        index: true,
+        element: <Login />,
+      },
     ],
   },
   {
