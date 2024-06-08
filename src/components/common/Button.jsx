@@ -1,10 +1,10 @@
 import React from "react";
 import tw from "twin.macro";
 
-const Button = ({ text }) => {
+const Button = ({ onClick, text }) => {
   return (
     <>
-      <NextButton>{text}</NextButton>
+      <NextButton onClick={onClick}>{text}</NextButton>
     </>
   );
 };
