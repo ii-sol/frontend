@@ -6,13 +6,16 @@ import { styled } from "styled-components";
 import Button from "~/components/common/Button";
 import Keypad from "~/components/common/Keypad";
 import Member from "~/components/common/Member";
+import Message from "~/components/common/Message";
 
 import ChildImage from "~/assets/img/Auth/child.png";
 import CoinImage from "~/assets/img/Allowance/coin.png";
+import MessageImage from "~/assets/img/Allowance/message.png";
 
 const NewAllowanceRequest = () => {
   const [step, setStep] = useState(0);
   const [displayedNumber, setDisplayedNumber] = useState("0");
+  const [message, setMessage] = useState("");
   const [requestData, setRequestData] = useState({
     childPhone: "",
     parentPhone: "",
@@ -24,18 +27,36 @@ const NewAllowanceRequest = () => {
 
   const handleNext = () => {
     let error = "";
-    if (step === 0 && !requestData.parentPhone) {
-      error = "부모님을 선택해주세요!";
-    } else if (step === 1) {
-      if (displayedNumber === "0") {
-        error = "금액을 선택해주세요!";
-      } else {
-        setRequestData({
-          ...requestData,
-          amount: parseInt(displayedNumber),
-        });
-        setStep(step + 1);
-      }
+
+    switch (step) {
+      case 0:
+        if (!requestData.parentPhone) {
+          error = "부모님을 선택해주세요!";
+        }
+        break;
+      case 1:
+        if (displayedNumber === "0") {
+          error = "금액을 선택해주세요!";
+        } else {
+          setRequestData({
+            ...requestData,
+            amount: parseInt(displayedNumber),
+          });
+          setStep(step + 1);
+        }
+        break;
+      case 2:
+        if (!requestData.content) {
+          error = "메세지를 입력해주세요!";
+        } else {
+          setRequestData({
+            ...requestData,
+            content: message,
+          });
+        }
+        break;
+      default:
+        break;
     }
 
     if (error) {
@@ -45,14 +66,24 @@ const NewAllowanceRequest = () => {
     }
   };
 
-  const handleMemberChange = (phoneNum) => {
+  const handleMemberChange = (name, phoneNum) => {
     setRequestData({
       ...requestData,
+      parentName: name,
       parentPhone: phoneNum,
     });
   };
 
+  const handleInputChange = (message) => {
+    setMessage(message);
+    setRequestData({
+      ...requestData,
+      content: message,
+    });
+  };
+
   const handleAllowanceRedirect = () => {
+    console.log(requestData);
     navigate("/allowance-request");
   };
 
@@ -79,9 +110,9 @@ const NewAllowanceRequest = () => {
           <StepWrapper>
             <Phrase>누구에게 용돈을 부탁드릴까요?</Phrase>
             <MemberContainer>
-              <Member img={ChildImage} name="박지민" role="부모" phoneNum="010-0000-0000" onClick={() => handleMemberChange("010-0000-0000")}></Member>
+              <Member img={ChildImage} name="박지민" role="부모" phoneNum="010-0000-0000" onClick={() => handleMemberChange("박지민", "010-0000-0000")}></Member>
               <Member img={ChildImage} name="엄마"></Member>
-              <Member img={ChildImage} name="아빠" role="부모" phoneNum="010-4321-4321" onClick={() => handleMemberChange("010-4321-4321")}></Member>
+              <Member img={ChildImage} name="아빠" role="부모" phoneNum="010-4321-4321" onClick={() => handleMemberChange("아빠", "010-4321-4321")}></Member>
             </MemberContainer>
           </StepWrapper>
         )}
@@ -92,6 +123,19 @@ const NewAllowanceRequest = () => {
               <Img src={CoinImage} alt="코인" />
               <Amount displayedNumber={displayedNumber}>{normalizeNumber(displayedNumber)} 원</Amount>
               <Keypad onNumberClick={handleNumberClick} onBackspace={handleBackspace} />
+            </InputContainer>
+          </StepWrapper>
+        )}
+        {step === 2 && (
+          <StepWrapper>
+            <Summary>
+              <Phrase tw="m-0">{requestData.parentName} 님에게</Phrase>
+              <Phrase tw="m-0">{requestData.amount}원을 부탁드릴게요</Phrase>
+              <SmallPhrase>용돈이 필요한 이유를 작성해주세요!</SmallPhrase>
+            </Summary>
+            <InputContainer>
+              <Img src={MessageImage} alt="메세지" />
+              <Message placeholder="합리적인 이유를 적어주세요!" maxLength="20" onChange={handleInputChange} value={requestData.content}></Message>
             </InputContainer>
           </StepWrapper>
         )}
@@ -142,12 +186,23 @@ const ButtonWrapper = styled.div`
   mt-4`}
 `;
 
+const Summary = tw.div`
+  m-5
+`;
+
 const Phrase = tw.div`
   flex
   text-xl
   font-bold
   justify-center
   m-5
+`;
+
+const SmallPhrase = tw.div`
+  flex
+  text-sm
+  font-medium
+  justify-center
 `;
 
 const MemberContainer = styled.div`

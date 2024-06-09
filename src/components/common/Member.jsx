@@ -35,7 +35,7 @@ const Container = styled.button`
   font-weight: 500;
   align-items: center;
   &:hover {
-    ${tw`bg-[#D9E8FF]`}
+    background-color: #d9e8ff;
   }
 `;
 
