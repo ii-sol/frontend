@@ -7,7 +7,7 @@ import Button from "~/components/common/Button";
 import ChatBubble from "~/components/Auth/ChatBubble";
 import Input from "~/components/Auth/Input";
 
-import KidImage from "~/assets/img/Auth/kid.png";
+import ChildImage from "~/assets/img/Auth/child.png";
 import ParentImage from "~/assets/img/Auth/parent.png";
 import CompleteImage from "~/assets/img/Auth/complete.png";
 
@@ -159,7 +159,7 @@ const Signup = () => {
             <ButtonGroup>
               <RoleWrapper>
                 <RoleButton role="아이" onClick={() => handleRoleChange(2)}>
-                  <img src={KidImage} alt="아이" />
+                  <img src={ChildImage} alt="아이" />
                 </RoleButton>
                 아이
               </RoleWrapper>

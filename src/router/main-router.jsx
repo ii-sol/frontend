@@ -19,6 +19,7 @@ import LoanHistory from "../pages/Loan/Child/LoanHistoryNull";
 import LoanHistoryExist from "../pages/Loan/Child/LoanHistoryExist";
 import Main from "../pages/Loan/Child/Main";
 import AllowanceRequest from "../pages/Allowance/Child/AllowanceRequest";
+import NewAllowanceRequest from "../pages/Allowance/Child/NewAllowanceRequest";
 import AllowanceHistory from "../pages/Allowance/Child/AllowanceHistory";
 import Mission from "../pages/Mission/Child/Mission";
 
@@ -66,6 +67,11 @@ const MainRouter = [
       {
         index: true,
         element: <AllowanceRequest />,
+      },
+      {
+        path: "create",
+        index: true,
+        element: <NewAllowanceRequest />,
       },
     ],
   },
