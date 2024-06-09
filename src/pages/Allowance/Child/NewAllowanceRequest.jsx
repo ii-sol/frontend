@@ -11,6 +11,7 @@ import Message from "~/components/common/Message";
 import ChildImage from "~/assets/img/Auth/child.png";
 import CoinImage from "~/assets/img/Allowance/coin.png";
 import MessageImage from "~/assets/img/Allowance/message.png";
+import AllowanceImage from "~/assets/img/Allowance/allowance.png";
 
 const NewAllowanceRequest = () => {
   const [step, setStep] = useState(0);
@@ -24,6 +25,14 @@ const NewAllowanceRequest = () => {
   });
 
   const navigate = useNavigate();
+
+  const today = new Date();
+  const dueDate = new Date(today.getTime() + 3 * 24 * 60 * 60 * 1000);
+
+  const year = dueDate.getFullYear();
+  const month = (dueDate.getMonth() + 1).toString().padStart(2, "0");
+  const day = dueDate.getDate().toString().padStart(2, "0");
+  const formattedDate = `${year}-${month}-${day}`;
 
   const handleNext = () => {
     let error = "";
@@ -139,6 +148,21 @@ const NewAllowanceRequest = () => {
             </InputContainer>
           </StepWrapper>
         )}
+        {step === 3 && (
+          <StepWrapper>
+            <CompleteContainer>
+              <Img src={AllowanceImage} alt="완료" />
+              <Phrase>용돈 조르기 완료</Phrase>
+              <CompleteCard>
+                <div>{requestData.parentName}</div>
+                <div tw="text-[#154B9B]">{requestData.amount}</div>
+              </CompleteCard>
+              <div tw="text-xs">
+                <span tw="text-[#154B9B]">{formattedDate}</span>까지 응답하지 않으면 취소돼요.
+              </div>
+            </CompleteContainer>
+          </StepWrapper>
+        )}
 
         <ButtonWrapper>
           {step < 3 ? (
@@ -236,4 +260,25 @@ const Amount = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
+`;
+
+const CompleteContainer = tw.div`
+  flex
+  flex-col
+  items-center
+  my-20
+  gap-2
+`;
+
+const CompleteCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 15px;
+  background: #f4f9ff;
+  font-size: 25px;
+  font-weight: 500;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
 `;
