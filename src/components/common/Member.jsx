@@ -2,9 +2,9 @@ import React from "react";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 
-const Member = ({ img, name, role, phoneNum }) => {
+const Member = ({ img, name, role, phoneNum, onClick }) => {
   return (
-    <Container>
+    <Container onClick={onClick}>
       <ImgContainer>
         <img src={img} alt="프로필" tw="w-[30px] h-auto" />
       </ImgContainer>

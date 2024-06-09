@@ -3,15 +3,15 @@ import tw from "twin.macro";
 import { styled } from "styled-components";
 
 const RequestCard = ({ receiver, allowance, img }) => {
-  const numberWithCommas = (x) => {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const normalizeNumber = (number) => {
+    return parseFloat(number).toLocaleString("en-US");
   };
 
   return (
     <Container>
       <Content>
         <Receiver>{receiver}</Receiver>
-        <Allowance>{numberWithCommas(allowance)}원</Allowance>
+        <Allowance>{normalizeNumber(allowance)}원</Allowance>
       </Content>
       <Img src={img} alt="아이콘" />
     </Container>
