@@ -29,7 +29,7 @@ import AllowanceHistory from "../pages/Allowance/Child/AllowanceHistory";
 import Mission from "../pages/Mission/Child/Mission";
 import Trading from "../pages/Investment/Child/Trading";
 import Suggestion from "../pages/Investment/Child/Suggestion";
-import { elements } from "chart.js";
+import AllowanceRequestHistory from "../pages/Allowance/Child/AllowanceRequestHistory.jsx";
 
 const MainRouter = [
   {
@@ -81,6 +81,11 @@ const MainRouter = [
         path: "create",
         index: true,
         element: <NewAllowanceRequest />,
+      },
+      {
+        path: "history",
+        index: true,
+        element: <AllowanceRequestHistory />,
       },
     ],
   },

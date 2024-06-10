@@ -2,12 +2,12 @@ import React from "react";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 
-const Filter = ({ statusOptions, selectedStatus, onChangeStatus }) => {
+const Filter = ({ options, selectedOption, onChangeOption }) => {
   return (
     <Container>
-      {statusOptions.map((status) => (
-        <Button key={status} selected={selectedStatus === status} onClick={() => onChangeStatus(status)}>
-          {status}
+      {options.map((option) => (
+        <Button key={option} selected={selectedOption === option} onClick={() => onChangeOption(option)}>
+          {option}
         </Button>
       ))}
     </Container>

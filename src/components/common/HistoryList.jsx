@@ -6,7 +6,9 @@ import { FiXCircle } from "react-icons/fi";
 import Filter from "~/components/common/Filter";
 import HistoryListItem from "~/components/Allowance/HistoryListItem";
 
-const statusOptions = ["전체", "나간 돈", "들어온 돈"];
+import EmptyImage from "~/assets/img/common/empty.png";
+
+const filterOptions = ["전체", "나간 돈", "들어온 돈"];
 
 const HistoryList = ({ data }) => {
   const [sortType, setSortType] = useState("전체");
@@ -40,17 +42,24 @@ const HistoryList = ({ data }) => {
 
   return (
     <Container>
-      <Filter statusOptions={statusOptions} selectedStatus={sortType} onChangeStatus={onChangeSortType}></Filter>
+      <Filter options={filterOptions} selectedOption={sortType} onChangeOption={onChangeSortType}></Filter>
       <List>
-        {sortedGroupedData.map((date) => (
-          <DateGroup key={date}>
-            <DateHeader>{date}</DateHeader>
-            <Hr />
-            {groupedData[date].map((item) => (
-              <HistoryListItem key={item.id} content={item.content} amount={item.amount} balance={item.balance} />
-            ))}
-          </DateGroup>
-        ))}
+        {sortedGroupedData.length === 0 ? (
+          <EmptyState>
+            <Img src={EmptyImage} alt="No data" />
+            <EmptyText>용돈 내역이 없어요</EmptyText>
+          </EmptyState>
+        ) : (
+          sortedGroupedData.map((date) => (
+            <DateGroup key={date}>
+              <DateHeader>{date}</DateHeader>
+              <Hr />
+              {groupedData[date].map((item) => (
+                <HistoryListItem key={item.id} content={item.content} amount={item.amount} balance={item.balance} />
+              ))}
+            </DateGroup>
+          ))
+        )}
       </List>
     </Container>
   );
@@ -77,4 +86,17 @@ const DateHeader = styled.div`
 
 const Hr = styled.hr`
   ${tw`mb-2`}
+`;
+
+const EmptyState = styled.div`
+  ${tw`flex flex-col items-center justify-center h-full mt-20`}
+`;
+
+const Img = styled.img`
+  ${tw`h-auto mb-4`}
+  width: 40%
+`;
+
+const EmptyText = styled.div`
+  ${tw`text-2xl`}
 `;

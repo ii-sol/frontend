@@ -51,9 +51,9 @@ const data = [
     "senderName": "박지민",
     "recieverAccountNum": "987-654-3210",
     "recieverName": "양은수",
-    "content": "용돈",
-    "amount": 50000,
-    "balance": "265000",
+    "content": "대출금",
+    "amount": -50000,
+    "balance": "233000",
     "createdDate": "2024-06-10",
   },
   {
@@ -63,7 +63,7 @@ const data = [
     "recieverName": "양은수",
     "content": "용돈",
     "amount": 50000,
-    "balance": "265000",
+    "balance": "285000",
     "createdDate": "2024-06-10",
   },
   {
@@ -71,9 +71,9 @@ const data = [
     "senderName": "박지민",
     "recieverAccountNum": "987-654-3210",
     "recieverName": "양은수",
-    "content": "용돈",
-    "amount": 50000,
-    "balance": "265000",
+    "content": "미션",
+    "amount": 30000,
+    "balance": "233000",
     "createdDate": "2024-06-10",
   },
 ];
@@ -90,6 +90,7 @@ const getMonthlyData = (pivatDate, data) => {
 
 const HistoryFilter = ({}) => {
   const [pivatDate, setPivatDate] = useState(new Date());
+  const currentDate = new Date();
 
   const monthlyData = getMonthlyData(pivatDate, data);
 
@@ -98,7 +99,13 @@ const HistoryFilter = ({}) => {
   };
 
   const onIncreaseMonth = () => {
-    setPivatDate(new Date(pivatDate.getFullYear(), pivatDate.getMonth() + 1));
+    if (!isNextButtonDisabled()) {
+      setPivatDate(new Date(pivatDate.getFullYear(), pivatDate.getMonth() + 1));
+    }
+  };
+
+  const isNextButtonDisabled = () => {
+    return pivatDate.getFullYear() === currentDate.getFullYear() && pivatDate.getMonth() === currentDate.getMonth();
   };
 
   return (
