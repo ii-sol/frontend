@@ -16,6 +16,7 @@ const AllowanceRequest = () => {
       </Menu>
       <CardContainer>
         <VirticalCreateCard text="용돈 조르기" />
+        <RequestCard status="완료" receiver="엄마" allowance="1000" img={PleaseImg} />
         <RequestCard receiver="엄마" allowance="1000" img={PleaseImg} />
         <RequestCard receiver="아빠" allowance="5000" img={HeartImg} />
       </CardContainer>

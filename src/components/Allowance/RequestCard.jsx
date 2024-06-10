@@ -2,7 +2,7 @@ import React from "react";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 
-const RequestCard = ({ receiver, allowance, img }) => {
+const RequestCard = ({ status, receiver, allowance, img }) => {
   const normalizeNumber = (number) => {
     return parseFloat(number).toLocaleString("en-US");
   };
@@ -10,6 +10,7 @@ const RequestCard = ({ receiver, allowance, img }) => {
   return (
     <Container>
       <Content>
+        <StatusTag status={status}>{status}</StatusTag>
         <Receiver>{receiver}</Receiver>
         <Allowance>{normalizeNumber(allowance)}원</Allowance>
       </Content>
@@ -41,6 +42,16 @@ const Content = styled.div`
   items-start
   gap-1
   `}
+`;
+
+const StatusTag = styled.div`
+  font-size: 13px;
+  font-weight: 500;
+  padding: 4px 8px;
+  margin: 3px 0px;
+  border-radius: 5px;
+  color: ${({ status }) => (status === "완료" ? "#346BAC" : status === "취소" ? "#CC3535" : "#000000")};
+  background-color: ${({ status }) => (status === "완료" ? "#D5E0F1" : status === "취소" ? "#FFDCDC" : "#FFFFFF")};
 `;
 
 const Receiver = styled.div`

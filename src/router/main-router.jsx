@@ -7,6 +7,9 @@ import HomeC from "../pages/Home/Child/HomeC";
 import NavLayout from "../pages/layout/NavLayout";
 import InsideLayout from "../pages/layout/InsideLayout";
 import HeaderLayout from "../pages/layout/HeaderLayout.jsx";
+import AllowanceLayout from "../pages/layout/AllowanceLayout.jsx";
+import AllowanceRequestLayout from "../pages/layout/AllowanceRequestLayout.jsx";
+import AllowanceHistoryLayout from "../pages/layout/AllowanceHistoryLayout.jsx";
 import FromWho from "../pages/Loan/Child/FromWho";
 import Signup from "../pages/Auth/Signup";
 import Login from "../pages/Auth/Login";
@@ -58,7 +61,7 @@ const MainRouter = [
   },
   {
     path: "/allowance-history",
-    element: <HeaderLayout left="<" title="용돈 내역" right="" />,
+    element: <AllowanceHistoryLayout />,
     children: [
       {
         index: true,
@@ -68,7 +71,7 @@ const MainRouter = [
   },
   {
     path: "/allowance-request",
-    element: <HeaderLayout left="<" title="용돈 조르기" right="취소" />,
+    element: <AllowanceRequestLayout />,
     children: [
       {
         index: true,
