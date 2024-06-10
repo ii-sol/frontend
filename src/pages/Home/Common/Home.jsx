@@ -51,8 +51,9 @@ const Container = styled.div`
     : "100vh"};
   /* height: 100vh; */
   width: 100vw;
+  background-color: #b6dcff;
   background-image: url(${backgroundImage});
-  background-size: cover;
+  background-size: 105%;
 `;
 
 const Btn = styled.div`
@@ -66,14 +67,22 @@ const Btn = styled.div`
   padding: 15px;
 
   font-size: 23px;
+
+  @media (min-width: 380px) {
+    width: ${(props) => props.$width + 15}px;
+  }
+
+  @media (min-width: 400px) {
+    width: ${(props) => props.$width + 25}px;
+  }
 `;
 
 const RowDiv = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap: ${(props) => `calc(${window.innerWidth}px / 10.5)`};
-  margin-top: ${(props) => (props.$isFirst ? "40px" : "20px")};
+  gap: ${(props) => `calc(${window.innerWidth}px / 20)`};
+  margin-top: ${(props) => (props.$isFirst ? "40px" : "10px")};
 `;
 
 const Img = styled.img`
