@@ -1,7 +1,7 @@
 import React from "react";
 
 const Mission = () => {
-  return <div></div>;
+  return <div>content</div>;
 };
 
 export default Mission;

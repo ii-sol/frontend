@@ -6,6 +6,7 @@ import MainLayout from "../pages/layout/MainLayout";
 import HomeC from "../pages/Home/Child/HomeC";
 import NavLayout from "../pages/layout/NavLayout";
 import InsideLayout from "../pages/layout/InsideLayout";
+import HeaderLayout from "../pages/layout/HeaderLayout.jsx";
 import FromWho from "../pages/Loan/Child/FromWho";
 import Signup from "../pages/Auth/Signup";
 import Login from "../pages/Auth/Login";
@@ -17,6 +18,10 @@ import HomeP from "../pages/Home/Parent/HomeP";
 import LoanHistory from "../pages/Loan/Child/LoanHistoryNull";
 import LoanHistoryExist from "../pages/Loan/Child/LoanHistoryExist";
 import Main from "../pages/Loan/Child/Main";
+import AllowanceRequest from "../pages/Allowance/Child/AllowanceRequest";
+import NewAllowanceRequest from "../pages/Allowance/Child/NewAllowanceRequest";
+import AllowanceHistory from "../pages/Allowance/Child/AllowanceHistory";
+import Mission from "../pages/Mission/Child/Mission";
 
 const MainRouter = [
   {
@@ -42,6 +47,41 @@ const MainRouter = [
       {
         index: true,
         element: <HomeP />,
+      },
+    ],
+  },
+  {
+    path: "/allowance-history",
+    element: <HeaderLayout left="<" title="용돈 내역" right="" />,
+    children: [
+      {
+        index: true,
+        element: <AllowanceHistory />,
+      },
+    ],
+  },
+  {
+    path: "/allowance-request",
+    element: <HeaderLayout left="<" title="용돈 조르기" right="취소" />,
+    children: [
+      {
+        index: true,
+        element: <AllowanceRequest />,
+      },
+      {
+        path: "create",
+        index: true,
+        element: <NewAllowanceRequest />,
+      },
+    ],
+  },
+  {
+    path: "/mission",
+    element: <HeaderLayout left="<" title="미션" right="" />,
+    children: [
+      {
+        index: true,
+        element: <Mission />,
       },
     ],
   },

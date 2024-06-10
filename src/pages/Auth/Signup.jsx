@@ -7,7 +7,7 @@ import Button from "~/components/common/Button";
 import ChatBubble from "~/components/Auth/ChatBubble";
 import Input from "~/components/Auth/Input";
 
-import KidImage from "~/assets/img/Auth/kid.png";
+import ChildImage from "~/assets/img/Auth/child.png";
 import ParentImage from "~/assets/img/Auth/parent.png";
 import CompleteImage from "~/assets/img/Auth/complete.png";
 
@@ -155,11 +155,11 @@ const Signup = () => {
         )}
         {step === 4 && (
           <StepWrapper tw="justify-center mb-40">
-            <Label>어떤 서비스를 이용하고 싶으신가요?</Label>
+            <Phrase>어떤 서비스를 이용하고 싶으신가요?</Phrase>
             <ButtonGroup>
               <RoleWrapper>
                 <RoleButton role="아이" onClick={() => handleRoleChange(2)}>
-                  <img src={KidImage} alt="아이" />
+                  <img src={ChildImage} alt="아이" />
                 </RoleButton>
                 아이
               </RoleWrapper>
@@ -177,7 +177,7 @@ const Signup = () => {
           <StepWrapper tw="justify-center mb-40">
             <CompleteWrapper>
               <img src={CompleteImage} alt="완료" />
-              <Label>가입 완료!</Label>
+              <Phrase>가입 완료!</Phrase>
             </CompleteWrapper>
           </StepWrapper>
         )}
@@ -231,7 +231,7 @@ const RightAlignedDiv = styled.div`
   ${tw`self-end`}
 `;
 
-const Label = tw.label`
+const Phrase = tw.div`
   flex
   text-lg
   font-bold
