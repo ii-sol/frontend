@@ -15,6 +15,8 @@ import Period from "../pages/Loan/Child/Period";
 import Message from "../pages/Loan/Child/Message";
 import Complete from "../pages/Loan/Child/Complete";
 import HomeP from "../pages/Home/Parent/HomeP";
+import InvestMain from "../pages/Investment/InvestMain";
+import AvailableInvest from "../pages/Investment/Child/AvailableInvest";
 import LoanHistory from "../pages/Loan/Child/LoanHistoryNull";
 import LoanHistoryExist from "../pages/Loan/Child/LoanHistoryExist";
 import Main from "../pages/Loan/Child/Main";
@@ -22,6 +24,8 @@ import AllowanceRequest from "../pages/Allowance/Child/AllowanceRequest";
 import NewAllowanceRequest from "../pages/Allowance/Child/NewAllowanceRequest";
 import AllowanceHistory from "../pages/Allowance/Child/AllowanceHistory";
 import Mission from "../pages/Mission/Child/Mission";
+import Trading from "../pages/Investment/Child/Trading";
+import Suggestion from "../pages/Investment/Child/Suggestion";
 
 const MainRouter = [
   {
@@ -45,6 +49,7 @@ const MainRouter = [
     element: <NavLayout />,
     children: [
       {
+        path: "",
         index: true,
         element: <HomeP />,
       },
@@ -86,8 +91,36 @@ const MainRouter = [
     ],
   },
   {
+    path: "",
+    element: <MainLayout />,
+    children: [
+      {
+        path: "invest",
+        children: [
+          {
+            path: "",
+            element: <InvestMain />,
+          },
+          {
+            path: "start",
+            element: <AvailableInvest />,
+          },
+          {
+            path: "trading",
+            element: <Trading />,
+          },
+          {
+            path: "suggest",
+            element: <Suggestion />,
+          },
+        ],
+      },
+      { path: "/loan", element: <FromWho />, children: [] },
+    ],
+  },
+  {
     path: "/loan",
-    element: <InsideLayout />,
+    element: <InsideLayout service={"대출"} />,
     children: [
       {
         path: "main",

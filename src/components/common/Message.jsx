@@ -3,7 +3,8 @@ import tw from "twin.macro";
 import { styled } from "styled-components";
 import { FiXCircle } from "react-icons/fi";
 
-const Message = ({ placeholder, maxLength, onChange }) => {
+const Message = ({ placeholder, maxLength, onChange, info }) => {
+  console.log(info);
   const [inputValue, setInputValue] = useState("");
 
   const handleChange = (e) => {
@@ -26,13 +27,31 @@ const Message = ({ placeholder, maxLength, onChange }) => {
   const height = calculateHeight(maxLength);
 
   return (
-    <Container height={height}>
-      <Textarea placeholder={placeholder} value={inputValue} onChange={handleChange} maxLength={maxLength} />
-      {inputValue.length > 0 && (
-        <ClearButton onClick={handleClearInput}>
-          <FiXCircle />
-        </ClearButton>
+    <Container $height={height}>
+      {info && (
+        <InfoContainer>
+          {Object.entries(info).map(([key, value]) => (
+            <InfoRow key={key}>
+              <InfoKey>{key}:</InfoKey>
+              <InfoValue>{value}</InfoValue>
+            </InfoRow>
+          ))}
+        </InfoContainer>
       )}
+      <Wrapper>
+        <Textarea
+          placeholder={placeholder}
+          value={inputValue}
+          onChange={handleChange}
+          maxLength={maxLength}
+          $height={height}
+        />
+        {inputValue.length > 0 && (
+          <ClearButton onClick={handleClearInput} $textareaHeight={height - 60}>
+            <FiXCircle />
+          </ClearButton>
+        )}
+      </Wrapper>
       <CharacterCount>
         {inputValue.length}/{maxLength}
       </CharacterCount>
@@ -43,7 +62,6 @@ const Message = ({ placeholder, maxLength, onChange }) => {
 export default Message;
 
 const Container = styled.div`
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -51,12 +69,42 @@ const Container = styled.div`
   width: 100%;
   background-color: #f4f9ff;
   border-radius: 15px;
-  height: ${(props) => props.height + 60}px;
+  height: ${(props) => props.$height + 100}px;
+`;
+
+const InfoContainer = styled.div`
+  width: 85%;
+  padding-top: 20px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+`;
+
+const InfoRow = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 5px;
+  gap: 10px;
+`;
+
+const InfoKey = styled.span`
+  font-weight: bold;
+  color: #333;
+`;
+
+const InfoValue = styled.span`
+  color: #555;
+`;
+
+const Wrapper = styled.div`
+  position: relative;
+  width: 90%;
+  display: flex;
+  justify-content: center;
 `;
 
 const Textarea = styled.textarea`
-  width: 85%;
-  height: ${(props) => props.height}px;
+  width: 100%;
+  height: ${(props) => props.$height - 60}px;
   background-color: #ffffff;
   padding: 10px;
   border-radius: 15px;
@@ -76,12 +124,12 @@ const Textarea = styled.textarea`
 const ClearButton = styled.button`
   ${tw`flex items-center justify-center w-8 h-8 text-gray-500 cursor-pointer outline-none`}
   position: absolute;
-  right: 15px;
-  bottom: 40%;
+  right: 0px;
+  bottom: 3px;
   background: none;
   border: none;
 `;
 
 const CharacterCount = styled.div`
-  ${tw`text-gray-500 mt-2`}
+  ${tw`text-gray-500 mt-2 mb-2`}
 `;
