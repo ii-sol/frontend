@@ -33,7 +33,6 @@ import AllowanceRequestHistory from "../pages/Allowance/Child/AllowanceRequestHi
 import AllowanceManagement from "../pages/Allowance/Parent/AllowanceManagement.jsx";
 import AllowanceRegistration from "../pages/Allowance/Parent/AllowanceRegistration.jsx";
 
-
 const MainRouter = [
   {
     path: "/",

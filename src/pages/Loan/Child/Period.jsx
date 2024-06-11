@@ -16,7 +16,7 @@ const ScrollContainer = styled.div`
 
 const Option = styled.div`
   ${tw`text-center text-xl py-2 cursor-pointer`}
-  ${(props) => props.selected && tw`bg-blue-300 text-white rounded-lg`}
+  ${(props) => props.selected && tw`bg-blue-200 rounded-lg`}
 `;
 
 const Period = () => {
@@ -35,8 +35,8 @@ const Period = () => {
   return (
     <>
       <div tw="flex flex-col items-center p-5">
-        <img src={calender} tw="mb-4" alt="Calendar" />
-        <p tw="text-4xl text-center mb-4">{selectedPeriod}</p>
+        <img src={calender} alt="Calendar" />
+        <p tw="text-4xl text-center mb-5">{selectedPeriod}</p>
         <ScrollContainer>
           {options.map((option) => (
             <Option
