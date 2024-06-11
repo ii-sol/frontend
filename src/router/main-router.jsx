@@ -25,11 +25,14 @@ import AllowanceHistory from "../pages/Allowance/Child/AllowanceHistory";
 import Mission from "../pages/Mission/Child/Mission";
 import Trading from "../pages/Investment/Child/Trading";
 import Suggestion from "../pages/Investment/Child/Suggestion";
+import { elements } from "chart.js";
+import LoanDetail from "../pages/Loan/Child/Detail.jsx";
 import Done from "../pages/Investment/Child/Done";
 import ParentSelection from "../pages/Investment/Child/ParentSelection";
 import AllowanceRequestHistory from "../pages/Allowance/Child/AllowanceRequestHistory.jsx";
 import AllowanceManagement from "../pages/Allowance/Parent/AllowanceManagement.jsx";
 import AllowanceRegistration from "../pages/Allowance/Parent/AllowanceRegistration.jsx";
+
 
 const MainRouter = [
   {
@@ -175,12 +178,16 @@ const MainRouter = [
         element: <Complete />,
       },
       {
-        path: "history",
+        path: "history-null",
         element: <LoanHistory />,
       },
       {
-        path: "historyexist",
+        path: "history-exist",
         element: <LoanHistoryExist />,
+      },
+      {
+        path: "detail",
+        element: <LoanDetail />,
       },
     ],
   },
