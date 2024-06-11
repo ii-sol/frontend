@@ -27,6 +27,7 @@ import Mission from "../pages/Mission/Child/Mission";
 import Trading from "../pages/Investment/Child/Trading";
 import Suggestion from "../pages/Investment/Child/Suggestion";
 import { elements } from "chart.js";
+import LoanDetail from "../pages/Loan/Child/Detail.jsx";
 
 const MainRouter = [
   {
@@ -156,6 +157,10 @@ const MainRouter = [
       {
         path: "history-exist",
         element: <LoanHistoryExist />,
+      },
+      {
+        path: "detail",
+        element: <LoanDetail />,
       },
     ],
   },
