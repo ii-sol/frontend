@@ -5,79 +5,6 @@ import { styled } from "styled-components";
 import DateHeader from "~/components/common/DateHeader";
 import HistoryList from "~/components/common/HistoryList";
 
-const data = [
-  {
-    "senderAccountNum": "123-456-7890",
-    "senderName": "박지민",
-    "recieverAccountNum": "987-654-3210",
-    "recieverName": "양은수",
-    "content": "용돈 조르기",
-    "amount": 50000,
-    "balance": "250000",
-    "createdDate": "2024-05-10",
-  },
-  {
-    "senderAccountNum": "123-456-7890",
-    "senderName": "박지민",
-    "recieverAccountNum": "987-654-3210",
-    "recieverName": "양은수",
-    "content": "돈 보내기",
-    "amount": -30000,
-    "balance": "220000",
-    "createdDate": "2024-06-01",
-  },
-  {
-    "senderAccountNum": "123-456-7890",
-    "senderName": "박지민",
-    "recieverAccountNum": "987-654-3210",
-    "recieverName": "양은수",
-    "content": "결제",
-    "amount": -5000,
-    "balance": "215000",
-    "createdDate": "2024-06-05",
-  },
-  {
-    "senderAccountNum": "123-456-7890",
-    "senderName": "박지민",
-    "recieverAccountNum": "987-654-3210",
-    "recieverName": "양은수",
-    "content": "결제",
-    "amount": -12000,
-    "balance": "203000",
-    "createdDate": "2024-06-09",
-  },
-  {
-    "senderAccountNum": "123-456-7890",
-    "senderName": "박지민",
-    "recieverAccountNum": "987-654-3210",
-    "recieverName": "양은수",
-    "content": "대출금",
-    "amount": -50000,
-    "balance": "233000",
-    "createdDate": "2024-06-10",
-  },
-  {
-    "senderAccountNum": "123-456-7890",
-    "senderName": "박지민",
-    "recieverAccountNum": "987-654-3210",
-    "recieverName": "양은수",
-    "content": "용돈",
-    "amount": 50000,
-    "balance": "285000",
-    "createdDate": "2024-06-10",
-  },
-  {
-    "senderAccountNum": "123-456-7890",
-    "senderName": "박지민",
-    "recieverAccountNum": "987-654-3210",
-    "recieverName": "양은수",
-    "content": "미션",
-    "amount": 30000,
-    "balance": "233000",
-    "createdDate": "2024-06-10",
-  },
-];
-
 const getMonthlyData = (pivatDate, data) => {
   const beginTime = new Date(pivatDate.getFullYear(), pivatDate.getMonth(), 1, 0, 0, 0).getTime(); // 1일 0시 0분 0초, getTime() 이용하여 숫자값으로 저장
   const endTime = new Date(pivatDate.getFullYear(), pivatDate.getMonth() + 1, 0, 23, 59, 59).getTime(); // 0일 즉 이전 달 마지막 날 59분 59초
@@ -88,7 +15,7 @@ const getMonthlyData = (pivatDate, data) => {
   });
 };
 
-const HistoryFilter = ({}) => {
+const HistoryFilter = ({ data, filterOptions, emptyStateText, renderItem }) => {
   const [pivatDate, setPivatDate] = useState(new Date());
   const currentDate = new Date();
 
@@ -121,7 +48,7 @@ const HistoryFilter = ({}) => {
         rightChild={<div onClick={onIncreaseMonth}>{">"}</div>}
         onDateSelect={handleDateSelect}
       />
-      <HistoryList data={monthlyData} />
+      <HistoryList data={monthlyData} filterOptions={filterOptions} emptyStateText={emptyStateText} renderItem={renderItem} />
     </Container>
   );
 };

@@ -110,17 +110,11 @@ const LoanDetail = () => {
               <tbody>
                 {repaymentPlan.map((item) => (
                   <tr key={item.installment}>
-                    <td tw="border-b border-gray-300 p-2">
-                      {item.installment}
-                    </td>
+                    <td tw="border-b border-gray-300 p-2">{item.installment}</td>
                     <td tw="border-b border-gray-300 p-2">{item.principal}</td>
                     <td tw="border-b border-gray-300 p-2">{item.interest}</td>
-                    <td tw="border-b border-gray-300 p-2 text-green-500">
-                      {item.totalRepayment}
-                    </td>
-                    <td tw="border-b border-gray-300 p-2">
-                      {item.remainingPrincipal}
-                    </td>
+                    <td tw="border-b border-gray-300 p-2 ">{item.totalRepayment}</td>
+                    <td tw="border-b border-gray-300 p-2">{item.remainingPrincipal}</td>
                   </tr>
                 ))}
               </tbody>
@@ -128,9 +122,7 @@ const LoanDetail = () => {
           </div>
         </section>
 
-        <button tw="bg-blue-500 text-white py-2 px-4 rounded-2xl mt-6">
-          상환 완료
-        </button>
+        <button tw="bg-blue-500 text-white py-2 px-4 rounded-2xl mt-6">상환 완료</button>
       </main>
     </div>
   );

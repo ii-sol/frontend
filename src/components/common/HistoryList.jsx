@@ -7,9 +7,7 @@ import HistoryListItem from "~/components/Allowance/HistoryListItem";
 
 import EmptyImage from "~/assets/img/common/empty.svg";
 
-const filterOptions = ["전체", "나간 돈", "들어온 돈"];
-
-const HistoryList = ({ data }) => {
+const HistoryList = ({ data, filterOptions, emptyStateText, renderItem }) => {
   const [sortType, setSortType] = useState("전체");
 
   const onChangeSortType = (status) => {
@@ -46,8 +44,10 @@ const HistoryList = ({ data }) => {
         {sortedGroupedData.length === 0 ? (
           <EmptyState>
             <Img src={EmptyImage} alt="No data" />
-            <EmptyText>용돈 내역이 없어요</EmptyText>
+            <EmptyText>{emptyStateText}</EmptyText>
           </EmptyState>
+        ) : renderItem ? (
+          <CardContainer>{sortedData.map((item) => renderItem(item))}</CardContainer>
         ) : (
           sortedGroupedData.map((date) => (
             <DateGroup key={date}>
@@ -98,4 +98,10 @@ const Img = styled.img`
 
 const EmptyText = styled.div`
   ${tw`text-2xl`}
+`;
+
+const CardContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 20px;
 `;
