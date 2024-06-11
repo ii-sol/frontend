@@ -51,7 +51,7 @@ const HistoryList = ({ data }) => {
         ) : (
           sortedGroupedData.map((date) => (
             <DateGroup key={date}>
-              <DateHeader>{date}</DateHeader>
+              <DateArea>{date}</DateArea>
               <Hr />
               {groupedData[date].map((item) => (
                 <HistoryListItem key={item.id} content={item.content} amount={item.amount} balance={item.balance} />
@@ -78,7 +78,7 @@ const DateGroup = styled.div`
   ${tw`mb-9`}
 `;
 
-const DateHeader = styled.div`
+const DateArea = styled.div`
   ${tw`font-medium mb-2 text-[#949494]`}
   font-size: 12px;
 `;
