@@ -5,14 +5,15 @@ import { styled } from "styled-components";
 
 import Header from "~/components/common/Header";
 import Button from "~/components/common/Button";
-import Keypad from "~/components/common/Keypad";
+import Period from "../../../components/common/Period";
+import KeypadInput from "../../../components/Allowance/KeypadInput";
 
-import PigImage from "~/assets/img/common/pig.svg";
-import CalendarImage from "~/assets/img/common/calendar.svg";
+import MoneyImage from "~/assets/img/common/money.svg";
 
 const AllowanceRegistration = () => {
   const [step, setStep] = useState(0);
   const [displayedNumber, setDisplayedNumber] = useState("0");
+  const [selectedPeriod, setSelectedPeriod] = useState("0개월");
   const [allowanceData, setAllowanceData] = useState({
     childId: "",
     parentId: "",
@@ -27,7 +28,7 @@ const AllowanceRegistration = () => {
 
     switch (step) {
       case 0:
-        if (displayedNumber === "0") {
+        if (isDisplayedNumberZero()) {
           error = "금액을 입력해주세요!";
         } else {
           setAllowanceData({
@@ -37,6 +38,19 @@ const AllowanceRegistration = () => {
           setStep(step + 1);
         }
         break;
+      case 1:
+        if (isZeroMonthSelected()) {
+          error = "기간을 선택해주세요!";
+        } else {
+          setAllowanceData({
+            ...allowanceData,
+            period: parseInt(selectedPeriod.replace("개월", "")),
+          });
+          setStep(step + 1);
+        }
+        break;
+      case 2:
+        setStep(step + 1);
       default:
         break;
     }
@@ -46,24 +60,19 @@ const AllowanceRegistration = () => {
     }
   };
 
-  const handleNumberClick = (number) => {
-    if (displayedNumber.length < 7) {
-      setDisplayedNumber((prevNumber) => prevNumber + number);
-    }
-  };
-
-  const handleBackspace = () => {
-    if (displayedNumber.length > 1) {
-      setDisplayedNumber((prevNumber) => prevNumber.slice(0, -1));
-    }
-  };
-
   const normalizeNumber = (number) => {
     return parseFloat(number).toLocaleString("en-US");
   };
 
+  const isDisplayedNumberZero = () => displayedNumber === "0";
+  const isZeroMonthSelected = () => selectedPeriod === "0개월";
+
+  const handlePeriodChange = (period) => {
+    setSelectedPeriod(period);
+  };
+
   const handleAllowanceRedirect = () => {
-    console.log(requestData);
+    console.log(allowanceData);
     navigate("/allowance/management");
   };
 
@@ -74,19 +83,37 @@ const AllowanceRegistration = () => {
         {step === 0 && (
           <StepWrapper>
             <Phrase>매달 얼마나 보낼까요?</Phrase>
-            <InputContainer>
-              <Img src={PigImage} alt="돼지저금통" />
-              <Amount displayedNumber={displayedNumber}>{normalizeNumber(displayedNumber)} 원</Amount>
-              <Keypad onNumberClick={handleNumberClick} onBackspace={handleBackspace} />
-            </InputContainer>
+            <KeypadInput displayedNumber={displayedNumber} setDisplayedNumber={setDisplayedNumber} />
           </StepWrapper>
         )}
         {step === 1 && (
-          <StepWrapper>
+          <StepWrapper tw="gap-0">
             <Phrase>얼마 동안 보낼까요?</Phrase>
-            <InputContainer>
-              <Img src={CalendarImage} alt="달력" />
-            </InputContainer>
+            <Period onPeriodChange={handlePeriodChange} />
+          </StepWrapper>
+        )}
+        {step === 2 && (
+          <StepWrapper tw="gap-0">
+            <ResultWrapper>
+              <ResultPhrase>
+                <span tw="text-[#154B9B]">양은수</span> 님에게
+              </ResultPhrase>
+              <ResultPhrase>{normalizeNumber(allowanceData.amount)}원을</ResultPhrase>
+              <ResultPhrase>매달 보낼게요</ResultPhrase>
+            </ResultWrapper>
+          </StepWrapper>
+        )}
+        {step === 3 && (
+          <StepWrapper>
+            <CompleteContainer>
+              <img src={MoneyImage} alt="완료" />
+              <Phrase>정기 용돈 등록 완료</Phrase>
+              <CompleteCard>
+                <div>양은수 님에게</div>
+                <div>6개월 동안</div>
+                <div tw="text-[#154B9B]">매달 {normalizeNumber(allowanceData.amount)}원</div>
+              </CompleteCard>
+            </CompleteContainer>
           </StepWrapper>
         )}
 
@@ -135,13 +162,13 @@ const StepWrapper = styled.div`
 `;
 
 const ButtonWrapper = styled.div`
-  ${`flex
+  ${tw`flex
   justify-between
   mt-4`}
 `;
 
-const Summary = tw.div`
-  m-5
+const ResultWrapper = styled.div`
+  ${tw`flex flex-col justify-center items-center`}
 `;
 
 const Phrase = tw.div`
@@ -152,51 +179,17 @@ const Phrase = tw.div`
   m-5
 `;
 
-const SmallPhrase = tw.div`
+const ResultPhrase = tw.div`
   flex
-  text-sm
-  font-medium
+  text-xl
+  font-bold
   justify-center
-`;
-
-const MemberContainer = styled.div`
-  ${tw`
-    flex
-    flex-col
-    gap-3
-  `}
-`;
-
-const Img = styled.img`
-  width: 143px;
-  height: auto;
-  margin-bottom: 16px;
-  //   box-shadow: 0px 0px 80px 0px rgba(151, 178, 221, 0.4);
-`;
-
-const InputContainer = styled.div`
-  ${tw`flex flex-col gap-5 items-center`}
-  font-size: 18px;
-`;
-
-const Amount = styled.div`
-  width: ${(props) => (props.displayedNumber && props.displayedNumber.length > 0 ? "auto" : "123px")}
-  height: 49px;
-  background: #f5f5f5;
-  padding: 10px;
-  border-radius: 15px;
-  font-size: 18px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
 `;
 
 const CompleteContainer = tw.div`
   flex
   flex-col
   items-center
-  my-20
   gap-2
 `;
 
@@ -209,6 +202,6 @@ const CompleteCard = styled.div`
   font-size: 25px;
   font-weight: 500;
   align-items: center;
-  gap: 16px;
+  gap: 10px;
   padding: 20px;
 `;

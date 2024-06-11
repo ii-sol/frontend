@@ -58,43 +58,42 @@ const MainRouter = [
     ],
   },
   {
-    path: "/allowance",
+    path: "/",
     element: <MainLayout />,
     children: [
       {
-        path: "management",
-        index: true,
-        element: <AllowanceManagement />,
-      },
-      {
-        path: "registration",
-        index: true,
-        element: <AllowanceRegistration />,
-      },
-      {
-        path: "history",
-        index: true,
-        element: <AllowanceHistory />,
-      },
-    ],
-  },
-  {
-    path: "/allowance/irregular",
-    element: <MainLayout />,
-    children: [
-      {
-        index: true,
-        element: <AllowanceRequest />,
-      },
-      {
-        path: "create",
-        index: true,
-        element: <NewAllowanceRequest />,
-      },
-      {
-        path: "history",
-        index: true,
-        element: <AllowanceRequestHistory />,
+        path: "allowance",
+        children: [
+          {
+            path: "management",
+            element: <AllowanceManagement />,
+          },
+          {
+            path: "registration",
+            element: <AllowanceRegistration />,
+          },
+          {
+            path: "history",
+            element: <AllowanceHistory />,
+          },
+          {
+            path: "irregular",
+            children: [
+              {
+                path: "",
+                element: <AllowanceRequest />,
+              },
+              {
+                path: "create",
+                element: <NewAllowanceRequest />,
+              },
+              {
+                path: "history",
+                element: <AllowanceRequestHistory />,
+              },
+            ],
+          },
+        ],
       },
     ],
   },

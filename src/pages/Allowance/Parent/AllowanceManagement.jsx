@@ -12,6 +12,7 @@ const AllowanceManagement = () => {
         <Phrase>정기용돈</Phrase>
         <History>지난 용돈 &gt;</History>
       </Menu>
+
       <CardContainer></CardContainer>
     </Container>
   );
