@@ -123,6 +123,7 @@ const LoanDetail = () => {
         </section>
 
         <button tw="bg-blue-500 text-white py-2 px-4 rounded-2xl mt-6">상환 완료</button>
+
       </main>
     </div>
   );
