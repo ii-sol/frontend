@@ -10,7 +10,7 @@ import HeaderLayout from "../pages/layout/HeaderLayout.jsx";
 import FromWho from "../pages/Loan/Child/FromWho";
 import Signup from "../pages/Auth/Signup";
 import Login from "../pages/Auth/Login";
-import Money from "../pages/Loan/Child/Money"; // Import the Money component
+import Money from "../pages/Loan/Child/Money";
 import Period from "../pages/Loan/Child/Period";
 import Message from "../pages/Loan/Child/Message";
 import Complete from "../pages/Loan/Child/Complete";
@@ -26,6 +26,7 @@ import AllowanceHistory from "../pages/Allowance/Child/AllowanceHistory";
 import Mission from "../pages/Mission/Child/Mission";
 import Trading from "../pages/Investment/Child/Trading";
 import Suggestion from "../pages/Investment/Child/Suggestion";
+import { elements } from "chart.js";
 
 const MainRouter = [
   {
@@ -118,14 +119,15 @@ const MainRouter = [
       { path: "/loan", element: <FromWho />, children: [] },
     ],
   },
+
+  {
+    path: "/loan/main",
+    element: <Main />,
+  },
   {
     path: "/loan",
     element: <InsideLayout service={"대출"} />,
     children: [
-      {
-        path: "main",
-        element: <Main />,
-      },
       {
         path: "who",
         index: true,

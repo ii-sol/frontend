@@ -3,6 +3,17 @@ import tw from "twin.macro";
 import piggyBank from "~/assets/img/child/piggyBank.svg"; // 이미지 파일 경로를 확인하세요.
 
 const Money = () => {
+  const [amount, setAmount] = useState(0);
+  const [error, setError] = useState("");
+
+  const handleNext = () => {
+    if (amount > 0) {
+      navigate("/loan/money");
+    } else {
+      setError("금액을 입력해주세요.");
+    }
+  };
+
   return (
     <div tw="flex flex-col justify-between">
       <main tw="flex flex-col items-center flex-grow justify-center">
@@ -25,9 +36,7 @@ const Money = () => {
         </div>
       </main>
       <footer tw="fixed bottom-2 left-0 right-0 w-full p-4">
-        <button tw="w-full bg-blue-300 p-3 text-white rounded-xl hover:bg-blue-400 font-bold text-xl">
-          다음
-        </button>
+        <NextButton onClick={handleNext} />
       </footer>
     </div>
   );
