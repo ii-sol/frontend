@@ -108,9 +108,19 @@ const HistoryFilter = ({}) => {
     return pivatDate.getFullYear() === currentDate.getFullYear() && pivatDate.getMonth() === currentDate.getMonth();
   };
 
+  const handleDateSelect = (year, month) => {
+    setPivatDate(new Date(year, month));
+  };
+
   return (
     <Container>
-      <DateHeader title={`${pivatDate.getFullYear()}년 ${pivatDate.getMonth() + 1}월`} leftChild={<div onClick={onDecreaseMonth}>{"<"}</div>} rightChild={<div onClick={onIncreaseMonth}>{">"}</div>} />
+      <DateHeader
+        year={pivatDate.getFullYear()}
+        month={pivatDate.getMonth() + 1}
+        leftChild={<div onClick={onDecreaseMonth}>{"<"}</div>}
+        rightChild={<div onClick={onIncreaseMonth}>{">"}</div>}
+        onDateSelect={handleDateSelect}
+      />
       <HistoryList data={monthlyData} />
     </Container>
   );
