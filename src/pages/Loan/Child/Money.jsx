@@ -3,11 +3,16 @@ import tw from "twin.macro";
 import piggyBank from "~/assets/img/child/piggyBank.svg"; // 이미지 파일 경로를 확인하세요.
 import { useNavigate } from "react-router-dom";
 import NextButton from "../../../components/Loan/NextButton";
+import Keypad from "../../../components/Loan/KeyPad";
 
 const Money = () => {
   const [amount, setAmount] = useState("0");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  const formatAmount = (amount) => {
+    return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
 
   const handleButtonClick = (value) => {
     if (value === "←") {
@@ -21,8 +26,8 @@ const Money = () => {
   };
 
   const handleNext = () => {
-    if (parseInt(amount, 10) > 0) {
-      navigate("/loan/period", { state: { amount } });
+    if (parseInt(amount.replace(/,/g, ""), 10) > 0) {
+      navigate("/loan/period", { state: { amount: amount.replace(/,/g, "") } });
     } else {
       setError("금액을 입력해주세요.");
     }
@@ -34,22 +39,11 @@ const Money = () => {
         <p tw="text-2xl text-center mt-4">얼마를 빌릴까요?</p>
         <img src={piggyBank} alt="Piggy Bank" tw="w-52 h-52" />
         <div tw="bg-gray-200 rounded-2xl p-2 pl-3 pr-3 flex items-center justify-center mt-4">
-          <p tw="text-xl">{amount} 원</p>
+          <p tw="text-xl">{formatAmount(amount)} 원</p>
         </div>
         {error && <div tw="text-red-500 text-sm text-center mt-2">{error}</div>}
-        <div tw="grid grid-cols-3 gap-3 mt-8 w-full max-w-xs mx-auto bg-blue-100 rounded-2xl p-4">
-          {["1", "2", "3", "4", "5", "6", "7", "8", "9", "00", "0", "←"].map(
-            (value) => (
-              <button
-                key={value}
-                tw="text-2xl p-4 hover:bg-blue-200 rounded-2xl"
-                onClick={() => handleButtonClick(value)}
-              >
-                {value}
-              </button>
-            )
-          )}
-        </div>
+        <Keypad onButtonClick={handleButtonClick} />{" "}
+        {/* Use the Keypad component */}
         <div tw="mt-8">
           <NextButton onClick={handleNext} />
         </div>
