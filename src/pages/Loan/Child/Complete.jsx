@@ -1,8 +1,15 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import moneyHand from "~/assets/img/child/moneyhand.svg"; // 올바른 경로
 
 const Complete = () => {
+  const navigate = useNavigate();
+
+  const complete = () => {
+    navigate("/loan/main");
+  };
+
   return (
     <>
       <img src={moneyHand} />
@@ -18,7 +25,10 @@ const Complete = () => {
         2024.06.01까지 응답하지 않으면 취소돼요.
       </p>
       <footer tw="fixed bottom-2 left-0 right-0 w-full p-4">
-        <button tw="w-full bg-blue-300 p-3 text-white rounded-xl hover:bg-blue-400 font-bold text-xl">
+        <button
+          tw="w-full bg-blue-300 p-3 text-white rounded-xl hover:bg-blue-400 font-bold text-xl"
+          onClick={complete}
+        >
           완료
         </button>
       </footer>

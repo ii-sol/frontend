@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import tw from "twin.macro";
 import { useNavigate } from "react-router-dom";
+import tw from "twin.macro";
 
 const LoanDetail = () => {
   const navigate = useNavigate();
@@ -58,15 +58,15 @@ const LoanDetail = () => {
         <p tw="text-lg">D-48</p>
         <p tw="text-3xl font-bold mt-2">200,000원</p>
 
-        <div tw="bg-blue-100 rounded-2xl p-4 mt-6 w-full max-w-md">
+        <div tw="bg-blue-100 rounded-2xl p-4 mt-6 w-full max-w-md shadow-lg">
           <p tw="text-left font-bold">To. 엄마</p>
           <p tw="mt-2">자전거가 너무 사고 싶어서</p>
           <p tw="mt-1">매일 꿈에 나와요 ㅜ.ㅜ</p>
         </div>
 
-        <section tw="mt-6 w-full max-w-md">
-          <h3 tw="text-lg font-bold">대출 상세 정보</h3>
-          <div tw="bg-blue-100 rounded-2xl p-4 mt-2">
+        <section tw="mt-6 w-full max-w-md ">
+          <h3 tw="text-lg font-bold ml-2">대출 상세 정보</h3>
+          <div tw="bg-blue-100 rounded-2xl p-4 mt-2 shadow-lg">
             <p tw="flex justify-between">
               <span>대출 금액</span>
               <span>200,000원</span>
@@ -95,39 +95,40 @@ const LoanDetail = () => {
         </section>
 
         <section tw="mt-6 w-full max-w-md">
-          <h3 tw="text-lg font-bold">상환 계획</h3>
-          <table tw="w-full mt-2 border-collapse">
-            <thead>
-              <tr>
-                <th tw="border-b-2 border-gray-300 p-2 text-sm">회차</th>
-                <th tw="border-b-2 border-gray-300 p-2 text-sm">납입원금</th>
-                <th tw="border-b-2 border-gray-300 p-2 text-sm">대출이자</th>
-                <th tw="border-b-2 border-gray-300 p-2 text-sm">월상환금</th>
-                <th tw="border-b-2 border-gray-300 p-2 text-sm">대출잔금</th>
-              </tr>
-            </thead>
-            <tbody>
-              {repaymentPlan.map((item) => (
-                <tr key={item.installment}>
-                  <td tw="border-b border-gray-300 p-2">{item.installment}</td>
-                  <td tw="border-b border-gray-300 p-2">{item.principal}</td>
-                  <td tw="border-b border-gray-300 p-2">{item.interest}</td>
-                  <td tw="border-b border-gray-300 p-2 text-green-500">
-                    {item.totalRepayment}
-                  </td>
-                  <td tw="border-b border-gray-300 p-2">
-                    {item.remainingPrincipal}
-                  </td>
+          <h3 tw="text-lg font-bold ml-2">상환 계획</h3>
+          <div tw="border-2">
+            <table tw="w-full mt-2">
+              <thead>
+                <tr>
+                  <th tw="border-b-2 border-gray-300 p-2 text-sm">회차</th>
+                  <th tw="border-b-2 border-gray-300 p-2 text-sm">납입원금</th>
+                  <th tw="border-b-2 border-gray-300 p-2 text-sm">대출이자</th>
+                  <th tw="border-b-2 border-gray-300 p-2 text-sm">월상환금</th>
+                  <th tw="border-b-2 border-gray-300 p-2 text-sm">대출잔금</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {repaymentPlan.map((item) => (
+                  <tr key={item.installment}>
+                    <td tw="border-b border-gray-300 p-2">
+                      {item.installment}
+                    </td>
+                    <td tw="border-b border-gray-300 p-2">{item.principal}</td>
+                    <td tw="border-b border-gray-300 p-2">{item.interest}</td>
+                    <td tw="border-b border-gray-300 p-2 text-green-500">
+                      {item.totalRepayment}
+                    </td>
+                    <td tw="border-b border-gray-300 p-2">
+                      {item.remainingPrincipal}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </section>
 
-        <button
-          tw="bg-blue-500 text-white py-2 px-4 rounded-2xl mt-6"
-          onClick={handleRepaymentCompletion}
-        >
+        <button tw="bg-blue-500 text-white py-2 px-4 rounded-2xl mt-6">
           상환 완료
         </button>
       </main>
