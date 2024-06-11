@@ -4,8 +4,10 @@ import Header from "../../../components/Investment/Header";
 import { styled } from "styled-components";
 import suggest from "../../../assets/img/Invest/suggest.svg";
 import Message from "../../../components/common/Message";
+import { useNavigate } from "react-router-dom";
 
 const Suggestion = () => {
+  const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const handleInputChange = (message) => {
     setMessage(message);
@@ -15,10 +17,16 @@ const Suggestion = () => {
     시장가: "123,120원",
     개수: "3주",
   };
+
+  const onSuggest = () => {
+    navigate("/invest/send", {
+      state: { type: "suggest", data: { who: "엄마", what: "투자제안서" } },
+    });
+  };
   return (
     <S.Container>
       <Header type="none" />
-      <CenterDiv>
+      <S.CenterDiv>
         <Div $size="25" $top="20">
           엄마에게
           <br />
@@ -41,19 +49,13 @@ const Suggestion = () => {
             info={info}
           />
         </Wrapper>
-        <S.BottomBtn2>제안하기</S.BottomBtn2>
-      </CenterDiv>
+        <S.BottomBtn2 onClick={() => onSuggest()}>제안하기</S.BottomBtn2>
+      </S.CenterDiv>
     </S.Container>
   );
 };
 
 export default Suggestion;
-
-const CenterDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
 
 const Div = styled.div`
   font-size: ${(props) => props.$size}px;

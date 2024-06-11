@@ -4,7 +4,8 @@ import * as S from "../../styles/GlobalStyles";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-const StocksDetail = () => {
+const StocksDetail = ({ selectedStockId, accountNum }) => {
+  console.log(selectedStockId);
   const navigate = useNavigate();
   const [selected, setSelected] = useState("1년차트");
   const handleClick = (chartType) => {
@@ -129,7 +130,7 @@ const StocksDetail = () => {
         </S.RowDiv>
         <StockDiv>삼성전자</StockDiv>
       </RowDiv>
-      <CenterDiv>
+      <S.CenterDiv>
         <ReactApexChart
           type="candlestick"
           series={chartSeries}
@@ -137,7 +138,7 @@ const StocksDetail = () => {
           height={350}
           width={320}
         />
-      </CenterDiv>
+      </S.CenterDiv>
       <InfoDiv>투자 지표</InfoDiv>
       <RowDiv>
         <BoxDiv>
@@ -171,7 +172,9 @@ const StocksDetail = () => {
         <S.BuyBtn
           $background="#FF5959"
           onClick={() =>
-            navigate("/invest/trading", { state: { type: "buy" } })
+            navigate("/invest/trading", {
+              state: { trade: "buy", accountNum: accountNum },
+            })
           }
         >
           구매하기
@@ -179,7 +182,9 @@ const StocksDetail = () => {
         <S.BuyBtn
           $background="#5987ff"
           onClick={() =>
-            navigate("/invest/trading", { state: { type: "sell" } })
+            navigate("/invest/trading", {
+              state: { trade: "sell", accountNum: accountNum },
+            })
           }
         >
           판매하기
@@ -226,11 +231,6 @@ const ToggleBtn = styled.div`
 
 const StockDiv = styled.div`
   font-size: 25px;
-`;
-
-const CenterDiv = styled.div`
-  display: flex;
-  justify-content: center;
 `;
 
 const InfoDiv = styled.div`
