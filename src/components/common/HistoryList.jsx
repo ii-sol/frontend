@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import tw from "twin.macro";
 import { styled } from "styled-components";
-import { FiXCircle } from "react-icons/fi";
 
 import Filter from "~/components/common/Filter";
 import HistoryListItem from "~/components/Allowance/HistoryListItem";
 
-import EmptyImage from "~/assets/img/common/empty.png";
+import EmptyImage from "~/assets/img/common/empty.svg";
 
 const filterOptions = ["전체", "나간 돈", "들어온 돈"];
 

@@ -3,15 +3,16 @@ import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 
+import Header from "~/components/common/Header";
 import Button from "~/components/common/Button";
 import Keypad from "~/components/common/Keypad";
 import Member from "~/components/common/Member";
 import Message from "~/components/common/Message";
 
-import ChildImage from "~/assets/img/Auth/child.png";
-import CoinImage from "~/assets/img/Allowance/coin.png";
-import MessageImage from "~/assets/img/Allowance/message.png";
-import AllowanceImage from "~/assets/img/Allowance/allowance.png";
+import ChildImage from "~/assets/img/Auth/child.svg";
+import CoinImage from "~/assets/img/Allowance/coin.svg";
+import MessageImage from "~/assets/img/common/message.svg";
+import AllowanceImage from "~/assets/img/Allowance/allowance.svg";
 
 const NewAllowanceRequest = () => {
   const [step, setStep] = useState(0);
@@ -45,7 +46,7 @@ const NewAllowanceRequest = () => {
         break;
       case 1:
         if (displayedNumber === "0") {
-          error = "금액을 선택해주세요!";
+          error = "금액을 입력해주세요!";
         } else {
           setRequestData({
             ...requestData,
@@ -114,6 +115,7 @@ const NewAllowanceRequest = () => {
 
   return (
     <Container>
+      <Header left={"<"} title={"용돈 조르기"} right={"취소"} />
       <FormWrapper>
         {step === 0 && (
           <StepWrapper>
@@ -241,7 +243,7 @@ const Img = styled.img`
   width: 143px;
   height: auto;
   margin-bottom: 16px;
-  box-shadow: 0px 0px 80px 0px rgba(151, 178, 221, 0.4);
+  // box-shadow: 0px 0px 80px 0px rgba(151, 178, 221, 0.4);
 `;
 
 const InputContainer = styled.div`

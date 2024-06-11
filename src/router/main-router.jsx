@@ -6,10 +6,6 @@ import MainLayout from "../pages/layout/MainLayout";
 import HomeC from "../pages/Home/Child/HomeC";
 import NavLayout from "../pages/layout/NavLayout";
 import InsideLayout from "../pages/layout/InsideLayout";
-import HeaderLayout from "../pages/layout/HeaderLayout.jsx";
-import AllowanceLayout from "../pages/layout/AllowanceLayout.jsx";
-import AllowanceRequestLayout from "../pages/layout/AllowanceRequestLayout.jsx";
-import AllowanceHistoryLayout from "../pages/layout/AllowanceHistoryLayout.jsx";
 import FromWho from "../pages/Loan/Child/FromWho";
 import Signup from "../pages/Auth/Signup";
 import Login from "../pages/Auth/Login";
@@ -30,6 +26,8 @@ import Mission from "../pages/Mission/Child/Mission";
 import Trading from "../pages/Investment/Child/Trading";
 import Suggestion from "../pages/Investment/Child/Suggestion";
 import AllowanceRequestHistory from "../pages/Allowance/Child/AllowanceRequestHistory.jsx";
+import AllowanceManagement from "../pages/Allowance/Parent/AllowanceManagement.jsx";
+import AllowanceRegistration from "../pages/Allowance/Parent/AllowanceRegistration.jsx";
 
 const MainRouter = [
   {
@@ -60,18 +58,29 @@ const MainRouter = [
     ],
   },
   {
-    path: "/allowance-history",
-    element: <AllowanceHistoryLayout />,
+    path: "/allowance",
+    element: <MainLayout />,
     children: [
       {
+        path: "management",
+        index: true,
+        element: <AllowanceManagement />,
+      },
+      {
+        path: "registration",
+        index: true,
+        element: <AllowanceRegistration />,
+      },
+      {
+        path: "history",
         index: true,
         element: <AllowanceHistory />,
       },
     ],
   },
   {
-    path: "/allowance-request",
-    element: <AllowanceRequestLayout />,
+    path: "/allowance/irregular",
+    element: <MainLayout />,
     children: [
       {
         index: true,
@@ -91,7 +100,7 @@ const MainRouter = [
   },
   {
     path: "/mission",
-    element: <HeaderLayout left="<" title="미션" right="" />,
+    element: <MainLayout />,
     children: [
       {
         index: true,

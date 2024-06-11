@@ -7,9 +7,9 @@ import Button from "~/components/common/Button";
 import ChatBubble from "~/components/Auth/ChatBubble";
 import Input from "~/components/Auth/Input";
 
-import ChildImage from "~/assets/img/Auth/child.png";
-import ParentImage from "~/assets/img/Auth/parent.png";
-import CompleteImage from "~/assets/img/Auth/complete.png";
+import ChildImage from "~/assets/img/Auth/child.svg";
+import ParentImage from "~/assets/img/Auth/parent.svg";
+import CompleteImage from "~/assets/img/Auth/complete.svg";
 
 const Signup = () => {
   const [step, setStep] = useState(0);

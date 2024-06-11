@@ -2,7 +2,7 @@ import React from "react";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 
-const HistoryListItem = ({ content, amount, balance }) => {
+const HistoryListItem = ({ id, content, amount, balance }) => {
   const renderAmount = (amount) => {
     if (amount > 0) {
       return <ItemAmount color="#FF4848">+{amount}</ItemAmount>;
