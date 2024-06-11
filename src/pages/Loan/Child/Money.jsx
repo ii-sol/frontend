@@ -36,7 +36,7 @@ const Money = () => {
   return (
     <div tw="flex flex-col justify-between h-screen">
       <main tw="flex flex-col items-center flex-grow justify-center">
-        <p tw="text-2xl text-center mt-4">얼마를 빌릴까요?</p>
+        <p tw="text-2xl text-center">얼마를 빌릴까요?</p>
         <img src={piggyBank} alt="Piggy Bank" tw="w-52 h-52" />
         <div tw="bg-gray-200 rounded-2xl p-2 pl-3 pr-3 flex items-center justify-center mt-4">
           <p tw="text-xl">{formatAmount(amount)} 원</p>

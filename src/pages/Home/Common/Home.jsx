@@ -6,13 +6,19 @@ import invest from "../../../assets/img/Home/invest.svg";
 import allowance from "../../../assets/img/Home/allowance.svg";
 import mission from "../../../assets/img/Home/mission.svg";
 import loan from "../../../assets/img/Home/loan.svg";
+import { useNavigate } from "react-router-dom";
 
 const Home = ({ texts }) => {
+  const navigate = useNavigate();
+
+  const clickLoan = () => {
+    navigate("/loan/main");
+  };
   return (
     <Container>
       <Account accountNum={1}></Account>
       <RowDiv $isFirst>
-        <Btn $width={165}>
+        <Btn $width={165} onClick={clickLoan}>
           {texts[0]}
           <Img src={invest} $right={10} $imgwidth={130} />
         </Btn>
