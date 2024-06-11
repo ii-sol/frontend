@@ -109,7 +109,7 @@ const Calendar = ({ year, month, setYear, setMonth }) => {
                 key={i}
                 onClick={() => handleMonthClick(i)}
                 tw="text-lg py-2 px-4 rounded-2xl text-sm"
-                css={[month === i && tw`bg-blue-300`]}
+                css={[month === i && tw`bg-blue-200`]}
               >
                 {m}
               </button>

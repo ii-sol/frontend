@@ -28,7 +28,7 @@ const FromWho = () => {
         <p tw="text-2xl text-center mt-4">누구에게 돈을 빌릴까요?</p>
       </div>
       <div
-        tw="flex flex-row w-10/12 h-20 m-6 ml-9 rounded-2xl cursor-pointer"
+        tw="flex flex-row w-10/12 h-20 m-6 ml-9 rounded-2xl cursor-pointer shadow-md"
         css={[selected === "mom" ? tw`bg-blue-200` : tw`bg-blue-100`]}
         onClick={() => handleSelect("mom")}
       >
@@ -40,7 +40,7 @@ const FromWho = () => {
         <p tw="text-xl ml-6 mt-6">엄마</p>
       </div>
       <div
-        tw="flex flex-row w-10/12 h-20 m-6 ml-9 rounded-2xl cursor-pointer"
+        tw="flex flex-row w-10/12 h-20 m-6 ml-9 rounded-2xl cursor-pointer shadow-md"
         css={[selected === "dad" ? tw`bg-blue-200` : tw`bg-blue-100`]}
         onClick={() => handleSelect("dad")}
       >
@@ -52,7 +52,7 @@ const FromWho = () => {
         <p tw="text-xl ml-6 mt-6">아빠</p>
       </div>
       {error && <div tw="text-red-500 text-sm text-center mt-2">{error}</div>}
-      <NextButton onClick={handleNext} /> {/* Use the NextButton component */}
+      <NextButton onClick={handleNext} />
     </>
   );
 };
