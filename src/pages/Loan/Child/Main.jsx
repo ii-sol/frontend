@@ -68,7 +68,7 @@ const Main = () => {
               tw="w-full rounded-2xl shadow-lg p-4 flex bg-blue-900 flex-col items-center justify-center"
               onClick={handleCreateLoan}
             >
-              <p tw="font-bold text-blue-1000 text-2xl">대출</p>
+              <p tw="font-bold text-2xl">대출</p>
               <p tw="font-bold text-2xl">신청하기</p>
             </div>
 

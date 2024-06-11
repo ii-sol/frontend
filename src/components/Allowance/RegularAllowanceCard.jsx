@@ -10,10 +10,12 @@ const RegularAllowanceCard = ({ period, allowance, startDate, endDate }) => {
     return parseFloat(number).toLocaleString("en-US");
   };
 
+  const handleRegisterClick = () => {
+    navigate("/allowance/registration");
+  };
+
   if (!allowance) {
-    const handleRegisterClick = () => {
-      navigate("/allowance/registration");
-    };
+    handleRegisterClick();
 
     return (
       <RegisterButton onClick={handleRegisterClick}>
@@ -32,7 +34,7 @@ const RegularAllowanceCard = ({ period, allowance, startDate, endDate }) => {
         </Period>
       </Content>
       <ButtonWrapper>
-        <Button>변경하기</Button>
+        <Button onClick={handleRegisterClick}>변경하기</Button>
         <Button>해지하기</Button>
       </ButtonWrapper>
     </Container>
