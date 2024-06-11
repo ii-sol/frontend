@@ -25,6 +25,8 @@ import AllowanceHistory from "../pages/Allowance/Child/AllowanceHistory";
 import Mission from "../pages/Mission/Child/Mission";
 import Trading from "../pages/Investment/Child/Trading";
 import Suggestion from "../pages/Investment/Child/Suggestion";
+import { elements } from "chart.js";
+import LoanDetail from "../pages/Loan/Child/Detail.jsx";
 import Done from "../pages/Investment/Child/Done";
 import ParentSelection from "../pages/Investment/Child/ParentSelection";
 import AllowanceRequestHistory from "../pages/Allowance/Child/AllowanceRequestHistory.jsx";
@@ -181,6 +183,10 @@ const MainRouter = [
       {
         path: "history-exist",
         element: <LoanHistoryExist />,
+      },
+      {
+        path: "detail",
+        element: <LoanDetail />,
       },
     ],
   },
