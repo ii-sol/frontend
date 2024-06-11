@@ -65,3 +65,9 @@ export const Badge = styled.div`
   background: ${(props) => props.$back};
   color: ${(props) => props.$font};
 `;
+
+export const CenterDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;

@@ -4,11 +4,12 @@ import Header from "../../../components/Investment/Header";
 import Keypad from "../../../components/common/Keypad";
 import { styled } from "styled-components";
 import * as S from "../../../styles/GlobalStyles";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 //TODO: 매수주문증거금이 부족합니다. alert
-const Trading = ({ account }) => {
+const Trading = () => {
   const { state } = useLocation();
+  const navigate = useNavigate();
   console.log(state);
   const [displayedNumber, setDisplayedNumber] = useState("0");
   const handleNumberClick = (number) => {
@@ -28,13 +29,33 @@ const Trading = ({ account }) => {
   };
 
   // TODO: 계좌 확인, 매수매도 확인
-  const onNav = (type) => {};
+  const onTrade = () => {
+    if (state.accountNum === 3) {
+      navigate("/invest/member", {
+        state: { type: "투자", trade: state.trade },
+      });
+    } else {
+      // 완료페이지
+      navigate("/invest/send", {
+        state: {
+          type: "trade",
+          data: {
+            stockName: "삼성전자",
+            quantity: 3,
+            trade: state.trade,
+            price: "12,300원",
+          },
+        },
+      });
+    }
+  };
+
   return (
     <div>
       <Header type="none" />
       <StocksAbout />
       <ColumDiv>
-        {state.type === "buy" ? (
+        {state.trade === "buy" ? (
           <InfoDiv>얼마나 살까요?</InfoDiv>
         ) : (
           <InfoDiv>얼마나 팔까요?</InfoDiv>
@@ -47,12 +68,14 @@ const Trading = ({ account }) => {
           onNumberClick={handleNumberClick}
           onBackspace={handleBackspace}
         />
-        {state.type === "buy" ? (
-          <S.BuyBtn $background="#FF5959" onClick={() => onNav("buy")}>
+        {state.trade === "buy" ? (
+          <S.BuyBtn $background="#FF5959" onClick={() => onTrade()}>
             구매하기
           </S.BuyBtn>
         ) : (
-          <S.BuyBtn $background="#5987ff">판매하기</S.BuyBtn>
+          <S.BuyBtn $background="#5987ff" onClick={() => onTrade()}>
+            판매하기
+          </S.BuyBtn>
         )}
       </ColumDiv>
     </div>
