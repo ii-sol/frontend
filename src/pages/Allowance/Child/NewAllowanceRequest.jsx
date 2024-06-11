@@ -5,14 +5,14 @@ import { styled } from "styled-components";
 
 import Header from "~/components/common/Header";
 import Button from "~/components/common/Button";
-import Keypad from "~/components/common/Keypad";
 import Member from "~/components/common/Member";
 import Message from "~/components/common/Message";
 
 import ChildImage from "~/assets/img/Auth/child.svg";
-import CoinImage from "~/assets/img/Allowance/coin.svg";
+
 import MessageImage from "~/assets/img/common/message.svg";
 import AllowanceImage from "~/assets/img/Allowance/allowance.svg";
+import KeypadInput from "../../../components/Allowance/KeypadInput";
 
 const NewAllowanceRequest = () => {
   const [step, setStep] = useState(0);
@@ -45,7 +45,7 @@ const NewAllowanceRequest = () => {
         }
         break;
       case 1:
-        if (displayedNumber === "0") {
+        if (isDisplayedNumberZero()) {
           error = "금액을 입력해주세요!";
         } else {
           setRequestData({
@@ -84,6 +84,8 @@ const NewAllowanceRequest = () => {
     });
   };
 
+  const isDisplayedNumberZero = () => displayedNumber === "0";
+
   const handleInputChange = (message) => {
     setMessage(message);
     setRequestData({
@@ -94,23 +96,7 @@ const NewAllowanceRequest = () => {
 
   const handleAllowanceRedirect = () => {
     console.log(requestData);
-    navigate("/allowance-request");
-  };
-
-  const handleNumberClick = (number) => {
-    if (displayedNumber.length < 7) {
-      setDisplayedNumber((prevNumber) => prevNumber + number);
-    }
-  };
-
-  const handleBackspace = () => {
-    if (displayedNumber.length > 1) {
-      setDisplayedNumber((prevNumber) => prevNumber.slice(0, -1));
-    }
-  };
-
-  const normalizeNumber = (number) => {
-    return parseFloat(number).toLocaleString("en-US");
+    navigate("/allowance/irregular");
   };
 
   return (
@@ -130,11 +116,7 @@ const NewAllowanceRequest = () => {
         {step === 1 && (
           <StepWrapper>
             <Phrase>얼마를 달라고 부탁드릴까요?</Phrase>
-            <InputContainer>
-              <Img src={CoinImage} alt="코인" />
-              <Amount displayedNumber={displayedNumber}>{normalizeNumber(displayedNumber)} 원</Amount>
-              <Keypad onNumberClick={handleNumberClick} onBackspace={handleBackspace} />
-            </InputContainer>
+            <KeypadInput displayedNumber={displayedNumber} setDisplayedNumber={setDisplayedNumber} />
           </StepWrapper>
         )}
         {step === 2 && (
