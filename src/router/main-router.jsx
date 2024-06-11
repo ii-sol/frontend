@@ -6,11 +6,10 @@ import MainLayout from "../pages/layout/MainLayout";
 import HomeC from "../pages/Home/Child/HomeC";
 import NavLayout from "../pages/layout/NavLayout";
 import InsideLayout from "../pages/layout/InsideLayout";
-import HeaderLayout from "../pages/layout/HeaderLayout.jsx";
 import FromWho from "../pages/Loan/Child/FromWho";
 import Signup from "../pages/Auth/Signup";
 import Login from "../pages/Auth/Login";
-import Money from "../pages/Loan/Child/Money"; // Import the Money component
+import Money from "../pages/Loan/Child/Money";
 import Period from "../pages/Loan/Child/Period";
 import Message from "../pages/Loan/Child/Message";
 import Complete from "../pages/Loan/Child/Complete";
@@ -61,33 +60,48 @@ const MainRouter = [
     ],
   },
   {
-    path: "/allowance-history",
-    element: <HeaderLayout left="<" title="용돈 내역" right="" />,
+    path: "/",
+    element: <MainLayout />,
     children: [
       {
-        index: true,
-        element: <AllowanceHistory />,
-      },
-    ],
-  },
-  {
-    path: "/allowance-request",
-    element: <HeaderLayout left="<" title="용돈 조르기" right="취소" />,
-    children: [
-      {
-        index: true,
-        element: <AllowanceRequest />,
-      },
-      {
-        path: "create",
-        index: true,
-        element: <NewAllowanceRequest />,
+        path: "allowance",
+        children: [
+          {
+            path: "management",
+            element: <AllowanceManagement />,
+          },
+          {
+            path: "registration",
+            element: <AllowanceRegistration />,
+          },
+          {
+            path: "history",
+            element: <AllowanceHistory />,
+          },
+          {
+            path: "irregular",
+            children: [
+              {
+                path: "",
+                element: <AllowanceRequest />,
+              },
+              {
+                path: "create",
+                element: <NewAllowanceRequest />,
+              },
+              {
+                path: "history",
+                element: <AllowanceRequestHistory />,
+              },
+            ],
+          },
+        ],
       },
     ],
   },
   {
     path: "/mission",
-    element: <HeaderLayout left="<" title="미션" right="" />,
+    element: <MainLayout />,
     children: [
       {
         index: true,
@@ -130,14 +144,15 @@ const MainRouter = [
       },
     ],
   },
+
+  {
+    path: "/loan/main",
+    element: <Main />,
+  },
   {
     path: "/loan",
     element: <InsideLayout service={"대출"} />,
     children: [
-      {
-        path: "main",
-        element: <Main />,
-      },
       {
         path: "who",
         index: true,
