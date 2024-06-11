@@ -2,7 +2,7 @@ import React from "react";
 import Header from "../../../components/Investment/Header";
 import { styled } from "styled-components";
 import * as S from "../../../styles/GlobalStyles";
-import Good from "../../../assets/img/Common/Good.svg";
+import Good from "../../../assets/img/common/Good.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const Done = () => {

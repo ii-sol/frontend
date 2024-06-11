@@ -1,6 +1,6 @@
 import React from "react";
 import Member from "../../../components/common/Member";
-import ChildImage from "~/assets/img/Auth/child.png";
+import ChildImage from "~/assets/img/Auth/child.svg";
 import { styled } from "styled-components";
 import tw from "twin.macro";
 import * as S from "../../../styles/GlobalStyles";
