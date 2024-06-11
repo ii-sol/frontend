@@ -2,37 +2,54 @@ import React, { useState } from "react";
 import * as S from "../../../styles/GlobalStyles";
 import Header from "../../../components/Investment/Header";
 import { styled } from "styled-components";
-import { FaRegTrashAlt } from "react-icons/fa";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import StocksDetail from "../../../components/Investment/StocksDetail";
 import "react-spring-bottom-sheet/dist/style.css";
+import StockItem from "../../../components/Investment/StockItem";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const AvailableInvest = () => {
+  const navigate = useNavigate();
+  const { state } = useLocation();
   const [open, setOpen] = useState(false);
+  const [selectedStockId, setSelectedStockId] = useState(null);
+
   const handleDismiss = () => {
     setOpen(false);
   };
+
+  const data = [
+    { id: 0, title: "삼성전자", price: "1521000원", change: -152721 },
+    { id: 1, title: "LG전자", price: "123000원", change: 2721 },
+    { id: 2, title: "SK하이닉스", price: "950000원", change: -50000 },
+    { id: 3, title: "현대차", price: "210000원", change: 5000 },
+  ];
+
   return (
     <S.Container>
       <Header />
       <TitleDiv>거래 가능 종목 리스트</TitleDiv>
       <Box>
-        <Wrapper>
-          <StockDiv>
-            <StockName>삼성전자</StockName>
-          </StockDiv>
-          <HoldingDiv>
-            <CurrentPrice>1521000원</CurrentPrice>
-            <ChangeRate>- 152,721</ChangeRate>
-          </HoldingDiv>
-          <DeleteDiv>
-            <FaRegTrashAlt size="30" />
-          </DeleteDiv>
-        </Wrapper>
+        {data.map((stock) => (
+          <StockItem
+            key={stock.id}
+            stock={stock}
+            setOpen={setOpen}
+            setSelectedStockId={setSelectedStockId}
+          />
+        ))}
       </Box>
-      <S.BottomBtn onClick={() => setOpen(!open)}>새 종목 추가하기</S.BottomBtn>
+      <S.BottomBtn
+        onClick={() => navigate("/suggest", { state: { type: "종목" } })}
+      >
+        새 종목 추가하기
+      </S.BottomBtn>
+
       <BottomSheet open={open} onDismiss={handleDismiss}>
-        <StocksDetail />
+        <StocksDetail
+          selectedStockId={selectedStockId}
+          accountNum={state.accountNum}
+        />
       </BottomSheet>
     </S.Container>
   );
@@ -52,57 +69,6 @@ const Box = styled.div`
   overflow-y: auto;
   margin-top: 10px;
   height: ${screen.height - 210}px;
-`;
-
-const HoldingDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  color: #154b9b;
-  gap: 5px;
-  flex: 1;
-  text-align: right;
-`;
-
-const DeleteDiv = styled.div`
-  display: none;
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #dceeff;
-  border-radius: 15px;
-  padding: 15px;
-  height: 80px;
-  margin-bottom: 10px;
-
-  &:hover > ${HoldingDiv} {
-    display: none;
-  }
-
-  &:hover > ${DeleteDiv} {
-    display: flex;
-    margin-right: 0px;
-  }
-`;
-
-const StockDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  flex: 1;
-`;
-
-const StockName = styled.div`
-  font-size: 25px;
-`;
-
-const CurrentPrice = styled.div`
-  font-size: 25px;
-`;
-
-const ChangeRate = styled.div`
-  font-size: 17px;
-  text-align: right;
+  width: 100%;
+  overflow-x: hidden;
 `;

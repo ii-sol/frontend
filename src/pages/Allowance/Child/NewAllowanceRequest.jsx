@@ -3,15 +3,16 @@ import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 
+import Header from "~/components/common/Header";
 import Button from "~/components/common/Button";
-import Keypad from "~/components/common/Keypad";
 import Member from "~/components/common/Member";
 import Message from "~/components/common/Message";
 
-import ChildImage from "~/assets/img/Auth/child.png";
-import CoinImage from "~/assets/img/Allowance/coin.png";
-import MessageImage from "~/assets/img/Allowance/message.png";
-import AllowanceImage from "~/assets/img/Allowance/allowance.png";
+import ChildImage from "~/assets/img/Auth/child.svg";
+
+import MessageImage from "~/assets/img/common/message.svg";
+import AllowanceImage from "~/assets/img/Allowance/allowance.svg";
+import KeypadInput from "../../../components/Allowance/KeypadInput";
 
 const NewAllowanceRequest = () => {
   const [step, setStep] = useState(0);
@@ -44,8 +45,8 @@ const NewAllowanceRequest = () => {
         }
         break;
       case 1:
-        if (displayedNumber === "0") {
-          error = "금액을 선택해주세요!";
+        if (isDisplayedNumberZero()) {
+          error = "금액을 입력해주세요!";
         } else {
           setRequestData({
             ...requestData,
@@ -83,6 +84,8 @@ const NewAllowanceRequest = () => {
     });
   };
 
+  const isDisplayedNumberZero = () => displayedNumber === "0";
+
   const handleInputChange = (message) => {
     setMessage(message);
     setRequestData({
@@ -93,27 +96,12 @@ const NewAllowanceRequest = () => {
 
   const handleAllowanceRedirect = () => {
     console.log(requestData);
-    navigate("/allowance-request");
-  };
-
-  const handleNumberClick = (number) => {
-    if (displayedNumber.length < 7) {
-      setDisplayedNumber((prevNumber) => prevNumber + number);
-    }
-  };
-
-  const handleBackspace = () => {
-    if (displayedNumber.length > 1) {
-      setDisplayedNumber((prevNumber) => prevNumber.slice(0, -1));
-    }
-  };
-
-  const normalizeNumber = (number) => {
-    return parseFloat(number).toLocaleString("en-US");
+    navigate("/allowance/irregular");
   };
 
   return (
     <Container>
+      <Header left={"<"} title={"용돈 조르기"} right={"취소"} />
       <FormWrapper>
         {step === 0 && (
           <StepWrapper>
@@ -128,11 +116,7 @@ const NewAllowanceRequest = () => {
         {step === 1 && (
           <StepWrapper>
             <Phrase>얼마를 달라고 부탁드릴까요?</Phrase>
-            <InputContainer>
-              <Img src={CoinImage} alt="코인" />
-              <Amount displayedNumber={displayedNumber}>{normalizeNumber(displayedNumber)} 원</Amount>
-              <Keypad onNumberClick={handleNumberClick} onBackspace={handleBackspace} />
-            </InputContainer>
+            <KeypadInput displayedNumber={displayedNumber} setDisplayedNumber={setDisplayedNumber} />
           </StepWrapper>
         )}
         {step === 2 && (
@@ -241,7 +225,7 @@ const Img = styled.img`
   width: 143px;
   height: auto;
   margin-bottom: 16px;
-  box-shadow: 0px 0px 80px 0px rgba(151, 178, 221, 0.4);
+  // box-shadow: 0px 0px 80px 0px rgba(151, 178, 221, 0.4);
 `;
 
 const InputContainer = styled.div`

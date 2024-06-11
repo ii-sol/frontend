@@ -31,7 +31,15 @@ const Account = ({ accountNum }) => {
             </>
           ) : (
             <>
-              <Btn onClick={() => navigate("/invest/start")}>투자하기</Btn>
+              <Btn
+                onClick={() =>
+                  navigate("/invest/start", {
+                    state: { accountNum: accountNum },
+                  })
+                }
+              >
+                투자하기
+              </Btn>
             </>
           )}
         </ButtonWrapper>
