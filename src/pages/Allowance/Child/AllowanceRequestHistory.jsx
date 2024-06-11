@@ -4,7 +4,7 @@ import { styled } from "styled-components";
 
 import Header from "~/components/common/Header";
 import HistoryFilter from "~/components/common/HistoryFilter";
-import RequestCard from "~/components/Allowance/RequestCard";
+import RequestCardChild from "~/components/Allowance/RequestCardChild";
 
 import PleaseImg from "~/assets/img/Allowance/please.svg";
 import HeartImg from "~/assets/img/Allowance/heart.svg";
@@ -15,9 +15,9 @@ const AllowanceRequestHistory = () => {
       <Header left={"<"} title={"용돈 조르기"} right={""} />
       <HistoryFilter></HistoryFilter>
       <CardContainer>
-        <RequestCard status="완료" receiver="엄마" allowance="1000" img={PleaseImg} />
-        <RequestCard status="취소" receiver="엄마" allowance="1000" img={PleaseImg} />
-        <RequestCard status="취소" receiver="아빠" allowance="5000" img={HeartImg} />
+        <RequestCardChild status="완료" receiver="엄마" allowance="1000" img={PleaseImg} />
+        <RequestCardChild status="취소" receiver="엄마" allowance="1000" img={PleaseImg} />
+        <RequestCardChild status="취소" receiver="아빠" allowance="5000" img={HeartImg} />
       </CardContainer>
     </Container>
   );

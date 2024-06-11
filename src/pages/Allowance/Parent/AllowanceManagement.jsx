@@ -3,6 +3,8 @@ import tw from "twin.macro";
 import { styled } from "styled-components";
 
 import Header from "~/components/common/Header";
+import RequestCardParent from "../../../components/Allowance/RequestCardParent";
+import RegularAllowanceCard from "../../../components/Allowance/RegularAllowanceCard";
 
 const AllowanceManagement = () => {
   return (
@@ -12,8 +14,15 @@ const AllowanceManagement = () => {
         <Phrase>정기용돈</Phrase>
         <History>지난 용돈 &gt;</History>
       </Menu>
-
-      <CardContainer></CardContainer>
+      <RegularAllowanceCard period="1개월" allowance="100000" startDate={"2024.05.12"} endDate={"2024.06.12"} />
+      <Menu>
+        <Phrase>조르기 내역</Phrase>
+      </Menu>
+      <CardContainer>
+        <RequestCardParent allowance={1000} message={"과자 먹고 싶어요"} />
+        <RequestCardParent allowance={3000} message={"준비물 사야 해요"} />
+        <RequestCardParent allowance={1000} message={"과자 먹고 싶어요"} />
+      </CardContainer>
     </Container>
   );
 };

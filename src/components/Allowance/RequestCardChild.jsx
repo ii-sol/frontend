@@ -2,7 +2,7 @@ import React from "react";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 
-const RequestCard = ({ status, receiver, allowance, img }) => {
+const RequestCardChild = ({ status, receiver, allowance, img }) => {
   const normalizeNumber = (number) => {
     return parseFloat(number).toLocaleString("en-US");
   };
@@ -19,7 +19,7 @@ const RequestCard = ({ status, receiver, allowance, img }) => {
   );
 };
 
-export default RequestCard;
+export default RequestCardChild;
 
 const Container = styled.button`
   ${tw`
