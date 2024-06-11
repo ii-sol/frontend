@@ -26,6 +26,11 @@ import AllowanceHistory from "../pages/Allowance/Child/AllowanceHistory";
 import Mission from "../pages/Mission/Child/Mission";
 import Trading from "../pages/Investment/Child/Trading";
 import Suggestion from "../pages/Investment/Child/Suggestion";
+import Done from "../pages/Investment/Child/Done";
+import ParentSelection from "../pages/Investment/Child/ParentSelection";
+import AllowanceRequestHistory from "../pages/Allowance/Child/AllowanceRequestHistory.jsx";
+import AllowanceManagement from "../pages/Allowance/Parent/AllowanceManagement.jsx";
+import AllowanceRegistration from "../pages/Allowance/Parent/AllowanceRegistration.jsx";
 
 const MainRouter = [
   {
@@ -110,12 +115,19 @@ const MainRouter = [
             element: <Trading />,
           },
           {
+            path: "member",
+            element: <ParentSelection />,
+          },
+          {
             path: "suggest",
             element: <Suggestion />,
           },
+          {
+            path: "send",
+            element: <Done />,
+          },
         ],
       },
-      { path: "/loan", element: <FromWho />, children: [] },
     ],
   },
   {
