@@ -175,11 +175,11 @@ const MainRouter = [
         element: <Complete />,
       },
       {
-        path: "history",
+        path: "history-null",
         element: <LoanHistory />,
       },
       {
-        path: "historyexist",
+        path: "history-exist",
         element: <LoanHistoryExist />,
       },
     ],
