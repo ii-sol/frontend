@@ -81,7 +81,7 @@ const LoanHistoryExist = () => {
             {">"}
           </button>
         </div>
-        <div tw="flex mb-4 w-full max-w-lg">
+        <div tw="flex mb-4 w-full max-w-lg mb-8">
           <button
             onClick={() => handleFilterChange("전체")}
             tw="bg-blue-500 text-white py-2 px-4 rounded-2xl mx-1 text-center"
@@ -104,35 +104,15 @@ const LoanHistoryExist = () => {
             거절
           </button>
         </div>
-        <div tw="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-lg">
-          <div tw="bg-white w-full h-32 rounded-2xl shadow-lg flex flex-col justify-center items-center">
-            <span tw="bg-blue-500 text-white py-1 px-2 rounded-full mb-2">
+        <div tw="grid grid-cols-2 gap-4 w-full max-w-lg">
+          <div tw="bg-white w-full h-52 rounded-2xl shadow-lg flex flex-col">
+            <span tw="bg-blue-500 text-white py-1 px-2 rounded-full mb-2 ml-4 w-12 mt-5">
               완료
             </span>
-            <span tw="text-lg font-bold">100,000원</span>
-            <span tw="text-sm text-gray-500">2024.05.12 ~ 2024.06.12</span>
-          </div>
-          <div tw="bg-white w-full h-32 rounded-2xl shadow-lg flex flex-col justify-center items-center">
-            <span tw="bg-red-500 text-white py-1 px-2 rounded-full mb-2">
-              거절
+            <span tw="text-lg font-bold ml-4 mt-1">100,000원</span>
+            <span tw="text-xs text-gray-500 mt-2 ml-4">
+              2024.05.12 ~ 2024.06.12
             </span>
-            <span tw="text-lg font-bold">100,000원</span>
-            <span tw="text-sm text-gray-500">2024.05.12 ~ 2024.06.12</span>
-          </div>
-          {/* Additional cards for demo */}
-          <div tw="bg-white w-full h-32 rounded-2xl shadow-lg flex flex-col justify-center items-center">
-            <span tw="bg-blue-500 text-white py-1 px-2 rounded-full mb-2">
-              완료
-            </span>
-            <span tw="text-lg font-bold">100,000원</span>
-            <span tw="text-sm text-gray-500">2024.05.12 ~ 2024.06.12</span>
-          </div>
-          <div tw="bg-white w-full h-32 rounded-2xl shadow-lg flex flex-col justify-center items-center">
-            <span tw="bg-red-500 text-white py-1 px-2 rounded-full mb-2">
-              거절
-            </span>
-            <span tw="text-lg font-bold">100,000원</span>
-            <span tw="text-sm text-gray-500">2024.05.12 ~ 2024.06.12</span>
           </div>
         </div>
       </div>
