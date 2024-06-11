@@ -76,6 +76,8 @@ const Message = () => {
           <p tw="text-gray-500 text-center">{messageText.length}/50</p>
           {error && <p tw="text-red-500 text-center mt-2">{error}</p>}
         </div>
+        <p tw="text-gray-500 mt-2">{messageText.length}/50</p>
+        {error && <p tw="text-red-500 mt-2">{error}</p>}
       </div>
       <footer tw="p-4">
         <NextButton onClick={handleNext} />
