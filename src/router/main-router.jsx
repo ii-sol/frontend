@@ -32,6 +32,8 @@ import AllowanceRequestHistory from "../pages/Allowance/Child/AllowanceRequestHi
 import AllowanceManagement from "../pages/Allowance/Parent/AllowanceManagement.jsx";
 import AllowanceRegistration from "../pages/Allowance/Parent/AllowanceRegistration.jsx";
 import AllowanceHistoryP from "../pages/Allowance/Parent/AllowanceHistory.jsx";
+import StockList from "../pages/Investment/StockList";
+import InvestHistory from "../pages/Investment/InvestHistory";
 
 const MainRouter = [
   {

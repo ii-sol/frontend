@@ -3,7 +3,6 @@ import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../../styles/GlobalStyles";
 
-import messageIcon from "~/assets/img/child/message2.svg";
 import DishwashingImg from "~/assets/img/Mission/dishwashing.svg";
 
 import Header from "~/components/common/Header";
