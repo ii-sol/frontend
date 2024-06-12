@@ -4,46 +4,86 @@ import Header from "../../../components/Investment/Header";
 import { styled } from "styled-components";
 import suggest from "../../../assets/img/Invest/suggest.svg";
 import Message from "../../../components/common/Message";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Suggestion = () => {
   const navigate = useNavigate();
+  const { state } = useLocation();
   const [message, setMessage] = useState("");
   const handleInputChange = (message) => {
     setMessage(message);
   };
-  const info = {
-    "투자 종목": "삼성전자",
-    시장가: "123,120원",
-    개수: "3주",
+
+  let info = {
+    "투자 종목": state.data.stockName,
+    시장가: state.data.price + "원",
+    개수: state.data.quantity + "주",
   };
+  if (state.type === "종목") {
+    info = {
+      종목: state.data.stockName,
+    };
+  }
 
   const onSuggest = () => {
-    navigate("/invest/send", {
-      state: { type: "suggest", data: { who: "엄마", what: "투자제안서" } },
-    });
+    if (state.type === "투자") {
+      navigate("/invest/send", {
+        state: {
+          type: "suggest",
+          data: { who: state.data.parent, what: "투자제안서" },
+        },
+      });
+    } else {
+      navigate("/invest/send", {
+        state: {
+          type: "suggest",
+          data: { who: state.data.parent, what: "종목제안서" },
+        },
+      });
+    }
   };
   return (
     <S.Container>
       <Header type="none" />
       <S.CenterDiv>
-        <Div $size="25" $top="20">
-          엄마에게
-          <br />
-          삼성전자 투자를 제안드릴게요
-        </Div>
-        <Div $size="15" $top="10">
-          해당 투자가 합리적인 이유를
-          <br />
-          작성해주세요!
-        </Div>
-        <S.Badge $back="#FFDCDC" $font="#CC3535">
-          구매
-        </S.Badge>
+        {state.type === "투자" ? (
+          <>
+            <Div $size="25" $top="20">
+              {state.data.parent}에게
+              <br />
+              {state.data.stockName} 투자를 제안드릴게요
+            </Div>
+            <Div $size="15" $top="10">
+              해당 투자가 합리적인 이유를
+              <br />
+              작성해주세요!
+            </Div>
+          </>
+        ) : (
+          <>
+            <Div $size="25" $top="20">
+              {state.data.parent}에게
+              <br />
+              {state.data.stockName} 종목을 제안드릴게요
+            </Div>
+            <Div $size="15" $top="10">
+              해당 종목이 합리적인 이유를
+              <br />
+              작성해주세요!
+            </Div>
+          </>
+        )}
+        {state.type === "투자" ? (
+          <S.Badge $back="#FFDCDC" $font="#CC3535">
+            구매
+          </S.Badge>
+        ) : (
+          <></>
+        )}
         <Img src={suggest} />
         <Wrapper>
           <Message
-            placeholder="투자 제안 메세지를 적어주세요!"
+            placeholder="제안 메세지를 적어주세요!"
             maxLength="100"
             onChange={handleInputChange}
             info={info}

@@ -115,7 +115,7 @@ const Textarea = styled.textarea`
   display: flex;
   align-items: center;
   justify-content: center;
-
+  padding-right: 30px;
   &::placeholder {
     color: #c9c9c9;
   }
@@ -125,7 +125,7 @@ const ClearButton = styled.button`
   ${tw`flex items-center justify-center w-8 h-8 text-gray-500 cursor-pointer outline-none`}
   position: absolute;
   right: 0px;
-  bottom: 3px;
+  top: 3px;
   background: none;
   border: none;
 `;
