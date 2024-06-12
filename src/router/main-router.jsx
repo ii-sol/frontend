@@ -25,13 +25,14 @@ import AllowanceHistory from "../pages/Allowance/Child/AllowanceHistory";
 import Mission from "../pages/Mission/Child/Mission";
 import Trading from "../pages/Investment/Child/Trading";
 import Suggestion from "../pages/Investment/Child/Suggestion";
-import { elements } from "chart.js";
 import LoanDetail from "../pages/Loan/Child/Detail.jsx";
 import Done from "../pages/Investment/Child/Done";
 import ParentSelection from "../pages/Investment/Child/ParentSelection";
 import AllowanceRequestHistory from "../pages/Allowance/Child/AllowanceRequestHistory.jsx";
 import AllowanceManagement from "../pages/Allowance/Parent/AllowanceManagement.jsx";
 import AllowanceRegistration from "../pages/Allowance/Parent/AllowanceRegistration.jsx";
+import AllowanceHistoryP from "../pages/Allowance/Parent/AllowanceHistory.jsx";
+import StockList from "../pages/Investment/StockList";
 
 const MainRouter = [
   {
@@ -79,6 +80,10 @@ const MainRouter = [
           {
             path: "history",
             element: <AllowanceHistory />,
+          },
+          {
+            path: "history-parent",
+            element: <AllowanceHistoryP />,
           },
           {
             path: "irregular",
@@ -141,6 +146,10 @@ const MainRouter = [
           {
             path: "send",
             element: <Done />,
+          },
+          {
+            path: "stocklist",
+            element: <StockList />,
           },
         ],
       },

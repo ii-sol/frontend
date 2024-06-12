@@ -4,7 +4,7 @@ import { styled } from "styled-components";
 
 import Header from "~/components/common/Header";
 import VirticalCreateCard from "~/components/common/VerticalCreateCard";
-import RequestCard from "~/components/Allowance/RequestCard";
+import RequestCardChild from "~/components/Allowance/RequestCardChild";
 import PleaseImg from "~/assets/img/Allowance/please.svg";
 import HeartImg from "~/assets/img/Allowance/heart.svg";
 
@@ -18,9 +18,9 @@ const AllowanceRequest = () => {
       </Menu>
       <CardContainer>
         <VirticalCreateCard text="용돈 조르기" />
-        <RequestCard status="완료" receiver="엄마" allowance="1000" img={PleaseImg} />
-        <RequestCard receiver="엄마" allowance="1000" img={PleaseImg} />
-        <RequestCard receiver="아빠" allowance="5000" img={HeartImg} />
+        <RequestCardChild status="완료" receiver="엄마" allowance="1000" img={PleaseImg} />
+        <RequestCardChild receiver="엄마" allowance="1000" img={PleaseImg} />
+        <RequestCardChild receiver="아빠" allowance="5000" img={HeartImg} />
       </CardContainer>
     </Container>
   );

@@ -4,7 +4,7 @@ import * as S from "../../styles/GlobalStyles";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-const StocksDetail = ({ selectedStockId, accountNum }) => {
+const StocksDetail = ({ selectedStockId, accountNum, type }) => {
   console.log(selectedStockId);
   const navigate = useNavigate();
   const [selected, setSelected] = useState("1년차트");
@@ -169,26 +169,42 @@ const StocksDetail = ({ selectedStockId, accountNum }) => {
         </BoxDiv>
       </RowDiv>
       <RowDiv $center="center" $top="20" $gap="20">
-        <S.BuyBtn
-          $background="#FF5959"
-          onClick={() =>
-            navigate("/invest/trading", {
-              state: { trade: "buy", accountNum: accountNum },
-            })
-          }
-        >
-          구매하기
-        </S.BuyBtn>
-        <S.BuyBtn
-          $background="#5987ff"
-          onClick={() =>
-            navigate("/invest/trading", {
-              state: { trade: "sell", accountNum: accountNum },
-            })
-          }
-        >
-          판매하기
-        </S.BuyBtn>
+        {type === "searchDetail" ? (
+          <div style={{ marginBottom: "15px", width: "100%" }}>
+            <S.BottomBtn2
+              onClick={() =>
+                navigate("/invest/member", {
+                  state: { type: "종목", data: { stockName: "삼성전자" } },
+                })
+              }
+            >
+              다음
+            </S.BottomBtn2>
+          </div>
+        ) : (
+          <>
+            <S.BuyBtn
+              $background="#FF5959"
+              onClick={() =>
+                navigate("/invest/trading", {
+                  state: { trade: "buy", accountNum: accountNum },
+                })
+              }
+            >
+              구매하기
+            </S.BuyBtn>
+            <S.BuyBtn
+              $background="#5987ff"
+              onClick={() =>
+                navigate("/invest/trading", {
+                  state: { trade: "sell", accountNum: accountNum },
+                })
+              }
+            >
+              판매하기
+            </S.BuyBtn>
+          </>
+        )}
       </RowDiv>
     </Container>
   );

@@ -2,7 +2,7 @@ import React from "react";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 
-const RequestCard = ({ status, receiver, allowance, img }) => {
+const RequestCardChild = ({ status, receiver, allowance, img, message }) => {
   const normalizeNumber = (number) => {
     return parseFloat(number).toLocaleString("en-US");
   };
@@ -10,18 +10,19 @@ const RequestCard = ({ status, receiver, allowance, img }) => {
   return (
     <Container>
       <Content>
-        <StatusTag status={status}>{status}</StatusTag>
+        {status && <StatusTag status={status}>{status}</StatusTag>}
         <Receiver>{receiver}</Receiver>
         <Allowance>{normalizeNumber(allowance)}원</Allowance>
+        <Message>{message}</Message>
       </Content>
       <Img src={img} alt="아이콘" />
     </Container>
   );
 };
 
-export default RequestCard;
+export default RequestCardChild;
 
-const Container = styled.button`
+const Container = styled.div`
   ${tw`
   flex
   flex-col
@@ -61,6 +62,11 @@ const Receiver = styled.div`
 const Allowance = styled.div`
   color: #154b9b;
   font-size: 15px;
+  font-weight: 700;
+`;
+
+const Message = styled.div`
+  font-size: 12px;
   font-weight: 700;
 `;
 
