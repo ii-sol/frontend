@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
+import * as S from "../../../styles/GlobalStyles";
 
 import Header from "~/components/common/Header";
-import Button from "~/components/common/Button";
 import Period from "../../../components/common/Period";
 import KeypadInput from "../../../components/Allowance/KeypadInput";
 
@@ -77,23 +77,23 @@ const AllowanceRegistration = () => {
   };
 
   return (
-    <Container>
+    <S.Container>
       <Header left={"<"} title={"용돈"} right={"취소"} />
-      <FormWrapper>
+      <S.FormWrapper>
         {step === 0 && (
-          <StepWrapper>
-            <Phrase>매달 얼마나 보낼까요?</Phrase>
+          <S.StepWrapper>
+            <S.Question>매달 얼마나 보낼까요?</S.Question>
             <KeypadInput displayedNumber={displayedNumber} setDisplayedNumber={setDisplayedNumber} />
-          </StepWrapper>
+          </S.StepWrapper>
         )}
         {step === 1 && (
-          <StepWrapper tw="gap-0">
-            <Phrase>얼마 동안 보낼까요?</Phrase>
+          <S.StepWrapper tw="gap-0">
+            <S.Question>얼마 동안 보낼까요?</S.Question>
             <Period onPeriodChange={handlePeriodChange} />
-          </StepWrapper>
+          </S.StepWrapper>
         )}
         {step === 2 && (
-          <StepWrapper tw="gap-0">
+          <S.StepWrapper tw="gap-0">
             <ResultWrapper>
               <ResultPhrase>
                 <span tw="text-[#154B9B]">양은수</span> 님에게
@@ -101,107 +101,58 @@ const AllowanceRegistration = () => {
               <ResultPhrase>{normalizeNumber(allowanceData.amount)}원을</ResultPhrase>
               <ResultPhrase>매달 보낼게요</ResultPhrase>
             </ResultWrapper>
-          </StepWrapper>
+          </S.StepWrapper>
         )}
         {step === 3 && (
-          <StepWrapper>
+          <S.StepWrapper>
             <CompleteContainer>
               <img src={MoneyImage} alt="완료" />
-              <Phrase>정기 용돈 등록 완료</Phrase>
-              <CompleteCard>
+              <S.Question>정기 용돈 등록 완료</S.Question>
+              <S.CompleteCard style={{ gap: "2px" }}>
                 <div>양은수 님에게</div>
                 <div>6개월 동안</div>
                 <div tw="text-[#154B9B]">매달 {normalizeNumber(allowanceData.amount)}원</div>
-              </CompleteCard>
+              </S.CompleteCard>
             </CompleteContainer>
-          </StepWrapper>
+          </S.StepWrapper>
         )}
 
-        <ButtonWrapper>
+        <S.ButtonWrapper>
           {step < 2 ? (
-            <Button onClick={handleNext} text="다음">
+            <S.BottomBtn onClick={handleNext} text="다음">
               다음
-            </Button>
+            </S.BottomBtn>
           ) : step === 2 ? (
-            <Button onClick={handleNext} text="보내기">
+            <S.BottomBtn onClick={handleNext} text="보내기">
               보내기
-            </Button>
+            </S.BottomBtn>
           ) : (
-            <Button onClick={handleAllowanceRedirect} text="완료">
+            <S.BottomBtn onClick={handleAllowanceRedirect} text="완료">
               완료
-            </Button>
+            </S.BottomBtn>
           )}
-        </ButtonWrapper>
-      </FormWrapper>
-    </Container>
+        </S.ButtonWrapper>
+      </S.FormWrapper>
+    </S.Container>
   );
 };
 
 export default AllowanceRegistration;
 
-const Container = tw.div`
-  flex
-  flex-col
-  gap-3
-  justify-center
-`;
-
-const FormWrapper = styled.div`
-  ${tw`flex
-  flex-col
-  w-80
-  gap-5
-  rounded-[15px]
-  h-full
-  relative`}
-  height: calc(100% - 60px);
-`;
-
-const StepWrapper = styled.div`
-  ${tw`flex flex-col gap-4 flex-grow`}
-`;
-
-const ButtonWrapper = styled.div`
-  ${tw`flex
-  justify-between
-  mt-4`}
-`;
-
 const ResultWrapper = styled.div`
   ${tw`flex flex-col justify-center items-center`}
+  height: calc(100vh - 200px);
 `;
 
-const Phrase = tw.div`
-  flex
-  text-xl
+const ResultPhrase = styled.div`
+  ${tw`text-xl
   font-bold
-  justify-center
-  m-5
+  text-center`}
 `;
 
-const ResultPhrase = tw.div`
-  flex
-  text-xl
-  font-bold
-  justify-center
-`;
-
-const CompleteContainer = tw.div`
-  flex
+const CompleteContainer = styled.div`
+  ${tw`flex
   flex-col
   items-center
-  gap-2
-`;
-
-const CompleteCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  border-radius: 15px;
-  background: #f4f9ff;
-  font-size: 25px;
-  font-weight: 500;
-  align-items: center;
-  gap: 10px;
-  padding: 20px;
+  gap-2`}
 `;

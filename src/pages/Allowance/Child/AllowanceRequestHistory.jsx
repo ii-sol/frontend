@@ -1,6 +1,5 @@
 import React from "react";
-import tw from "twin.macro";
-import { styled } from "styled-components";
+import * as S from "../../../styles/GlobalStyles";
 
 import Header from "~/components/common/Header";
 import HistoryFilter from "~/components/common/HistoryFilter";
@@ -19,13 +18,11 @@ const AllowanceRequestHistory = () => {
   const renderItem = (item) => <RequestCardChild key={item.id} status={item.status} receiver={item.receiver} allowance={item.allowance} img={item.img} />;
 
   return (
-    <Container>
+    <S.Container>
       <Header left={"<"} title={"용돈 조르기"} right={""} />
       <HistoryFilter data={data} filterOptions={["전체", "완료", "취소"]} emptyStateText="용돈 조르기 내역이 없어요" renderItem={renderItem}></HistoryFilter>
-    </Container>
+    </S.Container>
   );
 };
 
 export default AllowanceRequestHistory;
-
-const Container = styled.div``;
