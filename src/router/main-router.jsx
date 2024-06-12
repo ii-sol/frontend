@@ -150,6 +150,10 @@ const MainRouter = [
             path: "stocklist",
             element: <StockList />,
           },
+          {
+            path: "history",
+            element: <InvestHistory />,
+          },
         ],
       },
     ],
