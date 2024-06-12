@@ -32,7 +32,15 @@ const Trading = () => {
   const onTrade = () => {
     if (state.accountNum === 3) {
       navigate("/invest/member", {
-        state: { type: "투자", trade: state.trade },
+        state: {
+          type: "투자",
+          data: {
+            trade: state.trade,
+            stockName: "삼성전자",
+            quantity: normalizeNumber(displayedNumber),
+            price: "12,300",
+          },
+        },
       });
     } else {
       // 완료페이지
@@ -41,9 +49,9 @@ const Trading = () => {
           type: "trade",
           data: {
             stockName: "삼성전자",
-            quantity: 3,
+            quantity: normalizeNumber(displayedNumber),
             trade: state.trade,
-            price: "12,300원",
+            price: "12,300",
           },
         },
       });

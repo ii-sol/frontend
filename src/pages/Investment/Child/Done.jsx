@@ -30,7 +30,7 @@ const Done = () => {
             </Message>
           )}
         </Box>
-        <S.BottomBtn onClick={() => navigate("/")}>완료</S.BottomBtn>
+        <S.BottomBtn onClick={() => navigate("/invest")}>완료</S.BottomBtn>
       </S.CenterDiv>
     </S.Container>
   );
