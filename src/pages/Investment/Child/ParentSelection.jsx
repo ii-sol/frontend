@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Member from "../../../components/common/Member";
 import ChildImage from "~/assets/img/Auth/child.png";
 import { styled } from "styled-components";
@@ -8,32 +8,62 @@ import Header from "../../../components/Investment/Header";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const ParentSelection = () => {
+  const [parents, setParents] = useState(null);
   const navigate = useNavigate();
   const { state } = useLocation();
+
   return (
     <S.Container>
       <Header type="none" />
-      <Div>누구에게 용돈을 부탁할까요?</Div>
+      {state.type === "투자" ? (
+        <Div>누구에게 투자 제안을 할까요?</Div>
+      ) : (
+        <Div>누구에게 종목 제안을 할까요?</Div>
+      )}
+
       <MemberContainer>
         <Member
           img={ChildImage}
           name="엄마"
           role="부모"
           phoneNum="010-0000-0000"
-        ></Member>
+          onClick={() => setParents("엄마")}
+        />
         <Member
           img={ChildImage}
           name="아빠"
           role="부모"
           phoneNum="010-4321-4321"
-        ></Member>
+          onClick={() => setParents("아빠")}
+        />
       </MemberContainer>
       <S.BottomBtn
-        onClick={() =>
-          navigate("/invest/suggest", {
-            state: { type: state.type, trade: state.trade },
-          })
-        }
+        onClick={() => {
+          if (state.type === "투자") {
+            navigate("/invest/suggest", {
+              state: {
+                type: "투자",
+                data: {
+                  trade: state.data.trade,
+                  stockName: state.data.stockName,
+                  quantity: state.data.quantity,
+                  price: state.data.price,
+                  parent: parents,
+                },
+              },
+            });
+          } else {
+            navigate("/invest/suggest", {
+              state: {
+                type: "종목",
+                data: {
+                  stockName: state.data.stockName,
+                  parent: parents,
+                },
+              },
+            });
+          }
+        }}
       >
         다음
       </S.BottomBtn>
