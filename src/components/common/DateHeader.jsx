@@ -1,13 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import tw from "twin.macro";
 import { styled } from "styled-components";
+import { BottomSheet } from "react-spring-bottom-sheet";
+import "react-spring-bottom-sheet/dist/style.css";
 
-const DateHeader = ({ leftChild, title, rightChild }) => {
+import FilterOptions from "./FilterOptions";
+
+const DateHeader = ({ leftChild, year, month, rightChild, onDateSelect }) => {
+  const [openFilter, setOpenFilter] = useState(false);
+  const [title, setTitle] = useState(`${year}년 ${month}월`);
+
+  useEffect(() => {
+    setTitle(`${year}년 ${month}월`);
+  }, [year, month]);
+
+  const handleTitleClick = () => {
+    setOpenFilter(true);
+  };
+
+  const handleDismiss = () => {
+    setOpenFilter(false);
+  };
+
+  const handleFilterSelect = (selectedYear, selectedMonth) => {
+    onDateSelect(selectedYear, selectedMonth);
+    setOpenFilter(false);
+  };
+
   return (
     <Container>
       <Content>{leftChild}</Content>
-      <Content>{title}</Content>
+      <Content onClick={handleTitleClick}>{title}</Content>
       <Content>{rightChild}</Content>
+      <BottomSheet open={openFilter} onDismiss={handleDismiss}>
+        <FilterOptions onSelect={handleFilterSelect} onClose={handleDismiss} />
+      </BottomSheet>
     </Container>
   );
 };

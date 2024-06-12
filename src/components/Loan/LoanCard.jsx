@@ -5,7 +5,7 @@ import loanIcon from "~/assets/img/child/loan.svg";
 const LoanCard = ({ amount, period, totalAmount }) => (
   <div tw="bg-white w-full rounded-2xl shadow-lg p-4 flex flex-col">
     <div tw="flex items-center mb-2">
-      <span tw="bg-blue-100 text-blue-500 py-1 px-2 mt-1 rounded-full">
+      <span tw="bg-blue-100 text-blue-500 py-1 px-2 mt-1 text-sm rounded-full">
         D-Day
       </span>
     </div>

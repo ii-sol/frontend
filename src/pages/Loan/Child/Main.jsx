@@ -17,6 +17,14 @@ const Main = () => {
     }
   };
 
+  const handleCreateLoan = () => {
+    navigate("/loan/who");
+  };
+
+  const handleHistory = () => {
+    navigate("/loan/history-exist");
+  };
+
   return (
     <>
       <div tw="flex flex-col h-screen mt-1">
@@ -30,14 +38,14 @@ const Main = () => {
 
         <main tw="flex flex-col flex-1 justify-between p-5">
           {/* Credit Score */}
-          <div tw="flex flex-col items-center bg-blue-100 w-full rounded-2xl p-4 mb-4 shadow-md">
+          <div tw="flex flex-col items-center bg-blue-400 w-full rounded-2xl p-4 mb-4 shadow-md">
             <div tw="flex items-center">
-              <p tw="text-lg">현재 정우성의 신뢰도는?</p>
+              <p tw="text-lg text-white font-bold">현재 정우성의 신뢰도는?</p>
             </div>
-            <p tw="text-4xl font-bold mt-2">매우 높음</p>
+            <p tw="text-4xl font-bold mt-2 text-white font-bold">매우 높음</p>
           </div>
           {/* Loan Request */}
-          <div tw="flex items-center bg-gray-100 w-full rounded-2xl p-4 mb-4 shadow-md">
+          <div tw="flex items-center bg-blue-100 w-full rounded-2xl p-4 mb-4 shadow-md">
             <img src={messageIcon} alt="Message Icon" tw="mr-4 w-10 h-10" />
             <div>
               <p tw="text-lg">From. 아들</p>
@@ -50,10 +58,20 @@ const Main = () => {
           {/* Loan History Header */}
           <div tw="flex justify-between items-center w-full mb-4">
             <p tw="text-lg font-bold">아들(정우성)의 대출</p>
-            <button tw="text-blue-500">지난 내역</button>
+            <button tw="text-blue-500" onClick={handleHistory}>
+              지난 내역
+            </button>
           </div>
           {/* Loan History */}
           <div tw="grid grid-cols-2 gap-4 w-full">
+            <div
+              tw="w-full rounded-2xl shadow-lg p-4 flex bg-blue-900 flex-col items-center justify-center"
+              onClick={handleCreateLoan}
+            >
+              <p tw="font-bold text-2xl">대출</p>
+              <p tw="font-bold text-2xl">신청하기</p>
+            </div>
+
             <LoanCard
               amount="100,000"
               period="2024.05.12 ~ 2024.06.12"
