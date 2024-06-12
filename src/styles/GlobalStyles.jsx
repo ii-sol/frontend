@@ -114,7 +114,7 @@ export const CardContainer = styled.div`
 export const FormWrapper = styled.div`
   ${tw`flex
   flex-col
-  w-80
+  w-full
   gap-5
   rounded-[15px]
   h-full

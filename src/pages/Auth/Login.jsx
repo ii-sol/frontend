@@ -32,7 +32,7 @@ const Login = () => {
         <Input type="password" name="accountInfo" placeholder="비밀번호를 입력해주세요"></Input>
       </LoginForm>
       <StyledLink to="/signup">회원이 아니신가요?</StyledLink>
-      <S.BottomBtn text="로그인" onClick={login}></S.BottomBtn>
+      <S.BottomBtn onClick={login}>로그인</S.BottomBtn>
     </Layout>
   );
 };

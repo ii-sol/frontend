@@ -107,9 +107,9 @@ const AllowanceRegistration = () => {
               <img src={MoneyImage} alt="완료" />
               <S.Question>정기 용돈 등록 완료</S.Question>
               <S.CompleteCard style={{ gap: "2px" }}>
-                <div>양은수 님에게</div>
-                <div>6개월 동안</div>
-                <div tw="text-[#154B9B]">매달 {normalizeNumber(allowanceData.amount)}원</div>
+                <ResultPhrase>양은수 님에게</ResultPhrase>
+                <ResultPhrase>6개월 동안</ResultPhrase>
+                <ResultPhrase tw="text-[#154B9B]">매달 {normalizeNumber(allowanceData.amount)}원</ResultPhrase>
               </S.CompleteCard>
             </CompleteContainer>
           </S.StepWrapper>
@@ -132,12 +132,12 @@ const AllowanceRegistration = () => {
 export default AllowanceRegistration;
 
 const ResultWrapper = styled.div`
-  ${tw`flex flex-col justify-center items-center`}
+  ${tw`flex flex-col justify-center items-center gap-1`}
   height: calc(100vh - 200px);
 `;
 
 const ResultPhrase = styled.div`
-  ${tw`text-xl
+  ${tw`text-3xl
   font-bold
   text-center`}
 `;

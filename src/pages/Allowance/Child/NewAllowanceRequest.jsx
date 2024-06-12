@@ -125,7 +125,7 @@ const NewAllowanceRequest = () => {
           <S.StepWrapper>
             <div style={{ margin: "20px" }}>
               <S.Question style={{ margin: 0 }}>{requestData.parentName} 님에게</S.Question>
-              <S.Question style={{ margin: 0 }}>{requestData.amount}원을 부탁드릴게요</S.Question>
+              <S.Question style={{ margin: 0 }}>{normalizeNumber(requestData.amount)}원을 부탁드릴게요</S.Question>
               <SmallPhrase>용돈이 필요한 이유를 작성해주세요!</SmallPhrase>
             </div>
             <InputContainer>
