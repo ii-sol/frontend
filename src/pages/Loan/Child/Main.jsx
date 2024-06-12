@@ -1,6 +1,6 @@
 import React from "react";
 import tw from "twin.macro";
-import messageIcon from "~/assets/img/child/message2.svg"; // 이미지 파일 경로를 확인하세요.
+import messageIcon from "~/assets/img/child/message3.svg"; // 이미지 파일 경로를 확인하세요.
 import { MdArrowBackIos } from "react-icons/md";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import LoanCard from "../../../components/Loan/LoanCard";
@@ -48,7 +48,7 @@ const Main = () => {
           <div tw="flex items-center bg-blue-100 w-full rounded-2xl p-4 mb-4 shadow-md">
             <img src={messageIcon} alt="Message Icon" tw="mr-4 w-10 h-10" />
             <div>
-              <p tw="text-lg">From. 아들</p>
+              <p tw="text-lg">To. 아빠</p>
               <p tw="text-lg font-bold">자전거 사기</p>
             </div>
             <div tw="ml-auto">
@@ -57,7 +57,7 @@ const Main = () => {
           </div>
           {/* Loan History Header */}
           <div tw="flex justify-between items-center w-full mb-4">
-            <p tw="text-lg font-bold">아들(정우성)의 대출</p>
+            <p tw="text-lg font-bold">나의 대출</p>
             <button tw="text-blue-500" onClick={handleHistory}>
               지난 내역
             </button>
