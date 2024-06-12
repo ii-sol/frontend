@@ -146,6 +146,10 @@ const MainRouter = [
             path: "send",
             element: <Done />,
           },
+          {
+            path: "stocklist",
+            element: <StockList />,
+          },
         ],
       },
     ],
