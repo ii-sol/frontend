@@ -4,6 +4,8 @@ import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../../styles/GlobalStyles";
 
+import { normalizeNumber } from "../../../utils/NormalizeNumber";
+
 import Header from "~/components/common/Header";
 import Period from "../../../components/common/Period";
 import KeypadInput from "../../../components/Allowance/KeypadInput";
@@ -58,10 +60,6 @@ const AllowanceRegistration = () => {
     if (error) {
       alert(error);
     }
-  };
-
-  const normalizeNumber = (number) => {
-    return parseFloat(number).toLocaleString("en-US");
   };
 
   const isDisplayedNumberZero = () => displayedNumber === "0";
@@ -119,17 +117,11 @@ const AllowanceRegistration = () => {
 
         <S.ButtonWrapper>
           {step < 2 ? (
-            <S.BottomBtn onClick={handleNext} text="다음">
-              다음
-            </S.BottomBtn>
+            <S.BottomBtn onClick={handleNext}>다음</S.BottomBtn>
           ) : step === 2 ? (
-            <S.BottomBtn onClick={handleNext} text="보내기">
-              보내기
-            </S.BottomBtn>
+            <S.BottomBtn onClick={handleNext}>보내기</S.BottomBtn>
           ) : (
-            <S.BottomBtn onClick={handleAllowanceRedirect} text="완료">
-              완료
-            </S.BottomBtn>
+            <S.BottomBtn onClick={handleAllowanceRedirect}>완료</S.BottomBtn>
           )}
         </S.ButtonWrapper>
       </S.FormWrapper>

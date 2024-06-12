@@ -4,6 +4,8 @@ import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../../styles/GlobalStyles";
 
+import { normalizeNumber } from "../../../utils/NormalizeNumber";
+
 import Header from "~/components/common/Header";
 import Member from "~/components/common/Member";
 import Message from "~/components/common/Message";
@@ -99,10 +101,6 @@ const NewAllowanceRequest = () => {
     navigate("/allowance/irregular");
   };
 
-  const normalizeNumber = (number) => {
-    return parseFloat(number).toLocaleString("en-US");
-  };
-
   return (
     <S.Container>
       <Header left={"<"} title={"용돈 조르기"} right={"취소"} />
@@ -152,17 +150,7 @@ const NewAllowanceRequest = () => {
           </S.StepWrapper>
         )}
 
-        <S.ButtonWrapper>
-          {step < 3 ? (
-            <S.BottomBtn onClick={handleNext} text="다음">
-              다음
-            </S.BottomBtn>
-          ) : (
-            <S.BottomBtn onClick={handleAllowanceRedirect} text="완료">
-              완료
-            </S.BottomBtn>
-          )}
-        </S.ButtonWrapper>
+        <S.ButtonWrapper>{step < 3 ? <S.BottomBtn onClick={handleNext}>다음</S.BottomBtn> : <S.BottomBtn onClick={handleAllowanceRedirect}>완료</S.BottomBtn>}</S.ButtonWrapper>
       </S.FormWrapper>
     </S.Container>
   );
