@@ -65,6 +65,7 @@ export const Badge = styled.div`
   border-radius: 5px;
   background: ${(props) => props.$back};
   color: ${(props) => props.$font};
+  font-weight: 600;
 `;
 
 export const CenterDiv = styled.div`
