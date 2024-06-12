@@ -14,9 +14,11 @@ const RequestCard = ({ status, name, content, dday }) => {
         <p>{status === "send" ? `To.${name}` : `From.${name}`}</p>
         <p tw="font-bold">{content}</p>
       </div>
-      {/* <div tw="ml-auto">
-        <p tw="text-blue-500">{parseInt(dday, 10) === 0 ? "D-day" : `D-${dday}`}</p>
-      </div> */}
+      {status === "receive" && (
+        <div tw="ml-auto">
+          <StatusTag dday={dday}>{parseInt(dday, 10) === 0 ? "D-day" : `D-${dday}`}</StatusTag>
+        </div>
+      )}
     </Container>
   );
 };
@@ -29,4 +31,14 @@ const Container = styled.div`
 
 const Img = styled.img`
   ${tw`mr-4 w-10 h-10`}
+`;
+
+const StatusTag = styled.div`
+  font-size: 13px;
+  font-weight: 500;
+  padding: 4px 8px;
+  margin: 3px 0px;
+  border-radius: 5px;
+  color: ${({ dday }) => (dday === "0" ? "#CC3535" : dday ? "#346BAC" : "#000000")};
+  background-color: ${({ dday }) => (dday === "0" ? "#FFDCDC" : dday ? "#D5E0F1" : "#FFFFFF")};
 `;
