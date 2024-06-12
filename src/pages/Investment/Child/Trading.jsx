@@ -6,6 +6,8 @@ import { styled } from "styled-components";
 import * as S from "../../../styles/GlobalStyles";
 import { useLocation, useNavigate } from "react-router-dom";
 
+import { normalizeNumber } from "../../../utils/NormalizeNumber";
+
 //TODO: 매수주문증거금이 부족합니다. alert
 const Trading = () => {
   const { state } = useLocation();
@@ -22,10 +24,6 @@ const Trading = () => {
     if (displayedNumber.length > 1) {
       setDisplayedNumber((prevNumber) => prevNumber.slice(0, -1));
     }
-  };
-
-  const normalizeNumber = (number) => {
-    return parseFloat(number).toLocaleString("en-US");
   };
 
   // TODO: 계좌 확인, 매수매도 확인
@@ -63,19 +61,12 @@ const Trading = () => {
       <Header type="none" />
       <StocksAbout />
       <ColumDiv>
-        {state.trade === "buy" ? (
-          <InfoDiv>얼마나 살까요?</InfoDiv>
-        ) : (
-          <InfoDiv>얼마나 팔까요?</InfoDiv>
-        )}
+        {state.trade === "buy" ? <InfoDiv>얼마나 살까요?</InfoDiv> : <InfoDiv>얼마나 팔까요?</InfoDiv>}
         <Amount>
           {normalizeNumber(displayedNumber)} <span>주</span>
         </Amount>
         <Div>주문금액 52,425원</Div>
-        <Keypad
-          onNumberClick={handleNumberClick}
-          onBackspace={handleBackspace}
-        />
+        <Keypad onNumberClick={handleNumberClick} onBackspace={handleBackspace} />
         {state.trade === "buy" ? (
           <S.BuyBtn $background="#FF5959" onClick={() => onTrade()}>
             구매하기

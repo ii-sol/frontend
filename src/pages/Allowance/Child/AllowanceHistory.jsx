@@ -1,7 +1,6 @@
 import React from "react";
-import tw from "twin.macro";
-import { styled } from "styled-components";
 
+import * as S from "../../../styles/GlobalStyles";
 import Header from "~/components/common/Header";
 import HistoryFilter from "~/components/common/HistoryFilter";
 
@@ -80,13 +79,11 @@ const data = [
 
 const AllowanceHistory = () => {
   return (
-    <Container>
+    <S.Container>
       <Header left={"<"} title={"용돈 내역"} right={"취소"} />
       <HistoryFilter data={data} filterOptions={["전체", "나간 돈", "들어온 돈"]} emptyStateText="용돈 내역이 없어요"></HistoryFilter>
-    </Container>
+    </S.Container>
   );
 };
 
 export default AllowanceHistory;
-
-const Container = styled.div``;
