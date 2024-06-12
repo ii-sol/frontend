@@ -56,15 +56,7 @@ const Filter = () => {
   return (
     <Container>
       {options.map((option) => (
-<<<<<<< HEAD
-        <Button
-          key={option.status}
-          selected={selectedOption?.status === option.status}
-          onClick={() => handleOptionClick(option)}
-        >
-=======
         <Button key={option.status} selected={selectedOption?.status === option.status} onClick={() => handleOptionClick(option)}>
->>>>>>> adf090b (feat: 용돈 내역 관련 페이지 완료)
           {option.label}
         </Button>
       ))}

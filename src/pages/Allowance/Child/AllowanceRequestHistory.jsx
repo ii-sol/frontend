@@ -1,4 +1,5 @@
 import React from "react";
+import { styled } from "styled-components";
 
 import Header from "~/components/common/Header";
 import HistoryFilter from "~/components/common/History/HistoryFilter";
@@ -13,3 +14,5 @@ const AllowanceRequestHistory = () => {
 };
 
 export default AllowanceRequestHistory;
+
+const Container = styled.div``;
