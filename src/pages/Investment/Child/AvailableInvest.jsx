@@ -7,6 +7,7 @@ import StocksDetail from "../../../components/Investment/StocksDetail";
 import "react-spring-bottom-sheet/dist/style.css";
 import StockItem from "../../../components/Investment/StockItem";
 import { useLocation, useNavigate } from "react-router-dom";
+import { MdModeEditOutline } from "react-icons/md";
 
 const AvailableInvest = () => {
   const navigate = useNavigate();
@@ -28,7 +29,12 @@ const AvailableInvest = () => {
   return (
     <S.Container>
       <Header />
-      <TitleDiv>거래 가능 종목 리스트</TitleDiv>
+      <Wrapper>
+        <TitleDiv>거래 가능 종목 리스트</TitleDiv>
+        <Div onClick={() => navigate("/invest/stocklist")}>
+          <MdModeEditOutline />
+        </Div>
+      </Wrapper>
       <Box>
         {data.map((stock) => (
           <StockItem
@@ -39,9 +45,7 @@ const AvailableInvest = () => {
           />
         ))}
       </Box>
-      <S.BottomBtn
-        onClick={() => navigate("/suggest", { state: { type: "종목" } })}
-      >
+      <S.BottomBtn onClick={() => navigate("/invest/stocklist")}>
         새 종목 추가하기
       </S.BottomBtn>
 
@@ -56,6 +60,17 @@ const AvailableInvest = () => {
 };
 
 export default AvailableInvest;
+
+const Wrapper = styled.div`
+  position: relative;
+`;
+
+const Div = styled.div`
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  font-size: 25px;
+`;
 
 const TitleDiv = styled.div`
   font-size: 25px;

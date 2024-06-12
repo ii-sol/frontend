@@ -30,6 +30,8 @@ import ParentSelection from "../pages/Investment/Child/ParentSelection";
 import AllowanceRequestHistory from "../pages/Allowance/Child/AllowanceRequestHistory.jsx";
 import AllowanceManagement from "../pages/Allowance/Parent/AllowanceManagement.jsx";
 import AllowanceRegistration from "../pages/Allowance/Parent/AllowanceRegistration.jsx";
+import AllowanceHistoryP from "../pages/Allowance/Parent/AllowanceHistory.jsx";
+import StockList from "../pages/Investment/StockList";
 
 const MainRouter = [
   {
@@ -139,6 +141,10 @@ const MainRouter = [
           {
             path: "send",
             element: <Done />,
+          },
+          {
+            path: "stocklist",
+            element: <StockList />,
           },
         ],
       },
