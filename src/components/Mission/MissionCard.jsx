@@ -4,21 +4,20 @@ import { styled } from "styled-components";
 
 import { normalizeNumber } from "../../utils/NormalizeNumber";
 
-const RequestCardChild = ({ status, receiver, allowance, img, message }) => {
+const MissionCard = ({ dday, mission, allowance, img }) => {
   return (
     <Container>
       <Content>
-        {status && <StatusTag status={status}>{status}</StatusTag>}
-        <Receiver>{receiver}</Receiver>
+        {dday && <StatusTag dday={dday}>{parseInt(dday, 10) === 0 ? "D-day" : `D-${dday}`}</StatusTag>}
+        <Mission>{mission}</Mission>
         <Allowance>{normalizeNumber(allowance)}원</Allowance>
-        <Message>{message}</Message>
       </Content>
       <Img src={img} alt="아이콘" />
     </Container>
   );
 };
 
-export default RequestCardChild;
+export default MissionCard;
 
 const Container = styled.div`
   ${tw`
@@ -49,22 +48,17 @@ const StatusTag = styled.div`
   padding: 4px 8px;
   margin: 3px 0px;
   border-radius: 5px;
-  color: ${({ status }) => (status === "완료" ? "#346BAC" : status === "취소" ? "#CC3535" : "#000000")};
-  background-color: ${({ status }) => (status === "완료" ? "#D5E0F1" : status === "취소" ? "#FFDCDC" : "#FFFFFF")};
+  color: ${({ dday }) => (dday === "0" ? "#CC3535" : dday ? "#346BAC" : "#000000")};
+  background-color: ${({ dday }) => (dday === "0" ? "#FFDCDC" : dday ? "#D5E0F1" : "#FFFFFF")};
 `;
 
-const Receiver = styled.div`
+const Mission = styled.div`
   font-weight: 700;
 `;
 
 const Allowance = styled.div`
   color: #154b9b;
   font-size: 15px;
-  font-weight: 700;
-`;
-
-const Message = styled.div`
-  font-size: 12px;
   font-weight: 700;
 `;
 

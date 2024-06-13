@@ -44,11 +44,7 @@ const Period = () => {
         <p tw="text-4xl text-center mb-5">{selectedPeriod}</p>
         <ScrollContainer>
           {options.map((option) => (
-            <Option
-              key={option}
-              selected={option === selectedPeriod}
-              onClick={() => handleSelectChange(option)}
-            >
+            <Option key={option} selected={option === selectedPeriod} onClick={() => handleSelectChange(option)}>
               {option}
             </Option>
           ))}

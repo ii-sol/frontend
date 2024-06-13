@@ -2,11 +2,9 @@ import React from "react";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 
-const RequestCardParent = ({ allowance, message }) => {
-  const normalizeNumber = (number) => {
-    return parseFloat(number).toLocaleString("en-US");
-  };
+import { normalizeNumber } from "../../utils/NormalizeNumber";
 
+const RequestCardParent = ({ allowance, message }) => {
   return (
     <Container>
       <Content>

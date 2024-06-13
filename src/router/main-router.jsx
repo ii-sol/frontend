@@ -33,6 +33,7 @@ import AllowanceManagement from "../pages/Allowance/Parent/AllowanceManagement.j
 import AllowanceRegistration from "../pages/Allowance/Parent/AllowanceRegistration.jsx";
 import AllowanceHistoryP from "../pages/Allowance/Parent/AllowanceHistory.jsx";
 import StockList from "../pages/Investment/StockList";
+import InvestHistory from "../pages/Investment/InvestHistory";
 
 const MainRouter = [
   {
@@ -150,6 +151,10 @@ const MainRouter = [
           {
             path: "stocklist",
             element: <StockList />,
+          },
+          {
+            path: "history",
+            element: <InvestHistory />,
           },
         ],
       },

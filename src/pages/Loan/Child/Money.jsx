@@ -57,6 +57,12 @@ const Money = () => {
         <div tw="mt-4">
           <NextButton onClick={handleNext} />
         </div>
+        <div tw="mt-8">
+          <NextButton onClick={handleNext} />
+        </div>
+        <div tw="mt-8">
+          <NextButton onClick={handleNext} />
+        </div>
       </main>
     </div>
   );

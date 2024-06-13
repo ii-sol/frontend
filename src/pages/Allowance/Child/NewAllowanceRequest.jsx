@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
+import * as S from "../../../styles/GlobalStyles";
+
+import { normalizeNumber } from "../../../utils/NormalizeNumber";
 
 import Header from "~/components/common/Header";
-import Button from "~/components/common/Button";
 import Member from "~/components/common/Member";
 import Message from "~/components/common/Message";
 
@@ -100,117 +102,67 @@ const NewAllowanceRequest = () => {
   };
 
   return (
-    <Container>
+    <S.Container>
       <Header left={"<"} title={"용돈 조르기"} right={"취소"} />
-      <FormWrapper>
+      <S.FormWrapper>
         {step === 0 && (
-          <StepWrapper>
-            <Phrase>누구에게 용돈을 부탁드릴까요?</Phrase>
+          <S.StepWrapper>
+            <S.Question>누구에게 용돈을 부탁드릴까요?</S.Question>
             <MemberContainer>
               <Member img={ChildImage} name="박지민" role="부모" phoneNum="010-0000-0000" onClick={() => handleMemberChange("박지민", "010-0000-0000")}></Member>
               <Member img={ChildImage} name="엄마"></Member>
               <Member img={ChildImage} name="아빠" role="부모" phoneNum="010-4321-4321" onClick={() => handleMemberChange("아빠", "010-4321-4321")}></Member>
             </MemberContainer>
-          </StepWrapper>
+          </S.StepWrapper>
         )}
         {step === 1 && (
-          <StepWrapper>
-            <Phrase>얼마를 달라고 부탁드릴까요?</Phrase>
+          <S.StepWrapper>
+            <S.Question>얼마를 달라고 부탁드릴까요?</S.Question>
             <KeypadInput displayedNumber={displayedNumber} setDisplayedNumber={setDisplayedNumber} />
-          </StepWrapper>
+          </S.StepWrapper>
         )}
         {step === 2 && (
-          <StepWrapper>
-            <Summary>
-              <Phrase tw="m-0">{requestData.parentName} 님에게</Phrase>
-              <Phrase tw="m-0">{requestData.amount}원을 부탁드릴게요</Phrase>
+          <S.StepWrapper>
+            <div style={{ margin: "20px" }}>
+              <S.Question style={{ margin: 0 }}>{requestData.parentName} 님에게</S.Question>
+              <S.Question style={{ margin: 0 }}>{normalizeNumber(requestData.amount)}원을 부탁드릴게요</S.Question>
               <SmallPhrase>용돈이 필요한 이유를 작성해주세요!</SmallPhrase>
-            </Summary>
+            </div>
             <InputContainer>
               <Img src={MessageImage} alt="메세지" />
               <Message placeholder="합리적인 이유를 적어주세요!" maxLength="20" onChange={handleInputChange} value={requestData.content}></Message>
             </InputContainer>
-          </StepWrapper>
+          </S.StepWrapper>
         )}
         {step === 3 && (
-          <StepWrapper>
+          <S.StepWrapper>
             <CompleteContainer>
               <Img src={AllowanceImage} alt="완료" />
-              <Phrase>용돈 조르기 완료</Phrase>
-              <CompleteCard>
+              <S.Question>용돈 조르기 완료</S.Question>
+              <S.CompleteCard>
                 <div>{requestData.parentName}</div>
-                <div tw="text-[#154B9B]">{requestData.amount}</div>
-              </CompleteCard>
+                <div tw="text-[#154B9B]">{normalizeNumber(requestData.amount)}원</div>
+              </S.CompleteCard>
               <div tw="text-xs">
                 <span tw="text-[#154B9B]">{formattedDate}</span>까지 응답하지 않으면 취소돼요.
               </div>
             </CompleteContainer>
-          </StepWrapper>
+          </S.StepWrapper>
         )}
 
-        <ButtonWrapper>
-          {step < 3 ? (
-            <Button onClick={handleNext} text="다음">
-              다음
-            </Button>
-          ) : (
-            <Button onClick={handleAllowanceRedirect} text="완료">
-              완료
-            </Button>
-          )}
-        </ButtonWrapper>
-      </FormWrapper>
-    </Container>
+        <S.ButtonWrapper>{step < 3 ? <S.BottomBtn onClick={handleNext}>다음</S.BottomBtn> : <S.BottomBtn onClick={handleAllowanceRedirect}>완료</S.BottomBtn>}</S.ButtonWrapper>
+      </S.FormWrapper>
+    </S.Container>
   );
 };
 
 export default NewAllowanceRequest;
 
-const Container = tw.div`
-  flex
-  flex-col
-  gap-3
-  justify-center
-`;
-
-const FormWrapper = styled.div`
+const SmallPhrase = styled.div`
   ${tw`flex
-  flex-col
-  w-80
-  gap-5
-  rounded-[15px]
-  h-full
-  relative`}
-  height: calc(100% - 60px);
-`;
-
-const StepWrapper = styled.div`
-  ${tw`flex flex-col gap-4 flex-grow`}
-`;
-
-const ButtonWrapper = styled.div`
-  ${`flex
-  justify-between
-  mt-4`}
-`;
-
-const Summary = tw.div`
-  m-5
-`;
-
-const Phrase = tw.div`
-  flex
-  text-xl
-  font-bold
-  justify-center
-  m-5
-`;
-
-const SmallPhrase = tw.div`
-  flex
   text-sm
   font-medium
-  justify-center
+  justify-center`}
 `;
 
 const MemberContainer = styled.div`
@@ -222,9 +174,8 @@ const MemberContainer = styled.div`
 `;
 
 const Img = styled.img`
-  width: 143px;
+  width: 80%;
   height: auto;
-  margin-bottom: 16px;
   // box-shadow: 0px 0px 80px 0px rgba(151, 178, 221, 0.4);
 `;
 
@@ -233,36 +184,10 @@ const InputContainer = styled.div`
   font-size: 18px;
 `;
 
-const Amount = styled.div`
-  width: ${(props) => (props.displayedNumber && props.displayedNumber.length > 0 ? "auto" : "123px")}
-  height: 49px;
-  background: #f5f5f5;
-  padding: 10px;
-  border-radius: 15px;
-  font-size: 18px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-`;
-
-const CompleteContainer = tw.div`
-  flex
+const CompleteContainer = styled.div`
+  ${tw`flex
   flex-col
   items-center
   my-20
-  gap-2
-`;
-
-const CompleteCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  border-radius: 15px;
-  background: #f4f9ff;
-  font-size: 25px;
-  font-weight: 500;
-  align-items: center;
-  gap: 16px;
-  padding: 20px;
+  gap-2`}
 `;
