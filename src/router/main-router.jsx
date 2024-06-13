@@ -34,6 +34,7 @@ import AllowanceRegistration from "../pages/Allowance/Parent/AllowanceRegistrati
 import AllowanceHistoryP from "../pages/Allowance/Parent/AllowanceHistory.jsx";
 import StockList from "../pages/Investment/StockList";
 import InvestHistory from "../pages/Investment/InvestHistory";
+import MissionHistory from "../pages/Mission/Child/MissionHistory.jsx";
 
 const MainRouter = [
   {
@@ -108,12 +109,21 @@ const MainRouter = [
     ],
   },
   {
-    path: "/mission",
+    path: "",
     element: <MainLayout />,
     children: [
       {
-        index: true,
-        element: <Mission />,
+        path: "mission",
+        children: [
+          {
+            path: "",
+            element: <Mission />,
+          },
+          {
+            path: "history",
+            element: <MissionHistory />,
+          },
+        ],
       },
     ],
   },
