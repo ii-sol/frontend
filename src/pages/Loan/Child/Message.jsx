@@ -3,6 +3,8 @@ import tw from "twin.macro";
 import { useNavigate } from "react-router-dom";
 import message from "~/assets/img/child/message.svg";
 import NextButton from "../../../components/Loan/NextButton";
+import { useDispatch } from "react-redux";
+import { setLoanDetails } from "../../../store/action";
 
 const Message = () => {
   const [messageText, setMessageText] = useState("");
@@ -11,9 +13,9 @@ const Message = () => {
   const messageRef = useRef(null);
   const titleRef = useRef(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    // Adjust the height of the textarea to fit the content
     if (messageRef.current) {
       messageRef.current.style.height = "auto";
       messageRef.current.style.height = `${messageRef.current.scrollHeight}px`;
@@ -40,6 +42,7 @@ const Message = () => {
 
   const handleNext = () => {
     if (messageText.length > 0 && titleText.length > 0) {
+      dispatch(setLoanDetails({ message: messageText, title: titleText }));
       navigate("/loan/complete");
     } else {
       setError("제목과 메세지를 1자 이상 입력해주세요.");

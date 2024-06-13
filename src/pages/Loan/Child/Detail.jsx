@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 
 const LoanDetail = () => {
-  const navigate = useNavigate();
-
   const loanAmount = 200000;
   const loanPeriod = 9; // in months
   const interestRate = 4.5 / 100; // annual interest rate
@@ -117,7 +115,6 @@ const LoanDetail = () => {
               </thead>
               <tbody tw="text-right">
                 {repaymentPlan.map((item) => (
-
                   <tr key={item.installment} tw="hover:bg-gray-100">
                     <td tw="border border-gray-300 p-2">{item.installment}</td>
                     <td tw="border border-gray-300 p-2">
@@ -139,14 +136,12 @@ const LoanDetail = () => {
           </div>
         </section>
 
-
         <button
           tw="bg-blue-500 text-white py-2 px-4 rounded-2xl mt-6 w-full max-w-md"
           onClick={handleRepaymentCompletion}
         >
           상환 완료
         </button>
-
       </main>
     </div>
   );
