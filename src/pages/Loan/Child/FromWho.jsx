@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setLoanDetails } from "../../../store/action";
 import momIcon from "~/assets/img/child/MomIcon.svg";
+import dadIcon from "~/assets/img/child/MomIcon.svg"; // 아빠 아이콘 추가
 import NextButton from "../../../components/Loan/NextButton";
 
 const FromWho = () => {
@@ -50,14 +51,16 @@ const FromWho = () => {
         onClick={() => handleSelect("dad")}
       >
         <img
-          src={momIcon}
-          alt="Mom Icon"
+          src={dadIcon}
+          alt="Dad Icon"
           tw="h-16 w-16 rounded-l-2xl ml-6 mt-2"
         />
         <p tw="text-xl ml-6 mt-6">아빠</p>
       </div>
       {error && <div tw="text-red-500 text-sm text-center mt-2">{error}</div>}
-      <NextButton onClick={handleNext} />
+      <footer tw="fixed bottom-2 left-0 right-0 w-full p-4">
+        <NextButton onClick={handleNext} />
+      </footer>
     </div>
   );
 };

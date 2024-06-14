@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import tw from "twin.macro";
 import calender from "~/assets/img/child/calender.svg";
 import styled from "styled-components";
 import NextButton from "../../../components/Loan/NextButton";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setLoanDetails } from "../../../store/action"; // Correct the import statement
 
 const ScrollContainer = styled.div`
@@ -34,6 +34,7 @@ const Period = () => {
 
   const handleNext = () => {
     dispatch(setLoanDetails({ period: parseInt(selectedPeriod) }));
+    console.log(selectedPeriod);
     navigate("/loan/message");
   };
 
@@ -44,7 +45,11 @@ const Period = () => {
         <p tw="text-4xl text-center mb-5">{selectedPeriod}</p>
         <ScrollContainer>
           {options.map((option) => (
-            <Option key={option} selected={option === selectedPeriod} onClick={() => handleSelectChange(option)}>
+            <Option
+              key={option}
+              selected={option === selectedPeriod}
+              onClick={() => handleSelectChange(option)}
+            >
               {option}
             </Option>
           ))}

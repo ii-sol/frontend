@@ -1,6 +1,6 @@
 import { createSelector } from "reselect";
 
-const selectLoanState = (state) => state.loan;
+const selectLoanState = (state) => (state) => loan;
 
 export const selectLoanDetails = createSelector(
   [selectLoanState],

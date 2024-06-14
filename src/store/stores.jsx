@@ -27,7 +27,7 @@ const rootReducer = persistReducer(
 );
 
 const myMiddlewares = [logger];
-export const store = configureStore({
+export const stores = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -37,4 +37,4 @@ export const store = configureStore({
     }).concat(myMiddlewares),
 });
 
-export const persistor = persistStore(store);
+export const persistor = persistStore(stores);

@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useParams, useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 
 const LoanDetail = () => {
-  const loanAmount = 200000;
-  const loanPeriod = 9; // in months
-  const interestRate = 4.5 / 100; // annual interest rate
-  const applicationDate = "2024-06-03";
-  const maturityDate = "2024-11-03";
+  const { loanId } = useParams();
+  const navigate = useNavigate();
+  const [loanDetail, setLoanDetail] = useState(null);
+  const [totalInterest, setTotalInterest] = useState(0);
+  const [repaymentPlan, setRepaymentPlan] = useState([]);
 
   const formatAmount = (amount) => {
     return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
   const calculateEqualInstallments = (amount, rate, period) => {
-    const monthlyInterestRate = rate / 12;
+    const monthlyInterestRate = rate / 12 / 100;
     const installmentAmount =
       (amount *
         (monthlyInterestRate * Math.pow(1 + monthlyInterestRate, period))) /
@@ -23,7 +24,7 @@ const LoanDetail = () => {
   };
 
   const calculateRepaymentPlan = (amount, rate, period) => {
-    const monthlyInterestRate = rate / 12;
+    const monthlyInterestRate = rate / 12 / 100;
     const installmentAmount = calculateEqualInstallments(amount, rate, period);
     const repaymentPlan = [];
 
@@ -44,30 +45,65 @@ const LoanDetail = () => {
     return repaymentPlan;
   };
 
-  const [totalInterest, setTotalInterest] = useState(0);
-  const [repaymentPlan, setRepaymentPlan] = useState([]);
-
   useEffect(() => {
-    const plan = calculateRepaymentPlan(loanAmount, interestRate, loanPeriod);
-    setRepaymentPlan(plan);
-    setTotalInterest(plan.reduce((acc, cur) => acc + cur.interest, 0));
-  }, []);
+    if (loanId !== undefined) {
+      const fetchLoanDetail = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:8082/child/loan/detail/${loanId}`
+          );
+          const data = response.data.response;
+
+          console.log(data);
+
+          setLoanDetail(data);
+
+          const plan = calculateRepaymentPlan(
+            data.amount,
+            data.interestRate,
+            data.period
+          );
+          setRepaymentPlan(plan);
+          setTotalInterest(plan.reduce((acc, cur) => acc + cur.interest, 0));
+        } catch (error) {
+          console.error("Failed to fetch loan detail", error);
+        }
+      };
+
+      fetchLoanDetail();
+    }
+  }, [loanId]);
 
   const handleRepaymentCompletion = () => {
     // Handle the repayment completion logic here
   };
 
+  if (!loanDetail) {
+    return <div>Loading...</div>;
+  }
+
+  const {
+    amount,
+    period,
+    interestRate,
+    createDate,
+    dueDate,
+    title,
+    message,
+    parentName,
+  } = loanDetail;
+
   return (
     <div tw="flex flex-col h-screen p-4">
       <main tw="flex flex-col items-center bg-white rounded-2xl p-6">
         <div tw="text-center">
-          <p tw="text-lg text-gray-600">D-48</p>
-          <p tw="text-4xl font-bold mt-2">{formatAmount(loanAmount)}원</p>
+          <p tw="text-lg text-gray-600">{title}</p>
+          <p tw="text-4xl font-bold mt-2">{formatAmount(amount)}원</p>
         </div>
 
         <div tw="bg-blue-100 rounded-2xl p-4 mt-6 w-full shadow-lg">
-          <p tw="text-left font-bold">To. 엄마</p>
-          <p tw="mt-2 text-gray-700">자전거가 너무 사고 싶어요</p>
+          <p tw="text-left font-bold">To. {parentName}</p>
+          <p tw="mt-2 text-gray-700">{message}</p>
         </div>
 
         <section tw="mt-6 w-full">
@@ -75,11 +111,11 @@ const LoanDetail = () => {
           <div tw="bg-blue-100 rounded-2xl p-4 mt-2 shadow-md">
             <p tw="flex justify-between text-gray-700">
               <span>대출 금액</span>
-              <span>{formatAmount(loanAmount)}원</span>
+              <span>{formatAmount(amount)}원</span>
             </p>
             <p tw="flex justify-between mt-2 text-gray-700">
               <span>대출 기간</span>
-              <span>{loanPeriod}개월</span>
+              <span>{period}개월</span>
             </p>
             <p tw="flex justify-between mt-2 text-gray-700">
               <span>총 대출 이자</span>
@@ -87,15 +123,15 @@ const LoanDetail = () => {
             </p>
             <p tw="flex justify-between mt-2 text-gray-700">
               <span>대출 금리</span>
-              <span>4.5%</span>
+              <span>{interestRate}%</span>
             </p>
             <p tw="flex justify-between mt-2 text-gray-700">
               <span>신청일</span>
-              <span>{applicationDate}</span>
+              <span>{createDate}</span>
             </p>
             <p tw="flex justify-between mt-2 text-gray-700">
               <span>만기일</span>
-              <span>{maturityDate}</span>
+              <span>{dueDate}</span>
             </p>
           </div>
         </section>
