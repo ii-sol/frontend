@@ -15,7 +15,7 @@ const MissionReceiveDetail = () => {
       <Header left={"<"} title={"미션"} right={""} />
       <S.StepWrapper>
         <CompleteContainer>
-          <S.Question>수락을 기다리고 있어요!</S.Question>
+          <S.Question tw="text-[25px]">미션을 요청받았어요!</S.Question>
           <Img src={DishwashingImg} alt="mission" />
           <S.Question>엄마</S.Question>
           <S.CompleteCard>

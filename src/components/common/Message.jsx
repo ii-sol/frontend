@@ -3,7 +3,7 @@ import tw from "twin.macro";
 import { styled } from "styled-components";
 import { FiXCircle } from "react-icons/fi";
 
-const Message = ({ placeholder, maxLength, onChange, info }) => {
+const Message = ({ placeholder, maxLength, onChange, info, value }) => {
   console.log(info);
   const [inputValue, setInputValue] = useState("");
 
@@ -39,7 +39,7 @@ const Message = ({ placeholder, maxLength, onChange, info }) => {
         </InfoContainer>
       )}
       <Wrapper>
-        <Textarea placeholder={placeholder} value={inputValue} onChange={handleChange} maxLength={maxLength} $height={height} />
+        <Textarea placeholder={placeholder} value={value || inputValue} onChange={handleChange} maxLength={maxLength} $height={height} />
         {inputValue.length > 0 && (
           <ClearButton onClick={handleClearInput} $textareaHeight={height - 60}>
             <FiXCircle />

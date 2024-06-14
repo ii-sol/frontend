@@ -38,6 +38,7 @@ import MissionHistory from "../pages/Mission/Child/MissionHistory.jsx";
 import MissionDetail from "../pages/Mission/Child/MissionDetail.jsx";
 import MissionSendDetail from "../pages/Mission/Child/MissionSendDetail.jsx";
 import MissionReceiveDetail from "../pages/Mission/Child/MissionReceiveDetail.jsx";
+import CreateMission from "../pages/Mission/Child/CreateMission.jsx";
 
 const MainRouter = [
   {
@@ -129,6 +130,10 @@ const MainRouter = [
           {
             path: "history",
             element: <MissionHistory />,
+          },
+          {
+            path: "create",
+            element: <CreateMission />,
           },
           {
             path: "request/send/detail", // requests/:id/details
