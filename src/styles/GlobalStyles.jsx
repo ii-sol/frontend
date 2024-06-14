@@ -128,7 +128,7 @@ export const StepWrapper = styled.div`
 `;
 
 export const ButtonWrapper = styled.div`
-  ${`flex
+  ${tw`flex
   justify-between
   mt-4`}
 `;
@@ -138,10 +138,42 @@ export const CompleteCard = styled.div`
   flex-direction: column;
   width: 100%;
   border-radius: 15px;
-  background: #f4f9ff;
+  background: #e9f2ff;
   font-size: 25px;
   font-weight: 500;
   align-items: center;
   gap: 16px;
   padding: 20px;
+`;
+
+export const BottomBtnWrapper = styled.div`
+  ${tw`flex justify-center gap-7`}
+`;
+
+export const acceptBtn = styled.button`
+  border-radius: 15px;
+  background: #CDE1FF;
+  display: flex;
+  width: 113px;
+  height: 48px
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #154B9B;
+  font-size: 20px;
+  padding:8px;
+`;
+
+export const rejectBtn = styled.button`
+  border-radius: 15px;
+  background:#FFD9CD;
+  display: flex;
+  width: 113px;
+  height: 48px
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #9B1D15;
+  font-size: 20px;
+  padding:8px;
 `;

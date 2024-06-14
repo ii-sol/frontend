@@ -35,6 +35,9 @@ import AllowanceHistoryP from "../pages/Allowance/Parent/AllowanceHistory.jsx";
 import StockList from "../pages/Investment/StockList";
 import InvestHistory from "../pages/Investment/InvestHistory";
 import MissionHistory from "../pages/Mission/Child/MissionHistory.jsx";
+import MissionDetail from "../pages/Mission/Child/MissionDetail.jsx";
+import MissionSendDetail from "../pages/Mission/Child/MissionSendDetail.jsx";
+import MissionReceiveDetail from "../pages/Mission/Child/MissionReceiveDetail.jsx";
 
 const MainRouter = [
   {
@@ -120,8 +123,20 @@ const MainRouter = [
             element: <Mission />,
           },
           {
+            path: "detail",
+            element: <MissionDetail />,
+          },
+          {
             path: "history",
             element: <MissionHistory />,
+          },
+          {
+            path: "request/send/detail", // requests/:id/details
+            element: <MissionSendDetail />,
+          },
+          {
+            path: "request/:id/detail",
+            element: <MissionReceiveDetail />,
           },
         ],
       },
