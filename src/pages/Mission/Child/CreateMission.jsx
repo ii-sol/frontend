@@ -87,7 +87,7 @@ const CreateMission = () => {
           <DueDate onClick={() => setOpenDueDate(true)}>{requestData.dueDate ? requestData.dueDate : "미션 완료일 📆"}</DueDate>
           <Message placeholder="미션을 입력해주세요" maxLength="20" onChange={handleInputChange} value={requestData.content} />
         </InputContainer>
-        <S.BottomBtn>다음</S.BottomBtn>
+        <S.BottomBtn onClick={handleNext}>다음</S.BottomBtn>
       </S.StepWrapper>
 
       <StyledBottomSheet open={openMissionList} onDismiss={handleDismissMissionList}>

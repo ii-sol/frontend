@@ -39,6 +39,7 @@ import MissionDetail from "../pages/Mission/Child/MissionDetail.jsx";
 import MissionSendDetail from "../pages/Mission/Child/MissionSendDetail.jsx";
 import MissionReceiveDetail from "../pages/Mission/Child/MissionReceiveDetail.jsx";
 import CreateMission from "../pages/Mission/Child/CreateMission.jsx";
+import CreateMissionPrice from "../pages/Mission/Child/CreateMissionPrice.jsx";
 
 const MainRouter = [
   {
@@ -134,6 +135,10 @@ const MainRouter = [
           {
             path: "create",
             element: <CreateMission />,
+          },
+          {
+            path: "amount",
+            element: <CreateMissionPrice />,
           },
           {
             path: "request/send/detail", // requests/:id/details

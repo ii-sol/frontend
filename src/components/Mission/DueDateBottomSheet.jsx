@@ -58,7 +58,7 @@ const DueDateBottomSheet = ({ requestData, setRequestData, open, onDismiss }) =>
     minDate: today,
     dateFormat: "yyyy-MM-dd",
     locale: ko,
-    renderCustomHeader: ({ date, changeYear, changeMonth, decreaseMonth, increaseMonth, prevMonthButtonDisabled, nextMonthButtonDisabled }) => (
+    renderCustomHeader: ({ date, decreaseMonth, increaseMonth, prevMonthButtonDisabled, nextMonthButtonDisabled }) => (
       <CustomHeader>
         <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
           {"<"}
