@@ -24,9 +24,12 @@ const missionSlice = createSlice({
     setParentId(state, action) {
       state.parentId = action.payload;
     },
+    setInitialState(state) {
+      state.value = initialState;
+    },
   },
 });
 
-export const { setContent, setPrice, setDueDate, setParentId } = missionSlice.actions;
+export const { setContent, setPrice, setDueDate, setParentId, setInitialState } = missionSlice.actions;
 
 export default missionSlice.reducer;

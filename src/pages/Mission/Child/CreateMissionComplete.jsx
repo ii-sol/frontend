@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { setInitialState } from "../../../store/reducers/Mission/mission";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../../styles/GlobalStyles";
@@ -12,6 +13,8 @@ import CompleteImage from "~/assets/img/common/complete.svg";
 
 const CreateMissionComplete = () => {
   const requestData = useSelector((state) => state.mission);
+  const dispatch = useDispatch();
+
   const today = new Date();
   const dueDate = new Date(today.getTime() + 3 * 24 * 60 * 60 * 1000);
 
@@ -23,6 +26,7 @@ const CreateMissionComplete = () => {
   const navigate = useNavigate();
 
   const handleNext = () => {
+    dispatch(setInitialState());
     navigate("/mission");
   };
 

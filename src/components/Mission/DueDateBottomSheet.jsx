@@ -67,7 +67,7 @@ const DueDateBottomSheet = ({ requestData, dispatch, open, onDismiss }) => {
         <DatePicker {...datePickerProps} inline />
       </DatePickerWrapper>
 
-      <NoDueDate onClick={handleNoDueDate} noDueDateSelected={noDueDateSelected}>
+      <NoDueDate $noDueDateSelected={noDueDateSelected} onClick={handleNoDueDate}>
         ✓ 완료일 없이 미션 요청하기
       </NoDueDate>
       <SaveButton onClick={handleSave}>확인</SaveButton>
@@ -160,7 +160,7 @@ const NoDueDate = styled.div`
   bottom: 20px;
   left: 20px;
   background-color: transparent;
-  color: ${({ noDueDateSelected }) => (noDueDateSelected ? "#154b9b" : "#97b2dd")};
+  color: ${(props) => (props.$noDueDateSelected ? "#154b9b" : "#97b2dd")};
   border: none;
   cursor: pointer;
   font-size: 14px;
@@ -168,7 +168,7 @@ const NoDueDate = styled.div`
 
   &:hover,
   &:active {
-    color: ${({ noDueDateSelected }) => (noDueDateSelected ? "#154b9b" : "#97b2dd")};
+    color: ${(props) => (props.$noDueDateSelected ? "#154b9b" : "#97b2dd")};
     -webkit-tap-highlight-color: transparent;
   }
 `;
