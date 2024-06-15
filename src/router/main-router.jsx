@@ -151,11 +151,11 @@ const MainRouter = [
             element: <CreateMissionComplete />,
           },
           {
-            path: "request/send/detail", // requests/:id/details
+            path: "request/send/detail", // request/:id
             element: <MissionSendDetail />,
           },
           {
-            path: "request/:id/detail",
+            path: "request/receive/detail", // request/:id
             element: <MissionReceiveDetail />,
           },
         ],
