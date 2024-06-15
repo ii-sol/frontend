@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
+import { setDueDate } from "../../store/reducers/Mission/mission";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import ko from "date-fns/locale/ko";
 
-const DueDateBottomSheet = ({ requestData, setRequestData, open, onDismiss }) => {
+const DueDateBottomSheet = ({ requestData, dispatch, open, onDismiss }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [noDueDateSelected, setNoDueDateSelected] = useState(false);
   const today = new Date();
@@ -17,37 +18,24 @@ const DueDateBottomSheet = ({ requestData, setRequestData, open, onDismiss }) =>
 
   const handleSave = () => {
     if (selectedDate && !noDueDateSelected) {
-      setRequestData({
-        ...requestData,
-        dueDate: selectedDate.toLocaleDateString(),
-      });
+      dispatch(setDueDate(selectedDate.toLocaleDateString()));
+      onDismiss();
     } else if (noDueDateSelected) {
-      setRequestData({
-        ...requestData,
-        dueDate: "완료일 없음",
-      });
+      dispatch(setDueDate("완료일 없음"));
+      onDismiss();
     } else {
-      setRequestData({
-        ...requestData,
-        dueDate: "",
-      });
+      dispatch(setDueDate(""));
+      onDismiss();
     }
-    onDismiss();
   };
 
   const handleNoDueDate = () => {
     setSelectedDate("");
     if (!noDueDateSelected) {
-      setRequestData({
-        ...requestData,
-        dueDate: "완료일 없음",
-      });
+      dispatch(setDueDate("완료일 없음"));
       setNoDueDateSelected(true);
     } else {
-      setRequestData({
-        ...requestData,
-        dueDate: "",
-      });
+      dispatch(setDueDate(""));
       setNoDueDateSelected(false);
     }
   };

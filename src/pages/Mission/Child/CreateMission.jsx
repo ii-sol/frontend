@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { setContent } from "../../../store/reducers/Mission/mission";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../../styles/GlobalStyles";
@@ -34,21 +36,13 @@ const CreateMission = () => {
   const [selectedOption, setSelectedOption] = useState(missionOptions[0]);
   const navigate = useNavigate();
 
-  const [requestData, setRequestData] = useState({
-    content: "",
-    childId: "",
-    parentId: "",
-    price: "",
-    dueDate: "",
-  });
+  const requestData = useSelector((state) => state.mission);
+  const dispatch = useDispatch();
 
   const filteredMissions = selectedOption ? missionList.filter((mission) => mission.type === selectedOption.status) : missionList;
 
-  const handleInputChange = (message) => {
-    setRequestData({
-      ...requestData,
-      content: message,
-    });
+  const handleInputChange = (content) => {
+    dispatch(setContent({ content: content }));
   };
 
   const handleOptionClick = (option) => {
@@ -56,10 +50,7 @@ const CreateMission = () => {
   };
 
   const handleMissionCardClick = (content) => {
-    setRequestData({
-      ...requestData,
-      content: content,
-    });
+    dispatch(setContent(content));
     handleDismissMissionList();
   };
 
@@ -85,7 +76,7 @@ const CreateMission = () => {
         <InputContainer>
           <Img src={MissionMainImg} alt="mission" />
           <DueDate onClick={() => setOpenDueDate(true)}>{requestData.dueDate ? requestData.dueDate : "미션 완료일 📆"}</DueDate>
-          <Message placeholder="미션을 입력해주세요" maxLength="20" onChange={handleInputChange} value={requestData.content} />
+          <Message placeholder="미션을 입력해주세요" maxLength="20" onChange={handleInputChange} value={requestData.content}></Message>
         </InputContainer>
         <S.BottomBtn onClick={handleNext}>다음</S.BottomBtn>
       </S.StepWrapper>
@@ -109,7 +100,7 @@ const CreateMission = () => {
         <Create onClick={handleDismissMissionList}>직접 만들기</Create>
       </StyledBottomSheet>
 
-      {openDueDate && <DueDateBottomSheet requestData={requestData} setRequestData={setRequestData} open={openDueDate} onDismiss={handleDismissDueDate} />}
+      {openDueDate && <DueDateBottomSheet requestData={requestData} dispatch={dispatch} open={openDueDate} onDismiss={handleDismissDueDate} />}
     </S.Container>
   );
 };

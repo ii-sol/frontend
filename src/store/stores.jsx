@@ -1,19 +1,11 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
-import {
-  FLUSH,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-  REHYDRATE,
-  persistReducer,
-  persistStore,
-} from "redux-persist";
+import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistReducer, persistStore } from "redux-persist";
 import logger from "redux-logger";
 
 //reducers
 import historyReducer from "./reducers/common/history";
+import missionReducer from "./reducers/Mission/mission";
 
 const rootPersistConfig = {
   key: "root",
@@ -21,10 +13,7 @@ const rootPersistConfig = {
   whitelist: [],
 };
 
-const rootReducer = persistReducer(
-  rootPersistConfig,
-  combineReducers({ history: historyReducer })
-);
+const rootReducer = persistReducer(rootPersistConfig, combineReducers({ history: historyReducer, mission: missionReducer }));
 
 const myMiddlewares = [logger];
 export const store = configureStore({

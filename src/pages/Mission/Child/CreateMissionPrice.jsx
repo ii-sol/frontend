@@ -1,34 +1,25 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { setPrice } from "../../../store/reducers/Mission/mission";
 import tw from "twin.macro";
-import { styled } from "styled-components";
 import * as S from "../../../styles/GlobalStyles";
-
-import { normalizeNumber } from "../../../utils/NormalizeNumber";
 
 import Header from "~/components/common/Header";
 import KeypadInput from "../../../components/Allowance/KeypadInput";
 
 const CreateMissionPrice = () => {
   const [displayedNumber, setDisplayedNumber] = useState("0");
-  const [requestData, setRequestData] = useState({
-    content: "",
-    childId: "",
-    parentId: "",
-    price: "",
-    dueDate: "",
-  });
 
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const handleNext = () => {
     if (isDisplayedNumberZero()) {
       alert("금액을 입력해주세요!");
     } else {
-      setRequestData({
-        ...requestData,
-        price: parseInt(displayedNumber),
-      });
+      dispatch(setPrice(parseInt(displayedNumber)));
       navigate("/mission/member");
     }
   };
