@@ -26,7 +26,7 @@ const RequestCard = ({ status, name, content, dday }) => {
 export default RequestCard;
 
 const Container = styled.div`
-  ${tw`flex items-center bg-[#F4F9FF] w-full rounded-2xl text-lg p-4 my-4 shadow-md`}
+  ${tw`flex items-center bg-[#E9F2FF] w-full rounded-2xl text-lg p-4 my-4`}
 `;
 
 const Img = styled.img`

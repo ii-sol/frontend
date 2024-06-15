@@ -34,6 +34,14 @@ import AllowanceRegistration from "../pages/Allowance/Parent/AllowanceRegistrati
 import AllowanceHistoryP from "../pages/Allowance/Parent/AllowanceHistory.jsx";
 import StockList from "../pages/Investment/StockList";
 import InvestHistory from "../pages/Investment/InvestHistory";
+import MissionHistory from "../pages/Mission/Child/MissionHistory.jsx";
+import MissionDetail from "../pages/Mission/Child/MissionDetail.jsx";
+import MissionSendDetail from "../pages/Mission/Child/MissionSendDetail.jsx";
+import MissionReceiveDetail from "../pages/Mission/Child/MissionReceiveDetail.jsx";
+import CreateMission from "../pages/Mission/Child/CreateMission.jsx";
+import CreateMissionPrice from "../pages/Mission/Child/CreateMissionPrice.jsx";
+import CreateMissionMember from "../pages/Mission/Child/CreateMissionMember.jsx";
+import CreateMissionComplete from "../pages/Mission/Child/CreateMissionComplete.jsx";
 
 const MainRouter = [
   {
@@ -108,12 +116,49 @@ const MainRouter = [
     ],
   },
   {
-    path: "/mission",
+    path: "",
     element: <MainLayout />,
     children: [
       {
-        index: true,
-        element: <Mission />,
+        path: "mission",
+        children: [
+          {
+            path: "",
+            element: <Mission />,
+          },
+          {
+            path: "detail",
+            element: <MissionDetail />,
+          },
+          {
+            path: "history",
+            element: <MissionHistory />,
+          },
+          {
+            path: "create",
+            element: <CreateMission />,
+          },
+          {
+            path: "amount",
+            element: <CreateMissionPrice />,
+          },
+          {
+            path: "member",
+            element: <CreateMissionMember />,
+          },
+          {
+            path: "complete",
+            element: <CreateMissionComplete />,
+          },
+          {
+            path: "request/send/detail", // requests/:id/details
+            element: <MissionSendDetail />,
+          },
+          {
+            path: "request/:id/detail",
+            element: <MissionReceiveDetail />,
+          },
+        ],
       },
     ],
   },

@@ -44,6 +44,14 @@ const Filter = () => {
       ];
       setOptions(newOptions);
       setSelectedOption(newOptions[0]);
+    } else if (location.pathname === "/mission/history") {
+      const newOptions = [
+        { label: "전체", status: 0 },
+        { label: "완료", status: 1 },
+        { label: "취소", status: 2 },
+      ];
+      setOptions(newOptions);
+      setSelectedOption(newOptions[0]);
     } else {
     }
   }, [location.pathname]);
