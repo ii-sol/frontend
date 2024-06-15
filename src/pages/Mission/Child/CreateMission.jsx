@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../../styles/GlobalStyles";
@@ -8,6 +9,8 @@ import MissionMainImg from "~/assets/img/Mission/missionMain.svg";
 
 import Header from "~/components/common/Header";
 import Message from "../../../components/common/Message";
+
+import DueDateBottomSheet from "../../../components/Mission/DueDateBottomSheet";
 
 const missionOptions = [
   { label: "집안일 돕기", status: 0 },
@@ -26,8 +29,10 @@ const missionList = [
 ];
 
 const CreateMission = () => {
-  const [open, setOpen] = useState(true);
+  const [openMissionList, setOpenMissionList] = useState(true);
+  const [openDueDate, setOpenDueDate] = useState(false);
   const [selectedOption, setSelectedOption] = useState(missionOptions[0]);
+  const navigate = useNavigate();
 
   const [requestData, setRequestData] = useState({
     content: "",
@@ -55,11 +60,21 @@ const CreateMission = () => {
       ...requestData,
       content: content,
     });
-    handleDismiss();
+    handleDismissMissionList();
   };
 
-  const handleDismiss = () => {
-    setOpen(false);
+  const handleDismissMissionList = () => {
+    setOpenMissionList(false);
+  };
+
+  const handleDismissDueDate = () => {
+    setOpenDueDate(false);
+  };
+
+  const handleNext = () => {
+    if (requestData.dueDate && requestData.content) {
+      navigate("/mission/amount");
+    }
   };
 
   return (
@@ -69,13 +84,13 @@ const CreateMission = () => {
         <S.Question tw="text-[25px]">어떤 미션을 요청할까요?</S.Question>
         <InputContainer>
           <Img src={MissionMainImg} alt="mission" />
-          <DueDate>미션 완료일 📆</DueDate>
+          <DueDate onClick={() => setOpenDueDate(true)}>{requestData.dueDate ? requestData.dueDate : "미션 완료일 📆"}</DueDate>
           <Message placeholder="미션을 입력해주세요" maxLength="20" onChange={handleInputChange} value={requestData.content} />
         </InputContainer>
         <S.BottomBtn>다음</S.BottomBtn>
       </S.StepWrapper>
 
-      <StyledBottomSheet open={open} onDismiss={handleDismiss}>
+      <StyledBottomSheet open={openMissionList} onDismiss={handleDismissMissionList}>
         <S.Question tw="text-[25px]">미션함</S.Question>
         <MissionOptionWrapper>
           {missionOptions.map((option) => (
@@ -91,8 +106,10 @@ const CreateMission = () => {
             </MissionCard>
           ))}
         </S.CardContainer>
-        <Create onClick={handleDismiss}>직접 만들기</Create>
+        <Create onClick={handleDismissMissionList}>직접 만들기</Create>
       </StyledBottomSheet>
+
+      {openDueDate && <DueDateBottomSheet requestData={requestData} setRequestData={setRequestData} open={openDueDate} onDismiss={handleDismissDueDate} />}
     </S.Container>
   );
 };
@@ -100,8 +117,7 @@ const CreateMission = () => {
 export default CreateMission;
 
 const StyledBottomSheet = styled(BottomSheet)`
-  height: 80vh;
-  fontfamily: "Pretendard Variable";
+  font-family: "Pretendard Variable";
   & > div {
     height: calc(100% - 100px);
     padding: 0 30px 30px 30px;
