@@ -131,68 +131,6 @@ const HistoryListItem = () => {
     }
     setData(updatedData);
   }, [status]);
-=======
-import React from "react";
-import { styled } from "styled-components";
-import * as S from "../../styles/GlobalStyles";
-
-const HistoryListItem = () => {
-  const data = [
-    {
-      proposeId: 0,
-      type: 1,
-      status: 0,
-      name: "삼성전자",
-      code: "005930",
-      quantity: 3,
-      trading: 1,
-      message:
-        "메세지 안녕하세요. 아버님 제가 이번에 기가 막힌 종목을 찾아왔는데 이 주식이야 말로 저희 집을 바로 세울 기업입니다. 이 기업 앞으로 어쩌고",
-      who: "엄마",
-    },
-    {
-      proposeId: 1,
-      type: 1,
-      status: 1,
-      name: "SK하이닉스",
-      code: "005930",
-      quantity: 5,
-      trading: 1,
-      message: "투자 제안 메세지",
-      who: "아빠",
-    },
-    {
-      proposeId: 2,
-      type: 0,
-      status: 3,
-      name: "SK하이닉스",
-      code: "005930",
-      message: "종목 제안 메세지",
-      who: "아빠",
-      direction: 1,
-    },
-    {
-      proposeId: 3,
-      type: 0,
-      status: 2,
-      name: "삼성물산",
-      code: "005930",
-      message: "종목 제안 메세지",
-      who: "엄마",
-      direction: 0,
-    },
-    {
-      proposeId: 3,
-      type: 0,
-      status: 3,
-      name: "삼성물산",
-      code: "005930",
-      message:
-        "메세지 안녕하세요. 아버님 제가 이번에 기가 막힌 종목을 찾아왔는데 이 주식이야 말로 저희 집을 바로 세울 기업입니다. 이 기업 앞으로 어쩌고",
-      who: "엄마",
-      direction: 0,
-    },
-  ];
 
   const renderBadge = (status) => {
     switch (status) {

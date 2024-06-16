@@ -5,7 +5,7 @@ import HistoryFilter from "../../components/common/History/HistoryFilter";
 
 const InvestHistory = () => {
   return (
-    <S.Container
+    <S.Container>
       <Header type="none" title="제안 내역" />
       <HistoryFilter />
     </S.Container>
