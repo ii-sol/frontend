@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { ThemeProvider, styled } from "styled-components";
 import { FaRegTrashAlt } from "react-icons/fa";
 
-const StockItem = ({ stock, setOpen, setSelectedStockId }) => {
+const StockItem = ({ stock, setOpen, onClick }) => {
   const ref = useRef();
   let startX;
 
@@ -30,8 +30,8 @@ const StockItem = ({ stock, setOpen, setSelectedStockId }) => {
     ref.current.removeEventListener("touchmove", onTouchMove);
 
   const handleClick = () => {
+    onClick();
     setOpen(true);
-    setSelectedStockId(stock.id);
   };
 
   const theme = {
@@ -47,7 +47,7 @@ const StockItem = ({ stock, setOpen, setSelectedStockId }) => {
           onClick={handleClick}
         >
           <StockDiv>
-            <StockName>{stock.title}</StockName>
+            <StockName>{stock.name}</StockName>
           </StockDiv>
           <HoldingDiv>
             <CurrentPrice>{stock.price}</CurrentPrice>

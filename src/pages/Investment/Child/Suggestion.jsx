@@ -4,89 +4,57 @@ import Header from "../../../components/Investment/Header";
 import { styled } from "styled-components";
 import suggest from "../../../assets/img/Invest/suggest.svg";
 import Message from "../../../components/common/Message";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setMessage } from "../../../store/reducers/Invest/invest";
 
 const Suggestion = () => {
+  const dispatch = useDispatch();
+  const parent = useSelector((state) => state.invest.parent);
+  const name = useSelector((state) => state.invest.name);
+  const trade = useSelector((state) => state.invest.trade);
   const navigate = useNavigate();
-  const { state } = useLocation();
-  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState("");
   const handleInputChange = (message) => {
-    setMessage(message);
+    setMessages(message);
   };
-
-  let info = {
-    "투자 종목": state.data.stockName,
-    시장가: state.data.price + "원",
-    개수: state.data.quantity + "주",
-  };
-  if (state.type === "종목") {
-    info = {
-      종목: state.data.stockName,
-    };
-  }
 
   const onSuggest = () => {
-    if (state.type === "투자") {
-      navigate("/invest/send", {
-        state: {
-          type: "suggest",
-          data: { who: state.data.parent, what: "투자제안서" },
-        },
-      });
-    } else {
-      navigate("/invest/send", {
-        state: {
-          type: "suggest",
-          data: { who: state.data.parent, what: "종목제안서" },
-        },
-      });
-    }
+    navigate("/invest/send");
+    dispatch(setMessage(messages));
   };
   return (
     <S.Container>
       <Header type="none" />
       <S.CenterDiv>
-        {state.type === "투자" ? (
-          <>
-            <Div $size="25" $top="20">
-              {state.data.parent}에게
-              <br />
-              {state.data.stockName} 투자를 제안드릴게요
-            </Div>
-            <Div $size="15" $top="10">
-              해당 투자가 합리적인 이유를
-              <br />
-              작성해주세요!
-            </Div>
-          </>
-        ) : (
-          <>
-            <Div $size="25" $top="20">
-              {state.data.parent}에게
-              <br />
-              {state.data.stockName} 종목을 제안드릴게요
-            </Div>
-            <Div $size="15" $top="10">
-              해당 종목이 합리적인 이유를
-              <br />
-              작성해주세요!
-            </Div>
-          </>
-        )}
-        {state.type === "투자" ? (
+        <>
+          <Div $size="25" $top="20">
+            {parent}에게
+            <br />
+            {name} 투자를 제안드릴게요
+          </Div>
+          <Div $size="15" $top="10">
+            해당 투자가 합리적인 이유를
+            <br />
+            작성해주세요!
+          </Div>
+        </>
+        {trade === 0 ? (
           <S.Badge $back="#FFDCDC" $font="#CC3535">
             구매
           </S.Badge>
         ) : (
-          <></>
+          <S.Badge $back="#D5E0F1" $font="#346BAC">
+            판매
+          </S.Badge>
         )}
         <Img src={suggest} />
         <Wrapper>
           <Message
-            placeholder="제안 메세지를 적어주세요!"
+            placeholder="투자 제안 메세지를 적어주세요!"
             maxLength="100"
             onChange={handleInputChange}
-            info={info}
+            isInvest={true}
           />
         </Wrapper>
         <S.BottomBtn2 onClick={() => onSuggest()}>제안하기</S.BottomBtn2>

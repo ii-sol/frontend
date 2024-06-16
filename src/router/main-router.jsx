@@ -3,7 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../pages/layout/MainLayout";
 
 //pages
-import HomeC from "../pages/Home/Child/HomeC";
+import Home from "../pages/Home/Home";
 import NavLayout from "../pages/layout/NavLayout";
 import InsideLayout from "../pages/layout/InsideLayout";
 import FromWho from "../pages/Loan/Child/FromWho";
@@ -13,7 +13,6 @@ import Money from "../pages/Loan/Child/Money";
 import Period from "../pages/Loan/Child/Period";
 import Message from "../pages/Loan/Child/Message";
 import Complete from "../pages/Loan/Child/Complete";
-import HomeP from "../pages/Home/Parent/HomeP";
 import InvestMain from "../pages/Investment/InvestMain";
 import AvailableInvest from "../pages/Investment/Child/AvailableInvest";
 import LoanHistory from "../pages/Loan/Child/LoanHistoryNull";
@@ -33,6 +32,8 @@ import AllowanceManagement from "../pages/Allowance/Parent/AllowanceManagement.j
 import AllowanceRegistration from "../pages/Allowance/Parent/AllowanceRegistration.jsx";
 import AllowanceHistoryP from "../pages/Allowance/Parent/AllowanceHistory.jsx";
 import StockList from "../pages/Investment/StockList";
+import InvestHistory from "../pages/Investment/InvestHistory";
+import SuggestionDetail from "../pages/Investment/Child/SuggestionDetail";
 
 const MainRouter = [
   {
@@ -53,12 +54,12 @@ const MainRouter = [
   },
   {
     path: "/",
-    element: <NavLayout />,
+    element: <MainLayout />,
     children: [
       {
         path: "",
         index: true,
-        element: <HomeP />,
+        element: <Home />,
       },
     ],
   },
@@ -150,6 +151,14 @@ const MainRouter = [
           {
             path: "stocklist",
             element: <StockList />,
+          },
+          {
+            path: "history",
+            element: <InvestHistory />,
+          },
+          {
+            path: "history/:id",
+            element: <SuggestionDetail />,
           },
         ],
       },

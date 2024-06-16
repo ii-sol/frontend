@@ -2,9 +2,17 @@ import React, { useState } from "react";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 import { FiXCircle } from "react-icons/fi";
+import { useSelector } from "react-redux";
 
-const Message = ({ placeholder, maxLength, onChange, info }) => {
-  console.log(info);
+const Message = ({ placeholder, maxLength, onChange, isInvest }) => {
+  let name;
+  let price;
+  let quantity;
+  if (isInvest) {
+    name = useSelector((state) => state.invest.name);
+    price = useSelector((state) => state.invest.price);
+    quantity = useSelector((state) => state.invest.quantity);
+  }
   const [inputValue, setInputValue] = useState("");
 
   const handleChange = (e) => {
@@ -28,14 +36,20 @@ const Message = ({ placeholder, maxLength, onChange, info }) => {
 
   return (
     <Container $height={height}>
-      {info && (
+      {isInvest && (
         <InfoContainer>
-          {Object.entries(info).map(([key, value]) => (
-            <InfoRow key={key}>
-              <InfoKey>{key}:</InfoKey>
-              <InfoValue>{value}</InfoValue>
-            </InfoRow>
-          ))}
+          <InfoRow>
+            <InfoKey>투자 종목:</InfoKey>
+            <InfoValue>{name}</InfoValue>
+          </InfoRow>
+          <InfoRow>
+            <InfoKey>시장가:</InfoKey>
+            <InfoValue>{price}</InfoValue>
+          </InfoRow>
+          <InfoRow>
+            <InfoKey>수량:</InfoKey>
+            <InfoValue>{quantity}</InfoValue>
+          </InfoRow>
         </InfoContainer>
       )}
       <Wrapper>

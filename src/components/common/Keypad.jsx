@@ -32,9 +32,10 @@ const Container = styled.div`
   grid
   mb-2
   items-center
-  bg-[#F4F9FF]
+  bg-[#F0F7FF]
   rounded-[15px]
   `}
+
   width: 100%;
   height: auto;
   grid-template-columns: 1fr 1fr 1fr;
@@ -45,7 +46,14 @@ const Button = styled.button`
   font-weight: 500;
   font-size: 26px;
   border-radius: 15px;
+  color: black;
   &:active {
-    background-color: #d9e8ff;
+    background-color: #e9f2ff;
+    -webkit-tap-highlight-color: #e9f2ff;
+  }
+
+  &:hover {
+    background-color: #e9f2ff;
+    -webkit-tap-highlight-color: #e9f2ff;
   }
 `;
