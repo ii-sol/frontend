@@ -20,6 +20,10 @@ const MemberManagement = () => {
 
   const navigate = useNavigate();
 
+  const handleLeftClick = () => {
+    navigate("/mypage");
+  };
+
   const handleNext = () => {
     switch (step) {
       case 0:
@@ -42,12 +46,12 @@ const MemberManagement = () => {
   };
 
   const handleHomeRedirect = () => {
-    navigate("/");
+    navigate("/mypage");
   };
 
   return (
     <S.Container>
-      <Header left={"<"} title={"연결 관리"} right={""} />
+      <Header left={"<"} onLeftClick={handleLeftClick} title={"연결 관리"} right={""} />
       <S.FormWrapper>
         {step === 0 && (
           <S.StepWrapper>

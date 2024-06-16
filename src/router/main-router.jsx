@@ -176,7 +176,7 @@ const MainRouter = [
             element: <MissionSendDetail />,
           },
           {
-            path: "request/:id/detail",
+            path: "request/request/detail",
             element: <MissionReceiveDetail />,
           },
         ],

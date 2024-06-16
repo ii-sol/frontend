@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../../styles/GlobalStyles";
@@ -10,28 +11,50 @@ import MissionCard from "../../../components/Mission/MissionCard";
 import RequestCard from "../../../components/Mission/RequestCard";
 
 const Mission = () => {
+  const navigate = useNavigate();
+
+  const handleLeftClick = () => {
+    navigate("/");
+  };
+
+  const handleReceiveRequestClick = () => {
+    navigate("/mission/request/receive/detail");
+  };
+
+  const handleSendRequestClick = () => {
+    navigate("/mission/request/send/detail");
+  };
+
+  const handleHistoryClick = () => {
+    navigate("/mission/history");
+  };
+
   const handleRequestClick = () => {
     navigate("/mission/create");
+  };
+
+  const handleMissionClick = () => {
+    navigate("/mission/detail");
   };
 
   return (
     <div>
       <S.Container>
-        <Header left={"<"} title={"미션"} right={""} />
+        <Header left={"<"} onLeftClick={handleLeftClick} title={"미션"} />
         {/* TODO: dday = due_date - craete_date */}
-        <RequestCard status="send" name="엄마" content="심부름 다녀오기" dday="3" />
-        {/* <RequestCard status="receive" name="엄마" content="심부름 다녀오기" dday="0" /> */}
+        <RequestCard status="send" name="엄마" content="심부름 다녀오기" dday="3" onClick={handleSendRequestClick} />
+        {/* <RequestCard status="receive" name="엄마" content="심부름 다녀오기" dday="0" inClick={handleReceiveRequestClick}/> */}
         <Menu>
           <S.Phrase>진행 중</S.Phrase>
-          <S.HistoryLink>지난 미션 &gt;</S.HistoryLink>
+          <S.HistoryLink onClick={handleHistoryClick}>지난 미션 &gt;</S.HistoryLink>
         </Menu>
         <S.CardContainer>
           <RegisterButton onClick={handleRequestClick}>
             <span tw="text-[#346BAC]">미션</span>요청하기
           </RegisterButton>
-          <MissionCard dday="3" mission="설거지하기" allowance="10000" img={DishwashingImg} />
-          <MissionCard dday="0" mission="설거지하기" allowance="10000" img={DishwashingImg} />
-          <MissionCard dday="7" mission="설거지하기" allowance="10000" img={DishwashingImg} />
+          <MissionCard onClick={handleMissionClick} dday="3" mission="설거지하기" allowance="10000" img={DishwashingImg} />
+          <MissionCard onClick={handleMissionClick} dday="0" mission="설거지하기" allowance="10000" img={DishwashingImg} />
+          <MissionCard onClick={handleMissionClick} dday="7" mission="설거지하기" allowance="10000" img={DishwashingImg} />
         </S.CardContainer>
       </S.Container>
     </div>

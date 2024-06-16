@@ -25,6 +25,10 @@ const CreateMissionComplete = () => {
 
   const navigate = useNavigate();
 
+  const handleLeftClick = () => {
+    navigate("/mission");
+  };
+
   const handleNext = () => {
     dispatch(setInitialState());
     navigate("/mission");
@@ -32,7 +36,7 @@ const CreateMissionComplete = () => {
 
   return (
     <S.Container>
-      <Header left={"<"} title={"미션"} right={"취소"} />
+      <Header left={"<"} onLeftClick={handleLeftClick} title={"미션"} />
       <S.FormWrapper>
         <S.StepWrapper>
           <CompleteContainer>

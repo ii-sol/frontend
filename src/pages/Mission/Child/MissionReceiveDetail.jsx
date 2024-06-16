@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../../styles/GlobalStyles";
@@ -10,9 +11,15 @@ import DishwashingImg from "~/assets/img/Mission/dishwashing.svg";
 import Header from "~/components/common/Header";
 
 const MissionReceiveDetail = () => {
+  const navigate = useNavigate();
+
+  const handleLeftClick = () => {
+    navigate("/mission");
+  };
+
   return (
     <S.Container>
-      <Header left={"<"} title={"미션"} right={""} />
+      <Header left={"<"} onLeftClick={handleLeftClick} title={"미션"} right={""} />
       <S.StepWrapper>
         <CompleteContainer>
           <S.Question tw="text-[25px]">미션을 요청받았어요!</S.Question>

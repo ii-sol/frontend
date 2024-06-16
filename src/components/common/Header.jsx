@@ -2,12 +2,12 @@ import React from "react";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 
-const Header = ({ left, title, right }) => {
+const Header = ({ left, onLeftClick, title, right, onRightClick }) => {
   return (
     <Container>
-      <Left>{left}</Left>
+      <Left onClick={onLeftClick}>{left}</Left>
       <Title>{title}</Title>
-      <Right>{right}</Right>
+      <Right onClick={onRightClick}>{right}</Right>
     </Container>
   );
 };

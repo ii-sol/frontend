@@ -4,7 +4,6 @@ import { styled } from "styled-components";
 import { FiXCircle } from "react-icons/fi";
 
 const Message = ({ placeholder, maxLength, onChange, info, value }) => {
-  console.log(info);
   const [inputValue, setInputValue] = useState("");
 
   const handleChange = (e) => {
@@ -16,6 +15,7 @@ const Message = ({ placeholder, maxLength, onChange, info, value }) => {
 
   const handleClearInput = () => {
     setInputValue("");
+    onChange("");
   };
 
   const calculateHeight = (maxLength) => {

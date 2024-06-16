@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setContent } from "../../../store/reducers/Mission/mission";
+import { setContent, setInitialState } from "../../../store/reducers/Mission/mission";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../../styles/GlobalStyles";
@@ -41,8 +41,19 @@ const CreateMission = () => {
 
   const filteredMissions = selectedOption ? missionList.filter((mission) => mission.type === selectedOption.status) : missionList;
 
+  const handleLeftClick = () => {
+    navigate("/mission");
+  };
+
+  const handleRightClick = () => {
+    if (window.confirm("정말 취소하시겠습니까?")) {
+      dispatch(setInitialState());
+      navigate("/mission");
+    }
+  };
+
   const handleInputChange = (content) => {
-    dispatch(setContent({ content: content }));
+    dispatch(setContent(content));
   };
 
   const handleOptionClick = (option) => {
@@ -65,12 +76,14 @@ const CreateMission = () => {
   const handleNext = () => {
     if (requestData.dueDate && requestData.content) {
       navigate("/mission/amount");
+    } else {
+      alert("미션과 완료일을 모두 입력해주세요!");
     }
   };
 
   return (
     <S.Container>
-      <Header left={"<"} title={"미션"} right={""} />
+      <Header left={"<"} onLeftClick={handleLeftClick} title={"미션"} right={"취소"} onRightClick={handleRightClick} />
       <S.StepWrapper>
         <S.Question tw="text-[25px]">어떤 미션을 요청할까요?</S.Question>
         <InputContainer>
@@ -169,6 +182,6 @@ const Create = styled.div`
   transform: translate(-50%, 0);
   bottom: 15px;
   color: #6a6a6a;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
 `;

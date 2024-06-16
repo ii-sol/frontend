@@ -4,21 +4,22 @@ import { styled } from "styled-components";
 
 import { normalizeNumber } from "../../utils/NormalizeNumber";
 
-const MissionCard = ({ onClick, status, dday, mission, allowance, img }) => {
+const RequestHistoryCard = ({ dday, receiver, allowance, img, message, createdDate }) => {
   return (
-    <Container onClick={onClick}>
+    <Container>
       <Content>
-        {status && <StatusTag status={status}>{status}</StatusTag>}
-        {dday && <StatusTag dday={dday}>{parseInt(dday, 10) === 0 ? "D-day" : `D-${dday}`}</StatusTag>}
-        <Mission>{mission}</Mission>
+        {dday && <DdayTag $dday={dday}>{dday === "0" ? "D-day" : `D-${dday}`}</DdayTag>}
+        <Receiver>{receiver}</Receiver>
         <Allowance>{normalizeNumber(allowance)}원</Allowance>
+        <Message>{message}</Message>
+        <Message>{createdDate}</Message>
       </Content>
       <Img src={img} alt="아이콘" />
     </Container>
   );
 };
 
-export default MissionCard;
+export default RequestHistoryCard;
 
 const Container = styled.div`
   ${tw`
@@ -32,7 +33,6 @@ const Container = styled.div`
   height: 232px;
   border-radius: 20px;
   box-shadow: 0px 0px 15px 0px rgba(151, 178, 221, 0.4);
-  cursor: pointer;
 `;
 
 const Content = styled.div`
@@ -44,23 +44,28 @@ const Content = styled.div`
   `}
 `;
 
-const StatusTag = styled.div`
+const DdayTag = styled.div`
   font-size: 13px;
   font-weight: 500;
   padding: 4px 8px;
   margin: 3px 0px;
   border-radius: 5px;
-  color: ${({ status, dday }) => (status === "취소" || dday === "0" ? "#CC3535" : status || dday ? "#346BAC" : "#000000")};
-  background-color: ${({ status, dday }) => (status === "취소" || dday === "0" ? "#FFDCDC" : status || dday ? "#D5E0F1" : "#FFFFFF")};
+  color: ${({ dday }) => (dday === "0" ? "#CC3535" : "#346BAC")};
+  background-color: ${({ dday }) => (dday === "0" ? "#FFDCDC" : "#D5E0F1")};
 `;
 
-const Mission = styled.div`
+const Receiver = styled.div`
   font-weight: 700;
 `;
 
 const Allowance = styled.div`
   color: #154b9b;
   font-size: 15px;
+  font-weight: 700;
+`;
+
+const Message = styled.div`
+  font-size: 12px;
   font-weight: 700;
 `;
 

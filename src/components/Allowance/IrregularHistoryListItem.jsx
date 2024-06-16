@@ -3,7 +3,7 @@ import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../styles/GlobalStyles";
 
-import RequestCardChild from "~/components/Allowance/RequestCardChild";
+import RequestHistoryCard from "./RequestHistoryCard";
 
 import PleaseImg from "~/assets/img/Allowance/please.svg";
 import HeartImg from "~/assets/img/Allowance/heart.svg";
@@ -17,7 +17,7 @@ const IrregularHistoryListItem = () => {
   ];
 
   const renderItem = (item) => {
-    return <RequestCardChild key={item.id} status={item.status} receiver={item.receiver} allowance={item.allowance} img={item.img} />;
+    return <RequestHistoryCard key={item.id} status={item.status} receiver={item.receiver} allowance={item.allowance} img={item.img} createdDate={item.createdDate} />;
   };
 
   return (

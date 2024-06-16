@@ -25,7 +25,7 @@ const missionSlice = createSlice({
       state.parentId = action.payload;
     },
     setInitialState(state) {
-      state.value = initialState;
+      return { ...initialState };
     },
   },
 });
