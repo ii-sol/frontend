@@ -15,7 +15,9 @@ const Profile = () => {
   });
 
   const handleEditClick = () => {
-    setIsEditing(!isEditing);
+    if (isEditing === false) {
+      setIsEditing(!isEditing);
+    }
   };
 
   const handleChange = (e) => {
@@ -59,8 +61,7 @@ const Profile = () => {
         <InfoWrapper>
           <Info>이름: {isEditing ? <Input type="text" name="name" value={profileData.name} onChange={handleChange} /> : <span>{profileData.name}</span>}</Info>
           <Info>생일: {isEditing ? <Input type="text" name="birth" value={profileData.birth} onChange={handleChange} /> : <span>{profileData.birth}</span>}</Info>
-          <Info tw="flex-col gap-0">전화번호: {isEditing ? <Input tw="w-[89%]" type="text" name="phone" value={profileData.phone} onChange={handleChange} /> : <span>{profileData.phone}</span>}</Info>
-
+          <Info tw="flex-col gap-0">전화번호: {isEditing ? <Input tw="w-[93%]" type="text" name="phone" value={profileData.phone} onChange={handleChange} /> : <span>{profileData.phone}</span>}</Info>
           <Info>
             신뢰도: <span>{profileData.credibility}</span>
           </Info>

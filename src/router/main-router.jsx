@@ -43,6 +43,7 @@ import CreateMissionPrice from "../pages/Mission/Child/CreateMissionPrice.jsx";
 import CreateMissionMember from "../pages/Mission/Child/CreateMissionMember.jsx";
 import CreateMissionComplete from "../pages/Mission/Child/CreateMissionComplete.jsx";
 import MyPage from "../pages/MyPage/MyPage.jsx";
+import MemberManagement from "../pages/MyPage/MemberManagement.jsx";
 
 const MainRouter = [
   {
@@ -78,8 +79,16 @@ const MainRouter = [
     children: [
       {
         path: "mypage",
-        index: true,
-        element: <MyPage />,
+        children: [
+          {
+            path: "",
+            element: <MyPage />,
+          },
+          {
+            path: "member",
+            element: <MemberManagement />,
+          },
+        ],
       },
     ],
   },

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../styles/GlobalStyles";
@@ -13,25 +13,75 @@ import CharacterImage4 from "~/assets/img/common/character/character_lulu.svg";
 import CustomerServiceImage from "~/assets/img/MyPage/service.svg";
 import FAQImage from "~/assets/img/MyPage/faq.svg";
 
-const profiles = [
-  { id: 1, src: CharacterImage1 },
-  { id: 2, src: CharacterImage2 },
+const initialProfiles = [
+  { id: 1, src: CharacterImage1, name: "엄마" },
+  { id: 2, src: CharacterImage2, name: "아빠" },
   // { id: 3, src: CharacterImage3 },
   // { id: 4, src: CharacterImage4 },
 ];
 
 const MyPage = () => {
+  const [profiles, setProfiles] = useState(initialProfiles);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [selectedProfiles, setSelectedProfiles] = useState([]);
+
+  const handleDeleteClick = () => {
+    setIsDeleting(!isDeleting);
+    setSelectedProfiles([]);
+  };
+
+  const handleProfileSelect = (id) => {
+    if (selectedProfiles.includes(id)) {
+      setSelectedProfiles(selectedProfiles.filter((profileId) => profileId !== id));
+    } else {
+      setSelectedProfiles([...selectedProfiles, id]);
+    }
+  };
+
+  const handleDeleteConfirm = () => {
+    if (window.confirm("정말 삭제하시겠습니까?")) {
+      setProfiles(profiles.filter((profile) => !selectedProfiles.includes(profile.id)));
+      setIsDeleting(false);
+      setSelectedProfiles([]);
+    } else {
+      setIsDeleting(false);
+      setSelectedProfiles([]);
+    }
+  };
+
   return (
     <S.Container>
       <Header left={"<"} title={"마이페이지"} right={""} />
       <S.StepWrapper>
         <Profile />
-        <S.Phrase>연결 관리</S.Phrase>
+        <Management>
+          <S.Phrase>연결 관리</S.Phrase>
+          <EditButton onClick={isDeleting ? handleDeleteConfirm : handleDeleteClick}>
+            {isDeleting ? (
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M3 6h18M9 6v12m6-12v12M5 6l1.5 14h11L19 6H5z" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M20 8.23992L7.24 20.9999H3V16.7599L15.76 3.99992C16.3225 3.43812 17.085 3.12256 17.88 3.12256C18.675 3.12256 19.4375 3.43812 20 3.99992V3.99992C20.5618 4.56242 20.8774 5.32492 20.8774 6.11992C20.8774 6.91492 20.5618 7.67742 20 8.23992Z"
+                  stroke="black"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            )}
+          </EditButton>
+        </Management>
         <MemberGrid>
           {profiles.map((profile) => (
-            <ProfileImage key={profile.id} src={profile.src} />
+            <ProfileWrapper key={profile.id}>
+              <ProfileImage src={profile.src} isSelected={selectedProfiles.includes(profile.id)} onClick={() => isDeleting && handleProfileSelect(profile.id)} />
+              <ProfileName>{profile.name}</ProfileName>
+            </ProfileWrapper>
           ))}
-          <AddButton>추가하기</AddButton>
+          <AddButton>추가</AddButton>
         </MemberGrid>
         <MenuWrapper>
           <Menu>
@@ -50,10 +100,34 @@ const MyPage = () => {
 
 export default MyPage;
 
+const Management = styled.div`
+  ${tw`
+  flex
+  mb-2
+  items-center
+  justify-between
+  `}
+`;
+
+const EditButton = styled.button`
+  ${tw`
+    border-none
+    cursor-pointer
+  `}
+`;
+
 const MemberGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
+`;
+
+const ProfileWrapper = styled.div`
+  ${tw`
+    flex
+    flex-col
+    items-center
+  `}
 `;
 
 const ProfileImage = styled.img`
@@ -63,6 +137,15 @@ const ProfileImage = styled.img`
     object-cover
     rounded-full
     cursor-pointer
+  `}
+  border: ${(props) => (props.isSelected ? "2px solid red" : "none")};
+`;
+
+const ProfileName = styled.div`
+  ${tw`
+    mt-2
+    text-center
+    text-lg
   `}
 `;
 
@@ -93,4 +176,15 @@ const Menu = styled.div`
     w-14
     `}
   }
+`;
+
+const DeleteButton = styled.button`
+  ${tw`
+    mt-2
+    text-red-500
+    cursor-pointer
+  `}
+  background: none;
+  border: none;
+  padding: 0;
 `;
