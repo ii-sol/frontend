@@ -5,7 +5,7 @@ import { styled } from "styled-components";
 
 import { normalizeNumber } from "../../utils/NormalizeNumber";
 
-const RegularAllowanceCard = ({ period, allowance, startDate, endDate }) => {
+const RegularAllowanceCard = ({ period, allowance, startDate, endDate, role }) => {
   const navigate = useNavigate();
 
   const handleRegisterClick = () => {
@@ -31,10 +31,12 @@ const RegularAllowanceCard = ({ period, allowance, startDate, endDate }) => {
           {startDate}~{endDate}
         </Period>
       </Content>
-      <ButtonWrapper>
-        <Button onClick={handleRegisterClick}>변경하기</Button>
-        <Button>해지하기</Button>
-      </ButtonWrapper>
+      {role === "parent" && (
+        <ButtonWrapper>
+          <Button onClick={handleRegisterClick}>변경하기</Button>
+          <Button>해지하기</Button>
+        </ButtonWrapper>
+      )}
     </Container>
   );
 };

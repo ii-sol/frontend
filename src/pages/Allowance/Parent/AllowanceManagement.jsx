@@ -15,7 +15,7 @@ const AllowanceManagement = () => {
         <S.Phrase>정기용돈</S.Phrase>
         <S.HistoryLink>지난 용돈 &gt;</S.HistoryLink>
       </Menu>
-      <RegularAllowanceCard period="1개월" allowance="100000" startDate={"2024.05.12"} endDate={"2024.06.12"} />
+      <RegularAllowanceCard period="1개월" allowance="100000" startDate={"2024.05.12"} endDate={"2024.06.12"} role={"parent"} />
       <Menu>
         <S.Phrase>조르기 내역</S.Phrase>
       </Menu>
