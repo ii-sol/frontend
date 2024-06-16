@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../styles/GlobalStyles";
@@ -25,6 +26,12 @@ const MyPage = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [selectedProfiles, setSelectedProfiles] = useState([]);
 
+  const navigate = useNavigate();
+
+  const handleLeftClick = () => {
+    navigate("/");
+  };
+
   const handleDeleteClick = () => {
     setIsDeleting(!isDeleting);
     setSelectedProfiles([]);
@@ -39,7 +46,10 @@ const MyPage = () => {
   };
 
   const handleDeleteConfirm = () => {
-    if (window.confirm("정말 삭제하시겠습니까?")) {
+    if (selectedProfiles.length === 0 && isDeleting) {
+      setIsDeleting(false);
+      setSelectedProfiles([]);
+    } else if (window.confirm("정말 삭제하시겠습니까?")) {
       setProfiles(profiles.filter((profile) => !selectedProfiles.includes(profile.id)));
       setIsDeleting(false);
       setSelectedProfiles([]);
@@ -49,9 +59,13 @@ const MyPage = () => {
     }
   };
 
+  const handleAddButtonClick = () => {
+    navigate("/mypage/member");
+  };
+
   return (
     <S.Container>
-      <Header left={"<"} title={"마이페이지"} right={""} />
+      <Header left={"<"} onLeftClick={handleLeftClick} title={"마이페이지"} right={""} />
       <S.StepWrapper>
         <Profile />
         <Management>
@@ -81,7 +95,7 @@ const MyPage = () => {
               <ProfileName>{profile.name}</ProfileName>
             </ProfileWrapper>
           ))}
-          <AddButton>추가</AddButton>
+          <AddButton onClick={handleAddButtonClick}>추가</AddButton>
         </MemberGrid>
         <MenuWrapper>
           <Menu>

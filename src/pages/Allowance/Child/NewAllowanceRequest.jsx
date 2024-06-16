@@ -10,22 +10,25 @@ import Header from "~/components/common/Header";
 import Member from "~/components/common/Member";
 import Message from "~/components/common/Message";
 
-import ChildImage from "~/assets/img/Auth/child.svg";
+import CharacterImage1 from "~/assets/img/common/character/character_sol.svg";
+import CharacterImage2 from "~/assets/img/common/character/character_lay.svg";
 
 import MessageImage from "~/assets/img/common/message.svg";
 import AllowanceImage from "~/assets/img/Allowance/allowance.svg";
 import KeypadInput from "../../../components/Allowance/KeypadInput";
 
+const initialState = {
+  childPhone: "",
+  parentPhone: "",
+  amount: "",
+  content: "",
+};
+
 const NewAllowanceRequest = () => {
   const [step, setStep] = useState(0);
   const [displayedNumber, setDisplayedNumber] = useState("0");
   const [message, setMessage] = useState("");
-  const [requestData, setRequestData] = useState({
-    childPhone: "",
-    parentPhone: "",
-    amount: "",
-    content: "",
-  });
+  const [requestData, setRequestData] = useState(initialState);
 
   const navigate = useNavigate();
 
@@ -78,6 +81,23 @@ const NewAllowanceRequest = () => {
     }
   };
 
+  const handlePrev = () => {
+    if (step === 0) {
+      navigate("/allowance/irregular");
+    } else if (step < 3) {
+      setStep(step - 1);
+    } else {
+      navigate("/allowance/irregular");
+    }
+  };
+
+  const handleRightClick = () => {
+    if (window.confirm("정말 취소하시겠습니까?")) {
+      setRequestData(initialState);
+      navigate("/allowance/irregular");
+    }
+  };
+
   const handleMemberChange = (name, phoneNum) => {
     setRequestData({
       ...requestData,
@@ -97,21 +117,20 @@ const NewAllowanceRequest = () => {
   };
 
   const handleAllowanceRedirect = () => {
-    console.log(requestData);
     navigate("/allowance/irregular");
   };
 
   return (
     <S.Container>
-      <Header left={"<"} title={"용돈 조르기"} right={"취소"} />
+      <Header left={"<"} onLeftClick={handlePrev} title={"용돈 조르기"} right={step < 3 ? "취소" : null} onRightClick={step < 3 ? handleRightClick : null} />
       <S.FormWrapper>
         {step === 0 && (
           <S.StepWrapper>
             <S.Question>누구에게 용돈을 부탁드릴까요?</S.Question>
             <MemberContainer>
-              <Member img={ChildImage} name="박지민" role="부모" phoneNum="010-0000-0000" onClick={() => handleMemberChange("박지민", "010-0000-0000")}></Member>
-              <Member img={ChildImage} name="엄마"></Member>
-              <Member img={ChildImage} name="아빠" role="부모" phoneNum="010-4321-4321" onClick={() => handleMemberChange("아빠", "010-4321-4321")}></Member>
+              <Member img={CharacterImage1} name="박지민" role="부모" phoneNum="010-0000-0000" onClick={() => handleMemberChange("박지민", "010-0000-0000")}></Member>
+              <Member img={CharacterImage2} name="엄마"></Member>
+              <Member img={CharacterImage1} name="아빠" role="부모" phoneNum="010-4321-4321" onClick={() => handleMemberChange("아빠", "010-4321-4321")}></Member>
             </MemberContainer>
           </S.StepWrapper>
         )}
