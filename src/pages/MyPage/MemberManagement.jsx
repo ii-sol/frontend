@@ -25,10 +25,9 @@ const MemberManagement = () => {
       case 0:
         if (!requestData.phoneNum) {
           alert("사용자를 선택해주세요!");
+        } else {
+          setStep(step + 1);
         }
-        break;
-      case 1:
-        setStep(step + 1);
         break;
       default:
         break;
@@ -74,11 +73,11 @@ const MemberManagement = () => {
           <S.StepWrapper>
             <CompleteContainer>
               <Img src={CompleteImage} alt="완료" />
-              <S.Question>
-                <div>박지민 님이</div>
-                <div>부모에 추가</div>
-                <div>되었습니다</div>
-              </S.Question>
+              <Complete>
+                <S.Question tw="m-0">박지민 님이</S.Question>
+                <S.Question tw="m-0">부모에 추가</S.Question>
+                <S.Question tw="m-0">되었습니다</S.Question>
+              </Complete>
             </CompleteContainer>
           </S.StepWrapper>
         )}
@@ -130,9 +129,8 @@ const MemberContainer = styled.div`
 `;
 
 const Img = styled.img`
-  width: 80%;
+  width: 40%;
   height: auto;
-  // box-shadow: 0px 0px 80px 0px rgba(151, 178, 221, 0.4);
 `;
 
 const CompleteContainer = styled.div`
@@ -141,4 +139,8 @@ const CompleteContainer = styled.div`
   items-center
   my-20
   gap-2`}
+`;
+
+const Complete = styled.div`
+  ${tw`flex flex-col gap-2 m-5`}
 `;

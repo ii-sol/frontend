@@ -177,14 +177,3 @@ const Menu = styled.div`
     `}
   }
 `;
-
-const DeleteButton = styled.button`
-  ${tw`
-    mt-2
-    text-red-500
-    cursor-pointer
-  `}
-  background: none;
-  border: none;
-  padding: 0;
-`;
