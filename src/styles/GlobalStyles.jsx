@@ -27,7 +27,6 @@ export const BottomBtn = styled.button`
   color: #154b9b;
   font-size: 20px;
   border-radius: 15px;
-  backdrop-filter: blur(4px);
 `;
 
 export const BottomBtn2 = styled.button`
@@ -44,7 +43,6 @@ export const BottomBtn2 = styled.button`
 export const BuyBtn = styled.button`
   border-radius: 15px;
   background: ${(props) => props.$background};
-  box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.15);
   display: flex;
   width: 140px;
   height: 48px;

@@ -5,6 +5,7 @@ import logger from "redux-logger";
 
 //reducers
 import historyReducer from "./reducers/common/history";
+import investReducer from "./reducers/Invest/invest";
 import missionReducer from "./reducers/Mission/mission";
 
 const rootPersistConfig = {
@@ -13,7 +14,7 @@ const rootPersistConfig = {
   whitelist: [],
 };
 
-const rootReducer = persistReducer(rootPersistConfig, combineReducers({ history: historyReducer, mission: missionReducer }));
+const rootReducer = persistReducer(rootPersistConfig, combineReducers({ history: historyReducer, invest: investReducer, mission: missionReducer }));
 
 const myMiddlewares = [logger];
 export const store = configureStore({

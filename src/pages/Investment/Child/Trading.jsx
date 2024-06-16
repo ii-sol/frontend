@@ -7,12 +7,19 @@ import * as S from "../../../styles/GlobalStyles";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { normalizeNumber } from "../../../utils/NormalizeNumber";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setMyAmount,
+  setQuantity,
+} from "../../../store/reducers/Invest/invest";
 
 //TODO: 매수주문증거금이 부족합니다. alert
 const Trading = () => {
-  const { state } = useLocation();
+  const dispatch = useDispatch();
+  const isNew = useSelector((state) => state.invest.isNew);
+  const trade = useSelector((state) => state.invest.trade);
+  const price = useSelector((state) => state.invest.price);
   const navigate = useNavigate();
-  console.log(state);
   const [displayedNumber, setDisplayedNumber] = useState("0");
   const handleNumberClick = (number) => {
     if (displayedNumber.length < 7) {
@@ -26,33 +33,21 @@ const Trading = () => {
     }
   };
 
-  // TODO: 계좌 확인, 매수매도 확인
+  const getOrderAmount = () => {
+    const orderQuantity = parseInt(displayedNumber, 10);
+    return orderQuantity * price;
+  };
+
+  // TODO: 매수매도 확인
   const onTrade = () => {
-    if (state.accountNum === 3) {
-      navigate("/invest/member", {
-        state: {
-          type: "투자",
-          data: {
-            trade: state.trade,
-            stockName: "삼성전자",
-            quantity: normalizeNumber(displayedNumber),
-            price: "12,300",
-          },
-        },
-      });
+    if (isNew) {
+      navigate("/invest/member");
+      dispatch(setQuantity(parseInt(displayedNumber, 10)));
+      dispatch(setMyAmount(getOrderAmount()));
     } else {
-      // 완료페이지
-      navigate("/invest/send", {
-        state: {
-          type: "trade",
-          data: {
-            stockName: "삼성전자",
-            quantity: normalizeNumber(displayedNumber),
-            trade: state.trade,
-            price: "12,300",
-          },
-        },
-      });
+      navigate("/invest/send");
+      dispatch(setQuantity(parseInt(displayedNumber, 10)));
+      dispatch(setMyAmount(getOrderAmount()));
     }
   };
 
@@ -61,13 +56,20 @@ const Trading = () => {
       <Header type="none" />
       <StocksAbout />
       <ColumDiv>
-        {state.trade === "buy" ? <InfoDiv>얼마나 살까요?</InfoDiv> : <InfoDiv>얼마나 팔까요?</InfoDiv>}
+        {trade === 0 ? (
+          <InfoDiv>얼마나 살까요?</InfoDiv>
+        ) : (
+          <InfoDiv>얼마나 팔까요?</InfoDiv>
+        )}
         <Amount>
           {normalizeNumber(displayedNumber)} <span>주</span>
         </Amount>
-        <Div>주문금액 52,425원</Div>
-        <Keypad onNumberClick={handleNumberClick} onBackspace={handleBackspace} />
-        {state.trade === "buy" ? (
+        <Div>주문금액 {normalizeNumber(getOrderAmount())}원</Div>
+        <Keypad
+          onNumberClick={handleNumberClick}
+          onBackspace={handleBackspace}
+        />
+        {trade === 0 ? (
           <S.BuyBtn $background="#FF5959" onClick={() => onTrade()}>
             구매하기
           </S.BuyBtn>
@@ -88,6 +90,7 @@ const ColumDiv = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  margin-top: 10px;
 `;
 
 const InfoDiv = styled.div`
@@ -115,8 +118,8 @@ const Amount = styled.div`
   position: relative;
   width: 105px;
   height: 49px;
-  background: #f5f5f5;
   padding: 10px;
+  border: 1px solid #accdff;
   border-radius: 15px;
   font-size: 18px;
   display: flex;
@@ -127,8 +130,7 @@ const Amount = styled.div`
 
 const Div = styled.div`
   font-size: 20px;
-  margin-left: auto;
-  margin-bottom: 10px;
+  margin: 10px 0px 10px auto;
   color: #707070;
   font-size: 18px;
 `;

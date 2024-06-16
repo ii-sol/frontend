@@ -5,7 +5,7 @@ import note from "../../assets/img/Invest/note.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 
-const Header = ({ type }) => {
+const Header = ({ type, title }) => {
   const navigate = useNavigate();
   const location = useLocation();
   return (
@@ -17,13 +17,11 @@ const Header = ({ type }) => {
             navigate("/");
           } else navigate(-1);
         }}
-        style={{ width: "43.14px" }}
+        style={{ width: "43.14px", display: "flex" }}
       >
         <MdArrowBackIos />
       </button>
-      <h1 tw="text-2xl font-bold">
-        {location.pathname === "/invest/history" ? "제안 내역" : "투자"}
-      </h1>
+      <h1 tw="text-2xl font-bold">{title ? title : "투자"}</h1>
       {type ? (
         <StyledButton>
           {/* <img src={whitenote} /> */}
