@@ -2,20 +2,7 @@ import React, { useState } from "react";
 import tw from "twin.macro";
 import Modal from "react-modal";
 
-const months = [
-  "01월",
-  "02월",
-  "03월",
-  "04월",
-  "05월",
-  "06월",
-  "07월",
-  "08월",
-  "09월",
-  "10월",
-  "11월",
-  "12월",
-];
+const months = ["01월", "02월", "03월", "04월", "05월", "06월", "07월", "08월", "09월", "10월", "11월", "12월"];
 
 const Calendar = ({ year, month, setYear, setMonth }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -61,10 +48,7 @@ const Calendar = ({ year, month, setYear, setMonth }) => {
         <button onClick={handlePrevMonth} tw="text-xl mx-2 text-right">
           {"<"}
         </button>
-        <p
-          tw="text-xl flex-grow text-center cursor-pointer"
-          onClick={openModal}
-        >
+        <p tw="text-xl flex-grow text-center cursor-pointer" onClick={openModal}>
           {year}년 {months[month]}
         </p>
         <button onClick={handleNextMonth} tw="text-xl mx-2 text-left">
@@ -89,28 +73,17 @@ const Calendar = ({ year, month, setYear, setMonth }) => {
       >
         <div tw="flex flex-col items-center p-4">
           <div tw="flex justify-between w-full mb-4">
-            <button
-              onClick={() => handleYearChange(-1)}
-              tw="text-xl mx-2 text-right"
-            >
+            <button onClick={() => handleYearChange(-1)} tw="text-xl mx-2 text-right">
               {"<"}
             </button>
             <p tw="text-xl">{year}년</p>
-            <button
-              onClick={() => handleYearChange(1)}
-              tw="text-xl mx-2 text-left"
-            >
+            <button onClick={() => handleYearChange(1)} tw="text-xl mx-2 text-left">
               {">"}
             </button>
           </div>
           <div tw="grid grid-cols-4 gap-4">
             {months.map((m, i) => (
-              <button
-                key={i}
-                onClick={() => handleMonthClick(i)}
-                tw="text-lg py-2 px-4 rounded-2xl text-sm"
-                css={[month === i && tw`bg-blue-200`]}
-              >
+              <button key={i} onClick={() => handleMonthClick(i)} tw="text-lg py-2 px-4 rounded-2xl text-sm" css={[month === i && tw`bg-blue-200`]}>
                 {m}
               </button>
             ))}

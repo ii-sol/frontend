@@ -3,12 +3,10 @@ import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 
-const RegularAllowanceCard = ({ period, allowance, startDate, endDate }) => {
-  const navigate = useNavigate();
+import { normalizeNumber } from "../../utils/NormalizeNumber";
 
-  const normalizeNumber = (number) => {
-    return parseFloat(number).toLocaleString("en-US");
-  };
+const RegularAllowanceCard = ({ period, allowance, startDate, endDate, role }) => {
+  const navigate = useNavigate();
 
   const handleRegisterClick = () => {
     navigate("/allowance/registration");
@@ -33,10 +31,12 @@ const RegularAllowanceCard = ({ period, allowance, startDate, endDate }) => {
           {startDate}~{endDate}
         </Period>
       </Content>
-      <ButtonWrapper>
-        <Button onClick={handleRegisterClick}>변경하기</Button>
-        <Button>해지하기</Button>
-      </ButtonWrapper>
+      {role === "parent" && (
+        <ButtonWrapper>
+          <Button onClick={handleRegisterClick}>변경하기</Button>
+          <Button>해지하기</Button>
+        </ButtonWrapper>
+      )}
     </Container>
   );
 };

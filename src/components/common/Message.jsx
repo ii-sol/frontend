@@ -4,7 +4,7 @@ import { styled } from "styled-components";
 import { FiXCircle } from "react-icons/fi";
 import { useSelector } from "react-redux";
 
-const Message = ({ placeholder, maxLength, onChange, isInvest }) => {
+const Message = ({ placeholder, maxLength, onChange, isInvest, value }) => {
   let name;
   let price;
   let quantity;
@@ -24,6 +24,7 @@ const Message = ({ placeholder, maxLength, onChange, isInvest }) => {
 
   const handleClearInput = () => {
     setInputValue("");
+    onChange("");
   };
 
   const calculateHeight = (maxLength) => {
@@ -53,13 +54,7 @@ const Message = ({ placeholder, maxLength, onChange, isInvest }) => {
         </InfoContainer>
       )}
       <Wrapper>
-        <Textarea
-          placeholder={placeholder}
-          value={inputValue}
-          onChange={handleChange}
-          maxLength={maxLength}
-          $height={height}
-        />
+        <Textarea placeholder={placeholder} value={value || inputValue} onChange={handleChange} maxLength={maxLength} $height={height} />
         {inputValue.length > 0 && (
           <ClearButton onClick={handleClearInput} $textareaHeight={height - 60}>
             <FiXCircle />
@@ -81,7 +76,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  background-color: #f4f9ff;
+  background-color: #e9f2ff;
   border-radius: 15px;
   height: ${(props) => props.$height + 100}px;
 `;

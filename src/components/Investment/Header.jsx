@@ -2,7 +2,6 @@ import React from "react";
 import tw from "twin.macro";
 import { MdArrowBackIos } from "react-icons/md";
 import note from "../../assets/img/Invest/note.svg";
-import whitenote from "../../assets/img/Invest/whitenote.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 
@@ -29,7 +28,11 @@ const Header = ({ type, title }) => {
           <div onClick={() => navigate("/invest")}>취소</div>
         </StyledButton>
       ) : (
-        <button tw="text-lg" style={{ width: "43.14px" }}>
+        <button
+          tw="text-lg"
+          style={{ width: "43.14px" }}
+          onClick={() => navigate("/invest/history")}
+        >
           <img src={note} />
         </button>
       )}

@@ -1,34 +1,52 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
+import * as S from "../../../styles/GlobalStyles";
 
 import Header from "~/components/common/Header";
-import VirticalCreateCard from "~/components/common/VerticalCreateCard";
 import RequestCardChild from "~/components/Allowance/RequestCardChild";
 import PleaseImg from "~/assets/img/Allowance/please.svg";
 import HeartImg from "~/assets/img/Allowance/heart.svg";
+import RegularAllowanceCard from "../../../components/Allowance/RegularAllowanceCard";
 
 const AllowanceRequest = () => {
+  const navigate = useNavigate();
+
+  const handleLeftClick = () => {
+    navigate("/");
+  };
+
+  const handleHistoryClick = () => {
+    navigate("/allowance/irregular/history");
+  };
+
+  const handleCreateClick = () => {
+    navigate("/allowance/irregular/create");
+  };
+
   return (
-    <Container>
-      <Header left={"<"} title={"용돈 조르기"} right={""} />
+    <S.Container>
+      <Header left={"<"} onLeftClick={handleLeftClick} title={"용돈 조르기"} />
       <Menu>
-        <Phrase>기다리는 중</Phrase>
-        <History>조르기 내역 &gt;</History>
+        <S.Phrase>정기용돈</S.Phrase>
       </Menu>
-      <CardContainer>
-        <VirticalCreateCard text="용돈 조르기" />
-        <RequestCardChild status="완료" receiver="엄마" allowance="1000" img={PleaseImg} />
-        <RequestCardChild receiver="엄마" allowance="1000" img={PleaseImg} />
-        <RequestCardChild receiver="아빠" allowance="5000" img={HeartImg} />
-      </CardContainer>
-    </Container>
+      <RegularAllowanceCard period="1개월" allowance="100000" startDate={"2024.05.12"} endDate={"2024.06.12"} />
+      <Menu>
+        <S.Phrase>기다리는 중</S.Phrase>
+        <S.HistoryLink onClick={handleHistoryClick}>조르기 내역 &gt;</S.HistoryLink>
+      </Menu>
+      <S.CardContainer>
+        <S.VirticalCreateCard onClick={handleCreateClick}>용돈 조르기</S.VirticalCreateCard>
+        <RequestCardChild dday="0" receiver="엄마" allowance="1000" img={PleaseImg} />
+        <RequestCardChild dday="2" receiver="엄마" allowance="1000" img={PleaseImg} />
+        <RequestCardChild dday="3" receiver="아빠" allowance="5000" img={HeartImg} />
+      </S.CardContainer>
+    </S.Container>
   );
 };
 
 export default AllowanceRequest;
-
-const Container = styled.div``;
 
 const Menu = styled.div`
   ${tw`
@@ -37,23 +55,4 @@ const Menu = styled.div`
   items-center
   `}
   grid-template-columns: auto auto;
-`;
-
-const Phrase = tw.div`
-  text-lg
-  font-bold
-  justify-center
-  my-2
-  justify-self-start
-`;
-
-const History = tw.div`
-  text-sm
-  justify-self-end
-`;
-
-const CardContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 20px;
 `;

@@ -34,6 +34,16 @@ import AllowanceHistoryP from "../pages/Allowance/Parent/AllowanceHistory.jsx";
 import StockList from "../pages/Investment/StockList";
 import InvestHistory from "../pages/Investment/InvestHistory";
 import SuggestionDetail from "../pages/Investment/Child/SuggestionDetail";
+import MissionHistory from "../pages/Mission/Child/MissionHistory.jsx";
+import MissionDetail from "../pages/Mission/Child/MissionDetail.jsx";
+import MissionSendDetail from "../pages/Mission/Child/MissionSendDetail.jsx";
+import MissionReceiveDetail from "../pages/Mission/Child/MissionReceiveDetail.jsx";
+import CreateMission from "../pages/Mission/Child/CreateMission.jsx";
+import CreateMissionPrice from "../pages/Mission/Child/CreateMissionPrice.jsx";
+import CreateMissionMember from "../pages/Mission/Child/CreateMissionMember.jsx";
+import CreateMissionComplete from "../pages/Mission/Child/CreateMissionComplete.jsx";
+import MyPage from "../pages/MyPage/MyPage.jsx";
+import MemberManagement from "../pages/MyPage/MemberManagement.jsx";
 
 const MainRouter = [
   {
@@ -60,6 +70,25 @@ const MainRouter = [
         path: "",
         index: true,
         element: <Home />,
+      },
+    ],
+  },
+  {
+    path: "/",
+    element: <MainLayout />,
+    children: [
+      {
+        path: "mypage",
+        children: [
+          {
+            path: "",
+            element: <MyPage />,
+          },
+          {
+            path: "member",
+            element: <MemberManagement />,
+          },
+        ],
       },
     ],
   },
@@ -108,12 +137,49 @@ const MainRouter = [
     ],
   },
   {
-    path: "/mission",
+    path: "",
     element: <MainLayout />,
     children: [
       {
-        index: true,
-        element: <Mission />,
+        path: "mission",
+        children: [
+          {
+            path: "",
+            element: <Mission />,
+          },
+          {
+            path: "detail",
+            element: <MissionDetail />,
+          },
+          {
+            path: "history",
+            element: <MissionHistory />,
+          },
+          {
+            path: "create",
+            element: <CreateMission />,
+          },
+          {
+            path: "amount",
+            element: <CreateMissionPrice />,
+          },
+          {
+            path: "member",
+            element: <CreateMissionMember />,
+          },
+          {
+            path: "complete",
+            element: <CreateMissionComplete />,
+          },
+          {
+            path: "request/send/detail", // requests/:id/details
+            element: <MissionSendDetail />,
+          },
+          {
+            path: "request/request/detail",
+            element: <MissionReceiveDetail />,
+          },
+        ],
       },
     ],
   },

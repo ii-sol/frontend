@@ -2,20 +2,19 @@ import React from "react";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 
-const RequestCardChild = ({ status, receiver, allowance, img, message }) => {
-  const normalizeNumber = (number) => {
-    return parseFloat(number).toLocaleString("en-US");
-  };
+import { normalizeNumber } from "../../utils/NormalizeNumber";
 
+const RequestCardChild = ({ dday, receiver, allowance, img, message }) => {
   return (
     <Container>
       <Content>
-        {status && <StatusTag status={status}>{status}</StatusTag>}
+        {dday && <DdayTag $dday={dday}>{dday === "0" ? "D-day" : `D-${dday}`}</DdayTag>}
         <Receiver>{receiver}</Receiver>
         <Allowance>{normalizeNumber(allowance)}원</Allowance>
         <Message>{message}</Message>
       </Content>
       <Img src={img} alt="아이콘" />
+      <Delete>취소</Delete>
     </Container>
   );
 };
@@ -45,14 +44,14 @@ const Content = styled.div`
   `}
 `;
 
-const StatusTag = styled.div`
+const DdayTag = styled.div`
   font-size: 13px;
   font-weight: 500;
   padding: 4px 8px;
   margin: 3px 0px;
   border-radius: 5px;
-  color: ${({ status }) => (status === "완료" ? "#346BAC" : status === "취소" ? "#CC3535" : "#000000")};
-  background-color: ${({ status }) => (status === "완료" ? "#D5E0F1" : status === "취소" ? "#FFDCDC" : "#FFFFFF")};
+  color: ${({ dday }) => (dday === "0" ? "#CC3535" : "#346BAC")};
+  background-color: ${({ dday }) => (dday === "0" ? "#FFDCDC" : "#D5E0F1")};
 `;
 
 const Receiver = styled.div`
@@ -72,8 +71,19 @@ const Message = styled.div`
 
 const Img = styled.img`
   position: absolute;
-  bottom: 12px;
+  bottom: 42px;
   right: 10px;
   width: 78px;
   height: auto;
+`;
+
+const Delete = styled.button`
+  position: absolute;
+  bottom: 12px;
+  right: 20px;
+  width: 56px;
+  height: auto;
+  border-radius: 5px;
+  border: 1px solid #e5e5e5;
+  background: #f4f9ff;
 `;
