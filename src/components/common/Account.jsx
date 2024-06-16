@@ -1,7 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 
 const Account = ({ accountNum }) => {
+  const navigate = useNavigate();
   const name = "프디아";
   const account = "010-1234-1234-01";
   const accountType = "용돈";
@@ -53,11 +55,16 @@ const AccountContainer = styled.div`
   padding: 20px 26px;
   width: 305px;
   width: 100%;
+  max-width: 330px;
   height: 196px;
   font-size: 15px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+
+  @media (min-width: 400px) {
+    max-width: 350px;
+  }
 `;
 
 const InfoWrapper = styled.div`

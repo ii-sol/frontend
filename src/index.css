@@ -116,8 +116,14 @@ section {
   display: block;
 }
 body {
-  line-height: 1;
+  -ms-overflow-style: none;
+  background: #fafcff;
 }
+
+::-webkit-scrollbar {
+  display: none;
+}
+
 ol,
 ul {
   list-style: none;
@@ -136,4 +142,12 @@ q:after {
 table {
   border-collapse: collapse;
   border-spacing: 0;
+}
+input {
+  border: none;
+}
+button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
 }
