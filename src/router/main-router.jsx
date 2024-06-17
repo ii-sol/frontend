@@ -7,7 +7,7 @@ import InsideLayout from "../pages/layout/InsideLayout";
 import Home from "../pages/Home/Home";
 import Signup from "../pages/Auth/Signup";
 import Login from "../pages/Auth/Login";
-import Notification from "../pages/Notification/Notification";
+// import Notification from "../pages/Notification/Notification";
 import MyPage from "../pages/MyPage/MyPage";
 import MemberManagement from "../pages/MyPage/MemberManagement";
 

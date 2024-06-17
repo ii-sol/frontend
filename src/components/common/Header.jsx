@@ -1,11 +1,14 @@
 import React from "react";
 import tw from "twin.macro";
 import { styled } from "styled-components";
+import { MdArrowBackIos } from "react-icons/md";
 
 const Header = ({ left, onLeftClick, title, right, onRightClick }) => {
   return (
     <Container>
-      <Left onClick={onLeftClick}>{left}</Left>
+      <Left onClick={onLeftClick}>
+        <MdArrowBackIos />
+      </Left>
       <Title>{title}</Title>
       <Right onClick={onRightClick}>{right}</Right>
     </Container>
