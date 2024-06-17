@@ -91,7 +91,7 @@ const MyPage = () => {
         <MemberGrid>
           {profiles.map((profile) => (
             <ProfileWrapper key={profile.id}>
-              <ProfileImage src={profile.src} isSelected={selectedProfiles.includes(profile.id)} onClick={() => isDeleting && handleProfileSelect(profile.id)} />
+              <ProfileImage src={profile.src} $isSelected={selectedProfiles.includes(profile.id)} onClick={() => isDeleting && handleProfileSelect(profile.id)} />
               <ProfileName>{profile.name}</ProfileName>
             </ProfileWrapper>
           ))}

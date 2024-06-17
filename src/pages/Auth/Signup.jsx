@@ -4,6 +4,8 @@ import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../styles/GlobalStyles";
 
+import { join } from "../../services/user";
+
 import ChatBubble from "~/components/Auth/ChatBubble";
 import Input from "~/components/Auth/Input";
 
@@ -17,7 +19,8 @@ const Signup = () => {
     name: "",
     phoneNum: "",
     accountInfo: "",
-    birthDate: "",
+    confirmAccountInfo: "",
+    birthdate: "",
     role: "",
   });
   const [showconfirmAccountInfo, setShowconfirmAccountInfo] = useState(false);
@@ -64,7 +67,7 @@ const Signup = () => {
       } else if (showconfirmAccountInfo && userData.accountInfo !== userData.confirmAccountInfo) {
         error = "비밀번호가 일치하지 않습니다.";
       }
-    } else if (step === 3 && !isBirthDateValid(userData.birthDate)) {
+    } else if (step === 3 && !isBirthdateValid(userData.birthdate)) {
       error = "생년월일을 올바르게 입력해주세요.";
     }
 
@@ -80,7 +83,7 @@ const Signup = () => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     let error = "";
     if (step === 4 && !userData.role) {
       error = "역할을 선택해주세요.";
@@ -91,9 +94,12 @@ const Signup = () => {
         setErrorMessage(error);
       }
     } else {
-      console.log(userData);
-      // TODO: 폼 제출 로직 추가
-      setStep(5);
+      try {
+        await join(userData);
+        setStep(5);
+      } catch (err) {
+        setErrorMessage(err.message);
+      }
     }
   };
 
@@ -104,7 +110,7 @@ const Signup = () => {
   const isNameValid = (name) => /^[\uAC00-\uD7A3]{2,5}$/.test(name); // 2~5글자 이내의 한글
   const isPasswordValid = (password) => /^[0-9]{6}$/.test(password); // 6자리 숫자
   const isPhoneNumValid = (phoneNum) => /^010-\d{4}-\d{4}$/.test(phoneNum); // 010-0000-0000 형식
-  const isBirthDateValid = (birthDate) => birthDate.replaceAll("-", "").length === 8; // YYYYMMDD 형식
+  const isBirthdateValid = (birthdate) => birthdate.replaceAll("-", "").length === 8; // YYYYMMDD 형식
 
   return (
     <S.Container style={{ height: "calc(100vh - 60px)" }}>
@@ -148,7 +154,7 @@ const Signup = () => {
           <S.StepWrapper>
             <ChatBubble text="생년월일을 알려주세요!" />
             <RightAlignedDiv>
-              <Input type="date" name="birthDate" value={userData.birthDate} onChange={handleChange} width="100px" />
+              <Input type="date" name="birthdate" value={userData.birthdate} onChange={handleChange} width="100px" />
             </RightAlignedDiv>
             {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
           </S.StepWrapper>

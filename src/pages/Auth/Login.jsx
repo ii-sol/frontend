@@ -1,21 +1,37 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { styled } from "styled-components";
 import tw from "twin.macro";
+
+import { login } from "../../services/user";
+import { loginSuccess } from "../../store/reducers/Auth/user";
 
 import * as S from "../../styles/GlobalStyles";
 
 const Login = () => {
   const [phoneNum, setPhoneNum] = useState("");
+  const [accountInfo, setAccountInfo] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const login = () => {
-    // TODO: 로그인 하기
-    console.log("로그인");
+  const handleLogin = async () => {
+    try {
+      const userInfo = await login(phoneNum, accountInfo);
+      dispatch(loginSuccess(userInfo));
+      navigate("/");
+    } catch (err) {
+      alert(err.message);
+    }
   };
 
   const handlePhoneChange = (e) => {
     const formattedValue = e.target.value.replace(/[^0-9]/g, "").replace(/(^02.{0}|^01.{1}|[0-9]{3,4})([0-9]{3,4})([0-9]{4})/g, "$1-$2-$3");
     setPhoneNum(formattedValue);
+  };
+
+  const handleAccountInfoChange = (e) => {
+    setAccountInfo(e.target.value);
   };
 
   return (
@@ -25,14 +41,14 @@ const Login = () => {
         <LoginWrapper>
           <div>전화번호</div>
         </LoginWrapper>
-        <Input type="text" name="phoneNum" value={phoneNum} onChange={handlePhoneChange} placeholder="전화번호를 입력해주세요" maxlength="13" />
+        <Input type="text" name="phoneNum" value={phoneNum} onChange={handlePhoneChange} placeholder="전화번호를 입력해주세요" maxLength="13" />
         <LoginWrapper>
           <div>비밀번호</div>
         </LoginWrapper>
-        <Input type="password" name="accountInfo" placeholder="비밀번호를 입력해주세요"></Input>
+        <Input type="password" name="accountInfo" value={accountInfo} onChange={handleAccountInfoChange} placeholder="비밀번호를 입력해주세요"></Input>
       </LoginForm>
       <StyledLink to="/signup">회원이 아니신가요?</StyledLink>
-      <S.BottomBtn onClick={login}>로그인</S.BottomBtn>
+      <S.BottomBtn onClick={handleLogin}>로그인</S.BottomBtn>
     </Layout>
   );
 };
