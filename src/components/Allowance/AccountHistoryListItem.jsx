@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 
-import { fetchHistory } from "../../services/allowance";
-
 import HistoryListItem from "~/components/Allowance/HistoryListItem";
 
 import EmptyImage from "~/assets/img/common/empty.svg";
@@ -56,24 +54,6 @@ const data = [
 ];
 
 const AccountHistoryListItem = () => {
-  const [historyData, setHistoryData] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchHistory();
-        setHistoryData(data);
-        setLoading(false);
-      } catch (error) {
-        console.error("Failed to fetch history data:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
   const groupDataByDate = (data) => {
     return data.reduce((acc, item) => {
       const date = item.createdDate.split("T")[0];

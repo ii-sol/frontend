@@ -16,7 +16,7 @@ const RequestCard = ({ status, name, content, dday, onClick }) => {
       </div>
       {status === "receive" && (
         <div tw="ml-auto">
-          <StatusTag $dday={dday}>{parseInt(dday, 10) === 0 ? "D-day" : `D-${dday}`}</StatusTag>
+          <StatusTag dday={dday}>{parseInt(dday, 10) === 0 ? "D-day" : `D-${dday}`}</StatusTag>
         </div>
       )}
     </Container>

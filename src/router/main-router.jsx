@@ -53,6 +53,8 @@ import LoanDetail from "../pages/Loan/Child/Detail.jsx";
 import MyPageParent from "../pages/MyPage/parent/MyPage.jsx";
 import ChildManagement from "../pages/MyPage/parent/ChildManagement.jsx";
 import AccountHistory from "../pages/Allowance/Parent/AccountHistory.jsx";
+import MissionP from "../pages/Mission/Parent/Mission.jsx";
+import CreateMissionP from "../pages/Mission/Parent/CreateMission.jsx";
 
 const MainRouter = createBrowserRouter([
   {
@@ -122,6 +124,8 @@ const MainRouter = createBrowserRouter([
           { path: "mypage", element: <MyPageParent /> },
           { path: "child-management", element: <ChildManagement /> },
           { path: "account-history", element: <AccountHistory /> },
+          { path: "mission", element: <MissionP /> },
+          { path: "mission/create", element: <CreateMissionP /> },
         ],
       },
     ],
