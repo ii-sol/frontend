@@ -49,6 +49,11 @@ import LoanHistory from "../pages/Loan/Child/LoanHistoryNull";
 import LoanHistoryExist from "../pages/Loan/Child/LoanHistoryExist";
 import LoanDetail from "../pages/Loan/Child/Detail.jsx";
 
+// parent 테스트용
+import MyPageParent from "../pages/MyPage/parent/MyPage.jsx";
+import ChildManagement from "../pages/MyPage/parent/ChildManagement.jsx";
+import AccountHistory from "../pages/Allowance/Parent/AccountHistory.jsx";
+
 const MainRouter = createBrowserRouter([
   {
     path: "/",
@@ -57,7 +62,7 @@ const MainRouter = createBrowserRouter([
       { path: "", element: <Home /> },
       { path: "signup", element: <Signup /> },
       { path: "login", element: <Login /> },
-      { path: "notification", element: <Notification /> },
+      // { path: "notification", element: <Notification /> },
       {
         path: "mypage",
         children: [
@@ -108,6 +113,15 @@ const MainRouter = createBrowserRouter([
           { path: "stocklist", element: <StockList /> },
           { path: "history", element: <InvestHistory /> },
           { path: "history/:id", element: <SuggestionDetail /> },
+        ],
+      },
+      // 부모 테스트용
+      {
+        path: "parent",
+        children: [
+          { path: "mypage", element: <MyPageParent /> },
+          { path: "child-management", element: <ChildManagement /> },
+          { path: "account-history", element: <AccountHistory /> },
         ],
       },
     ],

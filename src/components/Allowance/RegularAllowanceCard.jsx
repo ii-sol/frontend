@@ -13,8 +13,6 @@ const RegularAllowanceCard = ({ period, allowance, startDate, endDate, role }) =
   };
 
   if (!allowance) {
-    handleRegisterClick();
-
     return (
       <RegisterButton onClick={handleRegisterClick}>
         <span tw="text-[#346BAC]">정기용돈</span>등록하기

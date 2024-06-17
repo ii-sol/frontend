@@ -9,6 +9,7 @@ import ChildAllowanceHistory from "../../Allowance/ChildHistoryListItem";
 import ParentAllowanceHistory from "../../Allowance/ParentHistoryListItem";
 import IrregularAllowanceHistory from "../../Allowance/IrregularHistoryListItem";
 import MissionHistory from "../../Mission/MissionHistoryListItem";
+import AccountHistory from "../../Allowance/AccountHistoryListItem";
 
 const HistoryList = () => {
   const location = useLocation();
@@ -26,6 +27,8 @@ const HistoryList = () => {
           <IrregularAllowanceHistory />
         ) : location.pathname === "/mission/history" ? (
           <MissionHistory />
+        ) : location.pathname === "/parent/account-history" ? (
+          <AccountHistory />
         ) : (
           <></>
         )}

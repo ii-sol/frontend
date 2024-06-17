@@ -4,25 +4,21 @@ import { styled } from "styled-components";
 
 import { normalizeNumber } from "../../utils/NormalizeNumber";
 
-const RequestCardParent = ({ dday, allowance, message }) => {
-  // TODO: dday 계산 로직
-
+const RequestCardP = ({ dday, receiver, allowance, img, message }) => {
   return (
     <Container>
       <Content>
-        <DdayTag dday={dday}>{dday === "0" ? "D-day" : `D-${dday}`}</DdayTag>
+        {dday && <DdayTag $dday={dday}>{dday === "0" ? "D-day" : `D-${dday}`}</DdayTag>}
+        <Receiver>{receiver}</Receiver>
         <Allowance>{normalizeNumber(allowance)}원</Allowance>
         <Message>{message}</Message>
       </Content>
-      <ButtonWrapper>
-        <Button>수락</Button>
-        <Button>거절</Button>
-      </ButtonWrapper>
+      <Img src={img} alt="아이콘" />
     </Container>
   );
 };
 
-export default RequestCardParent;
+export default RequestCardP;
 
 const Container = styled.div`
   ${tw`
@@ -44,9 +40,7 @@ const Content = styled.div`
   flex-col
   items-start
   gap-1
-  flex-grow
   `}
-  font-weight: 700;
 `;
 
 const DdayTag = styled.div`
@@ -59,26 +53,36 @@ const DdayTag = styled.div`
   background-color: ${({ dday }) => (dday === "0" ? "#FFDCDC" : "#D5E0F1")};
 `;
 
+const Receiver = styled.div`
+  font-weight: 700;
+`;
+
 const Allowance = styled.div`
   color: #154b9b;
   font-size: 15px;
+  font-weight: 700;
 `;
 
 const Message = styled.div`
   font-size: 12px;
+  font-weight: 700;
 `;
 
-const ButtonWrapper = styled.div`
-  ${tw`flex w-full justify-between`}
+const Img = styled.img`
+  position: absolute;
+  bottom: 20px;
+  right: 10px;
+  width: 78px;
+  height: auto;
 `;
 
-const Button = styled.button`
-  background: #f4f9ff;
-  border: 1px solid #e5e5e5;
+const Delete = styled.button`
+  position: absolute;
+  bottom: 12px;
+  right: 20px;
+  width: 56px;
+  height: auto;
   border-radius: 5px;
-  width: 50px;
-  height: 27px;
-  &:hover {
-    background-color: rgba(151, 178, 221, 0.4);
-  }
+  border: 1px solid #e5e5e5;
+  background: #f4f9ff;
 `;

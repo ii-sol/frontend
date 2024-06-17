@@ -3,7 +3,7 @@ import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../styles/GlobalStyles";
 
-import RequestCardChild from "~/components/Allowance/RequestCardChild";
+import RequestCardP from "~/components/Allowance/RequestCardP";
 import RegularAllowanceHistoryCard from "~/components/Allowance/RegularAllowanceHistoryCard";
 
 import PleaseImg from "~/assets/img/Allowance/please.svg";
@@ -19,7 +19,7 @@ const ParentHistoryListItem = () => {
 
   const renderItem = (item) => {
     if (item.status === "조르기") {
-      return <RequestCardChild key={item.id} allowance={item.allowance} img={item.img} message={item.message} />;
+      return <RequestCardP key={item.id} allowance={item.allowance} img={item.img} message={item.message} />;
     } else if (item.status === "정기용돈") {
       return <RegularAllowanceHistoryCard key={item.id} allowance={item.allowance} />;
     }
