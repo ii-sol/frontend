@@ -1,4 +1,4 @@
-import { SET_LOAN_DETAILS } from "./action";
+import { SET_LOAN_DETAILS } from "../../action";
 
 const initialState = {
   period: null,

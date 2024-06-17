@@ -7,7 +7,7 @@ import InsideLayout from "../pages/layout/InsideLayout";
 import Home from "../pages/Home/Home";
 import Signup from "../pages/Auth/Signup";
 import Login from "../pages/Auth/Login";
-import Notification from "../pages/Notification/Notification";
+// import Notification from "../pages/Notification/Notification";
 import MyPage from "../pages/MyPage/MyPage";
 import MemberManagement from "../pages/MyPage/MemberManagement";
 
@@ -45,8 +45,7 @@ import Money from "../pages/Loan/Child/Money";
 import Period from "../pages/Loan/Child/Period";
 import Message from "../pages/Loan/Child/Message";
 import Complete from "../pages/Loan/Child/Complete";
-import LoanHistory from "../pages/Loan/Child/LoanHistoryNull";
-import LoanHistoryExist from "../pages/Loan/Child/LoanHistoryExist";
+import LoanHistory from "../pages/Loan/Child/LoanHistory";
 import LoanDetail from "../pages/Loan/Child/Detail.jsx";
 
 const MainRouter = createBrowserRouter([
@@ -110,21 +109,19 @@ const MainRouter = createBrowserRouter([
           { path: "history/:id", element: <SuggestionDetail /> },
         ],
       },
-    ],
-  },
-  {
-    path: "/loan",
-    element: <InsideLayout service="대출" />,
-    children: [
-      { path: "main", element: <Main /> },
-      { path: "who", element: <FromWho /> },
-      { path: "money", element: <Money /> },
-      { path: "period", element: <Period /> },
-      { path: "message", element: <Message /> },
-      { path: "complete", element: <Complete /> },
-      { path: "history-null", element: <LoanHistory /> },
-      { path: "history-exist", element: <LoanHistoryExist /> },
-      { path: "detail", element: <LoanDetail /> },
+      {
+        path: "/loan",
+        children: [
+          { path: "main", element: <Main /> },
+          { path: "who", element: <FromWho /> },
+          { path: "money", element: <Money /> },
+          { path: "period", element: <Period /> },
+          { path: "message", element: <Message /> },
+          { path: "complete", element: <Complete /> },
+          { path: "history", element: <LoanHistory /> },
+          { path: "detail", element: <LoanDetail /> },
+        ],
+      },
     ],
   },
 ]);

@@ -1,9 +1,9 @@
-import { RouterProvider } from "react-router-dom";
-import MainRouter from "./router/main-router";
+import React from "react";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import { persistor } from "./store/stores";
-import store from "./store/store";
+import { RouterProvider } from "react-router-dom";
+import MainRouter from "./router/main-router";
+import { persistor, store } from "./store/stores"; // Ensure correct path to store.js
 
 function App() {
   return (

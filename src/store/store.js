@@ -1,5 +1,5 @@
 import { createStore } from "redux";
-import loanReducer from "./reducer";
+import loanReducer from "./reducers/Loan/loan";
 
 const store = createStore(loanReducer);
 
