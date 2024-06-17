@@ -6,9 +6,9 @@ import * as S from "../../styles/GlobalStyles";
 import ReceiveIcon from "~/assets/img/common/receive.svg";
 import SendIcon from "~/assets/img/common/send.svg";
 
-const RequestCard = ({ status, name, content, dday }) => {
+const RequestCard = ({ status, name, content, dday, onClick }) => {
   return (
-    <Container>
+    <Container onClick={onClick}>
       <Img src={status === "send" ? SendIcon : ReceiveIcon} alt="Message Icon" />
       <div>
         <p>{status === "send" ? `To.${name}` : `From.${name}`}</p>
@@ -16,7 +16,7 @@ const RequestCard = ({ status, name, content, dday }) => {
       </div>
       {status === "receive" && (
         <div tw="ml-auto">
-          <StatusTag dday={dday}>{parseInt(dday, 10) === 0 ? "D-day" : `D-${dday}`}</StatusTag>
+          <StatusTag $dday={dday}>{parseInt(dday, 10) === 0 ? "D-day" : `D-${dday}`}</StatusTag>
         </div>
       )}
     </Container>
@@ -26,7 +26,7 @@ const RequestCard = ({ status, name, content, dday }) => {
 export default RequestCard;
 
 const Container = styled.div`
-  ${tw`flex items-center bg-[#F4F9FF] w-full rounded-2xl text-lg p-4 my-4 shadow-md`}
+  ${tw`flex items-center bg-[#E9F2FF] w-full rounded-2xl text-lg p-4 my-4`}
 `;
 
 const Img = styled.img`

@@ -27,7 +27,6 @@ export const BottomBtn = styled.button`
   color: #154b9b;
   font-size: 20px;
   border-radius: 15px;
-  backdrop-filter: blur(4px);
 `;
 
 export const BottomBtn2 = styled.button`
@@ -44,7 +43,6 @@ export const BottomBtn2 = styled.button`
 export const BuyBtn = styled.button`
   border-radius: 15px;
   background: ${(props) => props.$background};
-  box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.15);
   display: flex;
   width: 140px;
   height: 48px;
@@ -128,7 +126,7 @@ export const StepWrapper = styled.div`
 `;
 
 export const ButtonWrapper = styled.div`
-  ${`flex
+  ${tw`flex
   justify-between
   mt-4`}
 `;
@@ -138,10 +136,42 @@ export const CompleteCard = styled.div`
   flex-direction: column;
   width: 100%;
   border-radius: 15px;
-  background: #f4f9ff;
+  background: #e9f2ff;
   font-size: 25px;
   font-weight: 500;
   align-items: center;
   gap: 16px;
   padding: 20px;
+`;
+
+export const BottomBtnWrapper = styled.div`
+  ${tw`flex justify-center gap-7`}
+`;
+
+export const acceptBtn = styled.button`
+  border-radius: 15px;
+  background: #CDE1FF;
+  display: flex;
+  width: 113px;
+  height: 48px
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #154B9B;
+  font-size: 20px;
+  padding:8px;
+`;
+
+export const rejectBtn = styled.button`
+  border-radius: 15px;
+  background:#FFD9CD;
+  display: flex;
+  width: 113px;
+  height: 48px
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #9B1D15;
+  font-size: 20px;
+  padding:8px;
 `;

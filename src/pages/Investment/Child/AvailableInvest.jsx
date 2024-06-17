@@ -6,12 +6,17 @@ import { BottomSheet } from "react-spring-bottom-sheet";
 import StocksDetail from "../../../components/Investment/StocksDetail";
 import "react-spring-bottom-sheet/dist/style.css";
 import StockItem from "../../../components/Investment/StockItem";
-import { useLocation, useNavigate } from "react-router-dom";
-import { MdModeEditOutline } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import {
+  setName,
+  setCode,
+  setIsNew,
+} from "../../../store/reducers/Invest/invest";
 
 const AvailableInvest = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { state } = useLocation();
   const [open, setOpen] = useState(false);
   const [selectedStockId, setSelectedStockId] = useState(null);
 
@@ -20,20 +25,35 @@ const AvailableInvest = () => {
   };
 
   const data = [
-    { id: 0, title: "삼성전자", price: "1521000원", change: -152721 },
-    { id: 1, title: "LG전자", price: "123000원", change: 2721 },
-    { id: 2, title: "SK하이닉스", price: "950000원", change: -50000 },
-    { id: 3, title: "현대차", price: "210000원", change: 5000 },
+    {
+      id: 0,
+      name: "삼성전자",
+      price: "1521000원",
+      change: -152721,
+      code: "005930",
+    },
+    { id: 1, name: "LG전자", price: "123000원", change: 2721, code: "066570" },
+    {
+      id: 2,
+      name: "SK하이닉스",
+      price: "950000원",
+      change: -50000,
+      code: "000660",
+    },
+    { id: 3, name: "현대차", price: "210000원", change: 5000, code: "005380" },
   ];
+
+  const onClick = (stock) => {
+    dispatch(setCode(stock.code));
+    dispatch(setIsNew(false));
+    console.log(stock);
+  };
 
   return (
     <S.Container>
       <Header />
       <Wrapper>
         <TitleDiv>거래 가능 종목 리스트</TitleDiv>
-        <Div onClick={() => navigate("/invest/stocklist")}>
-          <MdModeEditOutline />
-        </Div>
       </Wrapper>
       <Box>
         {data.map((stock) => (
@@ -41,19 +61,20 @@ const AvailableInvest = () => {
             key={stock.id}
             stock={stock}
             setOpen={setOpen}
-            setSelectedStockId={setSelectedStockId}
+            onClick={() => onClick(stock)}
           />
         ))}
       </Box>
-      <S.BottomBtn onClick={() => navigate("/invest/stocklist")}>
-        새 종목 추가하기
+      <S.BottomBtn
+        onClick={() => {
+          navigate("/invest/stocklist");
+          dispatch(setIsNew(true));
+        }}
+      >
+        다른 종목 투자하기
       </S.BottomBtn>
-
       <BottomSheet open={open} onDismiss={handleDismiss}>
-        <StocksDetail
-          selectedStockId={selectedStockId}
-          accountNum={state.accountNum}
-        />
+        <StocksDetail />
       </BottomSheet>
     </S.Container>
   );

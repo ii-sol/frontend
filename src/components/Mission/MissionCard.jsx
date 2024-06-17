@@ -4,10 +4,11 @@ import { styled } from "styled-components";
 
 import { normalizeNumber } from "../../utils/NormalizeNumber";
 
-const MissionCard = ({ dday, mission, allowance, img }) => {
+const MissionCard = ({ onClick, status, dday, mission, allowance, img }) => {
   return (
-    <Container>
+    <Container onClick={onClick}>
       <Content>
+        {status && <StatusTag status={status}>{status}</StatusTag>}
         {dday && <StatusTag dday={dday}>{parseInt(dday, 10) === 0 ? "D-day" : `D-${dday}`}</StatusTag>}
         <Mission>{mission}</Mission>
         <Allowance>{normalizeNumber(allowance)}원</Allowance>
@@ -31,6 +32,7 @@ const Container = styled.div`
   height: 232px;
   border-radius: 20px;
   box-shadow: 0px 0px 15px 0px rgba(151, 178, 221, 0.4);
+  cursor: pointer;
 `;
 
 const Content = styled.div`
@@ -48,8 +50,8 @@ const StatusTag = styled.div`
   padding: 4px 8px;
   margin: 3px 0px;
   border-radius: 5px;
-  color: ${({ dday }) => (dday === "0" ? "#CC3535" : dday ? "#346BAC" : "#000000")};
-  background-color: ${({ dday }) => (dday === "0" ? "#FFDCDC" : dday ? "#D5E0F1" : "#FFFFFF")};
+  color: ${({ status, dday }) => (status === "취소" || dday === "0" ? "#CC3535" : status || dday ? "#346BAC" : "#000000")};
+  background-color: ${({ status, dday }) => (status === "취소" || dday === "0" ? "#FFDCDC" : status || dday ? "#D5E0F1" : "#FFFFFF")};
 `;
 
 const Mission = styled.div`
