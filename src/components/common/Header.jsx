@@ -26,6 +26,8 @@ const Container = styled.div`
 const Left = styled.div`
   ${tw`text-2xl`}
   justify-self: start;
+  display: flex;
+  align-items: center;
 `;
 
 const Title = styled.div`
