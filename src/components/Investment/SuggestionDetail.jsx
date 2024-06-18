@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "styled-components";
 import Indicator from "./Indicator";
-import CandleChart from "./CandleChart";
+import Chart from "./Chart";
 
 const SuggestionDetail = ({ data }) => {
   return (
@@ -16,7 +16,7 @@ const SuggestionDetail = ({ data }) => {
       </RowDiv>
       <Div>{data.message}</Div>
       <Div style={{ textAlign: "right", marginBottom: "0px" }}>{data.date}</Div>
-      <CandleChart />
+      <Chart />
       <Indicator />
     </Container>
   );

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
+import tw from "twin.macro";
 import { styled } from "styled-components";
-import * as S from "../../styles/GlobalStyles";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import EmptyImage from "~/assets/img/common/empty.svg";
+import SuggestHistoryListItem from "./SuggestHistoryListItem";
+import { groupDataByDate } from "../../utils/groupDataByDate";
 
-const HistoryListItem = () => {
-  const navigate = useNavigate();
+const SuggestHistoryList = () => {
   const status = useSelector((state) => state.history.status);
   const [data, setData] = useState([]);
 
@@ -15,7 +16,6 @@ const HistoryListItem = () => {
       updatedData = [
         {
           proposeId: 0,
-          type: 1,
           status: 0,
           name: "삼성전자",
           code: "005930",
@@ -24,10 +24,10 @@ const HistoryListItem = () => {
           message:
             "메세지 안녕하세요. 아버님 제가 이번에 기가 막힌 종목을 찾아왔는데 이 주식이야 말로 저희 집을 바로 세울 기업입니다. 이 기업 앞으로 어쩌고",
           who: "엄마",
+          createdDate: "2024-05-10",
         },
         {
           proposeId: 1,
-          type: 1,
           status: 1,
           name: "SK하이닉스",
           code: "005930",
@@ -35,44 +35,57 @@ const HistoryListItem = () => {
           trading: 1,
           message: "투자 제안 메세지",
           who: "아빠",
+          createdDate: "2024-06-01",
         },
         {
           proposeId: 2,
-          type: 0,
-          status: 3,
-          name: "SK하이닉스",
-          code: "005930",
-          message: "종목 제안 메세지",
-          who: "아빠",
-          direction: 1,
-        },
-        {
-          proposeId: 3,
-          type: 0,
           status: 2,
           name: "삼성물산",
           code: "005930",
+          quantity: 5,
           message: "종목 제안 메세지",
           who: "엄마",
           direction: 0,
+          createdDate: "2024-06-05",
+        },
+        {
+          proposeId: 3,
+          status: 2,
+          name: "삼성물산",
+          code: "005930",
+          quantity: 5,
+          message: "종목 제안 메세지",
+          who: "엄마",
+          direction: 0,
+          createdDate: "2024-06-10",
         },
         {
           proposeId: 4,
-          type: 0,
-          status: 3,
+          status: 2,
           name: "삼성물산",
           code: "005930",
-          message:
-            "메세지 안녕하세요. 아버님 제가 이번에 기가 막힌 종목을 찾아왔는데 이 주식이야 말로 저희 집을 바로 세울 기업입니다. 이 기업 앞으로 어쩌고",
+          quantity: 5,
+          message: "종목 제안 메세지",
           who: "엄마",
           direction: 0,
+          createdDate: "2024-06-10",
+        },
+        {
+          proposeId: 5,
+          status: 2,
+          name: "삼성물산",
+          code: "005930",
+          quantity: 5,
+          message: "종목 제안 메세지",
+          who: "엄마",
+          direction: 0,
+          createdDate: "2024-06-10",
         },
       ];
     } else if (status === 1) {
       updatedData = [
         {
           proposeId: 0,
-          type: 1,
           status: 0,
           name: "삼성전자",
           code: "005930",
@@ -81,10 +94,13 @@ const HistoryListItem = () => {
           message:
             "메세지 안녕하세요. 아버님 제가 이번에 기가 막힌 종목을 찾아왔는데 이 주식이야 말로 저희 집을 바로 세울 기업입니다. 이 기업 앞으로 어쩌고",
           who: "엄마",
+          createdDate: "2024-05-10",
         },
+      ];
+    } else if (status === 2) {
+      updatedData = [
         {
           proposeId: 1,
-          type: 1,
           status: 1,
           name: "SK하이닉스",
           code: "005930",
@@ -92,137 +108,136 @@ const HistoryListItem = () => {
           trading: 1,
           message: "투자 제안 메세지",
           who: "아빠",
+          createdDate: "2024-06-01",
         },
       ];
     } else {
       updatedData = [
         {
           proposeId: 2,
-          type: 0,
-          status: 3,
-          name: "SK하이닉스",
-          code: "005930",
-          message: "종목 제안 메세지",
-          who: "아빠",
-          direction: 1,
-        },
-        {
-          proposeId: 3,
-          type: 0,
           status: 2,
           name: "삼성물산",
           code: "005930",
+          quantity: 5,
           message: "종목 제안 메세지",
           who: "엄마",
           direction: 0,
+          createdDate: "2024-06-05",
+        },
+        {
+          proposeId: 3,
+          status: 2,
+          name: "삼성물산",
+          code: "005930",
+          quantity: 5,
+          message: "종목 제안 메세지",
+          who: "엄마",
+          direction: 0,
+          createdDate: "2024-06-10",
         },
         {
           proposeId: 4,
-          type: 0,
-          status: 3,
+          status: 2,
           name: "삼성물산",
           code: "005930",
-          message:
-            "메세지 안녕하세요. 아버님 제가 이번에 기가 막힌 종목을 찾아왔는데 이 주식이야 말로 저희 집을 바로 세울 기업입니다. 이 기업 앞으로 어쩌고",
+          quantity: 5,
+          message: "종목 제안 메세지",
           who: "엄마",
           direction: 0,
+          createdDate: "2024-06-10",
+        },
+        {
+          proposeId: 5,
+          status: 2,
+          name: "삼성물산",
+          code: "005930",
+          quantity: 5,
+          message: "종목 제안 메세지",
+          who: "엄마",
+          direction: 0,
+          createdDate: "2024-06-10",
         },
       ];
     }
     setData(updatedData);
   }, [status]);
 
-  const renderBadge = (status) => {
-    switch (status) {
-      case 0:
-        return (
-          <S.Badge $back="#D5E0F1" $font="#346BAC">
-            수락
-          </S.Badge>
-        );
-      case 1:
-        return (
-          <S.Badge $back="#FFDCDC" $font="#CC3535">
-            거절
-          </S.Badge>
-        );
-      case 2:
-        return (
-          <S.Badge $back="#FFE196" $font="#FF7A00">
-            대기
-          </S.Badge>
-        );
-      default:
-        return <div style={{ height: "30px" }}></div>;
-    }
-  };
-
-  const renderType = (type) => {
-    return (
-      <Type>
-        {type === 0 ? "종목" : "투자"}
-        <br />
-        제안
-      </Type>
-    );
-  };
+  const groupedData = groupDataByDate(data);
+  const sortedGroupedData = Object.keys(groupedData).sort(
+    (a, b) => new Date(b) - new Date(a)
+  );
 
   return (
     <Container>
-      {data?.map((d) => (
-        <Wrapper
-          key={d.proposeId}
-          onClick={() => navigate(`/invest/history/${d.proposeId}`)}
-        >
-          {renderBadge(d.status)}
-          {renderType(d.type)}
-          <Who>
-            {d.direction === 1 ? "From." : "To."} {d.who}
-          </Who>
-          <Content>{d.message}</Content>
-          <DetailDiv>
-            <Div $font="#154B9B">종목 : {d.name}</Div>
-            {d.type === 1 ? (
-              <Div $font="#FF7A00">수량 : {d.quantity}주</Div>
-            ) : null}
-          </DetailDiv>
-        </Wrapper>
-      ))}
+      {sortedGroupedData.length === 0 ? (
+        <EmptyState>
+          <Img src={EmptyImage} alt="No data" />
+          <EmptyText>제안 내역이 없어요</EmptyText>
+        </EmptyState>
+      ) : (
+        sortedGroupedData.map((date, index) => (
+          <DateGroup key={index}>
+            <DateArea>{date}</DateArea>
+            <Hr />
+            {groupedData[date].map((d) => (
+              <SuggestHistoryListItem key={d.proposeId} data={d} />
+            ))}
+          </DateGroup>
+        ))
+      )}
     </Container>
   );
 };
 
-export default HistoryListItem;
+export default SuggestHistoryList;
 
 const Container = styled.div``;
+
+const EmptyState = styled.div`
+  ${tw`flex flex-col items-center justify-center h-full mt-20`}
+`;
+
+const Img = styled.img`
+  ${tw`h-auto mb-4`}
+  width: 40%
+`;
+
+const EmptyText = styled.div`
+  ${tw`text-2xl`}
+`;
+
+const DateGroup = styled.div`
+  ${tw`mb-9`}
+`;
+
+const DateArea = styled.div`
+  ${tw`font-medium mb-2 text-[#949494]`}
+  font-size: 12px;
+`;
+
+const Hr = styled.hr`
+  ${tw`mb-2`}
+`;
 
 const Wrapper = styled.div`
   position: relative;
   width: 100%;
-  min-height: 170px;
+  min-height: 155px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  background-color: #f4f9ff;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 4px 0px #98c6ff;
   border-radius: 15px;
   padding: 15px;
 
   margin-bottom: 20px;
 `;
 
-const Type = styled.div`
-  position: absolute;
-  top: 15px;
-  right: 15px;
+const RowDiv = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  width: 58px;
-  height: 58px;
-  color: #346bac;
-  font-size: 20px;
-  font-weight: 700;
-  background-color: white;
 `;
 
 const Who = styled.div`
@@ -238,7 +253,7 @@ const Content = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 `;
 
@@ -251,6 +266,6 @@ const DetailDiv = styled.div`
 const Div = styled.div`
   font-size: 17px;
   font-weight: 500;
-  margin-top: 10px;
+  /* margin-top: 10px; */
   color: ${(props) => props.$font};
 `;

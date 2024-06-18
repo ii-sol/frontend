@@ -4,7 +4,8 @@ import { styled } from "styled-components";
 
 import Filter from "./Filter";
 import { useLocation } from "react-router-dom";
-import InvestHistory from "../../Investment/HistoryListItem";
+import SuggestHistory from "../../Investment/SuggestHistoryList";
+import TradeHistory from "../../Investment/TradeHistoryList";
 import ChildAllowanceHistory from "../../Allowance/ChildHistoryListItem";
 import ParentAllowanceHistory from "../../Allowance/ParentHistoryListItem";
 import IrregularAllowanceHistory from "../../Allowance/IrregularHistoryListItem";
@@ -18,7 +19,9 @@ const HistoryList = () => {
       <Filter></Filter>
       <List>
         {location.pathname === "/invest/history" ? (
-          <InvestHistory />
+          <SuggestHistory />
+        ) : location.pathname === "/invest/tradehistory" ? (
+          <TradeHistory />
         ) : location.pathname === "/allowance/history" ? (
           <ChildAllowanceHistory />
         ) : location.pathname === "/allowance/history-parent" ? (

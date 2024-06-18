@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import * as S from "../../../styles/GlobalStyles";
-import Header from "../../../components/Investment/Header";
-import SuggestionDetailComp from "../../../components/Investment/SuggestionDetail";
+import * as S from "../../styles/GlobalStyles";
+import Header from "../../components/Investment/Header";
+import SuggestionDetailComp from "../../components/Investment/SuggestionDetail";
 
 const SuggestionDetail = () => {
   //data 여기서 받음
