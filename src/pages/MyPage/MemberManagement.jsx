@@ -6,8 +6,9 @@ import * as S from "../../styles/GlobalStyles";
 
 import Header from "~/components/common/Header";
 import Member from "~/components/common/Member";
-import CompleteImage from "~/assets/img/common/complete.svg";
 
+import CompleteImage from "~/assets/img/common/complete.svg";
+import NicknameImage from "~/assets/img/MyPage/nickname.svg";
 import CharacterImage1 from "~/assets/img/common/character/character_sol.svg";
 import CharacterImage2 from "~/assets/img/common/character/character_lay.svg";
 import SearchIcon from "~/assets/img/MyPage/search.svg";
@@ -16,6 +17,7 @@ const MemberManagement = () => {
   const [step, setStep] = useState(0);
   const [requestData, setRequestData] = useState({
     phoneNum: "",
+    nickname: "",
   });
 
   const navigate = useNavigate();
@@ -33,9 +35,26 @@ const MemberManagement = () => {
           setStep(step + 1);
         }
         break;
+      case 1:
+        if (!requestData.nickname) {
+          alert("부모님의 닉네임을 입력해주세요! (ex. 엄마)");
+        } else if (requestData.nickname.length > 5) {
+          alert("닉네임은 5글자 이내로 입력해주세요!");
+        } else {
+          setStep(step + 1);
+        }
+        break;
       default:
         break;
     }
+  };
+
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setRequestData({
+      ...requestData,
+      nickname: value,
+    });
   };
 
   const handleMemberChange = (phoneNum) => {
@@ -76,6 +95,16 @@ const MemberManagement = () => {
         {step === 1 && (
           <S.StepWrapper>
             <CompleteContainer>
+              <Img src={NicknameImage} alt="nickname" />
+            </CompleteContainer>
+            <StyledInputWrapper>
+              <StyledInput placeholder="부모님을 뭐라고 부를까요?" onChange={handleInputChange} value={requestData.nickname} maxLength={5}></StyledInput>
+            </StyledInputWrapper>
+          </S.StepWrapper>
+        )}
+        {step === 2 && (
+          <S.StepWrapper>
+            <CompleteContainer>
               <Img src={CompleteImage} alt="완료" />
               <Complete>
                 <S.Question tw="m-0">박지민 님이</S.Question>
@@ -86,13 +115,18 @@ const MemberManagement = () => {
           </S.StepWrapper>
         )}
 
-        <S.ButtonWrapper>{step === 0 ? <S.BottomBtn onClick={handleNext}>다음</S.BottomBtn> : <S.BottomBtn onClick={handleHomeRedirect}>완료</S.BottomBtn>}</S.ButtonWrapper>
+        <S.ButtonWrapper>{step < 2 ? <S.BottomBtn onClick={handleNext}>다음</S.BottomBtn> : <S.BottomBtn onClick={handleHomeRedirect}>완료</S.BottomBtn>}</S.ButtonWrapper>
       </S.FormWrapper>
     </S.Container>
   );
 };
 
 export default MemberManagement;
+
+const Icon = styled.img`
+  width: 24px;
+  height: auto;
+`;
 
 const SearchWrapper = styled.div`
   display: flex;
@@ -103,11 +137,6 @@ const SearchWrapper = styled.div`
   gap: 10px;
   padding: 15px;
   margin: 10px 0;
-`;
-
-const Icon = styled.img`
-  width: 24px;
-  height: auto;
 `;
 
 const Search = styled.input`
@@ -147,4 +176,29 @@ const CompleteContainer = styled.div`
 
 const Complete = styled.div`
   ${tw`flex flex-col gap-2 m-5`}
+`;
+
+const StyledInputWrapper = styled.div`
+  background-color: #e9f2ff;
+  padding: 7px 20px;
+  border-radius: 15px;
+  width: 100%;
+  margin-bottom: 10px;
+  position: relative;
+  display: flex;
+  align-items: center;
+`;
+
+const StyledInput = styled.input`
+  width: calc(100% - 45px);
+  height: 56px;
+  font-size: 18px;
+  border: none;
+  background: transparent;
+  &:focus {
+    outline: none;
+  }
+  &::placeholder {
+    color: #c9c9c9;
+  }
 `;
