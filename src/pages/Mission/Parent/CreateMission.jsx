@@ -11,6 +11,7 @@ import Header from "~/components/common/Header";
 import Message from "../../../components/common/Message";
 
 import DueDateBottomSheet from "../../../components/Mission/DueDateBottomSheet";
+import { normalizeNumber } from "../../../utils/NormalizeNumber";
 
 const missionOptions = [
   { label: "집안일 돕기", status: 0 },
@@ -50,8 +51,9 @@ const CreateMission = () => {
     }
   };
 
-  const handleInputChange = (content) => {
-    dispatch(setContent(content));
+  const handleInputChange = (e) => {
+    const inputValue = e.target.value.slice(0, 20);
+    dispatch(setContent(inputValue));
   };
 
   const handleOptionClick = (option) => {
@@ -91,20 +93,22 @@ const CreateMission = () => {
         <div>
           <S.Phrase tw="text-[20px] ml-2">미션</S.Phrase>
           <StyledInputWrapper>
-            <Message placeholder="어떤 미션을 요청할까요?" maxLength="20" onChange={handleInputChange} value={requestData.content}></Message>
+            <StyledInput placeholder="어떤 미션을 요청할까요?" onChange={handleInputChange} value={requestData.content}></StyledInput>
           </StyledInputWrapper>
         </div>
         <div>
           <S.Phrase tw="text-[20px] ml-2">금액</S.Phrase>
           <StyledInputWrapper>
-            <StyledInput type="text" placeholder="미션 후 얼마를 줄까요?" value={requestData.price || ""} onChange={handlePriceChange} />
+            <StyledInput type="text" placeholder="미션 후 얼마를 줄까요?" value={normalizeNumber(requestData.price) || ""} onChange={handlePriceChange} />
             <StyledUnit>원</StyledUnit>
           </StyledInputWrapper>
         </div>
         <div>
           <S.Phrase tw="text-[20px] ml-2">완료일</S.Phrase>
           <StyledInputWrapper>
-            <DueDate onClick={() => setOpenDueDate(true)}>{requestData.dueDate ? requestData.dueDate : "미션 완료일 📆"}</DueDate>
+            <StyledWrapper>
+              <DueDate onClick={() => setOpenDueDate(true)}>{requestData.dueDate ? requestData.dueDate : "미션 완료일 📆"}</DueDate>
+            </StyledWrapper>
           </StyledInputWrapper>
         </div>
         <S.BottomBtn onClick={handleNext}>다음</S.BottomBtn>
@@ -119,7 +123,7 @@ const CreateMission = () => {
             </MissionOption>
           ))}
         </MissionOptionWrapper>
-        <S.CardContainer tw="m-1">
+        <S.CardContainer>
           {filteredMissions.map((mission) => (
             <MissionCard key={mission.id} onClick={() => handleMissionCardClick(mission.content)}>
               <MissionContent>{mission.content}</MissionContent>
@@ -178,7 +182,8 @@ const MissionCard = styled.button`
 `;
 
 const MissionContent = styled.div`
-  ${tw`text-lg font-bold`}
+  ${tw`font-bold`}
+  font-size: 18px;
 `;
 
 const Create = styled.div`
@@ -218,6 +223,18 @@ const StyledInput = styled.input`
   &::placeholder {
     color: #c9c9c9;
   }
+`;
+
+const StyledWrapper = styled.div`
+  background-color: #e9f2ff;
+  padding: 15px 0px;
+  border-radius: 15px;
+  width: 100%;
+  margin-bottom: 10px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-size: 18px;
 `;
 
 const StyledUnit = styled.span`
