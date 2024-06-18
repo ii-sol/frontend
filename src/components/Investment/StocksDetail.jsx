@@ -6,6 +6,8 @@ import Indicator from "./Indicator";
 import CandleChart from "./CandleChart";
 import { useDispatch, useSelector } from "react-redux";
 import { setTrade } from "../../store/reducers/Invest/invest";
+import Chart from "./Chart";
+import { normalizeNumber } from "../../utils/normalizeNumber";
 
 const StocksDetail = () => {
   const dispatch = useDispatch();
@@ -15,23 +17,61 @@ const StocksDetail = () => {
   const price = useSelector((state) => state.invest.price);
   const changePrice = useSelector((state) => state.invest.changePrice);
   const changeRate = useSelector((state) => state.invest.changeRate);
+  const changeSign = useSelector((state) => state.invest.changeSign);
 
-  console.log(code);
+  console.log(changeSign);
+
+  const getChangeInfo = () => {
+    switch (changeSign) {
+      case "1":
+      case "2":
+        return {
+          sign: "▲",
+          sign2: "+",
+          color: "#FF5959",
+        };
+      case "3":
+        return {
+          sign: "",
+          sign2: "",
+          color: "#000000",
+        };
+      case "4":
+      case "5":
+        return {
+          sign: "▼",
+          sign2: "",
+          color: "#5987ff",
+        };
+      default:
+        return {
+          sign: "",
+          sign2: "",
+          color: "#000000",
+        };
+    }
+  };
+
+  const { sign, sign2, color } = getChangeInfo();
 
   return (
     <Container>
       <RowDiv>
         <HeaderDiv>
           <StockDiv>{name}</StockDiv>
-          <S.ColumnDiv>
-            <PriceDiv>{price}원</PriceDiv>
+          <S.ColumnDiv style={{ color: color }}>
+            <PriceDiv style={{ color: color }}>
+              {normalizeNumber(price)}원
+            </PriceDiv>
             <PriceDiv>
-              ▲{changePrice} +{changeRate}%
+              {sign}
+              {normalizeNumber(changePrice)} {sign2}
+              {changeRate}%
             </PriceDiv>
           </S.ColumnDiv>
         </HeaderDiv>
       </RowDiv>
-      <CandleChart />
+      <Chart />
       <InfoDiv>투자 지표</InfoDiv>
       <Indicator />
       <RowDiv $center="center" $top="20" $gap="20">

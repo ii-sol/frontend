@@ -22,18 +22,25 @@ import AllowanceRequest from "../pages/Allowance/Child/AllowanceRequest";
 import NewAllowanceRequest from "../pages/Allowance/Child/NewAllowanceRequest";
 import AllowanceHistory from "../pages/Allowance/Child/AllowanceHistory";
 import Mission from "../pages/Mission/Child/Mission";
-import Trading from "../pages/Investment/Child/Trading";
-import Suggestion from "../pages/Investment/Child/Suggestion";
-import LoanDetail from "../pages/Loan/Child/Detail.jsx";
-import Done from "../pages/Investment/Child/Done";
-import ParentSelection from "../pages/Investment/Child/ParentSelection";
-import AllowanceRequestHistory from "../pages/Allowance/Child/AllowanceRequestHistory.jsx";
-import AllowanceManagement from "../pages/Allowance/Parent/AllowanceManagement.jsx";
-import AllowanceRegistration from "../pages/Allowance/Parent/AllowanceRegistration.jsx";
-import AllowanceHistoryP from "../pages/Allowance/Parent/AllowanceHistory.jsx";
+import MissionHistory from "../pages/Mission/Child/MissionHistory.jsx";
+import MissionDetail from "../pages/Mission/Child/MissionDetail.jsx";
+import CreateMission from "../pages/Mission/Child/CreateMission.jsx";
+import CreateMissionPrice from "../pages/Mission/Child/CreateMissionPrice.jsx";
+import CreateMissionMember from "../pages/Mission/Child/CreateMissionMember.jsx";
+import CreateMissionComplete from "../pages/Mission/Child/CreateMissionComplete.jsx";
+import MissionSendDetail from "../pages/Mission/Child/MissionSendDetail.jsx";
+import MissionReceiveDetail from "../pages/Mission/Child/MissionReceiveDetail.jsx";
+
+import InvestMain from "../pages/Investment/InvestMain";
+import AvailableInvest from "../pages/Investment/AvailableInvest";
+import Trading from "../pages/Investment/Trading";
+import Suggestion from "../pages/Investment/Suggestion";
+import Done from "../pages/Investment/Done";
+import ParentSelection from "../pages/Investment/ParentSelection";
 import StockList from "../pages/Investment/StockList";
 import InvestHistory from "../pages/Investment/InvestHistory";
-import SuggestionDetail from "../pages/Investment/Child/SuggestionDetail";
+import SuggestionDetail from "../pages/Investment/SuggestionDetail";
+import TradeHistory from "../pages/Investment/TradeHistory";
 
 const MainRouter = [
   {
@@ -123,6 +130,35 @@ const MainRouter = [
     children: [
       {
         path: "invest",
+        children: [
+          { path: "", element: <InvestMain /> },
+          { path: "start", element: <AvailableInvest /> },
+          { path: "trading", element: <Trading /> },
+          { path: "member", element: <ParentSelection /> },
+          { path: "suggest", element: <Suggestion /> },
+          { path: "send", element: <Done /> },
+          { path: "stocklist", element: <StockList /> },
+          { path: "history", element: <InvestHistory /> },
+          { path: "history/:id", element: <SuggestionDetail /> },
+          { path: "tradehistory", element: <TradeHistory /> },
+        ],
+      },
+      {
+        path: "/loan",
+        children: [
+          { path: "main", element: <Main /> },
+          { path: "who", element: <FromWho /> },
+          { path: "money", element: <Money /> },
+          { path: "period", element: <Period /> },
+          { path: "message", element: <Message /> },
+          { path: "complete", element: <Complete /> },
+          { path: "history", element: <LoanHistory /> },
+          { path: "detail/:loanId", element: <LoanDetail /> },
+          { path: "detailOnGoing/:loanId", element: <LoanDetailOnGoing /> },
+        ],
+      },
+      {
+        path: "/account",
         children: [
           {
             path: "",

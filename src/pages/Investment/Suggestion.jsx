@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import * as S from "../../../styles/GlobalStyles";
-import Header from "../../../components/Investment/Header";
+import * as S from "../../styles/GlobalStyles";
+import Header from "../../components/Investment/Header";
 import { styled } from "styled-components";
-import suggest from "../../../assets/img/Invest/suggest.svg";
-import Message from "../../../components/common/Message";
+import suggest from "../../assets/img/Invest/suggest.svg";
+import Message from "../../components/common/Message";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setMessage } from "../../../store/reducers/Invest/invest";
+import { setMessage } from "../../store/reducers/Invest/invest";
 
 const Suggestion = () => {
   const dispatch = useDispatch();
@@ -40,11 +40,19 @@ const Suggestion = () => {
           </Div>
         </>
         {trade === 0 ? (
-          <S.Badge $back="#FFDCDC" $font="#CC3535">
+          <S.Badge
+            $back="#FFDCDC"
+            $font="#CC3535"
+            style={{ marginTop: "20px" }}
+          >
             구매
           </S.Badge>
         ) : (
-          <S.Badge $back="#D5E0F1" $font="#346BAC">
+          <S.Badge
+            $back="#D5E0F1"
+            $font="#346BAC"
+            style={{ marginTop: "20px" }}
+          >
             판매
           </S.Badge>
         )}

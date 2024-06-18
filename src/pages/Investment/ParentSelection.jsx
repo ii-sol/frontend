@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import Member from "../../../components/common/Member";
+import Member from "../../components/common/Member";
 import ChildImage from "~/assets/img/Auth/child.svg";
 import { styled } from "styled-components";
 import tw from "twin.macro";
-import * as S from "../../../styles/GlobalStyles";
-import Header from "../../../components/Investment/Header";
+import * as S from "../../styles/GlobalStyles";
+import Header from "../../components/Investment/Header";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setParent } from "../../../store/reducers/Invest/invest";
+import { setParent } from "../../store/reducers/Invest/invest";
 
 const ParentSelection = () => {
   const dispatch = useDispatch();

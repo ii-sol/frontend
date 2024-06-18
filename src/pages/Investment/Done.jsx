@@ -1,10 +1,11 @@
 import React from "react";
-import Header from "../../../components/Investment/Header";
+import Header from "../../components/Investment/Header";
 import { styled } from "styled-components";
-import * as S from "../../../styles/GlobalStyles";
-import Good from "../../../assets/img/common/Good.svg";
+import * as S from "../../styles/GlobalStyles";
+import Complete from "../../assets/img/common/complete.svg";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { normalizeNumber } from "../../utils/normalizeNumber";
 
 const Done = () => {
   const parent = useSelector((state) => state.invest.parent);
@@ -19,20 +20,31 @@ const Done = () => {
     <S.Container>
       <Header type="none" />
       <S.CenterDiv>
-        <Img src={Good} />
+        <Img src={Complete} />
         {isNew ? <Div>제안 완료</Div> : <Div>거래 완료</Div>}
         <Box>
           {isNew ? (
             <Message>
-              {parent} 님에게 <br /> 투자 제안서를 보냈습니다!
+              <span style={{ fontWeight: "700" }}>{parent}</span> 님에게 <br />{" "}
+              투자 제안서를 보냈습니다!
             </Message>
           ) : (
             <Message $trade={trade}>
-              {name} {quantity}주<br />
-              <span>{trade === 0 ? "구매 " : "판매 "}</span>
+              <span style={{ fontWeight: "700" }}>
+                {name} {quantity}주
+              </span>
+              <br />
+              <span className="trade">{trade === 0 ? "구매 " : "판매 "}</span>
               완료했습니다.
               <br />
-              주문 단가 {price}원 <br />총 {myAmount}원
+              주문 단가{" "}
+              <span style={{ fontWeight: "700" }}>
+                {normalizeNumber(price)}원{" "}
+              </span>
+              <br />총{" "}
+              <span style={{ fontWeight: "700" }}>
+                {normalizeNumber(myAmount)}원
+              </span>
             </Message>
           )}
         </Box>
@@ -44,12 +56,13 @@ const Done = () => {
 
 export default Done;
 
-const Img = styled.img``;
+const Img = styled.img`
+  margin: 60px auto 40px auto;
+`;
 
 const Div = styled.div`
   font-size: 25px;
   text-align: center;
-  margin-top: -20px;
   font-weight: 600;
 `;
 
@@ -60,7 +73,7 @@ const Box = styled.div`
   margin-top: 30px;
   width: 100%;
   height: 150px;
-  background-color: #f0f7ff;
+  background-color: #ecf4ff;
   border-radius: 1 5px;
 `;
 
@@ -69,7 +82,8 @@ const Message = styled.div`
   text-align: center;
   line-height: 30px;
 
-  span {
+  .trade {
+    font-weight: 700;
     color: ${(props) => (props.$trade === 0 ? "#FF5959" : "#1573FE")};
   }
 `;
