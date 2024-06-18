@@ -25,7 +25,7 @@ const HistoryList = () => {
           <ParentAllowanceHistory />
         ) : location.pathname === "/allowance/irregular/history" ? (
           <IrregularAllowanceHistory />
-        ) : location.pathname === "/mission/history" ? (
+        ) : ["/mission/history", "/parent/mission/history"].includes(location.pathname) ? (
           <MissionHistory />
         ) : location.pathname === "/parent/account-history" ? (
           <AccountHistory />

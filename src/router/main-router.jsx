@@ -55,6 +55,10 @@ import ChildManagement from "../pages/MyPage/parent/ChildManagement.jsx";
 import AccountHistory from "../pages/Allowance/Parent/AccountHistory.jsx";
 import MissionP from "../pages/Mission/Parent/Mission.jsx";
 import CreateMissionP from "../pages/Mission/Parent/CreateMission.jsx";
+import CreateMissionCompleteP from "../pages/Mission/Parent/CreateMissionComplete.jsx";
+import MissionReceiveDetailP from "../pages/Mission/Parent/MissionReceiveDetail.jsx";
+import MissionRequestComplete from "../pages/Mission/Parent/MissionRequestComplete.jsx";
+import MissionHistoryP from "../pages/Mission/Parent/MissionHistory.jsx";
 
 const MainRouter = createBrowserRouter([
   {
@@ -126,6 +130,10 @@ const MainRouter = createBrowserRouter([
           { path: "account-history", element: <AccountHistory /> },
           { path: "mission", element: <MissionP /> },
           { path: "mission/create", element: <CreateMissionP /> },
+          { path: "mission/complete", element: <CreateMissionCompleteP /> },
+          { path: "mission/request/receive/detail", element: <MissionReceiveDetailP /> },
+          { path: "mission/request/receive/complete", element: <MissionRequestComplete /> },
+          { path: "mission/history", element: <MissionHistoryP /> },
         ],
       },
     ],

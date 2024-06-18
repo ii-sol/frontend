@@ -21,10 +21,6 @@ const Mission = () => {
     navigate("/parent/mission/request/receive/detail");
   };
 
-  const handleSendRequestClick = () => {
-    navigate("/parent/mission/request/send/detail");
-  };
-
   const handleHistoryClick = () => {
     navigate("/parent/mission/history");
   };
@@ -33,17 +29,13 @@ const Mission = () => {
     navigate("/parent/mission/create");
   };
 
-  const handleMissionClick = () => {
-    navigate("/parent/mission/detail");
-  };
-
   return (
     <div>
       <S.Container>
         <Header left={"<"} onLeftClick={handleLeftClick} title={"미션"} />
         {/* TODO: dday = due_date - craete_date */}
         {/* <RequestCard status="send" name="엄마" content="심부름 다녀오기" dday="3" onClick={handleSendRequestClick} /> */}
-        <RequestCard status="receive" name="아들" content="심부름 다녀오기" dday="0" inClick={handleReceiveRequestClick} />
+        <RequestCard status="receive" name="아들" content="심부름 다녀오기" dday="0" onClick={handleReceiveRequestClick} />
         <Menu>
           <S.Phrase>진행 중</S.Phrase>
           <S.HistoryLink onClick={handleHistoryClick}>지난 미션 &gt;</S.HistoryLink>
@@ -52,9 +44,9 @@ const Mission = () => {
           <RegisterButton onClick={handleRequestClick}>
             <span tw="text-[#346BAC]">미션</span>요청하기
           </RegisterButton>
-          <MissionCard onClick={handleMissionClick} dday="3" mission="설거지하기" allowance="10000" img={DishwashingImg} />
-          <MissionCard onClick={handleMissionClick} dday="0" mission="설거지하기" allowance="10000" img={DishwashingImg} />
-          <MissionCard onClick={handleMissionClick} dday="7" mission="설거지하기" allowance="10000" img={DishwashingImg} />
+          <MissionCard dday="3" mission="설거지하기" allowance="10000" img={DishwashingImg} />
+          <MissionCard dday="0" mission="설거지하기" allowance="10000" img={DishwashingImg} />
+          <MissionCard dday="7" mission="설거지하기" allowance="10000" img={DishwashingImg} />
         </S.CardContainer>
       </S.Container>
     </div>

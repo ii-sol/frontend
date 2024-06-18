@@ -97,7 +97,7 @@ const CreateMission = () => {
         <div>
           <S.Phrase tw="text-[20px] ml-2">금액</S.Phrase>
           <StyledInputWrapper>
-            <StyledInput type="text" placeholder="미션 후 얼마를 줄까요?" value={requestData.price} onChange={handlePriceChange} />
+            <StyledInput type="text" placeholder="미션 후 얼마를 줄까요?" value={requestData.price || ""} onChange={handlePriceChange} />
             <StyledUnit>원</StyledUnit>
           </StyledInputWrapper>
         </div>
