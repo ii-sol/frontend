@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useParams, useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 
 const LoanDetail = () => {
+  const { loanId } = useParams();
   const navigate = useNavigate();
-
-  const loanAmount = 200000;
-  const loanPeriod = 9; // in months
-  const interestRate = 4.5 / 100; // annual interest rate
-  const applicationDate = "2024-06-03";
-  const maturityDate = "2024-11-03";
+  const [loanDetail, setLoanDetail] = useState(null);
+  const [totalInterest, setTotalInterest] = useState(0);
+  const [repaymentPlan, setRepaymentPlan] = useState([]);
 
   const formatAmount = (amount) => {
     return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-CA"); // en-CA locale formats date as YYYY-MM-DD
+  };
+
   const calculateEqualInstallments = (amount, rate, period) => {
-    const monthlyInterestRate = rate / 12;
+    const monthlyInterestRate = rate / 12 / 100;
     const installmentAmount =
       (amount *
         (monthlyInterestRate * Math.pow(1 + monthlyInterestRate, period))) /
@@ -25,7 +29,7 @@ const LoanDetail = () => {
   };
 
   const calculateRepaymentPlan = (amount, rate, period) => {
-    const monthlyInterestRate = rate / 12;
+    const monthlyInterestRate = rate / 12 / 100;
     const installmentAmount = calculateEqualInstallments(amount, rate, period);
     const repaymentPlan = [];
 
@@ -46,58 +50,93 @@ const LoanDetail = () => {
     return repaymentPlan;
   };
 
-  const [totalInterest, setTotalInterest] = useState(0);
-  const [repaymentPlan, setRepaymentPlan] = useState([]);
-
   useEffect(() => {
-    const plan = calculateRepaymentPlan(loanAmount, interestRate, loanPeriod);
-    setRepaymentPlan(plan);
-    setTotalInterest(plan.reduce((acc, cur) => acc + cur.interest, 0));
-  }, []);
+    if (loanId !== undefined) {
+      const fetchLoanDetail = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:8082/loan/detail/${loanId}`
+          );
+          const data = response.data.response;
+
+          console.log(data);
+
+          setLoanDetail(data);
+
+          const plan = calculateRepaymentPlan(
+            data.amount,
+            data.interestRate,
+            data.period
+          );
+          setRepaymentPlan(plan);
+          setTotalInterest(plan.reduce((acc, cur) => acc + cur.interest, 0));
+        } catch (error) {
+          console.error("Failed to fetch loan detail", error);
+        }
+      };
+
+      fetchLoanDetail();
+    }
+  }, [loanId]);
 
   const handleRepaymentCompletion = () => {
     // Handle the repayment completion logic here
   };
 
+  if (!loanDetail) {
+    return <div>Loading...</div>;
+  }
+
+  const {
+    amount,
+    period,
+    interestRate,
+    createDate,
+    dueDate,
+    title,
+    message,
+    parentName,
+  } = loanDetail;
+
   return (
-    <div tw="flex flex-col h-screen p-4">
-      <main tw="flex flex-col items-center bg-white rounded-2xl p-6">
+    <div tw="flex flex-col h-screen">
+      <main tw="flex flex-col items-center rounded-2xl">
         <div tw="text-center">
-          <p tw="text-lg text-gray-600">D-48</p>
-          <p tw="text-4xl font-bold mt-2">{formatAmount(loanAmount)}원</p>
+          <p tw="text-2xl font-bold text-gray-600">{title}</p>
+          <p tw="text-4xl font-bold mt-2">{formatAmount(amount)}원</p>
         </div>
 
         <div tw="bg-blue-100 rounded-2xl p-4 mt-6 w-full shadow-lg">
-          <p tw="text-left font-bold">To. 엄마</p>
-          <p tw="mt-2 text-gray-700">자전거가 너무 사고 싶어요</p>
+          <p tw="text-left font-bold">To. {parentName}</p>
+          <p tw="mt-2 text-gray-700">{message}</p>
         </div>
 
         <section tw="mt-6 w-full">
           <h3 tw="text-lg font-bold text-gray-800">대출 상세 정보</h3>
           <div tw="bg-blue-100 rounded-2xl p-4 mt-2 shadow-md">
             <p tw="flex justify-between text-gray-700">
-              <span>대출 금액</span>
-              <span>{formatAmount(loanAmount)}원</span>
+              <span>빌린 금액</span>
+              <span>{formatAmount(amount)}원</span>
             </p>
             <p tw="flex justify-between mt-2 text-gray-700">
-              <span>대출 기간</span>
-              <span>{loanPeriod}개월</span>
+              <span>빌린 기간</span>
+              <span>{period}개월</span>
             </p>
             <p tw="flex justify-between mt-2 text-gray-700">
-              <span>총 대출 이자</span>
+              <span>총 이자</span>
               <span>{formatAmount(totalInterest)}원</span>
             </p>
             <p tw="flex justify-between mt-2 text-gray-700">
-              <span>대출 금리</span>
-              <span>4.5%</span>
+              <span>이자률</span>
+              <span>{interestRate}%</span>
             </p>
             <p tw="flex justify-between mt-2 text-gray-700">
-              <span>신청일</span>
-              <span>{applicationDate}</span>
+              <span>빌린 날</span>
+              <span>{formatDate(createDate)}</span>
             </p>
             <p tw="flex justify-between mt-2 text-gray-700">
-              <span>만기일</span>
-              <span>{maturityDate}</span>
+              <span>모두 갚는 날</span>
+              <span>{formatDate(dueDate)}</span>
             </p>
           </div>
         </section>
@@ -117,7 +156,6 @@ const LoanDetail = () => {
               </thead>
               <tbody tw="text-right">
                 {repaymentPlan.map((item) => (
-
                   <tr key={item.installment} tw="hover:bg-gray-100">
                     <td tw="border border-gray-300 p-2">{item.installment}</td>
                     <td tw="border border-gray-300 p-2">
@@ -139,14 +177,12 @@ const LoanDetail = () => {
           </div>
         </section>
 
-
         <button
-          tw="bg-blue-500 text-white py-2 px-4 rounded-2xl mt-6 w-full max-w-md"
+          tw="bg-blue-500 text-white py-2 px-4 rounded-2xl mt-6 w-full max-w-md mb-4"
           onClick={handleRepaymentCompletion}
         >
           상환 완료
         </button>
-
       </main>
     </div>
   );

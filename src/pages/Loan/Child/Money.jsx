@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import tw from "twin.macro";
-import piggyBank from "~/assets/img/child/piggyBank.svg"; // 이미지 파일 경로를 확인하세요.
+import piggyBank from "~/assets/img/child/piggyBank.svg";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setLoanDetails } from "../../../store/action";
 import NextButton from "../../../components/Loan/NextButton";
 import Keypad from "../../../components/Loan/KeyPad";
 
@@ -9,6 +11,7 @@ const Money = () => {
   const [amount, setAmount] = useState("0");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const formatAmount = (amount) => {
     return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -26,10 +29,17 @@ const Money = () => {
   };
 
   const handleNext = () => {
-    if (parseInt(amount.replace(/,/g, ""), 10) > 0) {
-      navigate("/loan/period", { state: { amount: amount.replace(/,/g, "") } });
+    console.log(amount);
+    if (
+      parseInt(amount.replace(/,/g, ""), 10) > 1000 &&
+      parseInt(amount.replace(/,/g, ""), 10) < 500000
+    ) {
+      dispatch(
+        setLoanDetails({ amount: parseInt(amount.replace(/,/g, ""), 10) })
+      );
+      navigate("/loan/period");
     } else {
-      setError("금액을 입력해주세요.");
+      setError("1,000원 ~ 500,000원 사이에서 빌릴 수 있어요.");
     }
   };
 
@@ -46,7 +56,7 @@ const Money = () => {
           <p tw="text-xl">{formatAmount(amount)} 원</p>
         </div>
         {error && <div tw="text-red-500 text-sm text-center mt-2">{error}</div>}
-        <Keypad onButtonClick={handleButtonClick} />{" "}
+        <Keypad onButtonClick={handleButtonClick} />
         <div tw="mt-4">
           <NextButton onClick={handleNext} />
         </div>
