@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import tw from "twin.macro";
 import { useNavigate } from "react-router-dom";
-import message from "~/assets/img/child/message.svg";
+import message from "~/assets/img/Loan/message.svg";
 import NextButton from "../../../components/Loan/NextButton";
 import { useDispatch } from "react-redux";
 import { setLoanDetails } from "../../../store/action";
+import Header from "../../../components/common/Header";
+import { MdArrowBackIos } from "react-icons/md";
 
 const Message = () => {
   const [messageText, setMessageText] = useState("");
@@ -50,40 +52,50 @@ const Message = () => {
   };
 
   return (
-    <div tw="flex flex-col h-screen justify-between">
-      <div tw="flex flex-col items-center p-5">
-        <img src={message} tw="mb-4" alt="Message" />
-        <div tw="w-full max-w-md">
-          <div tw="bg-blue-100 p-6 rounded-2xl mb-4">
-            <div tw="bg-white p-3 rounded-2xl mb-4">
-              <textarea
-                ref={titleRef}
-                value={titleText}
-                onChange={handleTitleChange}
-                rows={1}
-                tw="resize-none w-full outline-none border-none text-center text-lg overflow-hidden"
-                placeholder="제목을 입력하세요."
-              />
+    <>
+      <Header
+        left={<MdArrowBackIos />}
+        title={"돈 빌리기"}
+        onLeftClick={() => {
+          navigate("/loan/main");
+        }}
+      />
+
+      <div tw="flex flex-col h-screen justify-between">
+        <div tw="flex flex-col items-center p-5">
+          <img src={message} tw="mb-4" alt="Message" />
+          <div tw="w-full max-w-md">
+            <div tw="bg-blue-100 p-6 rounded-2xl mb-4">
+              <div tw="bg-white p-3 rounded-2xl mb-4">
+                <textarea
+                  ref={titleRef}
+                  value={titleText}
+                  onChange={handleTitleChange}
+                  rows={1}
+                  tw="resize-none w-full outline-none border-none text-center text-lg overflow-hidden"
+                  placeholder="제목을 입력하세요."
+                />
+              </div>
+              <div tw="bg-white p-3 rounded-2xl">
+                <textarea
+                  ref={messageRef}
+                  value={messageText}
+                  onChange={handleChange}
+                  rows={1}
+                  tw="resize-none w-full outline-none border-none text-center text-lg overflow-hidden"
+                  placeholder="메세지를 입력하세요"
+                />
+              </div>
             </div>
-            <div tw="bg-white p-3 rounded-2xl">
-              <textarea
-                ref={messageRef}
-                value={messageText}
-                onChange={handleChange}
-                rows={1}
-                tw="resize-none w-full outline-none border-none text-center text-lg overflow-hidden"
-                placeholder="메세지를 입력하세요"
-              />
-            </div>
+            <p tw="text-gray-500 text-center">{messageText.length}/50</p>
+            {error && <p tw="text-red-500 text-center mt-2">{error}</p>}
           </div>
-          <p tw="text-gray-500 text-center">{messageText.length}/50</p>
-          {error && <p tw="text-red-500 text-center mt-2">{error}</p>}
         </div>
+        <footer tw="p-4">
+          <NextButton onClick={handleNext} />
+        </footer>
       </div>
-      <footer tw="p-4">
-        <NextButton onClick={handleNext} />
-      </footer>
-    </div>
+    </>
   );
 };
 

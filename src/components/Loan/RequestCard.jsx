@@ -2,8 +2,13 @@ import React from "react";
 import tw, { styled } from "twin.macro";
 import ReceiveIcon from "~/assets/img/common/receive.svg";
 import SendIcon from "~/assets/img/common/send.svg";
+import Header from "../common/Header";
+import { MdArrowBackIos } from "react-icons/md";
 
 const RequestCard = ({ status, name, title, dday, onClick }) => {
+  const handleLeftClick = () => {
+    navigate("/");
+  };
   return (
     <Container onClick={onClick}>
       <Img src={status === 1 ? SendIcon : ReceiveIcon} alt="Message Icon" />

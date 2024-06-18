@@ -46,7 +46,12 @@ import Period from "../pages/Loan/Child/Period";
 import Message from "../pages/Loan/Child/Message";
 import Complete from "../pages/Loan/Child/Complete";
 import LoanHistory from "../pages/Loan/Child/LoanHistory";
-import LoanDetail from "../pages/Loan/Child/Detail.jsx";
+import LoanDetail from "../pages/Loan/Child/DetailRequest.jsx";
+import LoanDetailOnGoing from "../pages/Loan/Child/DetailAccept.jsx";
+import SelectAccount from "../pages/Account/SelectAccount.jsx";
+import AccountMoney from "../pages/Account/Money.jsx";
+import Send from "../pages/Account/Send.jsx";
+import SendMoneyComplete from "../pages/Account/SendComplete.jsx";
 
 const MainRouter = createBrowserRouter([
   {
@@ -120,6 +125,28 @@ const MainRouter = createBrowserRouter([
           { path: "complete", element: <Complete /> },
           { path: "history", element: <LoanHistory /> },
           { path: "detail/:loanId", element: <LoanDetail /> },
+          { path: "detailOnGoing/:loanId", element: <LoanDetailOnGoing /> },
+        ],
+      },
+      {
+        path: "/account",
+        children: [
+          {
+            path: "select",
+            element: <SelectAccount />,
+          },
+          {
+            path: "money",
+            element: <AccountMoney />,
+          },
+          {
+            path: "send",
+            element: <Send />,
+          },
+          {
+            path: "complete",
+            element: <SendMoneyComplete />,
+          },
         ],
       },
     ],
