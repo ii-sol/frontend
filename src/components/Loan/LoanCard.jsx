@@ -1,6 +1,6 @@
 import React from "react";
 import tw from "twin.macro";
-import loanIcon from "~/assets/img/child/loan.svg";
+import loanIcon from "~/assets/img/Loan/loan.svg";
 
 const LoanCard = ({
   amount,

@@ -42,6 +42,10 @@ const Main = () => {
   };
 
   const handleProgress = (loanId) => {
+    navigate(`/loan/detailOnGoing/${loanId}`);
+  };
+
+  const handleRequestProgress = (loanId) => {
     navigate(`/loan/detail/${loanId}`);
   };
 
@@ -65,6 +69,10 @@ const Main = () => {
     return 3 - diffDays;
   };
 
+  const handleLeftClick = () => {
+    navigate("/");
+  };
+
   const sliderSettings = {
     dots: true,
     infinite: false,
@@ -76,7 +84,11 @@ const Main = () => {
   return (
     <>
       <div tw="flex flex-col h-screen">
-        <Header left={<MdArrowBackIos />} title={"대출"} />
+        <Header
+          left={<MdArrowBackIos />}
+          title={"빌리기"}
+          onLeftClick={handleLeftClick}
+        />
 
         <main tw="flex flex-col flex-1 justify-start space-y-4 mt-1">
           {/* Credit Score */}
@@ -115,7 +127,7 @@ const Main = () => {
                     name={loan.parentName}
                     title={loan.title}
                     dday={calculateDday(loan.createDate)}
-                    onClick={() => handleProgress(loan.id)}
+                    onClick={() => handleRequestProgress(loan.id)}
                   />
                 ))}
             </Slider>
@@ -130,7 +142,7 @@ const Main = () => {
           {/* Loan History */}
           <div tw="grid grid-cols-2 gap-5 w-full">
             <div
-              tw="w-full rounded-2xl shadow-lg p-4 flex bg-blue-900 flex-col items-center justify-center min-h-[250px]"
+              tw="w-full rounded-2xl shadow-lg p-4 flex bg-blue-1100 flex-col items-center justify-center min-h-[250px]"
               onClick={handleCreateLoan}
             >
               <p tw="font-bold text-2xl">빌리기</p>

@@ -26,7 +26,7 @@ const Account = ({ accountNum }) => {
         <ButtonWrapper>
           {accountNum === 0 ? (
             <>
-              <Btn>돈 보내기</Btn>
+              <Btn onClick={() => navigate("/account/select")}>돈 보내기</Btn>
               <Btn>용돈 내역</Btn>
             </>
           ) : (

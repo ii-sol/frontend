@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import tw from "twin.macro";
-import calender from "~/assets/img/child/calender.svg";
+import calender from "~/assets/img/Loan/calender.svg";
 import styled from "styled-components";
 import NextButton from "../../../components/Loan/NextButton";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoanDetails } from "../../../store/action"; // Correct the import statement
+import Header from "../../../components/common/Header";
+import { MdArrowBackIos } from "react-icons/md";
 
 const ScrollContainer = styled.div`
   ${tw`overflow-y-scroll h-48 w-full max-w-xs bg-blue-100 rounded-xl p-2`}
@@ -40,6 +42,13 @@ const Period = () => {
 
   return (
     <>
+      <Header
+        left={<MdArrowBackIos />}
+        title={"돈 빌리기"}
+        onLeftClick={() => {
+          navigate("/loan/main");
+        }}
+      />
       <div tw="flex flex-col items-center p-5">
         <img src={calender} alt="Calendar" />
         <p tw="text-4xl text-center mb-5">{selectedPeriod}</p>

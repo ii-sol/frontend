@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import tw from "twin.macro";
-import piggyBank from "~/assets/img/Loan/piggyBank.svg";
+import moneyHand from "~/assets/img/Account/moneyhand.svg";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setLoanDetails } from "../../../store/action";
-import NextButton from "../../../components/Loan/NextButton";
-import Keypad from "../../../components/Loan/KeyPad";
-import Header from "../../../components/common/Header";
+
+import Keypad from "../../components/Loan/KeyPad";
+import NextButton from "../../components/Loan/NextButton";
+import Header from "../../components/common/Header";
 import { MdArrowBackIos } from "react-icons/md";
 
-const Money = () => {
+const AccountMoney = () => {
   const [amount, setAmount] = useState("0");
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -32,16 +32,10 @@ const Money = () => {
 
   const handleNext = () => {
     console.log(amount);
-    if (
-      parseInt(amount.replace(/,/g, ""), 10) > 1000 &&
-      parseInt(amount.replace(/,/g, ""), 10) < 500000
-    ) {
-      dispatch(
-        setLoanDetails({ amount: parseInt(amount.replace(/,/g, ""), 10) })
-      );
-      navigate("/loan/period");
+    if (parseInt(amount.replace(/,/g, ""), 10) > 0) {
+      navigate("/account/send");
     } else {
-      setError("1,000원 ~ 500,000원 사이에서 빌릴 수 있어요.");
+      setError("금액을 입력해주세요.");
     }
   };
 
@@ -49,16 +43,16 @@ const Money = () => {
     <>
       <Header
         left={<MdArrowBackIos />}
-        title={"돈 빌리기"}
+        title={"돈 보내기"}
         onLeftClick={() => {
-          navigate("/loan/main");
+          navigate("/");
         }}
       />
       <div tw="flex flex-col justify-between h-screen">
         <header tw="mt-4">
-          <p tw="text-xl text-center font-bold mb-2">얼마를 빌릴까요?</p>
+          <p tw="text-xl text-center font-bold mb-2">얼마를 보낼까요?</p>
           <div tw="flex justify-center">
-            <img src={piggyBank} alt="Piggy Bank" tw="w-44 h-44" />
+            <img src={moneyHand} alt="Piggy Bank" tw="w-44 h-44" />
           </div>
         </header>
         <main tw="flex flex-col items-center flex-grow justify-start mt-2">
@@ -84,4 +78,4 @@ const Money = () => {
   );
 };
 
-export default Money;
+export default AccountMoney;
