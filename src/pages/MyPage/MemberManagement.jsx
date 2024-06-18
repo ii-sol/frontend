@@ -38,6 +38,8 @@ const MemberManagement = () => {
       case 1:
         if (!requestData.nickname) {
           alert("부모님의 닉네임을 입력해주세요! (ex. 엄마)");
+        } else if (requestData.nickname.length > 5) {
+          alert("닉네임은 5글자 이내로 입력해주세요!");
         } else {
           setStep(step + 1);
         }
@@ -48,10 +50,10 @@ const MemberManagement = () => {
   };
 
   const handleInputChange = (e) => {
-    const inputValue = e.target.value.slice(0, 5);
+    const value = e.target.value;
     setRequestData({
       ...requestData,
-      nickname: inputValue,
+      nickname: value,
     });
   };
 
@@ -96,7 +98,7 @@ const MemberManagement = () => {
               <Img src={NicknameImage} alt="nickname" />
             </CompleteContainer>
             <StyledInputWrapper>
-              <StyledInput placeholder="부모님을 뭐라고 부를까요?" onChange={handleInputChange} value={requestData.content}></StyledInput>
+              <StyledInput placeholder="부모님을 뭐라고 부를까요?" onChange={handleInputChange} value={requestData.nickname} maxLength={5}></StyledInput>
             </StyledInputWrapper>
           </S.StepWrapper>
         )}
@@ -121,6 +123,11 @@ const MemberManagement = () => {
 
 export default MemberManagement;
 
+const Icon = styled.img`
+  width: 24px;
+  height: auto;
+`;
+
 const SearchWrapper = styled.div`
   display: flex;
   width: 100%;
@@ -130,11 +137,6 @@ const SearchWrapper = styled.div`
   gap: 10px;
   padding: 15px;
   margin: 10px 0;
-`;
-
-const Icon = styled.img`
-  width: 24px;
-  height: auto;
 `;
 
 const Search = styled.input`
