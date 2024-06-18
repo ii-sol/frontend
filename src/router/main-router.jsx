@@ -7,13 +7,10 @@ import InsideLayout from "../pages/layout/InsideLayout";
 import Home from "../pages/Home/Home";
 import Signup from "../pages/Auth/Signup";
 import Login from "../pages/Auth/Login";
-// import Notification from "../pages/Notification/Notification";
+import Notification from "../pages/Notification/Notification";
 import MyPage from "../pages/MyPage/MyPage";
 import MemberManagement from "../pages/MyPage/MemberManagement";
 
-import AllowanceManagement from "../pages/Allowance/Parent/AllowanceManagement.jsx";
-import AllowanceRegistration from "../pages/Allowance/Parent/AllowanceRegistration.jsx";
-import AllowanceHistoryP from "../pages/Allowance/Parent/AllowanceHistory.jsx";
 import AllowanceRequest from "../pages/Allowance/Child/AllowanceRequest";
 import NewAllowanceRequest from "../pages/Allowance/Child/NewAllowanceRequest";
 import AllowanceRequestHistory from "../pages/Allowance/Child/AllowanceRequestHistory.jsx";
@@ -73,10 +70,7 @@ const MainRouter = createBrowserRouter([
       {
         path: "allowance",
         children: [
-          { path: "management", element: <AllowanceManagement /> },
-          { path: "registration", element: <AllowanceRegistration /> },
           { path: "history", element: <AllowanceHistory /> },
-          { path: "history-parent", element: <AllowanceHistoryP /> },
           {
             path: "irregular",
             children: [
@@ -91,7 +85,7 @@ const MainRouter = createBrowserRouter([
         path: "mission",
         children: [
           { path: "", element: <Mission /> },
-          { path: "detail", element: <MissionDetail /> },
+          { path: ":id", element: <MissionDetail /> },
           { path: "history", element: <MissionHistory /> },
           { path: "create", element: <CreateMission /> },
           { path: "amount", element: <CreateMissionPrice /> },
