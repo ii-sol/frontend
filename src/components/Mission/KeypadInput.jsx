@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 
@@ -7,7 +7,13 @@ import { normalizeNumber } from "../../utils/normalizeNumber";
 
 import CoinImage from "~/assets/img/Allowance/coin.svg";
 
-const KeypadInput = ({ displayedNumber, setDisplayedNumber }) => {
+const KeypadInput = ({ displayedNumber, setDisplayedNumber, initialPrice }) => {
+  useEffect(() => {
+    if (initialPrice !== 0) {
+      setDisplayedNumber(String(initialPrice));
+    }
+  }, [initialPrice, setDisplayedNumber]);
+
   const handleNumberClick = (number) => {
     if (displayedNumber.length < 7) {
       setDisplayedNumber((prevNumber) => prevNumber + number);
@@ -17,11 +23,9 @@ const KeypadInput = ({ displayedNumber, setDisplayedNumber }) => {
   const handleBackspace = () => {
     if (displayedNumber.length > 1) {
       setDisplayedNumber((prevNumber) => prevNumber.slice(0, -1));
+    } else {
+      setDisplayedNumber("0");
     }
-  };
-
-  const normalizeNumber = (number) => {
-    return parseFloat(number).toLocaleString("en-US");
   };
 
   return (
@@ -46,14 +50,13 @@ const Img = styled.img`
   width: 143px;
   height: auto;
   margin-bottom: 16px;
-  // box-shadow: 0px 0px 80px 0px rgba(151, 178, 221, 0.4);
 `;
 
 const Amount = styled.div`
   width: ${(props) =>
     props.$displayedNumber && props.$displayedNumber.length > 0
       ? "auto"
-      : "123px"}
+      : "123px"};
   height: 49px;
   background: #f5f5f5;
   padding: 10px;

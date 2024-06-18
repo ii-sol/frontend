@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 
+import { normalizeNumber } from "../../../utils/normalizeNumber";
+
 import Header from "~/components/common/Header";
 import Button from "~/components/common/Button";
 import Period from "../../../components/common/Period";
@@ -81,10 +83,13 @@ const AllowanceRegistration = () => {
       <Header left={"<"} title={"용돈"} right={"취소"} />
       <FormWrapper>
         {step === 0 && (
-          <StepWrapper>
-            <Phrase>매달 얼마나 보낼까요?</Phrase>
-            <KeypadInput displayedNumber={displayedNumber} setDisplayedNumber={setDisplayedNumber} />
-          </StepWrapper>
+          <S.StepWrapper>
+            <S.Question>매달 얼마나 보낼까요?</S.Question>
+            <KeypadInput
+              displayedNumber={displayedNumber}
+              setDisplayedNumber={setDisplayedNumber}
+            />
+          </S.StepWrapper>
         )}
         {step === 1 && (
           <StepWrapper tw="gap-0">
@@ -98,7 +103,9 @@ const AllowanceRegistration = () => {
               <ResultPhrase>
                 <span tw="text-[#154B9B]">양은수</span> 님에게
               </ResultPhrase>
-              <ResultPhrase>{normalizeNumber(allowanceData.amount)}원을</ResultPhrase>
+              <ResultPhrase>
+                {normalizeNumber(allowanceData.amount)}원을
+              </ResultPhrase>
               <ResultPhrase>매달 보낼게요</ResultPhrase>
             </ResultWrapper>
           </StepWrapper>
@@ -107,12 +114,14 @@ const AllowanceRegistration = () => {
           <StepWrapper>
             <CompleteContainer>
               <img src={MoneyImage} alt="완료" />
-              <Phrase>정기 용돈 등록 완료</Phrase>
-              <CompleteCard>
-                <div>양은수 님에게</div>
-                <div>6개월 동안</div>
-                <div tw="text-[#154B9B]">매달 {normalizeNumber(allowanceData.amount)}원</div>
-              </CompleteCard>
+              <S.Question>정기 용돈 등록 완료</S.Question>
+              <S.CompleteCard style={{ gap: "2px" }}>
+                <ResultPhrase>양은수 님에게</ResultPhrase>
+                <ResultPhrase>6개월 동안</ResultPhrase>
+                <ResultPhrase tw="text-[#154B9B]">
+                  매달 {normalizeNumber(allowanceData.amount)}원
+                </ResultPhrase>
+              </S.CompleteCard>
             </CompleteContainer>
           </StepWrapper>
         )}

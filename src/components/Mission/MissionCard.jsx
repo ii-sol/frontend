@@ -4,22 +4,25 @@ import { styled } from "styled-components";
 
 import { normalizeNumber } from "../../utils/normalizeNumber";
 
+const MissionCard = ({ onClick, status, dday, mission, allowance, img }) => {
   return (
-    <Container>
+    <Container onClick={onClick}>
       <Content>
+        {status && <StatusTag status={status}>{status}</StatusTag>}
         {dday && (
-          <DdayTag $dday={dday}>{dday === "0" ? "D-day" : `D-${dday}`}</DdayTag>
+          <StatusTag dday={dday}>
+            {parseInt(dday, 10) === 0 ? "D-day" : `D-${dday}`}
+          </StatusTag>
         )}
-        <Receiver>{receiver}</Receiver>
+        <Mission>{mission}</Mission>
         <Allowance>{normalizeNumber(allowance)}원</Allowance>
-        <Message>{message}</Message>
       </Content>
       <Img src={img} alt="아이콘" />
     </Container>
   );
 };
 
-export default RequestCardChild;
+export default MissionCard;
 
 const Container = styled.div`
   ${tw`
@@ -33,6 +36,7 @@ const Container = styled.div`
   height: 232px;
   border-radius: 20px;
   box-shadow: 0px 0px 15px 0px rgba(151, 178, 221, 0.4);
+  cursor: pointer;
 `;
 
 const Content = styled.div`
@@ -50,22 +54,27 @@ const StatusTag = styled.div`
   padding: 4px 8px;
   margin: 3px 0px;
   border-radius: 5px;
-  color: ${({ status }) => (status === "완료" ? "#346BAC" : status === "취소" ? "#CC3535" : "#000000")};
-  background-color: ${({ status }) => (status === "완료" ? "#D5E0F1" : status === "취소" ? "#FFDCDC" : "#FFFFFF")};
+  color: ${({ status, dday }) =>
+    status === "취소" || dday === "0"
+      ? "#CC3535"
+      : status || dday
+      ? "#346BAC"
+      : "#000000"};
+  background-color: ${({ status, dday }) =>
+    status === "취소" || dday === "0"
+      ? "#FFDCDC"
+      : status || dday
+      ? "#D5E0F1"
+      : "#FFFFFF"};
 `;
 
-const Receiver = styled.div`
+const Mission = styled.div`
   font-weight: 700;
 `;
 
 const Allowance = styled.div`
   color: #154b9b;
   font-size: 15px;
-  font-weight: 700;
-`;
-
-const Message = styled.div`
-  font-size: 12px;
   font-weight: 700;
 `;
 

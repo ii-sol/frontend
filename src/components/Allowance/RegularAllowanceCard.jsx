@@ -3,7 +3,15 @@ import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 
-const RegularAllowanceCard = ({ period, allowance, startDate, endDate }) => {
+import { normalizeNumber } from "../../utils/normalizeNumber";
+
+const RegularAllowanceCard = ({
+  period,
+  allowance,
+  startDate,
+  endDate,
+  role,
+}) => {
   const navigate = useNavigate();
 
   const normalizeNumber = (number) => {

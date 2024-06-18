@@ -4,6 +4,14 @@ import { styled } from "styled-components";
 
 import { normalizeNumber } from "../../utils/normalizeNumber";
 
+const RequestHistoryCard = ({
+  dday,
+  receiver,
+  allowance,
+  img,
+  message,
+  createdDate,
+}) => {
   return (
     <Container>
       <Content>
@@ -13,13 +21,14 @@ import { normalizeNumber } from "../../utils/normalizeNumber";
         <Receiver>{receiver}</Receiver>
         <Allowance>{normalizeNumber(allowance)}원</Allowance>
         <Message>{message}</Message>
+        <Message>{createdDate}</Message>
       </Content>
       <Img src={img} alt="아이콘" />
     </Container>
   );
 };
 
-export default RequestCardChild;
+export default RequestHistoryCard;
 
 const Container = styled.div`
   ${tw`
@@ -44,14 +53,14 @@ const Content = styled.div`
   `}
 `;
 
-const StatusTag = styled.div`
+const DdayTag = styled.div`
   font-size: 13px;
   font-weight: 500;
   padding: 4px 8px;
   margin: 3px 0px;
   border-radius: 5px;
-  color: ${({ status }) => (status === "완료" ? "#346BAC" : status === "취소" ? "#CC3535" : "#000000")};
-  background-color: ${({ status }) => (status === "완료" ? "#D5E0F1" : status === "취소" ? "#FFDCDC" : "#FFFFFF")};
+  color: ${({ dday }) => (dday === "0" ? "#CC3535" : "#346BAC")};
+  background-color: ${({ dday }) => (dday === "0" ? "#FFDCDC" : "#D5E0F1")};
 `;
 
 const Receiver = styled.div`
