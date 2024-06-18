@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import * as S from "../../styles/GlobalStyles";
 import Header from "../../components/Investment/Header";
 import { styled } from "styled-components";
@@ -12,16 +12,12 @@ import StocksDetail from "../../components/Investment/StocksDetail";
 import { useDispatch } from "react-redux";
 import { setCode } from "../../store/reducers/Invest/invest";
 
-const StockList = () => {
+const StockListParent = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const handleDismiss = () => {
     setOpen(false);
   };
-
-  const [page, setPage] = useState(1);
-  const limit = 20;
-  const [items, setItems] = useState([]);
 
   const searchResults = [
     {
@@ -164,178 +160,7 @@ const StockList = () => {
       market: "kospi",
       isAdded: false,
     },
-    {
-      id: 20,
-      name: "현대모비스",
-      code: "012330",
-      market: "kospi",
-      isAdded: true,
-    },
-    {
-      id: 21,
-      name: "셀트리온",
-      code: "068270",
-      market: "kospi",
-      isAdded: false,
-    },
-    {
-      id: 22,
-      name: "삼성SDI",
-      code: "006400",
-      market: "kospi",
-      isAdded: true,
-    },
-    {
-      id: 23,
-      name: "한화솔루션",
-      code: "009830",
-      market: "kospi",
-      isAdded: false,
-    },
-    {
-      id: 24,
-      name: "HMM",
-      code: "011200",
-      market: "kospi",
-      isAdded: true,
-    },
-    {
-      id: 25,
-      name: "두산중공업",
-      code: "034020",
-      market: "kospi",
-      isAdded: false,
-    },
-    {
-      id: 26,
-      name: "한국전력",
-      code: "015760",
-      market: "kospi",
-      isAdded: true,
-    },
-    {
-      id: 27,
-      name: "CJ제일제당",
-      code: "097950",
-      market: "kospi",
-      isAdded: false,
-    },
-    {
-      id: 28,
-      name: "한국조선해양",
-      code: "009540",
-      market: "kospi",
-      isAdded: true,
-    },
-    {
-      id: 29,
-      name: "아모레퍼시픽",
-      code: "090430",
-      market: "kospi",
-      isAdded: false,
-    },
-    {
-      id: 30,
-      name: "삼성화재",
-      code: "000810",
-      market: "kospi",
-      isAdded: true,
-    },
-    {
-      id: 31,
-      name: "SK이노베이션",
-      code: "096770",
-      market: "kospi",
-      isAdded: false,
-    },
-    {
-      id: 32,
-      name: "LG디스플레이",
-      code: "034220",
-      market: "kospi",
-      isAdded: true,
-    },
-    {
-      id: 33,
-      name: "S-Oil",
-      code: "010950",
-      market: "kospi",
-      isAdded: false,
-    },
-    {
-      id: 34,
-      name: "한화",
-      code: "000880",
-      market: "kospi",
-      isAdded: true,
-    },
-    {
-      id: 35,
-      name: "KT&G",
-      code: "033780",
-      market: "kospi",
-      isAdded: false,
-    },
-    {
-      id: 36,
-      name: "롯데케미칼",
-      code: "011170",
-      market: "kospi",
-      isAdded: true,
-    },
-    {
-      id: 37,
-      name: "GS건설",
-      code: "006360",
-      market: "kospi",
-      isAdded: false,
-    },
-    {
-      id: 38,
-      name: "대우조선해양",
-      code: "042660",
-      market: "kospi",
-      isAdded: true,
-    },
-    {
-      id: 39,
-      name: "한진칼",
-      code: "180640",
-      market: "kospi",
-      isAdded: false,
-    },
-    {
-      id: 40,
-      name: "호텔신라",
-      code: "008770",
-      market: "kospi",
-      isAdded: true,
-    },
   ];
-
-  const loadMore = useCallback(() => {
-    const newItems = searchResults.slice((page - 1) * limit, page * limit);
-    setItems((prevItems) => [...prevItems, ...newItems]);
-  }, [page, limit, searchResults]);
-
-  useEffect(() => {
-    loadMore();
-    console.log(page);
-  }, [page]);
-
-  const observer = useRef();
-  const lastItemRef = useCallback(
-    (node) => {
-      if (observer.current) observer.current.disconnect();
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && items.length < searchResults.length) {
-          setPage((prevPage) => prevPage + 1);
-        }
-      });
-      if (node) observer.current.observe(node);
-    },
-    [items.length, searchResults.length]
-  );
 
   return (
     <S.Container>
@@ -346,9 +171,8 @@ const StockList = () => {
           <SearchInput />
         </SearchWrapper>
         <SearchResults>
-          {items.map((result, index) => (
+          {searchResults?.map((result) => (
             <SearchResult
-              ref={items.length === index + 1 ? lastItemRef : null}
               key={result.id}
               onClick={() => {
                 setOpen(true);
@@ -364,10 +188,10 @@ const StockList = () => {
                   </StockIndex>
                 </RowDiv>
               </StockDiv>
-              <S.ColumnDiv>
-                <PriceDiv>81400원</PriceDiv>
-                <PriceDiv>▲100 +0.14%</PriceDiv>
-              </S.ColumnDiv>
+              <StarImg
+                src={result.isAdded ? filledStar : blankStar}
+                alt={result.isAdded ? "filledstar" : "blankstar"}
+              />
             </SearchResult>
           ))}
         </SearchResults>
@@ -379,7 +203,7 @@ const StockList = () => {
   );
 };
 
-export default StockList;
+export default StockListParent;
 
 const SearchWrapper = styled.label`
   position: relative;
@@ -409,12 +233,12 @@ const SearchInput = styled.input`
 
 const SearchResults = styled.ul`
   width: 100%;
-  max-height: calc(100vh - 200px);
-  height: calc(100vh - 200px);
+  /* max-height: calc(100vh - 151px);
+  height: calc(100vh - 151px); */
   overflow: auto;
   padding-bottom: 5px;
 
-  background-color: white;
+  background-color: #fafcff;
   /* margin-top: 20px; */
 
   &::-webkit-scrollbar {
@@ -426,18 +250,17 @@ const SearchResult = styled.li`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
   padding: 10px 10px;
   text-align: left;
   min-height: 60px;
 
   cursor: pointer;
-  &:hover {
+  /* &:hover {
     background-color: #f0f0f0;
-  }
+  } */
 
-  &:nth-child(odd) {
-    background-color: #f5faff;
+  &:nth-child(even) {
+    background-color: #e3f0ff;
   }
 `;
 
@@ -445,6 +268,7 @@ const StockDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: start;
+  width: 100%;
 `;
 const StockName = styled.div`
   color: #000;
@@ -465,8 +289,8 @@ const RowDiv = styled.div`
   line-height: normal;
 `;
 
-const PriceDiv = styled.div`
-  text-align: right;
+const StarImg = styled.img`
+  width: 25px;
 `;
 
 const StockCode = styled.div`
