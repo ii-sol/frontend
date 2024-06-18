@@ -4,7 +4,7 @@ import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../../styles/GlobalStyles";
 
-import { normalizeNumber } from "../../../utils/NormalizeNumber";
+import { normalizeNumber } from "../../../utils/normalizeNumber";
 
 import Header from "~/components/common/Header";
 import Period from "../../../components/common/Period";
@@ -81,7 +81,10 @@ const AllowanceRegistration = () => {
         {step === 0 && (
           <S.StepWrapper>
             <S.Question>매달 얼마나 보낼까요?</S.Question>
-            <KeypadInput displayedNumber={displayedNumber} setDisplayedNumber={setDisplayedNumber} />
+            <KeypadInput
+              displayedNumber={displayedNumber}
+              setDisplayedNumber={setDisplayedNumber}
+            />
           </S.StepWrapper>
         )}
         {step === 1 && (
@@ -96,7 +99,9 @@ const AllowanceRegistration = () => {
               <ResultPhrase>
                 <span tw="text-[#154B9B]">양은수</span> 님에게
               </ResultPhrase>
-              <ResultPhrase>{normalizeNumber(allowanceData.amount)}원을</ResultPhrase>
+              <ResultPhrase>
+                {normalizeNumber(allowanceData.amount)}원을
+              </ResultPhrase>
               <ResultPhrase>매달 보낼게요</ResultPhrase>
             </ResultWrapper>
           </S.StepWrapper>
@@ -109,7 +114,9 @@ const AllowanceRegistration = () => {
               <S.CompleteCard style={{ gap: "2px" }}>
                 <ResultPhrase>양은수 님에게</ResultPhrase>
                 <ResultPhrase>6개월 동안</ResultPhrase>
-                <ResultPhrase tw="text-[#154B9B]">매달 {normalizeNumber(allowanceData.amount)}원</ResultPhrase>
+                <ResultPhrase tw="text-[#154B9B]">
+                  매달 {normalizeNumber(allowanceData.amount)}원
+                </ResultPhrase>
               </S.CompleteCard>
             </CompleteContainer>
           </S.StepWrapper>

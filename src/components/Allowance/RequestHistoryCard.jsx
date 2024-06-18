@@ -2,13 +2,22 @@ import React from "react";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 
-import { normalizeNumber } from "../../utils/NormalizeNumber";
+import { normalizeNumber } from "../../utils/normalizeNumber";
 
-const RequestHistoryCard = ({ dday, receiver, allowance, img, message, createdDate }) => {
+const RequestHistoryCard = ({
+  dday,
+  receiver,
+  allowance,
+  img,
+  message,
+  createdDate,
+}) => {
   return (
     <Container>
       <Content>
-        {dday && <DdayTag $dday={dday}>{dday === "0" ? "D-day" : `D-${dday}`}</DdayTag>}
+        {dday && (
+          <DdayTag $dday={dday}>{dday === "0" ? "D-day" : `D-${dday}`}</DdayTag>
+        )}
         <Receiver>{receiver}</Receiver>
         <Allowance>{normalizeNumber(allowance)}원</Allowance>
         <Message>{message}</Message>

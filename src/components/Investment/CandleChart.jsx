@@ -2,43 +2,57 @@ import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { styled } from "styled-components";
 import * as S from "../../styles/GlobalStyles";
+import { useDispatch, useSelector } from "react-redux";
 
-const CandleChart = () => {
-  const [selected, setSelected] = useState("1년차트");
-  const handleClick = (chartType) => {
-    setSelected(chartType);
+const CandleChart = ({ selected }) => {
+  const chartsData = useSelector((state) => state.invest.charts);
+  const [chartType, setChartType] = useState("area");
+
+  const formattedData = chartsData
+    .map((price) => ({
+      time_close: `${price.stck_bsop_date.slice(
+        0,
+        4
+      )}-${price.stck_bsop_date.slice(4, 6)}-${price.stck_bsop_date.slice(
+        6,
+        8
+      )}`,
+      open: parseFloat(price.stck_oprc),
+      high: parseFloat(price.stck_hgpr),
+      low: parseFloat(price.stck_lwpr),
+      close: parseFloat(price.stck_clpr),
+    }))
+    .sort((a, b) => new Date(a.time_close) - new Date(b.time_close));
+
+  const filterMonthlyData = (data) => {
+    const result = [];
+    const seenMonths = new Set();
+
+    data.forEach((price) => {
+      const date = new Date(price.time_close);
+      const month = date.getMonth();
+      if (!seenMonths.has(month)) {
+        seenMonths.add(month);
+        result.push(price);
+      }
+    });
+
+    return result;
   };
 
-  const data = [
-    {
-      time_close: "2023-01-01T00:00:00Z",
-      open: 1500,
-      high: 1550,
-      low: 1480,
-      close: 1520,
-    },
-    {
-      time_close: "2023-02-01T00:00:00Z",
-      open: 1520,
-      high: 1580,
-      low: 1510,
-      close: 1570,
-    },
-    {
-      time_close: "2023-03-01T00:00:00Z",
-      open: 1570,
-      high: 1600,
-      low: 1500,
-      close: 1510,
-    },
-    {
-      time_close: "2023-04-01T00:00:00Z",
-      open: 1590,
-      high: 1620,
-      low: 1580,
-      close: 1610,
-    },
-  ];
+  const monthlyData = filterMonthlyData(formattedData);
+
+  const getDataBasedOnSelection = () => {
+    return selected === 1 ? monthlyData : formattedData;
+  };
+
+  const xAxisCategories = () => {
+    if (selected === 1) {
+      return "MMM";
+    } else {
+      return "dd MMM";
+    }
+  };
 
   const [chartOptions, setChartOptions] = useState({
     theme: {
@@ -49,31 +63,53 @@ const CandleChart = () => {
       height: 350,
       width: 500,
       toolbar: {
-        show: false,
+        show: true,
+        tools: {
+          download: false,
+          selection: true,
+          zoom: true,
+          zoomin: true,
+          zoomout: true,
+          pan: true,
+          reset: false,
+          customIcons: [],
+        },
+        autoSelected: "zoom",
       },
       background: "transparent",
+    },
+    dataLabels: {
+      enabled: false,
     },
     stroke: {
       curve: "smooth",
       width: 2,
     },
     yaxis: {
-      show: false,
+      show: true,
+      tooltip: {
+        enabled: true,
+      },
+      labels: {
+        style: {
+          colors: "#676767",
+        },
+      },
     },
     xaxis: {
       type: "datetime",
-      categories: data.map((price) => price.time_close),
       labels: {
+        format: xAxisCategories(),
         style: {
-          colors: "#9c88ff",
+          colors: "#676767",
         },
       },
     },
     plotOptions: {
       candlestick: {
         colors: {
-          upward: "#3C90EB",
-          downward: "#DF7D46",
+          upward: "#5987FF",
+          downward: "#FF5959",
         },
       },
     },
@@ -81,9 +117,9 @@ const CandleChart = () => {
 
   const [chartSeries, setChartSeries] = useState([
     {
-      data: data.map((price) => {
+      data: getDataBasedOnSelection().map((price) => {
         return {
-          x: new Date(price.time_close),
+          x: Date.parse(price.time_close),
           y: [price.open, price.high, price.low, price.close],
         };
       }),
@@ -95,35 +131,25 @@ const CandleChart = () => {
       ...prevOptions,
       xaxis: {
         ...prevOptions.xaxis,
-        categories: data.map((price) => price.time_close),
+        labels: {
+          ...prevOptions.xaxis.labels,
+          format: xAxisCategories(),
+        },
       },
     }));
+
     setChartSeries([
       {
-        data: data.map((price) => ({
-          x: new Date(price.time_close),
+        data: getDataBasedOnSelection().map((price) => ({
+          x: Date.parse(price.time_close),
           y: [price.open, price.high, price.low, price.close],
         })),
       },
     ]);
-  }, [selected]);
+  }, [selected, chartsData]);
 
   return (
-    <div>
-      <S.RowDiv style={{ justifyContent: "start", margin: "20px 0px" }}>
-        <ToggleBtn
-          $selected={selected === "1년차트"}
-          onClick={() => handleClick("1년차트")}
-        >
-          1년차트
-        </ToggleBtn>
-        <ToggleBtn
-          $selected={selected === "한달차트"}
-          onClick={() => handleClick("한달차트")}
-        >
-          한달차트
-        </ToggleBtn>
-      </S.RowDiv>
+    <Container>
       <S.CenterDiv>
         <ReactApexChart
           type="candlestick"
@@ -133,25 +159,16 @@ const CandleChart = () => {
           width={320}
         />
       </S.CenterDiv>
-    </div>
+    </Container>
   );
 };
 
 export default CandleChart;
 
-const ToggleBtn = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 65px;
-  height: 30px;
-  border-radius: 5px;
-  background: ${(props) => (props.$selected ? "#154B9B" : "#ffffff")};
-  color: ${(props) => (props.$selected ? "white" : "#949494")};
-  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
-  &:hover {
-    background: ${(props) => (props.$selected ? "#154B9B" : "#ffffff")};
+const Container = styled.div`
+  .apexcharts-toolbar {
+    background: rgba(0, 55, 123, 0.5);
+    border-radius: 4px;
+    padding: 0px 2px 2px 2px;
   }
-  margin-right: 15px;
-  font-size: 15px;
 `;

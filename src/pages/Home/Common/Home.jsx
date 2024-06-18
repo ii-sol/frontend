@@ -1,7 +1,7 @@
 import React from "react";
 import Account from "../../../components/common/Account";
 import styled from "styled-components";
-import backgroundImage from "../../../assets/img/Home/mainback.svg";
+// import backgroundImage from "../../../assets/img/Home/mainback.svg";
 import invest from "../../../assets/img/Home/invest.svg";
 import allowance from "../../../assets/img/Home/allowance.svg";
 import mission from "../../../assets/img/Home/mission.svg";

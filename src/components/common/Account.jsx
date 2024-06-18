@@ -26,12 +26,15 @@ const Account = ({ accountNum }) => {
         <ButtonWrapper>
           {accountNum === 0 ? (
             <>
-              <Btn>돈 보내기</Btn>
+              <Btn onClick={() => navigate("/account/select")}>돈 보내기</Btn>
               <Btn>용돈 내역</Btn>
             </>
           ) : (
             <>
               <Btn onClick={() => navigate("/invest/start")}>투자하기</Btn>
+              <Btn onClick={() => navigate("/invest/tradehistory")}>
+                투자 내역
+              </Btn>
             </>
           )}
         </ButtonWrapper>

@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import tw from "twin.macro";
-import calender from "~/assets/img/child/calender.svg"; // 이미지 파일 경로를 확인하세요.
+import calender from "~/assets/img/Loan/calender.svg";
 import styled from "styled-components";
 import NextButton from "../../../components/Loan/NextButton";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoanDetails } from "../../../store/action"; // Correct the import statement
+import Header from "../../../components/common/Header";
+import { MdArrowBackIos } from "react-icons/md";
 
 const ScrollContainer = styled.div`
   ${tw`overflow-y-scroll h-48 w-full max-w-xs bg-blue-100 rounded-xl p-2`}
@@ -22,6 +26,7 @@ const Option = styled.div`
 const Period = () => {
   const [selectedPeriod, setSelectedPeriod] = useState("1개월");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const options = Array.from({ length: 12 }, (_, i) => `${i + 1}개월`);
 
@@ -30,16 +35,30 @@ const Period = () => {
   };
 
   const handleNext = () => {
+    dispatch(setLoanDetails({ period: parseInt(selectedPeriod) }));
+    console.log(selectedPeriod);
     navigate("/loan/message");
   };
+
   return (
     <>
+      <Header
+        left={<MdArrowBackIos />}
+        title={"돈 빌리기"}
+        onLeftClick={() => {
+          navigate("/loan/main");
+        }}
+      />
       <div tw="flex flex-col items-center p-5">
         <img src={calender} alt="Calendar" />
         <p tw="text-4xl text-center mb-5">{selectedPeriod}</p>
         <ScrollContainer>
           {options.map((option) => (
-            <Option key={option} selected={option === selectedPeriod} onClick={() => handleSelectChange(option)}>
+            <Option
+              key={option}
+              selected={option === selectedPeriod}
+              onClick={() => handleSelectChange(option)}
+            >
               {option}
             </Option>
           ))}
