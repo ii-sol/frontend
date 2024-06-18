@@ -13,8 +13,6 @@ const RegularAllowanceCard = ({
   role,
 }) => {
   const navigate = useNavigate();
-const RegularAllowanceCard = ({ period, allowance, startDate, endDate, role }) => {
-  const navigate = useNavigate();
 
   const handleRegisterClick = () => {
     navigate("/allowance/registration");

@@ -4,8 +4,6 @@ import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../../styles/GlobalStyles";
 
-import { normalizeNumber } from "../../../utils/NormalizeNumber";
-
 import { normalizeNumber } from "../../../utils/normalizeNumber";
 
 import Header from "~/components/common/Header";
