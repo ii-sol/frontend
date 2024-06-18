@@ -1,35 +1,53 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { styled } from "styled-components";
 
 const Indicator = () => {
+  const marketCapitalization = useSelector(
+    (state) => state.invest.indi.marketCapitalization
+  );
+  const dividendYield = useSelector((state) => state.invest.indi.dividendYield);
+  const pbr = useSelector((state) => state.invest.indi.pbr);
+  const per = useSelector((state) => state.invest.indi.per);
+  const psr = useSelector((state) => state.invest.indi.psr);
+  const roe = useSelector((state) => state.invest.indi.roe);
+
+  const formatMarketCap = (value) => {
+    if (value >= 10000) {
+      return `${(value / 10000).toLocaleString()}조원`;
+    } else {
+      return `${value}억원`;
+    }
+  };
+
   return (
     <div>
       <RowDiv>
         <BoxDiv>
           <AboutDiv>시가총액</AboutDiv>
-          <ContentDiv>153조원</ContentDiv>
+          <ContentDiv>{formatMarketCap(marketCapitalization)}</ContentDiv>
         </BoxDiv>
         <BoxDiv>
           <AboutDiv>배당수익률</AboutDiv>
-          <ContentDiv>153조원</ContentDiv>
+          <ContentDiv>{dividendYield}</ContentDiv>
         </BoxDiv>
         <BoxDiv>
           <AboutDiv>PBR</AboutDiv>
-          <ContentDiv>153조원</ContentDiv>
+          <ContentDiv>{pbr}</ContentDiv>
         </BoxDiv>
       </RowDiv>
       <RowDiv>
         <BoxDiv>
           <AboutDiv>PER</AboutDiv>
-          <ContentDiv>153조원</ContentDiv>
+          <ContentDiv>{per}</ContentDiv>
         </BoxDiv>
         <BoxDiv>
           <AboutDiv>ROE</AboutDiv>
-          <ContentDiv>153조원</ContentDiv>
+          <ContentDiv>{roe}</ContentDiv>
         </BoxDiv>
         <BoxDiv>
           <AboutDiv>PSR</AboutDiv>
-          <ContentDiv>153조원</ContentDiv>
+          <ContentDiv>{psr}</ContentDiv>
         </BoxDiv>
       </RowDiv>
     </div>

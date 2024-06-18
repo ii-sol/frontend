@@ -1,24 +1,20 @@
 import React, { useState } from "react";
-import * as S from "../../../styles/GlobalStyles";
-import Header from "../../../components/Investment/Header";
+import * as S from "../../styles/GlobalStyles";
+import Header from "../../components/Investment/Header";
 import { styled } from "styled-components";
 import { BottomSheet } from "react-spring-bottom-sheet";
-import StocksDetail from "../../../components/Investment/StocksDetail";
+import StocksDetail from "../../components/Investment/StocksDetail";
 import "react-spring-bottom-sheet/dist/style.css";
-import StockItem from "../../../components/Investment/StockItem";
+import StockItem from "../../components/Investment/StockItem";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import {
-  setName,
-  setCode,
-  setIsNew,
-} from "../../../store/reducers/Invest/invest";
+import { setName, setCode, setIsNew } from "../../store/reducers/Invest/invest";
 
+// TODO: 관심종목 유무로 isNew 구분하기
 const AvailableInvest = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const [selectedStockId, setSelectedStockId] = useState(null);
 
   const handleDismiss = () => {
     setOpen(false);

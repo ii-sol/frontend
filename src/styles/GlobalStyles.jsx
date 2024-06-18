@@ -54,7 +54,6 @@ export const BuyBtn = styled.button`
 `;
 
 export const Badge = styled.div`
-  margin-top: 20px;
   display: flex;
   align-items: center;
   justify-content: center;

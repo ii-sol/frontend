@@ -25,7 +25,11 @@ const Home = () => {
         </div>
         <S.RowDiv style={{ gap: "20px" }}>
           <img src={mypage} style={{ width: "42px" }} />
-          <img src={alert} style={{ width: "42px" }} />
+          <img
+            src={alert}
+            style={{ width: "42px" }}
+            onClick={() => navigate("/notification")}
+          />
         </S.RowDiv>
       </Wrapper>
       <S.CenterDiv>
@@ -91,36 +95,21 @@ const Wrapper = styled.div`
 
 const Btn = styled.div`
   position: relative;
-  /* width: ${(props) => props.$width}px; */
-  /* width: ${(props) =>
-    props.$width === 1
-      ? `calc(${screen.width}px * (2 / 3) )`
-      : `calc(${screen.width}px * (1 / 3) )`}; */
   width: ${(props) =>
     props.$width === 1 ? "calc(57vw - 20px)" : "calc(43vw - 20px)"};
   height: 155px;
   border-radius: 15px;
   background: ${(props) => props.$back};
-  box-shadow: 0px 0px 5px 0px #c8ddff;
+  box-shadow: 0px 0px 5px 0px #d8d8d8;
   margin-top: 20px;
   padding: 15px;
-
-  font-size: 23px;
-
-  /* @media (min-width: 380px) {
-    width: ${(props) => props.$width + 15}px;
-  }
-
-  @media (min-width: 400px) {
-    width: ${(props) => props.$width + 25}px;
-  } */
+  font-size: 22px;
 `;
 
 const RowDiv = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  /* gap: ${(props) => `calc(${window.innerWidth}px / 20)`}; */
   gap: 20px;
   margin-top: ${(props) => (props.$isFirst ? "20px" : "0px")};
 `;

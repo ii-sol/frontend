@@ -4,9 +4,8 @@ import { styled } from "styled-components";
 import * as S from "../../styles/GlobalStyles";
 import { useDispatch, useSelector } from "react-redux";
 
-const CandleChart = ({ selected }) => {
+const AreaChart = ({ selected }) => {
   const chartsData = useSelector((state) => state.invest.charts);
-  const [chartType, setChartType] = useState("area");
 
   const formattedData = chartsData
     .map((price) => ({
@@ -24,28 +23,6 @@ const CandleChart = ({ selected }) => {
     }))
     .sort((a, b) => new Date(a.time_close) - new Date(b.time_close));
 
-  const filterMonthlyData = (data) => {
-    const result = [];
-    const seenMonths = new Set();
-
-    data.forEach((price) => {
-      const date = new Date(price.time_close);
-      const month = date.getMonth();
-      if (!seenMonths.has(month)) {
-        seenMonths.add(month);
-        result.push(price);
-      }
-    });
-
-    return result;
-  };
-
-  const monthlyData = filterMonthlyData(formattedData);
-
-  const getDataBasedOnSelection = () => {
-    return selected === 1 ? monthlyData : formattedData;
-  };
-
   const xAxisCategories = () => {
     if (selected === 1) {
       return "MMM";
@@ -59,7 +36,7 @@ const CandleChart = ({ selected }) => {
       mode: "dark",
     },
     chart: {
-      type: "candlestick",
+      type: "area",
       height: 350,
       width: 500,
       toolbar: {
@@ -83,7 +60,33 @@ const CandleChart = ({ selected }) => {
     },
     stroke: {
       curve: "smooth",
-      width: 2,
+      width: 4,
+    },
+    colors: ["#5fafff"],
+    fill: {
+      type: "gradient",
+      gradient: {
+        shadeIntensity: 1,
+        opacityFrom: 0.9,
+        opacityTo: 0.7,
+        shade: "dark",
+        type: "vertical",
+        gradientToColors: ["#ffffff"],
+        inverseColors: false,
+        stops: [0, 100],
+        colorStops: [
+          {
+            offset: 0,
+            color: "#5fafff",
+            opacity: 0.9,
+          },
+          {
+            offset: 100,
+            color: "#ffffff",
+            opacity: 0.7,
+          },
+        ],
+      },
     },
     yaxis: {
       show: true,
@@ -115,16 +118,17 @@ const CandleChart = ({ selected }) => {
     },
   });
 
-  const [chartSeries, setChartSeries] = useState([
+  const chartSeries = [
     {
-      data: getDataBasedOnSelection().map((price) => {
+      name: "Close",
+      data: formattedData.map((price) => {
         return {
           x: Date.parse(price.time_close),
-          y: [price.open, price.high, price.low, price.close],
+          y: price.close,
         };
       }),
     },
-  ]);
+  ];
 
   useEffect(() => {
     setChartOptions((prevOptions) => ({
@@ -137,22 +141,13 @@ const CandleChart = ({ selected }) => {
         },
       },
     }));
-
-    setChartSeries([
-      {
-        data: getDataBasedOnSelection().map((price) => ({
-          x: Date.parse(price.time_close),
-          y: [price.open, price.high, price.low, price.close],
-        })),
-      },
-    ]);
   }, [selected, chartsData]);
 
   return (
     <Container>
       <S.CenterDiv>
         <ReactApexChart
-          type="candlestick"
+          type="area"
           series={chartSeries}
           options={chartOptions}
           height={350}
@@ -163,7 +158,7 @@ const CandleChart = ({ selected }) => {
   );
 };
 
-export default CandleChart;
+export default AreaChart;
 
 const Container = styled.div`
   .apexcharts-toolbar {

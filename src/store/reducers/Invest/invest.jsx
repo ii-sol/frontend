@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { combineSlices, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { fetchStocks as reqFetchStocks } from "../../../services/stock";
 
 const initialState = {
   trade: 0, //0: 구매, 1: 판매
@@ -9,10 +10,29 @@ const initialState = {
   quantity: 0,
   changePrice: 0,
   changeRate: 0,
+  changeSign: 3,
   isNew: false,
   parent: 10,
   message: "",
+  charts: [],
+  indi: {
+    marketCapitalization: "1670765",
+    dividendYield: "2.40",
+    pbr: "3.00",
+    per: "-18.34",
+    psr: "-1506396184",
+    roe: "14.08",
+  },
 };
+
+export const fetchStocks = createAsyncThunk(
+  "invest/fetchStocks",
+  async ({ code, pathVariable }, thunkAPI) => {
+    const response = await reqFetchStocks(code, pathVariable);
+    console.log(response);
+    return response;
+  }
+);
 
 const investSlice = createSlice({
   name: "invest",
@@ -45,6 +65,31 @@ const investSlice = createSlice({
     setMessage(state, action) {
       state.message = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchStocks.fulfilled, (state, action) => {
+        state.loading = "fulfilled";
+        state.charts = action.payload.data.charts;
+        state.name = action.payload.data.companyName;
+        state.price = action.payload.data.currentPrice;
+        state.changePrice = action.payload.data.changePrice;
+        state.changeRate = action.payload.data.changeRate;
+        state.changeSign = action.payload.data.changeSign;
+        state.indi.marketCapitalization =
+          action.payload.data.marketCapitalization;
+        state.indi.dividendYield = action.payload.data.dividendYield;
+        state.indi.pbr = action.payload.data.pbr;
+        state.indi.per = action.payload.data.per;
+        state.indi.roe = action.payload.data.roe;
+        state.indi.psr = action.payload.data.psr;
+      })
+      .addCase(fetchStocks.pending, (state) => {
+        state.loading = "pending";
+      })
+      .addCase(fetchStocks.rejected, (state) => {
+        state.loading = "rejected";
+      });
   },
 });
 

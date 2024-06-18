@@ -30,14 +30,15 @@ import MissionSendDetail from "../pages/Mission/Child/MissionSendDetail.jsx";
 import MissionReceiveDetail from "../pages/Mission/Child/MissionReceiveDetail.jsx";
 
 import InvestMain from "../pages/Investment/InvestMain";
-import AvailableInvest from "../pages/Investment/Child/AvailableInvest";
-import Trading from "../pages/Investment/Child/Trading";
-import Suggestion from "../pages/Investment/Child/Suggestion";
-import Done from "../pages/Investment/Child/Done";
-import ParentSelection from "../pages/Investment/Child/ParentSelection";
+import AvailableInvest from "../pages/Investment/AvailableInvest";
+import Trading from "../pages/Investment/Trading";
+import Suggestion from "../pages/Investment/Suggestion";
+import Done from "../pages/Investment/Done";
+import ParentSelection from "../pages/Investment/ParentSelection";
 import StockList from "../pages/Investment/StockList";
 import InvestHistory from "../pages/Investment/InvestHistory";
-import SuggestionDetail from "../pages/Investment/Child/SuggestionDetail";
+import SuggestionDetail from "../pages/Investment/SuggestionDetail";
+import TradeHistory from "../pages/Investment/TradeHistory";
 
 import Main from "../pages/Loan/Child/Main";
 import FromWho from "../pages/Loan/Child/FromWho";
@@ -112,6 +113,7 @@ const MainRouter = createBrowserRouter([
           { path: "stocklist", element: <StockList /> },
           { path: "history", element: <InvestHistory /> },
           { path: "history/:id", element: <SuggestionDetail /> },
+          { path: "tradehistory", element: <TradeHistory /> },
         ],
       },
       {

@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from "react";
-import StocksAbout from "../../../components/Investment/StocksAbout";
-import Header from "../../../components/Investment/Header";
-import Keypad from "../../../components/common/Keypad";
+import StocksAbout from "../../components/Investment/StocksAbout";
+import Header from "../../components/Investment/Header";
+import Keypad from "../../components/common/Keypad";
 import { styled } from "styled-components";
-import * as S from "../../../styles/GlobalStyles";
-import { useLocation, useNavigate } from "react-router-dom";
+import * as S from "../../styles/GlobalStyles";
+import { useNavigate } from "react-router-dom";
 
-import { normalizeNumber } from "../../../utils/NormalizeNumber";
+import { normalizeNumber } from "../../utils/normalizeNumber";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setMyAmount,
-  setQuantity,
-} from "../../../store/reducers/Invest/invest";
+import { setMyAmount, setQuantity } from "../../store/reducers/Invest/invest";
 
-//TODO: 매수주문증거금이 부족합니다. alert
+//TODO: 매수주문증거금이 부족합니다. alert, 0주는 안됨
 const Trading = () => {
   const dispatch = useDispatch();
   const isNew = useSelector((state) => state.invest.isNew);
