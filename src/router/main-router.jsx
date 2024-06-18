@@ -119,7 +119,7 @@ const MainRouter = createBrowserRouter([
           { path: "message", element: <Message /> },
           { path: "complete", element: <Complete /> },
           { path: "history", element: <LoanHistory /> },
-          { path: "detail", element: <LoanDetail /> },
+          { path: "detail/:loanId", element: <LoanDetail /> },
         ],
       },
     ],

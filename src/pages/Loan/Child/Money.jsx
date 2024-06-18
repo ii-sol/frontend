@@ -30,13 +30,16 @@ const Money = () => {
 
   const handleNext = () => {
     console.log(amount);
-    if (parseInt(amount.replace(/,/g, ""), 10) > 1000) {
+    if (
+      parseInt(amount.replace(/,/g, ""), 10) > 1000 &&
+      parseInt(amount.replace(/,/g, ""), 10) < 500000
+    ) {
       dispatch(
         setLoanDetails({ amount: parseInt(amount.replace(/,/g, ""), 10) })
       );
       navigate("/loan/period");
     } else {
-      setError("1,000원 이상부터 대출이 가능합니다.");
+      setError("1,000원 ~ 500,000원 사이에서 빌릴 수 있어요.");
     }
   };
 

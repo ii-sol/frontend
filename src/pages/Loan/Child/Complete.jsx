@@ -5,12 +5,12 @@ import moneyHand from "~/assets/img/child/moneyhand.svg";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { selectLoanDetails } from "../../../store/selectors";
-import store from "../../../store/store";
+import { store } from "../../../store/stores";
 
 const Complete = () => {
   const navigate = useNavigate();
 
-  const loanDetails = store.getState();
+  const loanDetails = store.getState().loan;
   console.log(loanDetails);
   console.log(store.getState());
   useEffect(() => {

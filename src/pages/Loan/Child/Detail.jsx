@@ -14,6 +14,11 @@ const LoanDetail = () => {
     return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-CA"); // en-CA locale formats date as YYYY-MM-DD
+  };
+
   const calculateEqualInstallments = (amount, rate, period) => {
     const monthlyInterestRate = rate / 12 / 100;
     const installmentAmount =
@@ -50,7 +55,7 @@ const LoanDetail = () => {
       const fetchLoanDetail = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:8082/child/loan/detail/${loanId}`
+            `http://localhost:8082/loan/detail/${loanId}`
           );
           const data = response.data.response;
 
@@ -94,10 +99,10 @@ const LoanDetail = () => {
   } = loanDetail;
 
   return (
-    <div tw="flex flex-col h-screen p-4">
-      <main tw="flex flex-col items-center bg-white rounded-2xl p-6">
+    <div tw="flex flex-col h-screen">
+      <main tw="flex flex-col items-center rounded-2xl">
         <div tw="text-center">
-          <p tw="text-lg text-gray-600">{title}</p>
+          <p tw="text-2xl font-bold text-gray-600">{title}</p>
           <p tw="text-4xl font-bold mt-2">{formatAmount(amount)}원</p>
         </div>
 
@@ -110,28 +115,28 @@ const LoanDetail = () => {
           <h3 tw="text-lg font-bold text-gray-800">대출 상세 정보</h3>
           <div tw="bg-blue-100 rounded-2xl p-4 mt-2 shadow-md">
             <p tw="flex justify-between text-gray-700">
-              <span>대출 금액</span>
+              <span>빌린 금액</span>
               <span>{formatAmount(amount)}원</span>
             </p>
             <p tw="flex justify-between mt-2 text-gray-700">
-              <span>대출 기간</span>
+              <span>빌린 기간</span>
               <span>{period}개월</span>
             </p>
             <p tw="flex justify-between mt-2 text-gray-700">
-              <span>총 대출 이자</span>
+              <span>총 이자</span>
               <span>{formatAmount(totalInterest)}원</span>
             </p>
             <p tw="flex justify-between mt-2 text-gray-700">
-              <span>대출 금리</span>
+              <span>이자률</span>
               <span>{interestRate}%</span>
             </p>
             <p tw="flex justify-between mt-2 text-gray-700">
-              <span>신청일</span>
-              <span>{createDate}</span>
+              <span>빌린 날</span>
+              <span>{formatDate(createDate)}</span>
             </p>
             <p tw="flex justify-between mt-2 text-gray-700">
-              <span>만기일</span>
-              <span>{dueDate}</span>
+              <span>모두 갚는 날</span>
+              <span>{formatDate(dueDate)}</span>
             </p>
           </div>
         </section>
@@ -173,7 +178,7 @@ const LoanDetail = () => {
         </section>
 
         <button
-          tw="bg-blue-500 text-white py-2 px-4 rounded-2xl mt-6 w-full max-w-md"
+          tw="bg-blue-500 text-white py-2 px-4 rounded-2xl mt-6 w-full max-w-md mb-4"
           onClick={handleRepaymentCompletion}
         >
           상환 완료

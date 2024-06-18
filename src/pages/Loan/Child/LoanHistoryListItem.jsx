@@ -1,46 +1,61 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
 import * as S from "../../../styles/GlobalStyles";
 import EmptyImage from "~/assets/img/common/empty.svg";
 import LoanHistoryCard from "../../../components/Loan/LoanHistoryCard";
+import { useSelector } from "react-redux";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const LoanHistoryListItem = () => {
-  const data = [
-    {
-      id: 1,
-      status: "4",
-      createdDate: "2024-05-31",
-      title: "자전거",
-      dueDate: "2025-06-30",
-      amount: "10000",
-    },
-    {
-      id: 2,
-      status: "5",
-      createdDate: "2024-05-31",
-      title: "닌텐도",
-      dueDate: "2025-06-30",
-      amount: "10000",
-    },
-    {
-      id: 3,
-      status: "4",
-      createdDate: "2024-05-31",
-      title: "맥북",
-      dueDate: "2025-06-30",
-      amount: "10000",
-    },
-  ];
+  const [data, setData] = useState([]);
+  const status = useSelector((state) => state.history.status);
+  const year = useSelector((state) => state.history.year);
+  const month = useSelector((state) => state.history.month);
+  const navigate = useNavigate();
+  useEffect(() => {
+    fetch("http://localhost:8082/loan")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          // Filter data by status
+          const filteredByStatus = data.response.filter(
+            (item) => item.status === 4 || item.status === 5
+          );
+
+          // Further filter data by the selected status, year, and month
+          const filteredData = filteredByStatus.filter((item) => {
+            const itemDate = new Date(item.createDate);
+            const isSameYear = itemDate.getFullYear() === year;
+            const isSameMonth = itemDate.getMonth() === month - 1;
+            const isMatchingStatus = status === 0 || item.status == status; // Assuming status 0 means all statuses
+
+            return isSameYear && isSameMonth && isMatchingStatus;
+          });
+
+          setData(filteredData);
+        } else {
+          console.error("Failed to fetch data:", data.error);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, [status, year, month]);
+
+  const handleProgress = (loanId) => {
+    navigate(`/loan/detail/${loanId}`);
+  };
 
   const renderItem = (item) => (
     <LoanHistoryCard
       key={item.id}
-      status={item.status}
+      status={item.status.toString()}
       title={item.title}
-      createDate={item.createdDate}
-      dueDate={item.dueDate}
-      amount={item.amount}
+      createDate={new Date(item.createDate).toLocaleDateString()}
+      dueDate={new Date(item.dueDate).toLocaleDateString()}
+      amount={item.amount.toString()}
+      onClick={() => handleProgress(item.id)}
     />
   );
 

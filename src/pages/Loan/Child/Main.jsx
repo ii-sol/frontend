@@ -4,11 +4,11 @@ import Slider from "react-slick";
 import tw from "twin.macro";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import messageIcon from "~/assets/img/child/message3.svg";
 import { MdArrowBackIos } from "react-icons/md";
 import { useNavigate, useLocation } from "react-router-dom";
 import LoanCard from "../../../components/Loan/LoanCard";
 import RequestCard from "../../../components/Loan/RequestCard.jsx";
+import Header from "../../../components/common/Header.jsx";
 
 const Main = () => {
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ const Main = () => {
   useEffect(() => {
     const fetchLoans = async () => {
       try {
-        const response = await axios.get("http://localhost:8082/child/loan");
+        const response = await axios.get("http://localhost:8082/loan");
         setLoans(response.data.response || []); // response.data.response 사용
       } catch (error) {
         console.error("Failed to fetch loans", error);
@@ -28,14 +28,6 @@ const Main = () => {
 
     fetchLoans();
   }, []);
-
-  const handleBack = () => {
-    if (location.state?.from) {
-      navigate(-1);
-    } else {
-      navigate("/");
-    }
-  };
 
   const handleSelect = () => {
     setIsSelected(!isSelected);
@@ -46,7 +38,7 @@ const Main = () => {
   };
 
   const handleHistory = () => {
-    navigate("/loan/history-exist");
+    navigate("/loan/history");
   };
 
   const handleProgress = (loanId) => {
@@ -84,15 +76,9 @@ const Main = () => {
   return (
     <>
       <div tw="flex flex-col h-screen">
-        <header tw="flex justify-between p-4 bg-white">
-          <button tw="text-2xl" onClick={handleBack}>
-            <MdArrowBackIos />
-          </button>
-          <h1 tw="text-2xl font-bold">대출</h1>
-          <div tw="w-8" /> {/* Placeholder for space balance */}
-        </header>
+        <Header left={<MdArrowBackIos />} title={"대출"} />
 
-        <main tw="flex flex-col flex-1 justify-start p-5 space-y-4">
+        <main tw="flex flex-col flex-1 justify-start space-y-4 mt-1">
           {/* Credit Score */}
           <div
             tw="flex flex-col items-center justify-center bg-blue-400 w-full rounded-2xl p-4 shadow-md"
@@ -136,9 +122,9 @@ const Main = () => {
           </div>
           {/* Loan History Header */}
           <div tw="flex justify-between items-center w-full">
-            <p tw="text-lg font-bold">나의 대출</p>
+            <p tw="text-lg font-bold">나의 빌린 돈</p>
             <button tw="text-blue-500" onClick={handleHistory}>
-              지난 내역
+              지난 기록
             </button>
           </div>
           {/* Loan History */}
@@ -147,8 +133,8 @@ const Main = () => {
               tw="w-full rounded-2xl shadow-lg p-4 flex bg-blue-900 flex-col items-center justify-center min-h-[250px]"
               onClick={handleCreateLoan}
             >
-              <p tw="font-bold text-2xl">대출</p>
-              <p tw="font-bold text-2xl">신청하기</p>
+              <p tw="font-bold text-2xl">빌리기</p>
+              <p tw="font-bold text-2xl">부탁하기</p>
             </div>
 
             {loans
@@ -163,6 +149,7 @@ const Main = () => {
                   title={loan.title}
                   totalAmount={loan.balance}
                   minHeight="250px"
+                  onClick={() => handleProgress(loan.id)}
                 />
               ))}
           </div>
