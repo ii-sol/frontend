@@ -63,7 +63,7 @@ const AllowanceRegistration = () => {
           <div>
             <S.Phrase tw="text-[20px] ml-2">금액</S.Phrase>
             <StyledInputWrapper>
-              <StyledInput type="text" placeholder="매달 얼마나 보낼까요?" value={amount} onChange={handleAmountChange} />
+              <StyledInput type="text" placeholder="매달 얼마나 보낼까요?" value={amount === "" ? "" : normalizeNumber(amount)} onChange={handleAmountChange} />
               <StyledUnit>원</StyledUnit>
             </StyledInputWrapper>
             {error1 && <Error>{error1}</Error>}
