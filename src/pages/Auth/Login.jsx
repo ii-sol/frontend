@@ -1,37 +1,34 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 import tw from "twin.macro";
 
-import { login } from "../../services/user";
-import { loginSuccess } from "../../store/reducers/Auth/user";
-
-import * as S from "../../styles/GlobalStyles";
+import Button from "../../components/common/Button";
 
 const Login = () => {
-  const [phoneNum, setPhoneNum] = useState("");
-  const [accountInfo, setAccountInfo] = useState("");
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const [userData, setUserData] = useState({
+    phoneNum: "",
+    accountInfo: "",
+  });
 
-  const handleLogin = async () => {
-    try {
-      const userInfo = await login(phoneNum, accountInfo);
-      dispatch(loginSuccess(userInfo));
-      navigate("/");
-    } catch (err) {
-      alert(err.message);
-    }
+  const handleLoginClick = () => {
+    // TODO: 로그인 하기
+    console.log(userData);
   };
 
   const handlePhoneChange = (e) => {
     const formattedValue = e.target.value.replace(/[^0-9]/g, "").replace(/(^02.{0}|^01.{1}|[0-9]{3,4})([0-9]{3,4})([0-9]{4})/g, "$1-$2-$3");
-    setPhoneNum(formattedValue);
+    setUserData({
+      ...userData,
+      phoneNum: formattedValue,
+    });
   };
 
   const handleAccountInfoChange = (e) => {
-    setAccountInfo(e.target.value);
+    setUserData({
+      ...userData,
+      accountInfo: e.target.value,
+    });
   };
 
   return (
@@ -41,27 +38,27 @@ const Login = () => {
         <LoginWrapper>
           <div>전화번호</div>
         </LoginWrapper>
-        <Input type="text" name="phoneNum" value={phoneNum} onChange={handlePhoneChange} placeholder="전화번호를 입력해주세요" maxLength="13" />
+        <Input type="text" name="phoneNum" value={userData.phoneNum} onChange={handlePhoneChange} placeholder="전화번호를 입력해주세요" maxLength="13" />
         <LoginWrapper>
           <div>비밀번호</div>
         </LoginWrapper>
-        <Input type="password" name="accountInfo" value={accountInfo} onChange={handleAccountInfoChange} placeholder="비밀번호를 입력해주세요"></Input>
+        <Input type="password" name="accountInfo" value={userData.accountInfo} onChange={handleAccountInfoChange} placeholder="비밀번호를 입력해주세요"></Input>
       </LoginForm>
       <StyledLink to="/signup">회원이 아니신가요?</StyledLink>
-      <S.BottomBtn onClick={handleLogin}>로그인</S.BottomBtn>
+      <Button text="로그인" onClick={handleLoginClick}></Button>
     </Layout>
   );
 };
 
 export default Login;
 
-const Layout = tw.div`
-  flex 
+const Layout = styled.div`
+  ${tw`flex 
   flex-col 
   items-center 
   justify-center 
-  h-screen
-  gap-4
+  gap-4`}
+  height: calc(100vh - 60px);
 `;
 
 const LoginForm = styled.div`
