@@ -1,6 +1,7 @@
 import React from "react";
 import tw from "twin.macro";
 import { styled } from "styled-components";
+import * as S from "../../../styles/GlobalStyles";
 
 import Header from "~/components/common/Header";
 import RequestCardParent from "../../../components/Allowance/RequestCardParent";
@@ -8,28 +9,26 @@ import RegularAllowanceCard from "../../../components/Allowance/RegularAllowance
 
 const AllowanceManagement = () => {
   return (
-    <Container>
+    <S.Container>
       <Header left={"<"} title={"용돈"} right={""} />
       <Menu>
-        <Phrase>정기용돈</Phrase>
-        <History>지난 용돈 &gt;</History>
+        <S.Phrase>정기용돈</S.Phrase>
+        <S.HistoryLink>지난 용돈 &gt;</S.HistoryLink>
       </Menu>
-      <RegularAllowanceCard period="1개월" allowance="100000" startDate={"2024.05.12"} endDate={"2024.06.12"} />
+      <RegularAllowanceCard period="1개월" allowance="100000" startDate={"2024.05.12"} endDate={"2024.06.12"} role={"parent"} />
       <Menu>
-        <Phrase>조르기 내역</Phrase>
+        <S.Phrase>조르기 내역</S.Phrase>
       </Menu>
-      <CardContainer>
+      <S.CardContainer>
         <RequestCardParent allowance={1000} message={"과자 먹고 싶어요"} />
         <RequestCardParent allowance={3000} message={"준비물 사야 해요"} />
         <RequestCardParent allowance={1000} message={"과자 먹고 싶어요"} />
-      </CardContainer>
-    </Container>
+      </S.CardContainer>
+    </S.Container>
   );
 };
 
 export default AllowanceManagement;
-
-const Container = styled.div``;
 
 const Menu = styled.div`
   ${tw`
@@ -38,23 +37,4 @@ const Menu = styled.div`
   items-center
   `}
   grid-template-columns: auto auto;
-`;
-
-const Phrase = tw.div`
-  text-lg
-  font-bold
-  justify-center
-  my-2
-  justify-self-start
-`;
-
-const History = tw.div`
-  text-sm
-  justify-self-end
-`;
-
-const CardContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 20px;
 `;

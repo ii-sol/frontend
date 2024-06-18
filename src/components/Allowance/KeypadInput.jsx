@@ -20,10 +20,6 @@ const KeypadInput = ({ displayedNumber, setDisplayedNumber }) => {
     }
   };
 
-  const normalizeNumber = (number) => {
-    return parseFloat(number).toLocaleString("en-US");
-  };
-
   return (
     <InputContainer>
       <Img src={CoinImage} alt="코인" />

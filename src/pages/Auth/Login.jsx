@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 import tw from "twin.macro";
 
-import Button from "~/components/common/Button";
+import * as S from "../../styles/GlobalStyles";
 
 const Login = () => {
   const [phoneNum, setPhoneNum] = useState("");
@@ -32,7 +32,7 @@ const Login = () => {
         <Input type="password" name="accountInfo" placeholder="비밀번호를 입력해주세요"></Input>
       </LoginForm>
       <StyledLink to="/signup">회원이 아니신가요?</StyledLink>
-      <Button text="로그인" onClick={login}></Button>
+      <S.BottomBtn onClick={login}>로그인</S.BottomBtn>
     </Layout>
   );
 };

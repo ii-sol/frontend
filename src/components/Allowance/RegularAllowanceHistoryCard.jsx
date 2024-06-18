@@ -4,6 +4,7 @@ import { styled } from "styled-components";
 
 import { normalizeNumber } from "../../utils/normalizeNumber";
 
+const RegularAllowanceHistoryCard = ({ allowance }) => {
   return (
     <Container>
       <Content>

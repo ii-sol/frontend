@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
+import * as S from "../../styles/GlobalStyles";
 
-import Button from "~/components/common/Button";
 import ChatBubble from "~/components/Auth/ChatBubble";
 import Input from "~/components/Auth/Input";
 
@@ -107,28 +107,28 @@ const Signup = () => {
   const isBirthDateValid = (birthDate) => birthDate.replaceAll("-", "").length === 8; // YYYYMMDD 형식
 
   return (
-    <Container>
-      <FormWrapper>
+    <S.Container style={{ height: "calc(100vh - 60px)" }}>
+      <S.FormWrapper>
         {step === 0 && (
-          <StepWrapper>
+          <S.StepWrapper>
             <ChatBubble text="안녕! 이름이 뭐예요?" />
             <RightAlignedDiv>
               <Input type="text" name="name" value={userData.name} onChange={handleChange} />
             </RightAlignedDiv>
             {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-          </StepWrapper>
+          </S.StepWrapper>
         )}
         {step === 1 && (
-          <StepWrapper>
+          <S.StepWrapper>
             <ChatBubble text="전화번호를 알려주세요!" />
             <RightAlignedDiv>
               <Input type="text" name="phoneNum" value={userData.phoneNum} onChange={handleChange} />
             </RightAlignedDiv>
             {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-          </StepWrapper>
+          </S.StepWrapper>
         )}
         {step === 2 && (
-          <StepWrapper>
+          <S.StepWrapper>
             <ChatBubble text="비밀번호를 알려주세요!" />
             <RightAlignedDiv tw="mb-10">
               <Input type="password" name="accountInfo" value={userData.accountInfo} onChange={handleChange} disabled={showconfirmAccountInfo} />
@@ -142,19 +142,19 @@ const Signup = () => {
               </div>
             )}
             {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-          </StepWrapper>
+          </S.StepWrapper>
         )}
         {step === 3 && (
-          <StepWrapper>
+          <S.StepWrapper>
             <ChatBubble text="생년월일을 알려주세요!" />
             <RightAlignedDiv>
               <Input type="date" name="birthDate" value={userData.birthDate} onChange={handleChange} width="100px" />
             </RightAlignedDiv>
             {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-          </StepWrapper>
+          </S.StepWrapper>
         )}
         {step === 4 && (
-          <StepWrapper tw="justify-center mb-40">
+          <S.StepWrapper tw="justify-center mb-40">
             <Phrase>어떤 서비스를 이용하고 싶으신가요?</Phrase>
             <ButtonGroup>
               <RoleWrapper>
@@ -171,61 +171,40 @@ const Signup = () => {
               </RoleWrapper>
             </ButtonGroup>
             <ErrorWrapper>{errorMessage && <div tw="text-red-500 text-sm">{errorMessage}</div>}</ErrorWrapper>
-          </StepWrapper>
+          </S.StepWrapper>
         )}
         {step === 5 && (
-          <StepWrapper tw="justify-center mb-40">
+          <S.StepWrapper tw="justify-center mb-40">
             <CompleteWrapper>
               <img src={CompleteImage} alt="완료" />
               <Phrase>가입 완료!</Phrase>
             </CompleteWrapper>
-          </StepWrapper>
+          </S.StepWrapper>
         )}
 
         <ButtonWrapper>
           {step < 4 ? (
-            <Button onClick={handleNext} text="다음">
+            <S.BottomBtn onClick={handleNext} text="다음">
               다음
-            </Button>
+            </S.BottomBtn>
           ) : step === 4 ? (
-            <Button onClick={handleSubmit} text="제출">
+            <S.BottomBtn onClick={handleSubmit} text="제출">
               제출
-            </Button>
+            </S.BottomBtn>
           ) : (
             step === 5 && (
-              <Button onClick={handleLoginRedirect} text="로그인 하러 가기">
+              <S.BottomBtn onClick={handleLoginRedirect} text="로그인 하러 가기">
                 로그인 하러 가기
-              </Button>
+              </S.BottomBtn>
             )
           )}
         </ButtonWrapper>
-      </FormWrapper>
-    </Container>
+      </S.FormWrapper>
+    </S.Container>
   );
 };
 
 export default Signup;
-
-const Container = tw.div`
-  flex
-  justify-center
-  h-screen
-`;
-
-const FormWrapper = styled.div`
-  ${tw`flex
-  flex-col
-  w-80
-  gap-5
-  rounded-[15px]
-  h-full
-  relative`}
-  height: calc(100% - 60px);
-`;
-
-const StepWrapper = styled.div`
-  ${tw`flex flex-col flex-grow`}
-`;
 
 const RightAlignedDiv = styled.div`
   ${tw`self-end`}

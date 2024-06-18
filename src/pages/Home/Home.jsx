@@ -103,7 +103,6 @@ const Btn = styled.div`
   box-shadow: 0px 0px 5px 0px #d8d8d8;
   margin-top: 20px;
   padding: 15px;
-
   font-size: 22px;
 `;
 

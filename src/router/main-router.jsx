@@ -1,26 +1,24 @@
 import * as React from "react";
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../pages/layout/MainLayout";
-
-//pages
-import Home from "../pages/Home/Home";
-import NavLayout from "../pages/layout/NavLayout";
 import InsideLayout from "../pages/layout/InsideLayout";
-import FromWho from "../pages/Loan/Child/FromWho";
+
+// pages
+import Home from "../pages/Home/Home";
 import Signup from "../pages/Auth/Signup";
 import Login from "../pages/Auth/Login";
-import Money from "../pages/Loan/Child/Money";
-import Period from "../pages/Loan/Child/Period";
-import Message from "../pages/Loan/Child/Message";
-import Complete from "../pages/Loan/Child/Complete";
-import InvestMain from "../pages/Investment/InvestMain";
-import AvailableInvest from "../pages/Investment/Child/AvailableInvest";
-import LoanHistory from "../pages/Loan/Child/LoanHistoryNull";
-import LoanHistoryExist from "../pages/Loan/Child/LoanHistoryExist";
-import Main from "../pages/Loan/Child/Main";
+// import Notification from "../pages/Notification/Notification";
+import MyPage from "../pages/MyPage/MyPage";
+import MemberManagement from "../pages/MyPage/MemberManagement";
+
+import AllowanceManagement from "../pages/Allowance/Parent/AllowanceManagement.jsx";
+import AllowanceRegistration from "../pages/Allowance/Parent/AllowanceRegistration.jsx";
+import AllowanceHistoryP from "../pages/Allowance/Parent/AllowanceHistory.jsx";
 import AllowanceRequest from "../pages/Allowance/Child/AllowanceRequest";
 import NewAllowanceRequest from "../pages/Allowance/Child/NewAllowanceRequest";
+import AllowanceRequestHistory from "../pages/Allowance/Child/AllowanceRequestHistory.jsx";
 import AllowanceHistory from "../pages/Allowance/Child/AllowanceHistory";
+
 import Mission from "../pages/Mission/Child/Mission";
 import MissionHistory from "../pages/Mission/Child/MissionHistory.jsx";
 import MissionDetail from "../pages/Mission/Child/MissionDetail.jsx";
@@ -42,92 +40,67 @@ import InvestHistory from "../pages/Investment/InvestHistory";
 import SuggestionDetail from "../pages/Investment/SuggestionDetail";
 import TradeHistory from "../pages/Investment/TradeHistory";
 
-const MainRouter = [
+import Main from "../pages/Loan/Child/Main";
+import FromWho from "../pages/Loan/Child/FromWho";
+import Money from "../pages/Loan/Child/Money";
+import Period from "../pages/Loan/Child/Period";
+import Message from "../pages/Loan/Child/Message";
+import Complete from "../pages/Loan/Child/Complete";
+import LoanHistory from "../pages/Loan/Child/LoanHistory";
+import LoanDetail from "../pages/Loan/Child/DetailRequest.jsx";
+import LoanDetailOnGoing from "../pages/Loan/Child/DetailAccept.jsx";
+import SelectAccount from "../pages/Account/SelectAccount.jsx";
+import AccountMoney from "../pages/Account/Money.jsx";
+import Send from "../pages/Account/Send.jsx";
+import SendMoneyComplete from "../pages/Account/SendComplete.jsx";
+
+const MainRouter = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
     children: [
+      { path: "", element: <Home /> },
+      { path: "signup", element: <Signup /> },
+      { path: "login", element: <Login /> },
+      { path: "notification", element: <Notification /> },
       {
-        path: "signup",
-        index: true,
-        element: <Signup />,
+        path: "mypage",
+        children: [
+          { path: "", element: <MyPage /> },
+          { path: "member", element: <MemberManagement /> },
+        ],
       },
-      {
-        path: "login",
-        index: true,
-        element: <Login />,
-      },
-    ],
-  },
-  {
-    path: "/",
-    element: <MainLayout />,
-    children: [
-      {
-        path: "",
-        index: true,
-        element: <Home />,
-      },
-    ],
-  },
-  {
-    path: "/",
-    element: <MainLayout />,
-    children: [
       {
         path: "allowance",
         children: [
-          {
-            path: "management",
-            element: <AllowanceManagement />,
-          },
-          {
-            path: "registration",
-            element: <AllowanceRegistration />,
-          },
-          {
-            path: "history",
-            element: <AllowanceHistory />,
-          },
-          {
-            path: "history-parent",
-            element: <AllowanceHistoryP />,
-          },
+          { path: "management", element: <AllowanceManagement /> },
+          { path: "registration", element: <AllowanceRegistration /> },
+          { path: "history", element: <AllowanceHistory /> },
+          { path: "history-parent", element: <AllowanceHistoryP /> },
           {
             path: "irregular",
             children: [
-              {
-                path: "",
-                element: <AllowanceRequest />,
-              },
-              {
-                path: "create",
-                element: <NewAllowanceRequest />,
-              },
-              {
-                path: "history",
-                element: <AllowanceRequestHistory />,
-              },
+              { path: "", element: <AllowanceRequest /> },
+              { path: "create", element: <NewAllowanceRequest /> },
+              { path: "history", element: <AllowanceRequestHistory /> },
             ],
           },
         ],
       },
-    ],
-  },
-  {
-    path: "/mission",
-    element: <MainLayout />,
-    children: [
       {
-        index: true,
-        element: <Mission />,
+        path: "mission",
+        children: [
+          { path: "", element: <Mission /> },
+          { path: "detail", element: <MissionDetail /> },
+          { path: "history", element: <MissionHistory /> },
+          { path: "create", element: <CreateMission /> },
+          { path: "amount", element: <CreateMissionPrice /> },
+          { path: "member", element: <CreateMissionMember /> },
+          { path: "complete", element: <CreateMissionComplete /> },
+          { path: "request/send/detail", element: <MissionSendDetail /> },
+          { path: "request/request/detail", element: <MissionReceiveDetail /> },
+        ],
       },
-    ],
-  },
-  {
-    path: "",
-    element: <MainLayout />,
-    children: [
       {
         path: "invest",
         children: [
@@ -161,91 +134,25 @@ const MainRouter = [
         path: "/account",
         children: [
           {
-            path: "",
-            element: <InvestMain />,
+            path: "select",
+            element: <SelectAccount />,
           },
           {
-            path: "start",
-            element: <AvailableInvest />,
-          },
-          {
-            path: "trading",
-            element: <Trading />,
-          },
-          {
-            path: "member",
-            element: <ParentSelection />,
-          },
-          {
-            path: "suggest",
-            element: <Suggestion />,
+            path: "money",
+            element: <AccountMoney />,
           },
           {
             path: "send",
-            element: <Done />,
+            element: <Send />,
           },
           {
-            path: "stocklist",
-            element: <StockList />,
-          },
-          {
-            path: "history",
-            element: <InvestHistory />,
-          },
-          {
-            path: "history/:id",
-            element: <SuggestionDetail />,
+            path: "complete",
+            element: <SendMoneyComplete />,
           },
         ],
       },
     ],
   },
+]);
 
-  {
-    path: "/loan/main",
-    element: <Main />,
-  },
-  {
-    path: "/loan",
-    element: <InsideLayout service={"대출"} />,
-    children: [
-      {
-        path: "who",
-        index: true,
-        element: <FromWho />,
-      },
-      {
-        path: "money",
-        element: <Money />,
-      },
-      {
-        path: "period",
-        element: <Period />,
-      },
-      {
-        path: "message",
-        element: <Message />,
-      },
-      {
-        path: "complete",
-        element: <Complete />,
-      },
-      {
-        path: "history-null",
-        element: <LoanHistory />,
-      },
-      {
-        path: "history-exist",
-        element: <LoanHistoryExist />,
-      },
-      {
-        path: "detail",
-        element: <LoanDetail />,
-      },
-    ],
-  },
-];
-
-const router = createBrowserRouter(MainRouter);
-
-export default router;
+export default MainRouter;

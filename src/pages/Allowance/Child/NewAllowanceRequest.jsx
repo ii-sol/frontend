@@ -2,30 +2,35 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
+import * as S from "../../../styles/GlobalStyles";
+
+import { normalizeNumber } from "../../../utils/NormalizeNumber";
 
 import { normalizeNumber } from "../../../utils/normalizeNumber";
 
 import Header from "~/components/common/Header";
-import Button from "~/components/common/Button";
 import Member from "~/components/common/Member";
 import Message from "~/components/common/Message";
 
-import ChildImage from "~/assets/img/Auth/child.svg";
+import CharacterImage1 from "~/assets/img/common/character/character_sol.svg";
+import CharacterImage2 from "~/assets/img/common/character/character_lay.svg";
 
 import MessageImage from "~/assets/img/common/message.svg";
 import AllowanceImage from "~/assets/img/Allowance/allowance.svg";
 import KeypadInput from "../../../components/Allowance/KeypadInput";
 
+const initialState = {
+  childPhone: "",
+  parentPhone: "",
+  amount: "",
+  content: "",
+};
+
 const NewAllowanceRequest = () => {
   const [step, setStep] = useState(0);
   const [displayedNumber, setDisplayedNumber] = useState("0");
   const [message, setMessage] = useState("");
-  const [requestData, setRequestData] = useState({
-    childPhone: "",
-    parentPhone: "",
-    amount: "",
-    content: "",
-  });
+  const [requestData, setRequestData] = useState(initialState);
 
   const navigate = useNavigate();
 
@@ -78,6 +83,23 @@ const NewAllowanceRequest = () => {
     }
   };
 
+  const handlePrev = () => {
+    if (step === 0) {
+      navigate("/allowance/irregular");
+    } else if (step < 3) {
+      setStep(step - 1);
+    } else {
+      navigate("/allowance/irregular");
+    }
+  };
+
+  const handleRightClick = () => {
+    if (window.confirm("정말 취소하시겠습니까?")) {
+      setRequestData(initialState);
+      navigate("/allowance/irregular");
+    }
+  };
+
   const handleMemberChange = (name, phoneNum) => {
     setRequestData({
       ...requestData,
@@ -97,7 +119,6 @@ const NewAllowanceRequest = () => {
   };
 
   const handleAllowanceRedirect = () => {
-    console.log(requestData);
     navigate("/allowance/irregular");
   };
 
@@ -112,8 +133,8 @@ const NewAllowanceRequest = () => {
       />
       <S.FormWrapper>
         {step === 0 && (
-          <StepWrapper>
-            <Phrase>누구에게 용돈을 부탁드릴까요?</Phrase>
+          <S.StepWrapper>
+            <S.Question>누구에게 용돈을 부탁드릴까요?</S.Question>
             <MemberContainer>
               <Member
                 img={CharacterImage1}
@@ -131,7 +152,7 @@ const NewAllowanceRequest = () => {
                 onClick={() => handleMemberChange("아빠", "010-4321-4321")}
               ></Member>
             </MemberContainer>
-          </StepWrapper>
+          </S.StepWrapper>
         )}
         {step === 1 && (
           <S.StepWrapper>
@@ -152,7 +173,7 @@ const NewAllowanceRequest = () => {
                 {normalizeNumber(requestData.amount)}원을 부탁드릴게요
               </S.Question>
               <SmallPhrase>용돈이 필요한 이유를 작성해주세요!</SmallPhrase>
-            </Summary>
+            </div>
             <InputContainer>
               <Img src={MessageImage} alt="메세지" />
               <Message
@@ -162,14 +183,14 @@ const NewAllowanceRequest = () => {
                 value={requestData.content}
               ></Message>
             </InputContainer>
-          </StepWrapper>
+          </S.StepWrapper>
         )}
         {step === 3 && (
-          <StepWrapper>
+          <S.StepWrapper>
             <CompleteContainer>
               <Img src={AllowanceImage} alt="완료" />
-              <Phrase>용돈 조르기 완료</Phrase>
-              <CompleteCard>
+              <S.Question>용돈 조르기 완료</S.Question>
+              <S.CompleteCard>
                 <div>{requestData.parentName}</div>
                 <div tw="text-[#154B9B]">
                   {normalizeNumber(requestData.amount)}원
@@ -180,9 +201,8 @@ const NewAllowanceRequest = () => {
                 않으면 취소돼요.
               </div>
             </CompleteContainer>
-          </StepWrapper>
+          </S.StepWrapper>
         )}
-
         <S.ButtonWrapper>
           {step < 3 ? (
             <S.BottomBtn onClick={handleNext}>다음</S.BottomBtn>
@@ -197,51 +217,11 @@ const NewAllowanceRequest = () => {
 
 export default NewAllowanceRequest;
 
-const Container = tw.div`
-  flex
-  flex-col
-  gap-3
-  justify-center
-`;
-
-const FormWrapper = styled.div`
+const SmallPhrase = styled.div`
   ${tw`flex
-  flex-col
-  w-80
-  gap-5
-  rounded-[15px]
-  h-full
-  relative`}
-  height: calc(100% - 60px);
-`;
-
-const StepWrapper = styled.div`
-  ${tw`flex flex-col gap-4 flex-grow`}
-`;
-
-const ButtonWrapper = styled.div`
-  ${`flex
-  justify-between
-  mt-4`}
-`;
-
-const Summary = tw.div`
-  m-5
-`;
-
-const Phrase = tw.div`
-  flex
-  text-xl
-  font-bold
-  justify-center
-  m-5
-`;
-
-const SmallPhrase = tw.div`
-  flex
   text-sm
   font-medium
-  justify-center
+  justify-center`}
 `;
 
 const MemberContainer = styled.div`
@@ -253,9 +233,8 @@ const MemberContainer = styled.div`
 `;
 
 const Img = styled.img`
-  width: 143px;
+  width: 80%;
   height: auto;
-  margin-bottom: 16px;
   // box-shadow: 0px 0px 80px 0px rgba(151, 178, 221, 0.4);
 `;
 
@@ -264,36 +243,10 @@ const InputContainer = styled.div`
   font-size: 18px;
 `;
 
-const Amount = styled.div`
-  width: ${(props) => (props.displayedNumber && props.displayedNumber.length > 0 ? "auto" : "123px")}
-  height: 49px;
-  background: #f5f5f5;
-  padding: 10px;
-  border-radius: 15px;
-  font-size: 18px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-`;
-
-const CompleteContainer = tw.div`
-  flex
+const CompleteContainer = styled.div`
+  ${tw`flex
   flex-col
   items-center
   my-20
-  gap-2
-`;
-
-const CompleteCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  border-radius: 15px;
-  background: #f4f9ff;
-  font-size: 25px;
-  font-weight: 500;
-  align-items: center;
-  gap: 16px;
-  padding: 20px;
+  gap-2`}
 `;

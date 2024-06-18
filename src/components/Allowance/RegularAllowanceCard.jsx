@@ -13,10 +13,8 @@ const RegularAllowanceCard = ({
   role,
 }) => {
   const navigate = useNavigate();
-
-  const normalizeNumber = (number) => {
-    return parseFloat(number).toLocaleString("en-US");
-  };
+const RegularAllowanceCard = ({ period, allowance, startDate, endDate, role }) => {
+  const navigate = useNavigate();
 
   const handleRegisterClick = () => {
     navigate("/allowance/registration");
@@ -41,10 +39,12 @@ const RegularAllowanceCard = ({
           {startDate}~{endDate}
         </Period>
       </Content>
-      <ButtonWrapper>
-        <Button onClick={handleRegisterClick}>변경하기</Button>
-        <Button>해지하기</Button>
-      </ButtonWrapper>
+      {role === "parent" && (
+        <ButtonWrapper>
+          <Button onClick={handleRegisterClick}>변경하기</Button>
+          <Button>해지하기</Button>
+        </ButtonWrapper>
+      )}
     </Container>
   );
 };
