@@ -4,6 +4,9 @@ import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../styles/GlobalStyles";
 
+import { FiEdit2 } from "react-icons/fi";
+import { RiDeleteBinLine } from "react-icons/ri";
+
 import Header from "~/components/common/Header";
 import Profile from "../../components/MyPage/Profile";
 
@@ -70,23 +73,7 @@ const MyPage = () => {
         <Profile />
         <Management>
           <S.Phrase>연결 관리</S.Phrase>
-          <EditButton onClick={isDeleting ? handleDeleteConfirm : handleDeleteClick}>
-            {isDeleting ? (
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none">
-                <path d="M3 6h18M9 6v12m6-12v12M5 6l1.5 14h11L19 6H5z" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M20 8.23992L7.24 20.9999H3V16.7599L15.76 3.99992C16.3225 3.43812 17.085 3.12256 17.88 3.12256C18.675 3.12256 19.4375 3.43812 20 3.99992V3.99992C20.5618 4.56242 20.8774 5.32492 20.8774 6.11992C20.8774 6.91492 20.5618 7.67742 20 8.23992Z"
-                  stroke="black"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            )}
-          </EditButton>
+          <EditButton onClick={isDeleting ? handleDeleteConfirm : handleDeleteClick}>{isDeleting ? <RiDeleteBinLine tw="w-[18px] h-[18px]" /> : <FiEdit2 tw="w-[18px] h-[18px]" />}</EditButton>
         </Management>
         <MemberGrid>
           {profiles.map((profile) => (

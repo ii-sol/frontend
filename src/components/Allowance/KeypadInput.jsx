@@ -49,7 +49,7 @@ const Amount = styled.div`
   width: ${(props) =>
     props.$displayedNumber && props.$displayedNumber.length > 0
       ? "auto"
-      : "123px"}
+      : "123px"};
   height: 49px;
   background: #f5f5f5;
   padding: 10px;

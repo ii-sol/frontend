@@ -129,7 +129,7 @@ const NewAllowanceRequest = () => {
             <S.Question>누구에게 용돈을 부탁드릴까요?</S.Question>
             <MemberContainer>
               <Member img={CharacterImage1} name="박지민" role="부모" phoneNum="010-0000-0000" onClick={() => handleMemberChange("박지민", "010-0000-0000")}></Member>
-              <Member img={CharacterImage2} name="엄마"></Member>
+              <Member img={CharacterImage2} name="엄마" role="부모"></Member>
               <Member img={CharacterImage1} name="아빠" role="부모" phoneNum="010-4321-4321" onClick={() => handleMemberChange("아빠", "010-4321-4321")}></Member>
             </MemberContainer>
           </S.StepWrapper>
@@ -162,7 +162,7 @@ const NewAllowanceRequest = () => {
                 <div>{requestData.parentName}</div>
                 <div tw="text-[#154B9B]">{normalizeNumber(requestData.amount)}원</div>
               </S.CompleteCard>
-              <div tw="text-xs">
+              <div tw="text-sm">
                 <span tw="text-[#154B9B]">{formattedDate}</span>까지 응답하지 않으면 취소돼요.
               </div>
             </CompleteContainer>

@@ -41,7 +41,7 @@ const CreateMissionComplete = () => {
         <S.StepWrapper>
           <CompleteContainer>
             <Img src={CompleteImage} alt="complete" />
-            <S.Question>미션 요청 완료</S.Question>
+            <S.Question style={{ marginTop: "0px" }}>미션 요청 완료</S.Question>
             <S.CompleteCard tw="text-[20px]">
               <div>{requestData.parentName}님에게</div>
               <div>{requestData.content}를 요청했습니다.</div>
@@ -50,7 +50,7 @@ const CreateMissionComplete = () => {
               </div>
               <div>미션 완료일 : {requestData.dueDate}</div>
             </S.CompleteCard>
-            <div tw="text-xs">
+            <div tw="text-sm">
               <span tw="text-[#154B9B]">{formattedDate}</span>까지 응답하지
               않으면 취소돼요.
             </div>
@@ -67,8 +67,7 @@ const CreateMissionComplete = () => {
 export default CreateMissionComplete;
 
 const Img = styled.img`
-  width: 40%;
-  height: auto;
+  margin: 60px auto 40px auto;
   // box-shadow: 0px 0px 80px 0px rgba(151, 178, 221, 0.4);
 `;
 
@@ -76,6 +75,5 @@ const CompleteContainer = styled.div`
   ${tw`flex
   flex-col
   items-center
-  my-20
   gap-2`}
 `;

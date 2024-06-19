@@ -27,7 +27,7 @@ const MissionSendDetail = () => {
       />
       <S.StepWrapper>
         <CompleteContainer>
-          <S.Question tw="text-[25px]">수락을 기다리고 있어요!</S.Question>
+          <S.Question>수락을 기다리고 있어요!</S.Question>
           <Img src={DishwashingImg} alt="mission" />
           <S.Question>엄마</S.Question>
           <S.CompleteCard>
@@ -35,7 +35,7 @@ const MissionSendDetail = () => {
             <div tw="text-[#154B9B]">{normalizeNumber(10000)}원</div>
             <div tw="text-base">미션 완료일 : 2024-06-13</div>
           </S.CompleteCard>
-          <div tw="text-xs font-bold">
+          <div tw="text-sm font-bold">
             <span tw="text-[#154B9B]">2024.06.9일</span> 까지 응답하지 않으면
             취소돼요
           </div>

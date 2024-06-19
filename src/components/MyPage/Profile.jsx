@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../styles/GlobalStyles";
+import { FiEdit2 } from "react-icons/fi";
 
 import CharacterImage from "~/assets/img/common/character/character_pli.svg";
 
@@ -46,15 +47,7 @@ const Profile = () => {
   return (
     <Container>
       <EditButton onClick={handleEditClick}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path
-            d="M20 8.23992L7.24 20.9999H3V16.7599L15.76 3.99992C16.3225 3.43812 17.085 3.12256 17.88 3.12256C18.675 3.12256 19.4375 3.43812 20 3.99992V3.99992C20.5618 4.56242 20.8774 5.32492 20.8774 6.11992C20.8774 6.91492 20.5618 7.67742 20 8.23992Z"
-            stroke="black"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        <FiEdit2 tw="w-[23px] h-[23px]" />
       </EditButton>
       <ProfileWrapper>
         <ProfileImage src={CharacterImage} alt="프로필 이미지" />
