@@ -1,7 +1,6 @@
 import * as React from "react";
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../pages/layout/MainLayout";
-import InsideLayout from "../pages/layout/InsideLayout";
 
 // pages
 import Home from "../pages/Home/Home";
