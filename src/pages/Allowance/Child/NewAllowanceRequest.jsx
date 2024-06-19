@@ -158,9 +158,10 @@ const NewAllowanceRequest = () => {
           <S.StepWrapper>
             <CompleteContainer>
               <Img src={CompleteImage} alt="complete" />
-              <S.Question>용돈 조르기 완료</S.Question>
-              <S.CompleteCard>
-                <div>{requestData.parentName}</div>
+              <S.Question style={{ marginTop: "0px" }}>용돈 조르기 완료</S.Question>
+              <S.CompleteCard tw="text-[20px]">
+                <div>{requestData.parentName} 님에게</div>
+                <div>용돈 조르기를 요청했습니다.</div>
                 <div tw="text-[#154B9B]">{normalizeNumber(requestData.amount)}원</div>
               </S.CompleteCard>
               <div tw="text-sm">
@@ -193,8 +194,7 @@ const MemberContainer = styled.div`
 `;
 
 const Img = styled.img`
-  width: 40%;
-  height: auto;
+  margin: 60px auto 40px auto;
   // box-shadow: 0px 0px 80px 0px rgba(151, 178, 221, 0.4);
 `;
 
