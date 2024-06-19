@@ -34,6 +34,7 @@ const Container = styled.div`
   width: 148px;
   height: 232px;
   border-radius: 20px;
+  background-color: white;
   box-shadow: 0px 0px 15px 0px rgba(151, 178, 221, 0.4);
 `;
 
@@ -87,5 +88,5 @@ const Delete = styled.button`
   height: auto;
   border-radius: 5px;
   border: 1px solid #e5e5e5;
-  background: #f4f9ff;
+  background: rgba(151, 178, 221, 0.4);
 `;

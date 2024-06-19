@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Member from "../../components/common/Member";
-import ChildImage from "~/assets/img/Auth/child.svg";
+import CharacterImage1 from "~/assets/img/common/character/character_sol.svg";
 import { styled } from "styled-components";
 import tw from "twin.macro";
 import * as S from "../../styles/GlobalStyles";
@@ -17,23 +17,25 @@ const ParentSelection = () => {
   return (
     <S.Container>
       <Header type="none" />
-      <Div>누구에게 투자 제안을 할까요?</Div>
-      <MemberContainer>
-        <Member
-          img={ChildImage}
-          name="엄마"
-          role="부모"
-          phoneNum="010-0000-0000"
-          onClick={() => setParents(333)}
-        />
-        <Member
-          img={ChildImage}
-          name="아빠"
-          role="부모"
-          phoneNum="010-4321-4321"
-          onClick={() => setParents(444)}
-        />
-      </MemberContainer>
+      <S.StepWrapper>
+        <Div>누구에게 투자 제안을 할까요?</Div>
+        <MemberContainer>
+          <Member
+            img={CharacterImage1}
+            name="엄마"
+            role="부모"
+            phoneNum="010-0000-0000"
+            onClick={() => setParents(333)}
+          />
+          <Member
+            img={CharacterImage1}
+            name="아빠"
+            role="부모"
+            phoneNum="010-4321-4321"
+            onClick={() => setParents(444)}
+          />
+        </MemberContainer>
+      </S.StepWrapper>
       <S.BottomBtn
         onClick={() => {
           navigate("/invest/suggest");
@@ -57,7 +59,7 @@ const MemberContainer = styled.div`
 `;
 
 const Div = styled.div`
-  font-size: 22px;
+  font-size: 23px;
   text-align: center;
   margin: 30px auto;
   font-weight: 600;

@@ -24,12 +24,8 @@ const Home = () => {
           프디아님
         </div>
         <S.RowDiv style={{ gap: "20px" }}>
-          <img src={mypage} style={{ width: "42px" }} />
-          <img
-            src={alert}
-            style={{ width: "42px" }}
-            onClick={() => navigate("/notification")}
-          />
+          <img src={mypage} style={{ width: "42px" }} onClick={() => navigate("/mypage")} />
+          <img src={alert} style={{ width: "42px" }} onClick={() => navigate("/notification")} />
         </S.RowDiv>
       </Wrapper>
       <S.CenterDiv>
@@ -40,7 +36,7 @@ const Home = () => {
           투자하기
           <Img src={invest} $right={10} $imgwidth={140} />
         </Btn>
-        <Btn $width={2} $back="#E3FFD5">
+        <Btn $width={2} $back="#E3FFD5" onClick={() => navigate("/allowance/irregular")}>
           용돈
           <br />
           조르기
@@ -48,7 +44,7 @@ const Home = () => {
         </Btn>
       </RowDiv>
       <RowDiv>
-        <Btn $width={2} $back="#FFFEE3">
+        <Btn $width={2} $back="#FFFEE3" onClick={() => navigate("/mission")}>
           미션
           <Img src={mission} $bottom={10} $right={5} $imgwidth={90} />
         </Btn>
@@ -95,8 +91,7 @@ const Wrapper = styled.div`
 
 const Btn = styled.div`
   position: relative;
-  width: ${(props) =>
-    props.$width === 1 ? "calc(57vw - 20px)" : "calc(43vw - 20px)"};
+  width: ${(props) => (props.$width === 1 ? "calc(57vw - 20px)" : "calc(43vw - 20px)")};
   height: 155px;
   border-radius: 15px;
   background: ${(props) => props.$back};

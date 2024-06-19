@@ -37,7 +37,9 @@ const AllowanceRequest = () => {
         <S.HistoryLink onClick={handleHistoryClick}>조르기 내역 &gt;</S.HistoryLink>
       </Menu>
       <S.CardContainer>
-        <S.VirticalCreateCard onClick={handleCreateClick}>용돈 조르기</S.VirticalCreateCard>
+        <RegisterButton onClick={handleCreateClick}>
+          <span tw="text-[#346BAC]">용돈</span>조르기
+        </RegisterButton>
         <RequestCardChild dday="0" receiver="엄마" allowance="1000" img={PleaseImg} />
         <RequestCardChild dday="2" receiver="엄마" allowance="1000" img={PleaseImg} />
         <RequestCardChild dday="3" receiver="아빠" allowance="5000" img={HeartImg} />
@@ -55,4 +57,21 @@ const Menu = styled.div`
   items-center
   `}
   grid-template-columns: auto auto;
+`;
+
+const RegisterButton = styled.button`
+  ${tw`
+  flex
+  flex-col
+  justify-center
+  items-center
+  p-5
+  `}
+  width: 148px;
+  height: 232px;
+  border-radius: 20px;
+  background-color: rgba(151, 178, 221, 0.4);
+  box-shadow: 0px 0px 15px 0px rgba(151, 178, 221, 0.4);
+  font-size: 20px;
+  font-weight: 700;
 `;
