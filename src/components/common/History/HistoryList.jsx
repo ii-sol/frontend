@@ -27,13 +27,9 @@ const HistoryList = () => {
           <TradeHistory />
         ) : location.pathname === "/allowance/history" ? (
           <ChildAllowanceHistory />
-<<<<<<< Updated upstream
-        ) : location.pathname === "/allowance/irregular/history" ? (
-=======
         ) : // ) : location.pathname === "/allowance/history-parent" ? (
         //   <ParentAllowanceHistory />
         location.pathname === "/allowance/irregular/history" ? (
->>>>>>> Stashed changes
           <IrregularAllowanceHistory />
         ) : location.pathname === "/mission/history" ? (
           <MissionHistory />
