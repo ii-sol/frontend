@@ -4,11 +4,12 @@ import Slider from "react-slick";
 import tw from "twin.macro";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { MdArrowBackIos } from "react-icons/md";
+import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import { useNavigate, useLocation } from "react-router-dom";
 import LoanCard from "../../../components/Loan/LoanCard";
 import RequestCard from "../../../components/Loan/RequestCard.jsx";
 import Header from "../../../components/common/Header.jsx";
+import { styled } from "styled-components";
 
 const Main = () => {
   const navigate = useNavigate();
@@ -74,11 +75,12 @@ const Main = () => {
   };
 
   const sliderSettings = {
-    dots: true,
+    dots: false,
     infinite: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    arrows: true,
   };
 
   return (
@@ -116,7 +118,7 @@ const Main = () => {
               </>
             )}
           </div>
-          <div tw="w-full rounded-2xl p-2">
+          <Container tw="w-full rounded-2xl p-2">
             <Slider {...sliderSettings}>
               {loans
                 .filter((loan) => loan.status === 1)
@@ -131,23 +133,20 @@ const Main = () => {
                   />
                 ))}
             </Slider>
-          </div>
+          </Container>
           {/* Loan History Header */}
           <div tw="flex justify-between items-center w-full">
             <p tw="text-lg font-bold">나의 빌린 돈</p>
-            <button tw="text-blue-500" onClick={handleHistory}>
-              지난 기록
+            <button tw="" onClick={handleHistory}>
+              지난 기록 &gt;
             </button>
           </div>
           {/* Loan History */}
           <div tw="grid grid-cols-2 gap-5 w-full">
-            <div
-              tw="w-full rounded-2xl shadow-lg p-4 flex bg-blue-1100 flex-col items-center justify-center min-h-[250px]"
-              onClick={handleCreateLoan}
-            >
+            <Card onClick={handleCreateLoan}>
               <p tw="font-bold text-2xl">빌리기</p>
               <p tw="font-bold text-2xl">부탁하기</p>
-            </div>
+            </Card>
 
             {loans
               .filter((loan) => loan.status === 3)
@@ -160,7 +159,6 @@ const Main = () => {
                   )}`}
                   title={loan.title}
                   totalAmount={loan.balance}
-                  minHeight="250px"
                   onClick={() => handleProgress(loan.id)}
                 />
               ))}
@@ -172,3 +170,38 @@ const Main = () => {
 };
 
 export default Main;
+
+const Container = styled.div`
+  .slick-prev:before,
+  .slick-next:before {
+    font-family: "slick";
+    font-size: 20px;
+    line-height: 1;
+
+    opacity: 0.75;
+    color: #97b2dd;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .slick-prev.slick-disabled:before,
+  .slick-next.slick-disabled:before {
+    opacity: 0.2;
+  }
+`;
+
+const Card = styled.div`
+  ${tw`
+  w-full
+  rounded-2xl
+  p-4
+  flex
+  flex-col
+  items-center
+  justify-center
+  `}
+  height:232px;
+  background: rgba(151, 178, 221, 0.4);
+  box-shadow: 0px 0px 15px 0px rgba(151, 178, 221, 0.4);
+`;

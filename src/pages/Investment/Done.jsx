@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "../../components/Investment/Header";
 import { styled } from "styled-components";
+import tw from "twin.macro";
 import * as S from "../../styles/GlobalStyles";
 import Complete from "../../assets/img/common/complete.svg";
 import { useNavigate } from "react-router-dom";
@@ -48,6 +49,14 @@ const Done = () => {
             </Message>
           )}
         </Box>
+        {isNew ? (
+          <div tw="text-sm mt-2">
+            <span tw="text-[#154B9B]"> 2024.05.31 금</span>까지 응답하지 않으면
+            취소돼요.
+          </div>
+        ) : (
+          <></>
+        )}
         <S.BottomBtn onClick={() => navigate("/invest")}>완료</S.BottomBtn>
       </S.CenterDiv>
     </S.Container>
@@ -74,7 +83,7 @@ const Box = styled.div`
   width: 100%;
   height: 150px;
   background-color: #ecf4ff;
-  border-radius: 1 5px;
+  border-radius: 15px;
 `;
 
 const Message = styled.div`

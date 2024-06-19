@@ -1,13 +1,15 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
-import moneyHand from "~/assets/img/Loan/completeImg.svg";
+import Completes from "~/assets/img/Loan/completeImg.svg";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { selectLoanDetails } from "../../../store/selectors";
 import { store } from "../../../store/stores";
 import Header from "../../../components/common/Header";
 import { MdArrowBackIos } from "react-icons/md";
+import { styled } from "styled-components";
+import { BottomBtn } from "../../../styles/GlobalStyles";
 
 const Complete = () => {
   const navigate = useNavigate();
@@ -44,11 +46,11 @@ const Complete = () => {
   return (
     <>
       <Header left={<MdArrowBackIos />} title={"대출"} />
-      <div tw="flex justify-center mt-32">
-        <img src={moneyHand} alt="Money Hand" tw="w-4/12 max-w-xs" />
+      <div tw="flex justify-center">
+        <Img src={Completes} alt="Money Hand" />
       </div>
       <div>
-        <p tw="text-center text-2xl font-bold mt-4">대출 신청 완료</p>
+        <p tw="text-center text-2xl font-bold">대출 신청 완료</p>
       </div>
 
       <div tw="flex flex-col h-28 bg-blue-100 items-center rounded-2xl p-3 mt-12">
@@ -57,18 +59,18 @@ const Complete = () => {
           {formatAmount(loanDetails.amount)}원
         </p>
       </div>
-      <p tw="text-sm text-center mt-1 text-red-500">
-        2024.06.01까지 응답하지 않으면 취소돼요.
-      </p>
+      <div tw="text-sm text-center mt-2">
+        <span tw="text-[#154B9B]"> 2024.05.31 금</span>까지 응답하지 않으면
+        취소돼요.
+      </div>
 
-      <button
-        tw="fixed bottom-10 left-7 right-7 bg-blue-200 p-3 text-center rounded-2xl hover:bg-blue-300 cursor-pointer"
-        onClick={complete}
-      >
-        완료
-      </button>
+      <BottomBtn onClick={complete}>완료</BottomBtn>
     </>
   );
 };
 
 export default Complete;
+
+const Img = styled.img`
+  margin: 60px auto 40px auto;
+`;

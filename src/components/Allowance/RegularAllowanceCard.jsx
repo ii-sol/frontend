@@ -57,6 +57,7 @@ const Container = styled.div`
   w-full
   mb-4
   `}
+  background-color: white;
   height: 128px;
   border-radius: 20px;
   box-shadow: 0px 0px 15px 0px rgba(151, 178, 221, 0.4);

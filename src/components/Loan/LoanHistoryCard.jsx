@@ -41,7 +41,8 @@ LoanHistoryCard.propTypes = {
 export default LoanHistoryCard;
 
 const Card = styled.div`
-  ${tw`bg-white w-full h-52 rounded-2xl shadow-lg flex flex-col p-4`}
+  ${tw`bg-white w-full h-52 rounded-2xl flex flex-col p-4`}height:232px;
+  box-shadow: 0px 0px 15px 0px rgba(151, 178, 221, 0.4);
 `;
 
 const StatusBadge = styled.span`

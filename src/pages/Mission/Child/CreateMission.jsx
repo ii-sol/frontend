@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setContent, setInitialState } from "../../../store/reducers/Mission/mission";
+import {
+  setContent,
+  setInitialState,
+} from "../../../store/reducers/Mission/mission";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../../styles/GlobalStyles";
@@ -39,7 +42,9 @@ const CreateMission = () => {
   const requestData = useSelector((state) => state.mission);
   const dispatch = useDispatch();
 
-  const filteredMissions = selectedOption ? missionList.filter((mission) => mission.type === selectedOption.status) : missionList;
+  const filteredMissions = selectedOption
+    ? missionList.filter((mission) => mission.type === selectedOption.status)
+    : missionList;
 
   const handleLeftClick = () => {
     navigate("/mission");
@@ -83,29 +88,52 @@ const CreateMission = () => {
 
   return (
     <S.Container>
-      <Header left={"<"} onLeftClick={handleLeftClick} title={"미션"} right={"취소"} onRightClick={handleRightClick} />
+      <Header
+        left={"<"}
+        onLeftClick={handleLeftClick}
+        title={"미션"}
+        right={"취소"}
+        onRightClick={handleRightClick}
+      />
       <S.StepWrapper>
-        <S.Question tw="text-[25px]">어떤 미션을 요청할까요?</S.Question>
+        <S.Question>어떤 미션을 요청할까요?</S.Question>
         <InputContainer>
           <Img src={MissionMainImg} alt="mission" />
-          <DueDate onClick={() => setOpenDueDate(true)}>{requestData.dueDate ? requestData.dueDate : "미션 완료일 📆"}</DueDate>
-          <Message placeholder="미션을 입력해주세요" maxLength="20" onChange={handleInputChange} value={requestData.content}></Message>
+          <DueDate onClick={() => setOpenDueDate(true)}>
+            {requestData.dueDate ? requestData.dueDate : "미션 완료일 📆"}
+          </DueDate>
+          <Message
+            placeholder="미션을 입력해주세요"
+            maxLength="20"
+            onChange={handleInputChange}
+            value={requestData.content}
+          ></Message>
         </InputContainer>
         <S.BottomBtn onClick={handleNext}>다음</S.BottomBtn>
       </S.StepWrapper>
 
-      <StyledBottomSheet open={openMissionList} onDismiss={handleDismissMissionList}>
-        <S.Question tw="text-[25px]">미션함</S.Question>
+      <StyledBottomSheet
+        open={openMissionList}
+        onDismiss={handleDismissMissionList}
+      >
+        <S.Question>미션함</S.Question>
         <MissionOptionWrapper>
           {missionOptions.map((option) => (
-            <MissionOption key={option.status} selected={selectedOption?.status === option.status} onClick={() => handleOptionClick(option)}>
+            <MissionOption
+              key={option.status}
+              selected={selectedOption?.status === option.status}
+              onClick={() => handleOptionClick(option)}
+            >
               {option.label}
             </MissionOption>
           ))}
         </MissionOptionWrapper>
         <S.CardContainer tw="m-1">
           {filteredMissions.map((mission) => (
-            <MissionCard key={mission.id} onClick={() => handleMissionCardClick(mission.content)}>
+            <MissionCard
+              key={mission.id}
+              onClick={() => handleMissionCardClick(mission.content)}
+            >
               <MissionContent>{mission.content}</MissionContent>
             </MissionCard>
           ))}
@@ -113,7 +141,14 @@ const CreateMission = () => {
         <Create onClick={handleDismissMissionList}>직접 만들기</Create>
       </StyledBottomSheet>
 
-      {openDueDate && <DueDateBottomSheet requestData={requestData} dispatch={dispatch} open={openDueDate} onDismiss={handleDismissDueDate} />}
+      {openDueDate && (
+        <DueDateBottomSheet
+          requestData={requestData}
+          dispatch={dispatch}
+          open={openDueDate}
+          onDismiss={handleDismissDueDate}
+        />
+      )}
     </S.Container>
   );
 };

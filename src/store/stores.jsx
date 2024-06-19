@@ -19,7 +19,7 @@ import missionReducer from "./reducers/Mission/mission";
 const rootPersistConfig = {
   key: "root",
   storage: storage,
-  whitelist: [],
+  whitelist: ["invest"],
 };
 
 const rootReducer = combineReducers({
