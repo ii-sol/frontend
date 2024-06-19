@@ -1,4 +1,4 @@
-import { combineSlices, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchStocks as reqFetchStocks } from "../../../services/stock";
 
 const initialState = {

@@ -5,7 +5,7 @@ import invest from "../../assets/img/Home/invest.svg";
 import allowance from "../../assets/img/Home/allowance.svg";
 import mission from "../../assets/img/Home/mission.svg";
 import loan from "../../assets/img/Home/loan.svg";
-import alert from "../../assets/img/Home/alert.svg";
+import noti from "../../assets/img/Home/alert.svg";
 import mypage from "../../assets/img/Home/mypage.svg";
 import one from "../../assets/img/Home/one.svg";
 import two from "../../assets/img/Home/two.svg";
@@ -24,9 +24,13 @@ const Home = () => {
           프디아님
         </div>
         <S.RowDiv style={{ gap: "20px" }}>
-          <img src={mypage} style={{ width: "42px" }} />
           <img
-            src={alert}
+            src={mypage}
+            style={{ width: "42px" }}
+            onClick={() => navigate("/mypage")}
+          />
+          <img
+            src={noti}
             style={{ width: "42px" }}
             onClick={() => navigate("/notification")}
           />
@@ -40,7 +44,11 @@ const Home = () => {
           투자하기
           <Img src={invest} $right={10} $imgwidth={140} />
         </Btn>
-        <Btn $width={2} $back="#E3FFD5">
+        <Btn
+          $width={2}
+          $back="#E3FFD5"
+          onClick={() => navigate("/allowance/irregular")}
+        >
           용돈
           <br />
           조르기
@@ -87,6 +95,7 @@ const Home = () => {
 
 export default Home;
 
+// Styled components
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
