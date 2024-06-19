@@ -35,7 +35,7 @@ const StyledInput = styled.input`
   rounded-[15px]
   border
   border-[#FFDCDC]
-  bg-[#EAF4FF]`}
+  bg-[#E9F2FF]`}
   width: fit-content;
   max-width: 80%;
   height: auto;
