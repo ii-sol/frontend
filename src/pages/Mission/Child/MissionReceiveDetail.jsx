@@ -6,7 +6,7 @@ import * as S from "../../../styles/GlobalStyles";
 
 import { normalizeNumber } from "../../../utils/normalizeNumber";
 
-import DishwashingImg from "~/assets/img/Mission/dishwashing.svg";
+import MissionImage from "~/assets/img/common/sdamSol.svg";
 
 import Header from "~/components/common/Header";
 
@@ -19,16 +19,11 @@ const MissionReceiveDetail = () => {
 
   return (
     <S.Container>
-      <Header
-        left={"<"}
-        onLeftClick={handleLeftClick}
-        title={"미션"}
-        right={""}
-      />
+      <Header left={"<"} onLeftClick={handleLeftClick} title={"미션"} right={""} />
       <S.StepWrapper>
         <CompleteContainer>
           <S.Question>미션을 요청받았어요!</S.Question>
-          <Img src={DishwashingImg} alt="mission" />
+          <Img src={MissionImage} alt="mission" />
           <S.Question>엄마</S.Question>
           <S.CompleteCard>
             <div>"책상 정리하기"</div>
@@ -36,8 +31,7 @@ const MissionReceiveDetail = () => {
             <div tw="text-base">미션 완료일 : 2024-06-13</div>
           </S.CompleteCard>
           <div tw="text-sm font-bold">
-            <span tw="text-[#154B9B]">2024.06.9일</span> 까지 응답하지 않으면
-            취소돼요
+            <span tw="text-[#154B9B]">2024.06.9일</span> 까지 응답하지 않으면 취소돼요
           </div>
         </CompleteContainer>
         <S.BottomBtnWrapper>
