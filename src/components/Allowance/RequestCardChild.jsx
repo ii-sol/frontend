@@ -4,18 +4,18 @@ import { styled } from "styled-components";
 
 import { normalizeNumber } from "../../utils/normalizeNumber";
 
+import AllowanceImage from "~/assets/img/Allowance/allowanceRequest.svg";
+
 const RequestCardChild = ({ dday, receiver, allowance, img, message }) => {
   return (
     <Container>
       <Content>
-        {dday && (
-          <DdayTag $dday={dday}>{dday === "0" ? "D-day" : `D-${dday}`}</DdayTag>
-        )}
+        {dday && <DdayTag $dday={dday}>{dday === "0" ? "D-day" : `D-${dday}`}</DdayTag>}
         <Receiver>{receiver}</Receiver>
         <Allowance>{normalizeNumber(allowance)}원</Allowance>
         <Message>{message}</Message>
       </Content>
-      <Img src={img} alt="아이콘" />
+      <Img src={AllowanceImage} alt="아이콘" />
       <Delete>취소</Delete>
     </Container>
   );
