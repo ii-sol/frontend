@@ -10,7 +10,7 @@ const RequestCardChild = ({ dday, receiver, allowance, img, message }) => {
   return (
     <Container>
       <Content>
-        {dday && <DdayTag $dday={dday}>{dday === "0" ? "D-day" : `D-${dday}`}</DdayTag>}
+        {dday && <DdayTag dday={dday}>{dday === "0" ? "D-day" : `D-${dday}`}</DdayTag>}
         <Receiver>{receiver}</Receiver>
         <Allowance>{normalizeNumber(allowance)}원</Allowance>
         <Message>{message}</Message>

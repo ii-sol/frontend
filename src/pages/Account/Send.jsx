@@ -4,6 +4,8 @@ import tw from "twin.macro";
 import Header from "../../components/common/Header";
 import { MdArrowBackIos } from "react-icons/md";
 
+import * as S from "../../styles/GlobalStyles";
+
 const Send = () => {
   const navigate = useNavigate();
 
@@ -14,7 +16,7 @@ const Send = () => {
   return (
     <>
       <Header left={<MdArrowBackIos />} title={"돈 보내기"} />
-      <div tw="flex flex-col items-center h-screen">
+      <div tw="flex flex-col items-center ">
         <div tw="flex flex-col items-center mt-40">
           <h2 tw="text-2xl font-semibold text-blue-500">양은수 님에게</h2>
           <p tw="text-4xl font-bold mt-2">5,000원을</p>
@@ -36,12 +38,7 @@ const Send = () => {
           </div>
         </div>
 
-        <button
-          tw="mt-10 w-full bg-blue-200 p-3 text-center rounded-2xl hover:bg-blue-300 cursor-pointer"
-          onClick={complete}
-        >
-          보내기
-        </button>
+        <S.BottomBtn onClick={complete}>보내기</S.BottomBtn>
       </div>
     </>
   );
