@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as S from "../../styles/GlobalStyles";
 import Header from "~/components/common/Header";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +11,7 @@ const Notification = () => {
   const handleLeftClick = () => {
     navigate("/");
   };
+
   return (
     <S.Container>
       <Header

@@ -15,6 +15,7 @@ import loanReducer from "./reducers/Loan/loan";
 import historyReducer from "./reducers/common/history";
 import investReducer from "./reducers/Invest/invest";
 import missionReducer from "./reducers/Mission/mission";
+import notiReducer from "./reducers/Noti/notification";
 
 const rootPersistConfig = {
   key: "root",
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   invest: investReducer,
   mission: missionReducer,
   loan: loanReducer,
+  noti: notiReducer,
 });
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
