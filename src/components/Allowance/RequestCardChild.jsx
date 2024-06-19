@@ -2,18 +2,20 @@ import React from "react";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 
-import { normalizeNumber } from "../../utils/NormalizeNumber";
+import { normalizeNumber } from "../../utils/normalizeNumber";
+
+import AllowanceImage from "~/assets/img/Allowance/allowanceRequest.svg";
 
 const RequestCardChild = ({ dday, receiver, allowance, img, message }) => {
   return (
     <Container>
       <Content>
-        {dday && <DdayTag dday={dday}>{dday === "0" ? "D-day" : `D-${dday}`}</DdayTag>}
+        {dday && <DdayTag $dday={dday}>{dday === "0" ? "D-day" : `D-${dday}`}</DdayTag>}
         <Receiver>{receiver}</Receiver>
         <Allowance>{normalizeNumber(allowance)}원</Allowance>
         <Message>{message}</Message>
       </Content>
-      <Img src={img} alt="아이콘" />
+      <Img src={AllowanceImage} alt="아이콘" />
       <Delete>취소</Delete>
     </Container>
   );
@@ -32,6 +34,7 @@ const Container = styled.div`
   width: 148px;
   height: 232px;
   border-radius: 20px;
+  background-color: white;
   box-shadow: 0px 0px 15px 0px rgba(151, 178, 221, 0.4);
 `;
 
@@ -71,7 +74,7 @@ const Message = styled.div`
 
 const Img = styled.img`
   position: absolute;
-  bottom: 40px;
+  bottom: 42px;
   right: 10px;
   width: 78px;
   height: auto;
@@ -85,5 +88,5 @@ const Delete = styled.button`
   height: auto;
   border-radius: 5px;
   border: 1px solid #e5e5e5;
-  background: #f4f9ff;
+  background: rgba(151, 178, 221, 0.4);
 `;

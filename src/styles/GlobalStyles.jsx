@@ -27,7 +27,6 @@ export const BottomBtn = styled.button`
   color: #154b9b;
   font-size: 20px;
   border-radius: 15px;
-  backdrop-filter: blur(4px);
 `;
 
 export const BottomBtn2 = styled.button`
@@ -44,7 +43,6 @@ export const BottomBtn2 = styled.button`
 export const BuyBtn = styled.button`
   border-radius: 15px;
   background: ${(props) => props.$background};
-  box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.15);
   display: flex;
   width: 140px;
   height: 48px;
@@ -56,7 +54,6 @@ export const BuyBtn = styled.button`
 `;
 
 export const Badge = styled.div`
-  margin-top: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -94,11 +91,10 @@ export const Phrase = styled.div`
 `;
 
 export const Question = styled.div`
-  ${tw`flex
-  text-xl
-  font-bold
-  justify-center
-  m-5`}
+  font-size: 23px;
+  text-align: center;
+  margin: 30px auto;
+  font-weight: 600;
 `;
 
 export const HistoryLink = styled.div`
@@ -152,28 +148,28 @@ export const BottomBtnWrapper = styled.div`
 
 export const acceptBtn = styled.button`
   border-radius: 15px;
-  background: #CDE1FF;
+  background: #cde1ff;
   display: flex;
   width: 113px;
-  height: 48px
+  height: 48px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: #154B9B;
+  color: #154b9b;
   font-size: 20px;
-  padding:8px;
+  padding: 8px;
 `;
 
 export const rejectBtn = styled.button`
   border-radius: 15px;
-  background:#FFD9CD;
+  background: #ffd9cd;
   display: flex;
   width: 113px;
-  height: 48px
+  height: 48px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: #9B1D15;
+  color: #9b1d15;
   font-size: 20px;
-  padding:8px;
+  padding: 8px;
 `;

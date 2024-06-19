@@ -6,14 +6,14 @@ const Member = ({ img, name, role, phoneNum, onClick }) => {
   return (
     <Container onClick={onClick}>
       <ImgContainer>
-        <img src={img} alt="프로필" tw="w-[30px] h-auto" />
+        <img src={img} alt="프로필" tw="w-full h-auto" />{" "}
+        {/* tw="w-[30px] h-auto" /> */}
       </ImgContainer>
       <Info>
         <NameRoleContainer>
           <Name>{name}</Name>
           <Role>{role}</Role>
         </NameRoleContainer>
-        <Phone>{phoneNum}</Phone>
       </Info>
     </Container>
   );
@@ -27,11 +27,11 @@ const Container = styled.button`
   items-center
   p-4
   gap-4
+  bg-[#E9F2FF]
   `}
   width: 100%;
   height: 77px;
   border-radius: 15px;
-  background: #f4f9ff;
   font-weight: 500;
   align-items: center;
   &:hover {
@@ -42,8 +42,8 @@ const Container = styled.button`
 const ImgContainer = styled.div`
   width: 49px;
   height: 49px;
-  border-radius: 15px;
-  background: rgba(255, 206, 112, 0.5);
+  // border-radius: 15px;
+  // background: rgba(255, 206, 112, 0.5);
 `;
 
 const Info = styled.div`
@@ -63,11 +63,12 @@ const NameRoleContainer = styled.div`
 `;
 
 const Name = styled.div`
-  font-size: 22px;
+  font-size: 25px;
+  font-weight: 400;
 `;
 
 const Role = styled.div`
-  font-size: 15px;
+  font-size: 18px;
   margin-bottom: 2px;
   margin-top: auto;
 `;

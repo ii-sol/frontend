@@ -1,22 +1,51 @@
 import React from "react";
 import tw from "twin.macro";
+import { styled } from "styled-components";
 
 const Keypad = ({ onButtonClick }) => {
   return (
-    <div tw="grid grid-cols-3 gap-3 mt-8 w-full max-w-xs mx-auto bg-blue-100 rounded-2xl p-4">
+    <Container>
       {["1", "2", "3", "4", "5", "6", "7", "8", "9", "00", "0", "←"].map(
         (value) => (
-          <button
-            key={value}
-            tw="text-2xl p-4 hover:bg-blue-200 rounded-2xl"
-            onClick={() => onButtonClick(value)}
-          >
+          <Button key={value} onClick={() => onButtonClick(value)}>
             {value}
-          </button>
+          </Button>
         )
       )}
-    </div>
+    </Container>
   );
 };
 
 export default Keypad;
+
+const Container = styled.div`
+  ${tw`
+  grid
+  mb-2
+  items-center
+  bg-[#F0F7FF]
+  rounded-[15px]
+  `}
+
+  width: 100%;
+  height: auto;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-top: 1.25rem;
+`;
+
+const Button = styled.button`
+  height: 80px;
+  font-weight: 500;
+  font-size: 26px;
+  border-radius: 15px;
+  color: black;
+  &:active {
+    background-color: #e9f2ff;
+    -webkit-tap-highlight-color: #e9f2ff;
+  }
+
+  &:hover {
+    background-color: #e9f2ff;
+    -webkit-tap-highlight-color: #e9f2ff;
+  }
+`;

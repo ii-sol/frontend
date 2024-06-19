@@ -1,23 +1,40 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
-import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistReducer, persistStore } from "redux-persist";
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+  persistReducer,
+  persistStore,
+} from "redux-persist";
 import logger from "redux-logger";
-
-//reducers
+import loanReducer from "./reducers/Loan/loan";
 import historyReducer from "./reducers/common/history";
+import investReducer from "./reducers/Invest/invest";
 import missionReducer from "./reducers/Mission/mission";
 
 const rootPersistConfig = {
   key: "root",
   storage: storage,
-  whitelist: [],
+  whitelist: ["invest"],
 };
 
-const rootReducer = persistReducer(rootPersistConfig, combineReducers({ history: historyReducer, mission: missionReducer }));
+const rootReducer = combineReducers({
+  history: historyReducer,
+  invest: investReducer,
+  mission: missionReducer,
+  loan: loanReducer,
+});
+
+const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
 
 const myMiddlewares = [logger];
-export const store = configureStore({
-  reducer: rootReducer,
+
+const store = configureStore({
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
@@ -26,4 +43,6 @@ export const store = configureStore({
     }).concat(myMiddlewares),
 });
 
-export const persistor = persistStore(store);
+const persistor = persistStore(store);
+
+export { store, persistor };
