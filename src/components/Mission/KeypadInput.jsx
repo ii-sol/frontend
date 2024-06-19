@@ -3,9 +3,9 @@ import tw from "twin.macro";
 import { styled } from "styled-components";
 
 import Keypad from "../common/Keypad";
-import { normalizeNumber } from "../../utils/NormalizeNumber";
+import { normalizeNumber } from "../../utils/normalizeNumber";
 
-import CoinImage from "~/assets/img/Allowance/coin.svg";
+import SolImage from "~/assets/img/common/curiousSol.svg";
 
 const KeypadInput = ({ displayedNumber, setDisplayedNumber, initialPrice }) => {
   useEffect(() => {
@@ -30,7 +30,7 @@ const KeypadInput = ({ displayedNumber, setDisplayedNumber, initialPrice }) => {
 
   return (
     <InputContainer>
-      <Img src={CoinImage} alt="코인" />
+      <Img src={SolImage} alt="sol" />
       <Amount $displayedNumber={displayedNumber}>{normalizeNumber(displayedNumber)} 원</Amount>
       <Keypad onNumberClick={handleNumberClick} onBackspace={handleBackspace} />
     </InputContainer>

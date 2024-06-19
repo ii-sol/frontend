@@ -6,14 +6,14 @@ const Member = ({ img, name, role, phoneNum, onClick }) => {
   return (
     <Container onClick={onClick}>
       <ImgContainer>
-        <img src={img} alt="프로필" tw="w-full h-auto" /> {/* tw="w-[30px] h-auto" /> */}
+        <img src={img} alt="프로필" tw="w-full h-auto" />{" "}
+        {/* tw="w-[30px] h-auto" /> */}
       </ImgContainer>
       <Info>
         <NameRoleContainer>
           <Name>{name}</Name>
           <Role>{role}</Role>
         </NameRoleContainer>
-        <Phone>{phoneNum}</Phone>
       </Info>
     </Container>
   );
@@ -63,11 +63,12 @@ const NameRoleContainer = styled.div`
 `;
 
 const Name = styled.div`
-  font-size: 22px;
+  font-size: 25px;
+  font-weight: 400;
 `;
 
 const Role = styled.div`
-  font-size: 15px;
+  font-size: 18px;
   margin-bottom: 2px;
   margin-top: auto;
 `;

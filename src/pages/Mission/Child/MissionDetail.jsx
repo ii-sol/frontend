@@ -4,9 +4,9 @@ import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../../styles/GlobalStyles";
 
-import { normalizeNumber } from "../../../utils/NormalizeNumber";
+import { normalizeNumber } from "../../../utils/normalizeNumber";
 
-import DishwashingImg from "~/assets/img/Mission/dishwashing.svg";
+import MissionImage from "~/assets/img/common/sdamSol.svg";
 
 import Header from "~/components/common/Header";
 
@@ -23,7 +23,7 @@ const MissionDetail = () => {
       <S.StepWrapper>
         <CompleteContainer>
           <StatusTag>진행중</StatusTag>
-          <Img src={DishwashingImg} alt="mission" />
+          <Img src={MissionImage} alt="mission" />
           <S.Question>엄마의 미션</S.Question>
           <S.CompleteCard>
             <div>방 청소하기</div>
@@ -63,7 +63,8 @@ const StatusTag = styled.div`
 `;
 
 const Img = styled.img`
-  width: 80%;
+  width: 40%;
   height: auto;
+  margin-top: 15px;
   // box-shadow: 0px 0px 80px 0px rgba(151, 178, 221, 0.4);
 `;

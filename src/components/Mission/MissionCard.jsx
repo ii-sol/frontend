@@ -2,9 +2,11 @@ import React from "react";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 
-import { normalizeNumber } from "../../utils/NormalizeNumber";
+import { normalizeNumber } from "../../utils/normalizeNumber";
 
-const MissionCard = ({ onClick, status, dday, mission, allowance, img }) => {
+import MissionImage from "~/assets/img/common/happySol.svg";
+
+const MissionCard = ({ onClick, status, dday, mission, allowance }) => {
   return (
     <Container onClick={onClick}>
       <Content>
@@ -13,7 +15,7 @@ const MissionCard = ({ onClick, status, dday, mission, allowance, img }) => {
         <Mission>{mission}</Mission>
         <Allowance>{normalizeNumber(allowance)}원</Allowance>
       </Content>
-      <Img src={img} alt="아이콘" />
+      <Img src={MissionImage} alt="아이콘" />
     </Container>
   );
 };
@@ -33,6 +35,7 @@ const Container = styled.div`
   border-radius: 20px;
   box-shadow: 0px 0px 15px 0px rgba(151, 178, 221, 0.4);
   cursor: pointer;
+  background-color: white;
 `;
 
 const Content = styled.div`
@@ -68,6 +71,6 @@ const Img = styled.img`
   position: absolute;
   bottom: 12px;
   right: 10px;
-  width: 78px;
+  width: 70px;
   height: auto;
 `;

@@ -2,13 +2,20 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
+import Slider from "react-slick";
 import * as S from "../../../styles/GlobalStyles";
-
-import DishwashingImg from "~/assets/img/Mission/dishwashing.svg";
 
 import Header from "~/components/common/Header";
 import MissionCard from "../../../components/Mission/MissionCard";
 import RequestCard from "../../../components/Mission/RequestCard";
+
+const sliderSettings = {
+  dots: true,
+  infinite: false,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+};
 
 const Mission = () => {
   const navigate = useNavigate();
@@ -42,8 +49,26 @@ const Mission = () => {
       <S.Container>
         <Header left={"<"} onLeftClick={handleLeftClick} title={"미션"} />
         {/* TODO: dday = due_date - craete_date */}
-        <RequestCard status="send" name="엄마" content="심부름 다녀오기" dday="3" onClick={handleSendRequestClick} />
-        {/* <RequestCard status="receive" name="엄마" content="심부름 다녀오기" dday="0" inClick={handleReceiveRequestClick}/> */}
+        <div tw="w-full rounded-2xl p-2">
+          <Slider {...sliderSettings}>
+            {/* {requests
+                .filter((request) => request.status === 1)
+                .map((request) => (
+                  <RequestCard
+                    key={request.id}
+                    status={request.status}
+                    name={request.parentName}
+                    title={request.title}
+                    dday={calculateDday(request.createDate)}
+                    onClick={() => handleRequestProgress(request.id)}
+                  />
+                ))} */}
+            <RequestCard status="send" name="엄마" content="심부름 다녀오기" dday="3" onClick={handleSendRequestClick} />
+            <RequestCard status="receive" name="엄마" content="심부름 다녀오기" dday="0" inClick={handleReceiveRequestClick} />
+            <RequestCard status="send" name="엄마" content="심부름 다녀오기" dday="3" onClick={handleSendRequestClick} />
+          </Slider>
+        </div>
+
         <Menu>
           <S.Phrase>진행 중</S.Phrase>
           <S.HistoryLink onClick={handleHistoryClick}>지난 미션 &gt;</S.HistoryLink>
@@ -52,9 +77,9 @@ const Mission = () => {
           <RegisterButton onClick={handleRequestClick}>
             <span tw="text-[#346BAC]">미션</span>요청하기
           </RegisterButton>
-          <MissionCard onClick={handleMissionClick} dday="3" mission="설거지하기" allowance="10000" img={DishwashingImg} />
-          <MissionCard onClick={handleMissionClick} dday="0" mission="설거지하기" allowance="10000" img={DishwashingImg} />
-          <MissionCard onClick={handleMissionClick} dday="7" mission="설거지하기" allowance="10000" img={DishwashingImg} />
+          <MissionCard onClick={handleMissionClick} dday="3" mission="설거지하기" allowance="10000" />
+          <MissionCard onClick={handleMissionClick} dday="0" mission="설거지하기" allowance="10000" />
+          <MissionCard onClick={handleMissionClick} dday="7" mission="설거지하기" allowance="10000" />
         </S.CardContainer>
       </S.Container>
     </div>

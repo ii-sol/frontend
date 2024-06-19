@@ -7,6 +7,7 @@ import { fetchHistory } from "../../services/allowance";
 import HistoryListItem from "~/components/Allowance/HistoryListItem";
 
 import EmptyImage from "~/assets/img/common/empty.svg";
+import { groupDataByDate } from "../../utils/groupDataByDate";
 
 const data = [
   {
@@ -56,34 +57,85 @@ const data = [
 ];
 
 const ChildHistoryListItem = () => {
-  const [historyData, setHistoryData] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchHistory();
-        setHistoryData(data);
-        setLoading(false);
-      } catch (error) {
-        console.error("Failed to fetch history data:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const groupDataByDate = (data) => {
-    return data.reduce((acc, item) => {
-      const date = item.createdDate.split("T")[0];
-      if (!acc[date]) {
-        acc[date] = [];
-      }
-      acc[date].push(item);
-      return acc;
-    }, {});
-  };
+  const data = [
+    {
+      id: 1,
+      senderAccountNum: "123-456-7890",
+      senderName: "박지민",
+      recieverAccountNum: "987-654-3210",
+      recieverName: "양은수",
+      content: "용돈 조르기",
+      amount: 50000,
+      balance: "250000",
+      createdDate: "2024-05-10",
+    },
+    {
+      id: 2,
+      senderAccountNum: "123-456-7890",
+      senderName: "박지민",
+      recieverAccountNum: "987-654-3210",
+      recieverName: "양은수",
+      content: "돈 보내기",
+      amount: -30000,
+      balance: "220000",
+      createdDate: "2024-06-01",
+    },
+    {
+      id: 3,
+      senderAccountNum: "123-456-7890",
+      senderName: "박지민",
+      recieverAccountNum: "987-654-3210",
+      recieverName: "양은수",
+      content: "결제",
+      amount: -5000,
+      balance: "215000",
+      createdDate: "2024-06-05",
+    },
+    {
+      id: 4,
+      senderAccountNum: "123-456-7890",
+      senderName: "박지민",
+      recieverAccountNum: "987-654-3210",
+      recieverName: "양은수",
+      content: "결제",
+      amount: -12000,
+      balance: "203000",
+      createdDate: "2024-06-09",
+    },
+    {
+      id: 5,
+      senderAccountNum: "123-456-7890",
+      senderName: "박지민",
+      recieverAccountNum: "987-654-3210",
+      recieverName: "양은수",
+      content: "대출금",
+      amount: -50000,
+      balance: "233000",
+      createdDate: "2024-06-10",
+    },
+    {
+      id: 6,
+      senderAccountNum: "123-456-7890",
+      senderName: "박지민",
+      recieverAccountNum: "987-654-3210",
+      recieverName: "양은수",
+      content: "용돈",
+      amount: 50000,
+      balance: "285000",
+      createdDate: "2024-06-10",
+    },
+    {
+      id: 7,
+      senderAccountNum: "123-456-7890",
+      senderName: "박지민",
+      recieverAccountNum: "987-654-3210",
+      recieverName: "양은수",
+      content: "미션",
+      amount: 30000,
+      balance: "233000",
+      createdDate: "2024-06-10",
+    },
+  ];
 
   const groupedData = groupDataByDate(data);
   const sortedGroupedData = Object.keys(groupedData).sort((a, b) => new Date(b) - new Date(a));

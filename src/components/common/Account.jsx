@@ -26,12 +26,13 @@ const Account = ({ accountNum }) => {
         <ButtonWrapper>
           {accountNum === 0 ? (
             <>
-              <Btn>돈 보내기</Btn>
-              <Btn>용돈 내역</Btn>
+              <Btn onClick={() => navigate("/account/select")}>돈 보내기</Btn>
+              <Btn onClick={() => navigate("/allowance/history")}>용돈 내역</Btn>
             </>
           ) : (
             <>
               <Btn onClick={() => navigate("/invest/start")}>투자하기</Btn>
+              <Btn onClick={() => navigate("/invest/tradehistory")}>투자 내역</Btn>
             </>
           )}
         </ButtonWrapper>
@@ -46,12 +47,7 @@ const AccountContainer = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 13px;
-  background: ${({ theme }) =>
-    theme.accountNum === 0
-      ? "#E5EFFF"
-      : theme.accountNum === 1
-      ? "#FFF4BD"
-      : "#E5EFFF"};
+  background: ${({ theme }) => (theme.accountNum === 0 ? "#E5EFFF" : theme.accountNum === 1 ? "#FFF4BD" : "#E5EFFF")};
   padding: 20px 26px;
   width: 305px;
   width: 100%;
@@ -90,8 +86,7 @@ const BalanceDiv = styled.div`
 
 const ButtonWrapper = styled.div`
   display: flex;
-  justify-content: ${({ theme }) =>
-    theme.accountNum === 0 ? "center" : "flex-end"};
+  justify-content: ${({ theme }) => (theme.accountNum === 0 ? "center" : "flex-end")};
   gap: 30px;
 `;
 
@@ -100,11 +95,6 @@ const Btn = styled.button`
   height: 45px;
   border-radius: 15px;
   border: none;
-  background: ${({ theme }) =>
-    theme.accountNum === 0
-      ? "#CDE0FF"
-      : theme.accountNum === 1
-      ? "#FFDD86"
-      : "#CDE0FF"};
+  background: ${({ theme }) => (theme.accountNum === 0 ? "#CDE0FF" : theme.accountNum === 1 ? "#FFDD86" : "#CDE0FF")};
   font-size: 18px;
 `;

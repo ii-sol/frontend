@@ -11,9 +11,6 @@ import Login from "../pages/Auth/Login";
 import MyPage from "../pages/MyPage/MyPage";
 import MemberManagement from "../pages/MyPage/MemberManagement";
 
-import AllowanceManagement from "../pages/Allowance/Parent/AllowanceManagement.jsx";
-import AllowanceRegistration from "../pages/Allowance/Parent/AllowanceRegistration.jsx";
-import AllowanceHistoryP from "../pages/Allowance/Parent/AllowanceHistory.jsx";
 import AllowanceRequest from "../pages/Allowance/Child/AllowanceRequest";
 import NewAllowanceRequest from "../pages/Allowance/Child/NewAllowanceRequest";
 import AllowanceRequestHistory from "../pages/Allowance/Child/AllowanceRequestHistory.jsx";
@@ -30,14 +27,15 @@ import MissionSendDetail from "../pages/Mission/Child/MissionSendDetail.jsx";
 import MissionReceiveDetail from "../pages/Mission/Child/MissionReceiveDetail.jsx";
 
 import InvestMain from "../pages/Investment/InvestMain";
-import AvailableInvest from "../pages/Investment/Child/AvailableInvest";
-import Trading from "../pages/Investment/Child/Trading";
-import Suggestion from "../pages/Investment/Child/Suggestion";
-import Done from "../pages/Investment/Child/Done";
-import ParentSelection from "../pages/Investment/Child/ParentSelection";
+import AvailableInvest from "../pages/Investment/AvailableInvest";
+import Trading from "../pages/Investment/Trading";
+import Suggestion from "../pages/Investment/Suggestion";
+import Done from "../pages/Investment/Done";
+import ParentSelection from "../pages/Investment/ParentSelection";
 import StockList from "../pages/Investment/StockList";
 import InvestHistory from "../pages/Investment/InvestHistory";
-import SuggestionDetail from "../pages/Investment/Child/SuggestionDetail";
+import SuggestionDetail from "../pages/Investment/SuggestionDetail";
+import TradeHistory from "../pages/Investment/TradeHistory";
 
 import Main from "../pages/Loan/Child/Main";
 import FromWho from "../pages/Loan/Child/FromWho";
@@ -45,9 +43,13 @@ import Money from "../pages/Loan/Child/Money";
 import Period from "../pages/Loan/Child/Period";
 import Message from "../pages/Loan/Child/Message";
 import Complete from "../pages/Loan/Child/Complete";
-import LoanHistory from "../pages/Loan/Child/LoanHistoryNull";
-import LoanHistoryExist from "../pages/Loan/Child/LoanHistoryExist";
-import LoanDetail from "../pages/Loan/Child/Detail.jsx";
+import LoanHistory from "../pages/Loan/Child/LoanHistory";
+import LoanDetail from "../pages/Loan/Child/DetailRequest.jsx";
+import LoanDetailOnGoing from "../pages/Loan/Child/DetailAccept.jsx";
+import SelectAccount from "../pages/Account/SelectAccount.jsx";
+import AccountMoney from "../pages/Account/Money.jsx";
+import Send from "../pages/Account/Send.jsx";
+import SendMoneyComplete from "../pages/Account/SendComplete.jsx";
 
 const MainRouter = createBrowserRouter([
   {
@@ -68,10 +70,7 @@ const MainRouter = createBrowserRouter([
       {
         path: "allowance",
         children: [
-          { path: "management", element: <AllowanceManagement /> },
-          { path: "registration", element: <AllowanceRegistration /> },
           { path: "history", element: <AllowanceHistory /> },
-          { path: "history-parent", element: <AllowanceHistoryP /> },
           {
             path: "irregular",
             children: [
@@ -86,7 +85,7 @@ const MainRouter = createBrowserRouter([
         path: "mission",
         children: [
           { path: "", element: <Mission /> },
-          { path: "detail", element: <MissionDetail /> },
+          { path: ":id", element: <MissionDetail /> },
           { path: "history", element: <MissionHistory /> },
           { path: "create", element: <CreateMission /> },
           { path: "amount", element: <CreateMissionPrice /> },
@@ -108,23 +107,44 @@ const MainRouter = createBrowserRouter([
           { path: "stocklist", element: <StockList /> },
           { path: "history", element: <InvestHistory /> },
           { path: "history/:id", element: <SuggestionDetail /> },
+          { path: "tradehistory", element: <TradeHistory /> },
         ],
       },
-    ],
-  },
-  {
-    path: "/loan",
-    element: <InsideLayout service="대출" />,
-    children: [
-      { path: "main", element: <Main /> },
-      { path: "who", element: <FromWho /> },
-      { path: "money", element: <Money /> },
-      { path: "period", element: <Period /> },
-      { path: "message", element: <Message /> },
-      { path: "complete", element: <Complete /> },
-      { path: "history-null", element: <LoanHistory /> },
-      { path: "history-exist", element: <LoanHistoryExist /> },
-      { path: "detail", element: <LoanDetail /> },
+      {
+        path: "/loan",
+        children: [
+          { path: "main", element: <Main /> },
+          { path: "who", element: <FromWho /> },
+          { path: "money", element: <Money /> },
+          { path: "period", element: <Period /> },
+          { path: "message", element: <Message /> },
+          { path: "complete", element: <Complete /> },
+          { path: "history", element: <LoanHistory /> },
+          { path: "detail/:loanId", element: <LoanDetail /> },
+          { path: "detailOnGoing/:loanId", element: <LoanDetailOnGoing /> },
+        ],
+      },
+      {
+        path: "/account",
+        children: [
+          {
+            path: "select",
+            element: <SelectAccount />,
+          },
+          {
+            path: "money",
+            element: <AccountMoney />,
+          },
+          {
+            path: "send",
+            element: <Send />,
+          },
+          {
+            path: "complete",
+            element: <SendMoneyComplete />,
+          },
+        ],
+      },
     ],
   },
 ]);
