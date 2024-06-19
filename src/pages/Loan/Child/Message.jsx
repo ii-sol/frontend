@@ -8,6 +8,8 @@ import { setLoanDetails } from "../../../store/action";
 import Header from "../../../components/common/Header";
 import { MdArrowBackIos } from "react-icons/md";
 
+import MessageImage from "~/assets/img/common/heartLay.svg";
+
 const Message = () => {
   const [messageText, setMessageText] = useState("");
   const [titleText, setTitleText] = useState("");
@@ -61,9 +63,9 @@ const Message = () => {
         }}
       />
 
-      <div tw="flex flex-col h-screen justify-between">
-        <div tw="flex flex-col items-center p-5">
-          <img src={message} tw="mb-4" alt="Message" />
+      <div tw="flex flex-col justify-between">
+        <div tw="flex flex-col items-center p-5 mt-10">
+          <img src={MessageImage} tw=" w-[143px] h-auto my-16" alt="Message" />
           <div tw="w-full max-w-md">
             <div tw="bg-blue-100 p-6 rounded-2xl mb-4">
               <div tw="bg-white p-3 rounded-2xl mb-4">
