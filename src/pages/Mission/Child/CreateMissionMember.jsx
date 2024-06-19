@@ -44,13 +44,31 @@ const CreateMissionMember = () => {
 
   return (
     <S.Container>
-      <Header left={"<"} onLeftClick={handleLeftClick} title={"미션"} right={"취소"} onRightClick={handleRightClick} />
+      <Header
+        left={"<"}
+        onLeftClick={handleLeftClick}
+        title={"미션"}
+        right={"취소"}
+        onRightClick={handleRightClick}
+      />
       <S.FormWrapper>
         <S.StepWrapper>
-          <S.Question tw="text-[25px]">누구에게 미션을 요청할까요?</S.Question>
+          <S.Question>누구에게 미션을 요청할까요?</S.Question>
           <MemberContainer>
-            <Member img={CharacterImage1} name="박지민" role="부모" phoneNum="010-0000-0000" onClick={() => handleMemberChange("박지민", "010-0000-0000")}></Member>
-            <Member img={CharacterImage2} name="아빠" role="부모" phoneNum="010-4321-4321" onClick={() => handleMemberChange("아빠", "010-4321-4321")}></Member>
+            <Member
+              img={CharacterImage1}
+              name="박지민"
+              role="부모"
+              phoneNum="010-0000-0000"
+              onClick={() => handleMemberChange("박지민", "010-0000-0000")}
+            ></Member>
+            <Member
+              img={CharacterImage2}
+              name="아빠"
+              role="부모"
+              phoneNum="010-4321-4321"
+              onClick={() => handleMemberChange("아빠", "010-4321-4321")}
+            ></Member>
           </MemberContainer>
         </S.StepWrapper>
         <S.ButtonWrapper>

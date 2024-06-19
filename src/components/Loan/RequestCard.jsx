@@ -17,7 +17,7 @@ const RequestCard = ({ status, name, title, dday, onClick }) => {
         <Title>{title}</Title>
       </Content>
       <StatusWrapper>
-        <StatusTag dday={dday}>{dday === 0 ? "D-day" : `D-${dday}`}</StatusTag>
+        <StatusTag $dday={dday}>{dday === 0 ? "D-day" : `D-${dday}`}</StatusTag>
       </StatusWrapper>
     </Container>
   );
@@ -26,7 +26,7 @@ const RequestCard = ({ status, name, title, dday, onClick }) => {
 export default RequestCard;
 
 const Container = styled.div`
-  ${tw`flex items-center bg-[#F4F9FF] w-full rounded-2xl text-lg p-4 my-4 shadow-md cursor-pointer`}
+  ${tw`flex items-center bg-[#E9F2FF] w-full rounded-2xl text-lg p-4 my-4 cursor-pointer`}
 `;
 
 const Img = styled.img`
@@ -55,8 +55,8 @@ const StatusTag = styled.div`
   padding: 4px 8px;
   margin: 3px 0px;
   border-radius: 5px;
-  color: ${({ dday }) =>
-    dday === 0 ? "#CC3535" : dday ? "#346BAC" : "#000000"};
-  background-color: ${({ dday }) =>
-    dday === 0 ? "#FFDCDC" : dday ? "#D5E0F1" : "#FFFFFF"};
+  color: ${({ $dday }) =>
+    $dday === 0 ? "#CC3535" : $dday ? "#346BAC" : "#000000"};
+  background-color: ${({ $dday }) =>
+    $dday === 0 ? "#FFDCDC" : $dday ? "#D5E0F1" : "#FFFFFF"};
 `;
