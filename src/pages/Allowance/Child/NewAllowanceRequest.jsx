@@ -13,9 +13,9 @@ import Message from "~/components/common/Message";
 import CharacterImage1 from "~/assets/img/common/character/character_sol.svg";
 import CharacterImage2 from "~/assets/img/common/character/character_lay.svg";
 
-import MessageImage from "~/assets/img/common/message.svg";
-import AllowanceImage from "~/assets/img/Allowance/allowance.svg";
+import MessageImage from "~/assets/img/common/lovelyRino.svg";
 import KeypadInput from "../../../components/Allowance/KeypadInput";
+import CompleteImage from "~/assets/img/common/complete.svg";
 
 const initialState = {
   childPhone: "",
@@ -122,92 +122,55 @@ const NewAllowanceRequest = () => {
 
   return (
     <S.Container>
-      <Header
-        left={"<"}
-        onLeftClick={handlePrev}
-        title={"용돈 조르기"}
-        right={step < 3 ? "취소" : null}
-        onRightClick={step < 3 ? handleRightClick : null}
-      />
+      <Header left={"<"} onLeftClick={handlePrev} title={"용돈 조르기"} right={step < 3 ? "취소" : null} onRightClick={step < 3 ? handleRightClick : null} />
       <S.FormWrapper>
         {step === 0 && (
           <S.StepWrapper>
             <S.Question>누구에게 용돈을 부탁드릴까요?</S.Question>
             <MemberContainer>
-              <Member
-                img={CharacterImage1}
-                name="박지민"
-                role="부모"
-                phoneNum="010-0000-0000"
-                onClick={() => handleMemberChange("박지민", "010-0000-0000")}
-              ></Member>
-              <Member img={CharacterImage2} name="엄마"></Member>
-              <Member
-                img={CharacterImage1}
-                name="아빠"
-                role="부모"
-                phoneNum="010-4321-4321"
-                onClick={() => handleMemberChange("아빠", "010-4321-4321")}
-              ></Member>
+              <Member img={CharacterImage1} name="박지민" role="부모" phoneNum="010-0000-0000" onClick={() => handleMemberChange("박지민", "010-0000-0000")}></Member>
+              <Member img={CharacterImage2} name="엄마" role="부모"></Member>
+              <Member img={CharacterImage1} name="아빠" role="부모" phoneNum="010-4321-4321" onClick={() => handleMemberChange("아빠", "010-4321-4321")}></Member>
             </MemberContainer>
           </S.StepWrapper>
         )}
         {step === 1 && (
           <S.StepWrapper>
             <S.Question>얼마를 달라고 부탁드릴까요?</S.Question>
-            <KeypadInput
-              displayedNumber={displayedNumber}
-              setDisplayedNumber={setDisplayedNumber}
-            />
+            <KeypadInput displayedNumber={displayedNumber} setDisplayedNumber={setDisplayedNumber} />
           </S.StepWrapper>
         )}
         {step === 2 && (
           <S.StepWrapper>
             <div style={{ margin: "20px" }}>
-              <S.Question style={{ margin: 0 }}>
-                {requestData.parentName} 님에게
-              </S.Question>
-              <S.Question style={{ margin: 0 }}>
-                {normalizeNumber(requestData.amount)}원을 부탁드릴게요
-              </S.Question>
+              <S.Question style={{ margin: 0 }}>{requestData.parentName} 님에게</S.Question>
+              <S.Question style={{ margin: 0 }}>{normalizeNumber(requestData.amount)}원을 부탁드릴게요</S.Question>
               <SmallPhrase>용돈이 필요한 이유를 작성해주세요!</SmallPhrase>
             </div>
             <InputContainer>
-              <Img src={MessageImage} alt="메세지" />
-              <Message
-                placeholder="합리적인 이유를 적어주세요!"
-                maxLength="20"
-                onChange={handleInputChange}
-                value={requestData.content}
-              ></Message>
+              <Img src={MessageImage} alt="message" tw="w-1/2" />
+              <br />
+              <Message placeholder="합리적인 이유를 적어주세요!" maxLength="20" onChange={handleInputChange} value={requestData.content}></Message>
             </InputContainer>
           </S.StepWrapper>
         )}
         {step === 3 && (
           <S.StepWrapper>
             <CompleteContainer>
-              <Img src={AllowanceImage} alt="완료" />
-              <S.Question>용돈 조르기 완료</S.Question>
-              <S.CompleteCard>
-                <div>{requestData.parentName}</div>
-                <div tw="text-[#154B9B]">
-                  {normalizeNumber(requestData.amount)}원
-                </div>
+              <Img src={CompleteImage} alt="complete" />
+              <S.Question style={{ marginTop: "0px" }}>용돈 조르기 완료</S.Question>
+              <S.CompleteCard tw="text-[20px]">
+                <div>{requestData.parentName} 님에게</div>
+                <div>용돈 조르기를 요청했습니다.</div>
+                <div tw="text-[#154B9B]">{normalizeNumber(requestData.amount)}원</div>
               </S.CompleteCard>
-              <div tw="text-xs">
-                <span tw="text-[#154B9B]">{formattedDate}</span>까지 응답하지
-                않으면 취소돼요.
+              <div tw="text-sm">
+                <span tw="text-[#154B9B]">{formattedDate}</span>까지 응답하지 않으면 취소돼요.
               </div>
             </CompleteContainer>
           </S.StepWrapper>
         )}
-        <S.ButtonWrapper>
-          {step < 3 ? (
-            <S.BottomBtn onClick={handleNext}>다음</S.BottomBtn>
-          ) : (
-            <S.BottomBtn onClick={handleAllowanceRedirect}>완료</S.BottomBtn>
-          )}
-        </S.ButtonWrapper>
+        <S.ButtonWrapper>{step < 3 ? <S.BottomBtn onClick={handleNext}>다음</S.BottomBtn> : <S.BottomBtn onClick={handleAllowanceRedirect}>완료</S.BottomBtn>}</S.ButtonWrapper>
       </S.FormWrapper>
     </S.Container>
   );
@@ -231,8 +194,7 @@ const MemberContainer = styled.div`
 `;
 
 const Img = styled.img`
-  width: 80%;
-  height: auto;
+  margin: 60px auto 40px auto;
   // box-shadow: 0px 0px 80px 0px rgba(151, 178, 221, 0.4);
 `;
 

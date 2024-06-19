@@ -7,7 +7,6 @@ import { useLocation } from "react-router-dom";
 import SuggestHistory from "../../Investment/SuggestHistoryList";
 import TradeHistory from "../../Investment/TradeHistoryList";
 import ChildAllowanceHistory from "../../Allowance/ChildHistoryListItem";
-import ParentAllowanceHistory from "../../Allowance/ParentHistoryListItem";
 import IrregularAllowanceHistory from "../../Allowance/IrregularHistoryListItem";
 import MissionHistory from "../../Mission/MissionHistoryListItem";
 import LoanHistoryListItem from "../../../pages/Loan/Child/LoanHistoryListItem";
@@ -24,8 +23,6 @@ const HistoryList = () => {
           <TradeHistory />
         ) : location.pathname === "/allowance/history" ? (
           <ChildAllowanceHistory />
-        ) : location.pathname === "/allowance/history-parent" ? (
-          <ParentAllowanceHistory />
         ) : location.pathname === "/allowance/irregular/history" ? (
           <IrregularAllowanceHistory />
         ) : location.pathname === "/mission/history" ? (
