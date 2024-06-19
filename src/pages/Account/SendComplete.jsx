@@ -5,6 +5,9 @@ import moneyHand from "~/assets/img/Account/billmoney.svg";
 import Header from "../../components/common/Header";
 import { MdArrowBackIos } from "react-icons/md";
 
+import * as S from "../../styles/GlobalStyles";
+import CompleteImg from "~/assets/img/Account/happyFriends.svg";
+
 const SendMoneyComplete = () => {
   const navigate = useNavigate();
 
@@ -15,9 +18,9 @@ const SendMoneyComplete = () => {
   return (
     <>
       <Header left={<MdArrowBackIos />} title={"돈 보내기"} />
-      <div tw="flex flex-col items-center h-screen p-4">
-        <div tw="flex flex-col items-center mt-4">
-          <img src={moneyHand} alt="Money Hand" tw="w-52 h-52 mt-4" />
+      <div tw="flex flex-col items-center justify-center" style={{ height: "calc(100vh - 150px)" }}>
+        <div tw="flex flex-col items-center">
+          <img src={CompleteImg} alt="Complete" tw="w-[60%]" />
           <h2 tw="text-2xl font-semibold mt-4">돈 보내기 완료</h2>
         </div>
 
@@ -27,12 +30,7 @@ const SendMoneyComplete = () => {
           <p tw="text-xl mt-2 text-gray-600">잔액: 150,000원</p>
         </div>
 
-        <button
-          tw="fixed bottom-10 left-8 right-0 mt-10 w-10/12 bg-blue-200 p-3 text-center rounded-2xl hover:bg-blue-300 cursor-pointer"
-          onClick={complete}
-        >
-          완료
-        </button>
+        <S.BottomBtn onClick={complete}>완료</S.BottomBtn>
       </div>
     </>
   );
