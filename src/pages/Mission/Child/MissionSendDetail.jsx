@@ -50,7 +50,7 @@ const CompleteContainer = styled.div`
 `;
 
 const Img = styled.img`
-  width: 80%;
+  width: 40%;
   height: auto;
   // box-shadow: 0px 0px 80px 0px rgba(151, 178, 221, 0.4);
 `;
