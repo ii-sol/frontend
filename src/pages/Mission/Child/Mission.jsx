@@ -5,8 +5,6 @@ import { styled } from "styled-components";
 import Slider from "react-slick";
 import * as S from "../../../styles/GlobalStyles";
 
-import DishwashingImg from "~/assets/img/Mission/dishwashing.svg";
-
 import Header from "~/components/common/Header";
 import MissionCard from "../../../components/Mission/MissionCard";
 import RequestCard from "../../../components/Mission/RequestCard";
@@ -79,9 +77,9 @@ const Mission = () => {
           <RegisterButton onClick={handleRequestClick}>
             <span tw="text-[#346BAC]">미션</span>요청하기
           </RegisterButton>
-          <MissionCard onClick={handleMissionClick} dday="3" mission="설거지하기" allowance="10000" img={DishwashingImg} />
-          <MissionCard onClick={handleMissionClick} dday="0" mission="설거지하기" allowance="10000" img={DishwashingImg} />
-          <MissionCard onClick={handleMissionClick} dday="7" mission="설거지하기" allowance="10000" img={DishwashingImg} />
+          <MissionCard onClick={handleMissionClick} dday="3" mission="설거지하기" allowance="10000" />
+          <MissionCard onClick={handleMissionClick} dday="0" mission="설거지하기" allowance="10000" />
+          <MissionCard onClick={handleMissionClick} dday="7" mission="설거지하기" allowance="10000" />
         </S.CardContainer>
       </S.Container>
     </div>

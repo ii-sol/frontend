@@ -6,7 +6,6 @@ import * as S from "../../../styles/GlobalStyles";
 
 import Header from "~/components/common/Header";
 import RequestCardChild from "~/components/Allowance/RequestCardChild";
-import AllowanceImage from "~/assets/img/Allowance/allowanceRequest.svg";
 import RegularAllowanceCard from "../../../components/Allowance/RegularAllowanceCard";
 
 const AllowanceRequest = () => {
@@ -39,9 +38,9 @@ const AllowanceRequest = () => {
         <RegisterButton onClick={handleCreateClick}>
           <span tw="text-[#346BAC]">용돈</span>조르기
         </RegisterButton>
-        <RequestCardChild dday="0" receiver="엄마" allowance="1000" img={AllowanceImage} />
-        <RequestCardChild dday="2" receiver="엄마" allowance="1000" img={AllowanceImage} />
-        <RequestCardChild dday="3" receiver="아빠" allowance="5000" img={AllowanceImage} />
+        <RequestCardChild dday="0" receiver="엄마" allowance="1000" />
+        <RequestCardChild dday="2" receiver="엄마" allowance="1000" />
+        <RequestCardChild dday="3" receiver="아빠" allowance="5000" />
       </S.CardContainer>
     </S.Container>
   );

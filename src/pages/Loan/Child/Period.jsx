@@ -8,6 +8,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLoanDetails } from "../../../store/action"; // Correct the import statement
 import Header from "../../../components/common/Header";
 import { MdArrowBackIos } from "react-icons/md";
+import * as S from "../../../styles/GlobalStyles";
+
+import PeriodImage from "~/assets/img/common/smartMoli.svg";
 
 const ScrollContainer = styled.div`
   ${tw`overflow-y-scroll h-48 w-full max-w-xs bg-blue-100 rounded-xl p-2`}
@@ -49,16 +52,13 @@ const Period = () => {
           navigate("/loan/main");
         }}
       />
-      <div tw="flex flex-col items-center p-5">
-        <img src={calender} alt="Calendar" />
-        <p tw="text-4xl text-center mb-5">{selectedPeriod}</p>
+      <div tw="flex flex-col items-center">
+        <S.Question>얼마 동안 빌릴까요?</S.Question>
+        <img src={PeriodImage} alt="Calendar" tw="w-2/5 my-10" />
+        <p tw="text-4xl text-center mt-5 mb-10">{selectedPeriod}</p>
         <ScrollContainer>
           {options.map((option) => (
-            <Option
-              key={option}
-              selected={option === selectedPeriod}
-              onClick={() => handleSelectChange(option)}
-            >
+            <Option key={option} selected={option === selectedPeriod} onClick={() => handleSelectChange(option)}>
               {option}
             </Option>
           ))}

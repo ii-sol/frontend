@@ -13,7 +13,7 @@ import Message from "~/components/common/Message";
 import CharacterImage1 from "~/assets/img/common/character/character_sol.svg";
 import CharacterImage2 from "~/assets/img/common/character/character_lay.svg";
 
-import MessageImage from "~/assets/img/common/message.svg";
+import MessageImage from "~/assets/img/common/lovelyRino.svg";
 import KeypadInput from "../../../components/Allowance/KeypadInput";
 import CompleteImage from "~/assets/img/common/complete.svg";
 
@@ -148,7 +148,8 @@ const NewAllowanceRequest = () => {
               <SmallPhrase>용돈이 필요한 이유를 작성해주세요!</SmallPhrase>
             </div>
             <InputContainer>
-              <Img src={MessageImage} alt="메세지" />
+              <Img src={MessageImage} alt="message" tw="w-1/2" />
+              <br />
               <Message placeholder="합리적인 이유를 적어주세요!" maxLength="20" onChange={handleInputChange} value={requestData.content}></Message>
             </InputContainer>
           </S.StepWrapper>

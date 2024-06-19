@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import tw from "twin.macro";
-import piggyBank from "~/assets/img/Loan/piggyBank.svg";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setLoanDetails } from "../../../store/action";
@@ -9,6 +8,8 @@ import Keypad from "../../../components/Loan/KeyPad";
 import Header from "../../../components/common/Header";
 import { MdArrowBackIos } from "react-icons/md";
 import * as S from "../../../styles/GlobalStyles";
+
+import SolImage from "~/assets/img/common/curiousSol.svg";
 
 const Money = () => {
   const [amount, setAmount] = useState("0");
@@ -33,13 +34,8 @@ const Money = () => {
 
   const handleNext = () => {
     console.log(amount);
-    if (
-      parseInt(amount.replace(/,/g, ""), 10) > 1000 &&
-      parseInt(amount.replace(/,/g, ""), 10) < 500000
-    ) {
-      dispatch(
-        setLoanDetails({ amount: parseInt(amount.replace(/,/g, ""), 10) })
-      );
+    if (parseInt(amount.replace(/,/g, ""), 10) > 1000 && parseInt(amount.replace(/,/g, ""), 10) < 500000) {
+      dispatch(setLoanDetails({ amount: parseInt(amount.replace(/,/g, ""), 10) }));
       navigate("/loan/period");
     } else {
       setError("1,000원 ~ 500,000원 사이에서 빌릴 수 있어요.");
@@ -55,18 +51,16 @@ const Money = () => {
           navigate("/loan/main");
         }}
       />
-      <div tw="flex flex-col justify-between h-screen">
+      <div tw="flex flex-col justify-between">
         <S.Question>얼마를 빌릴까요?</S.Question>
         <div tw="flex justify-center">
-          <img src={piggyBank} alt="Piggy Bank" tw="w-44 h-44" />
+          <img src={SolImage} alt="sol" tw="w-[143px] h-[135px] my-5" />
         </div>
         <main tw="flex flex-col items-center flex-grow justify-start mt-2">
           <div tw="bg-gray-100 rounded-2xl p-2 pl-3 pr-3 flex items-center justify-center mt-2">
             <p tw="text-xl">{formatAmount(amount)} 원</p>
           </div>
-          {error && (
-            <div tw="text-red-500 text-sm text-center mt-2">{error}</div>
-          )}
+          {error && <div tw="text-red-500 text-sm text-center mt-2">{error}</div>}
           <Keypad onButtonClick={handleButtonClick} />
           <div tw="mt-8">
             <NextButton onClick={handleNext} />
