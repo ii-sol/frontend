@@ -6,7 +6,7 @@ import MainLayout from "../pages/layout/MainLayout";
 import Home from "../pages/Home/Home";
 import Signup from "../pages/Auth/Signup";
 import Login from "../pages/Auth/Login";
-// import Notification from "../pages/Notification/Notification";
+import Notification from "../pages/Notification/Notification";
 import MyPage from "../pages/MyPage/MyPage";
 import MemberManagement from "../pages/MyPage/MemberManagement";
 
@@ -91,7 +91,7 @@ const MainRouter = createBrowserRouter([
           { path: "member", element: <CreateMissionMember /> },
           { path: "complete", element: <CreateMissionComplete /> },
           { path: "request/send/detail", element: <MissionSendDetail /> },
-          { path: "request/request/detail", element: <MissionReceiveDetail /> },
+          { path: "request/receive/detail", element: <MissionReceiveDetail /> },
         ],
       },
       {
