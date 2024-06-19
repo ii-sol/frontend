@@ -207,6 +207,7 @@ const CompleteContainer = styled.div`
   ${tw`flex
   flex-col
   items-center
-  my-20
+  justify-center
   gap-2`}
+  height: calc(100vh - 230px);
 `;
