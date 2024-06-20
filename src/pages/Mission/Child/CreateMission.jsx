@@ -80,25 +80,27 @@ const CreateMission = () => {
         <S.BottomBtn onClick={handleNext}>다음</S.BottomBtn>
       </S.StepWrapper>
 
-      <StyledBottomSheet open={openMissionList} onDismiss={handleDismissMissionList}>
-        <S.Question>미션함</S.Question>
-        <MissionOptionWrapper>
-          {missionOptions.map((option) => (
-            <MissionOption key={option.status} selected={selectedOption?.status === option.status} onClick={() => handleOptionClick(option)}>
-              {option.label}
-            </MissionOption>
-          ))}
-        </MissionOptionWrapper>
-        <S.CardContainer tw="m-1">
-          {filteredMissions.map((mission) => (
-            <MissionCard key={mission.id} onClick={() => handleMissionCardClick(mission.content)}>
-              <MissionContent>{mission.content}</MissionContent>
-              <MissionImage src={mission.img} alt={mission.content} special={mission.id === 8 || mission.id === 20 ? "true" : undefined} />
-            </MissionCard>
-          ))}
-        </S.CardContainer>
-        <Create onClick={handleDismissMissionList}>직접 만들기</Create>
-      </StyledBottomSheet>
+      <BottomSheet open={openMissionList} onDismiss={handleDismissMissionList}>
+        <div style={{ height: "82vh", padding: "0 30px 30px 30px" }}>
+          <S.Question>미션함</S.Question>
+          <MissionOptionWrapper>
+            {missionOptions.map((option) => (
+              <MissionOption key={option.status} selected={selectedOption?.status === option.status} onClick={() => handleOptionClick(option)}>
+                {option.label}
+              </MissionOption>
+            ))}
+          </MissionOptionWrapper>
+          <S.CardContainer tw="m-1">
+            {filteredMissions.map((mission) => (
+              <MissionCard key={mission.id} onClick={() => handleMissionCardClick(mission.content)} specialCard={mission.id === 8 || mission.id === 20}>
+                <MissionContent>{mission.content}</MissionContent>
+                <MissionImage src={mission.img} alt={mission.content} specialImage={mission.id === 8 || mission.id === 20} />
+              </MissionCard>
+            ))}
+          </S.CardContainer>
+          <Create onClick={handleDismissMissionList}>직접 만들기</Create>
+        </div>
+      </BottomSheet>
 
       {openDueDate && <DueDateBottomSheet requestData={requestData} dispatch={dispatch} open={openDueDate} onDismiss={handleDismissDueDate} />}
     </S.Container>
@@ -106,15 +108,6 @@ const CreateMission = () => {
 };
 
 export default CreateMission;
-
-const StyledBottomSheet = styled(BottomSheet)`
-  font-family: "Pretendard Variable";
-  & > div {
-    height: calc(100% - 100px);
-    padding: 0 30px 30px 30px;
-    box-sizing: border-box;
-  }
-`;
 
 const Img = styled.img`
   width: 50%;
