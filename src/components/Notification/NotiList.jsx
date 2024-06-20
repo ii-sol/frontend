@@ -42,6 +42,7 @@ const NotiList = () => {
         filteredData[date] = filteredByFunctionCode;
       }
     });
+
     return filteredData;
   };
 
@@ -89,11 +90,6 @@ const Img = styled.img`
 
 const EmptyText = styled.div`
   ${tw`text-2xl`}
-`;
-
-const Date = styled.div`
-  color: #949494;
-  margin-top: 30px;
 `;
 
 const DateGroup = styled.div`
