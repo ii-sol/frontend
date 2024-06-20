@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import SuggestHistory from "../../Investment/SuggestHistoryList";
 import TradeHistory from "../../Investment/TradeHistoryList";
 import ChildAllowanceHistory from "../../Allowance/ChildHistoryListItem";
+
 import IrregularAllowanceHistory from "../../Allowance/IrregularHistoryListItem";
 import MissionHistory from "../../Mission/MissionHistoryListItem";
 import LoanHistoryListItem from "../../../pages/Loan/Child/LoanHistoryListItem";
