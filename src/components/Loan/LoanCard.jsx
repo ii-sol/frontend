@@ -14,11 +14,15 @@ const LoanCard = ({ amount, period, totalAmount, title, onClick }) => {
     <div onClick={onClick}>
       <Card>
         <div tw="flex items-center mb-2">
-          <span tw="bg-blue-100 text-blue-500 py-1 px-2 mt-1 text-sm rounded-full">{title}</span>
+          <span tw="bg-blue-100 text-blue-500 py-1 px-2 mt-1 text-sm rounded-full">
+            {title}
+          </span>
         </div>
         <span tw="text-lg font-bold mt-1">{formatAmount(amount)}원</span>
         <p tw="text-xs text-gray-500 mt-2">{period}</p>
-        <p tw="text-sm text-gray-500 mt-1">빌린 금액 : {formatAmount(totalAmount)}원</p>
+        <p tw="text-sm text-gray-500 mt-1">
+          빌린 금액 : {formatAmount(totalAmount)}원
+        </p>
         <img src={CharacterImg} alt="Loan Icon" tw="ml-auto mt-6 w-20 h-20" />
       </Card>
     </div>

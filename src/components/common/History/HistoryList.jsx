@@ -7,10 +7,7 @@ import { useLocation } from "react-router-dom";
 import SuggestHistory from "../../Investment/SuggestHistoryList";
 import TradeHistory from "../../Investment/TradeHistoryList";
 import ChildAllowanceHistory from "../../Allowance/ChildHistoryListItem";
-<<<<<<< Updated upstream
-=======
-//import ParentAllowanceHistory from "../../Allowance/ParentHistoryListItem";
->>>>>>> Stashed changes
+
 import IrregularAllowanceHistory from "../../Allowance/IrregularHistoryListItem";
 import MissionHistory from "../../Mission/MissionHistoryListItem";
 import LoanHistoryListItem from "../../../pages/Loan/Child/LoanHistoryListItem";
@@ -27,9 +24,7 @@ const HistoryList = () => {
           <TradeHistory />
         ) : location.pathname === "/allowance/history" ? (
           <ChildAllowanceHistory />
-        ) : // ) : location.pathname === "/allowance/history-parent" ? (
-        //   <ParentAllowanceHistory />
-        location.pathname === "/allowance/irregular/history" ? (
+        ) : location.pathname === "/allowance/irregular/history" ? (
           <IrregularAllowanceHistory />
         ) : location.pathname === "/mission/history" ? (
           <MissionHistory />
