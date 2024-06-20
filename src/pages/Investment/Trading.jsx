@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import StocksAbout from "../../components/Investment/StocksAbout";
 import Header from "../../components/Investment/Header";
 import Keypad from "../../components/common/Keypad";
@@ -35,7 +35,6 @@ const Trading = () => {
     return orderQuantity * price;
   };
 
-  // TODO: 매수매도 확인
   const onTrade = () => {
     if (isNew) {
       navigate("/invest/member");
