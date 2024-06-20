@@ -42,4 +42,6 @@ const Title = styled.div`
 const Right = styled.div`
   ${tw`text-lg`}
   justify-self: end;
+  display: flex;
+  align-items: center;
 `;
