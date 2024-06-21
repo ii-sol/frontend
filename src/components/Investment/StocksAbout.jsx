@@ -1,6 +1,7 @@
 import React from "react";
 import { styled } from "styled-components";
 import { useSelector } from "react-redux";
+import { normalizeNumber } from "../../utils/normalizeNumber";
 
 // TODO: 보유잔고, 주문 가능 수량(잔고 / price)
 const StocksAbout = () => {
@@ -14,7 +15,7 @@ const StocksAbout = () => {
       </RowDiv>
       <RowDiv>
         <InfoDiv>시장가</InfoDiv>
-        <InfoDiv>{price}원</InfoDiv>
+        <InfoDiv>{normalizeNumber(price)}원</InfoDiv>
       </RowDiv>
       <RowDiv>
         <InfoDiv>보유잔고</InfoDiv>
