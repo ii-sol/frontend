@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import { login } from "../../services/user";
+import { store } from "../../store/stores";
+import { loginSuccess } from "../../store/reducers/Auth/user";
 import tw from "twin.macro";
 
 import Button from "../../components/common/Button";
@@ -17,11 +19,16 @@ const Login = () => {
     const phoneNum = userData.phoneNum;
     const accountInfo = userData.accountInfo;
     try {
-      const userInfo = await login(phoneNum, accountInfo);
-      console.log("로그인 성공:", userInfo);
+      const { userInfo, accessToken, refreshToken } = await login(phoneNum, accountInfo);
+      store.dispatch(
+        loginSuccess({
+          userInfo: userInfo,
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+        })
+      );
       navigate("/");
     } catch (error) {
-      console.error("로그인 실패:", error);
       alert(error);
     }
   };

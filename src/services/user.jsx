@@ -24,7 +24,7 @@ export const login = async (phoneNum, accountInfo) => {
     setCookie("accessToken", accessToken, { path: "/" });
     setCookie("refreshToken", refreshToken, { path: "/" });
 
-    return userInfo;
+    return { userInfo, accessToken, refreshToken };
   } catch (error) {
     throw error;
   }
