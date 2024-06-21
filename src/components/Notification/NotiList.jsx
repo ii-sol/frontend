@@ -19,7 +19,7 @@ const NotiList = () => {
   const loading = useSelector((state) => state.noti.loading);
 
   useEffect(() => {
-    dispatch(fetchNoti(1));
+    dispatch(fetchNoti());
     dispatch(setFunctionCode(0));
   }, []);
 

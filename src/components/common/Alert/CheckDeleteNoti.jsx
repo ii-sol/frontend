@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 const CheckDeleteNoti = ({ onDismiss }) => {
   const dispatch = useDispatch();
   const onYes = () => {
-    dispatch(deleteAllNoti(1));
+    dispatch(deleteAllNoti());
     onDismiss();
   };
 
