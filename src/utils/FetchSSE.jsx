@@ -2,10 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
 import "react-toastify/dist/ReactToastify.css";
 import { StyledToastContainer, Toast } from "./Toast";
-import isLogin from "./isLogin";
+// import isLogin from "./isLogin";
 import { getCookie } from "../services/cookie";
+import { useSelector } from "react-redux";
 
 const FetchSSE = () => {
+  // const sn = useSelector((state) => state.user.userInfo.sn);
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  // console.log("ssss", sn);
   const accessToken = getCookie("accessToken");
   const [realtimeData, setRealtimeData] = useState(null);
 
@@ -13,13 +17,13 @@ const FetchSSE = () => {
   const EventSource = EventSourcePolyfill || NativeEventSource;
 
   useEffect(() => {
-    if (isLogin()) {
+    if (isLoggedIn) {
       try {
         const fetchSSE = async () => {
-          eventSource.current = new EventSource("http://127.0.0.1:8080/notifications/subscribe/1", {
+          eventSource.current = new EventSource(`http://127.0.0.1:8080/notifications/subscribe/${sn}`, {
             headers: {
               "Content-Type": "text/event-stream",
-              "Authorization": `Bearer ${accessToken}`,
+              // "Authorization": `Bearer ${accessToken}`,
             },
             withCredentials: true,
           });
@@ -38,7 +42,7 @@ const FetchSSE = () => {
             console.log("Connection opened", event);
           };
         };
-        fetchSSE();
+        // fetchSSE();
       } catch (error) {
         throw error;
       }
@@ -47,7 +51,7 @@ const FetchSSE = () => {
     return () => {
       eventSource.current?.close();
     };
-  }, [isLogin]);
+  }, [isLoggedIn]);
 
   console.log(realtimeData);
   return <StyledToastContainer />;
