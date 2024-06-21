@@ -19,7 +19,10 @@ const Login = () => {
     const phoneNum = userData.phoneNum;
     const accountInfo = userData.accountInfo;
     try {
-      const { userInfo, accessToken, refreshToken } = await login(phoneNum, accountInfo);
+      const { userInfo, accessToken, refreshToken } = await login(
+        phoneNum,
+        accountInfo
+      );
       store.dispatch(
         loginSuccess({
           userInfo: userInfo,
@@ -27,14 +30,20 @@ const Login = () => {
           refreshToken: refreshToken,
         })
       );
-      navigate("/");
+      // navigate("/");
+      window.location.href = "/";
     } catch (error) {
       alert(error.response.data.error.message);
     }
   };
 
   const handlePhoneChange = (e) => {
-    const formattedValue = e.target.value.replace(/[^0-9]/g, "").replace(/(^02.{0}|^01.{1}|[0-9]{3,4})([0-9]{3,4})([0-9]{4})/g, "$1-$2-$3");
+    const formattedValue = e.target.value
+      .replace(/[^0-9]/g, "")
+      .replace(
+        /(^02.{0}|^01.{1}|[0-9]{3,4})([0-9]{3,4})([0-9]{4})/g,
+        "$1-$2-$3"
+      );
     setUserData({
       ...userData,
       phoneNum: formattedValue,
@@ -50,16 +59,31 @@ const Login = () => {
 
   return (
     <Layout>
-      <div tw="text-2xl font-bold">iSOL{/* TODO: 로고 넣기 */}</div>
+      <div tw="text-2xl font-bold" onClick={() => navigate("/")}>
+        iSOL{/* TODO: 로고 넣기 */}
+      </div>
       <LoginForm>
         <LoginWrapper>
           <div>전화번호</div>
         </LoginWrapper>
-        <Input type="text" name="phoneNum" value={userData.phoneNum} onChange={handlePhoneChange} placeholder="전화번호를 입력해주세요" maxLength="13" />
+        <Input
+          type="text"
+          name="phoneNum"
+          value={userData.phoneNum}
+          onChange={handlePhoneChange}
+          placeholder="전화번호를 입력해주세요"
+          maxLength="13"
+        />
         <LoginWrapper>
           <div>비밀번호</div>
         </LoginWrapper>
-        <Input type="password" name="accountInfo" value={userData.accountInfo} onChange={handleAccountInfoChange} placeholder="비밀번호를 입력해주세요"></Input>
+        <Input
+          type="password"
+          name="accountInfo"
+          value={userData.accountInfo}
+          onChange={handleAccountInfoChange}
+          placeholder="비밀번호를 입력해주세요"
+        ></Input>
       </LoginForm>
       <StyledLink to="/signup">회원이 아니신가요?</StyledLink>
       <Button text="로그인" onClick={handleLoginClick}></Button>
