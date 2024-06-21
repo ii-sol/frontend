@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../styles/GlobalStyles";
+
+import { fetchUserInfo } from "../../services/user";
+import { useSelector } from "react-redux";
 
 import { FiEdit2 } from "react-icons/fi";
 import { RiDeleteBinLine } from "react-icons/ri";
@@ -25,11 +28,30 @@ const initialProfiles = [
 ];
 
 const MyPage = () => {
+  const [userInfo, setUserInfo] = useState(null);
   const [profiles, setProfiles] = useState(initialProfiles);
   const [isDeleting, setIsDeleting] = useState(false);
   const [selectedProfiles, setSelectedProfiles] = useState([]);
 
   const navigate = useNavigate();
+
+  const sn = useSelector((state) => state.user.userInfo.sn);
+  const accessToken = useSelector((state) => state.user.accessToken);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const data = await fetchUserInfo(sn, accessToken);
+        setUserInfo(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    if (sn && accessToken) {
+      fetchUserData();
+    }
+  }, [sn, accessToken]);
 
   const handleLeftClick = () => {
     navigate("/");
@@ -70,7 +92,7 @@ const MyPage = () => {
     <S.Container>
       <Header left={"<"} onLeftClick={handleLeftClick} title={"마이페이지"} right={""} />
       <S.StepWrapper>
-        <Profile />
+        {userInfo ? <Profile userInfo={userInfo} /> : <LoadingPlaceholder>Loading...</LoadingPlaceholder>}
         <Management>
           <S.Phrase>연결 관리</S.Phrase>
           <EditButton onClick={isDeleting ? handleDeleteConfirm : handleDeleteClick}>{isDeleting ? <RiDeleteBinLine tw="w-[18px] h-[18px]" /> : <FiEdit2 tw="w-[18px] h-[18px]" />}</EditButton>
@@ -177,4 +199,13 @@ const Menu = styled.div`
     w-14
     `}
   }
+`;
+
+const LoadingPlaceholder = styled.div`
+  ${tw`
+    flex
+    items-center
+    justify-center
+    h-full
+  `}
 `;

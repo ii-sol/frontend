@@ -30,4 +30,29 @@ export const setAuthHeaders = (accessToken) => {
   baseInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 };
 
-setAuthHeaders(localStorage.getItem("accessToken"));
+export const fetchUserInfo = async (sn, accessToken) => {
+  try {
+    const response = await baseInstance.get(`/users/${sn}`, {
+      headers: {
+        Authorization: accessToken,
+      },
+    });
+
+    return response.data.response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateUserInfo = async (accessToken, newData) => {
+  try {
+    const response = await baseInstance.put(`/users`, newData, {
+      headers: {
+        Authorization: accessToken,
+      },
+    });
+    return response.data.response;
+  } catch (error) {
+    throw error;
+  }
+};
