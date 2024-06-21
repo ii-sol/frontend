@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Indicator from "./Indicator";
 import CandleChart from "./CandleChart";
 import { useDispatch, useSelector } from "react-redux";
-import { setTrade } from "../../store/reducers/Invest/invest";
+import { fetchStock, setTrade } from "../../store/reducers/Invest/invest";
 import Chart from "./Chart";
 import { normalizeNumber } from "../../utils/normalizeNumber";
 
@@ -60,13 +60,11 @@ const StocksDetail = () => {
         <HeaderDiv>
           <StockDiv>{name}</StockDiv>
           <S.ColumnDiv style={{ color: color }}>
-            <PriceDiv style={{ color: color }}>
-              {normalizeNumber(price)}원
-            </PriceDiv>
+            <PriceDiv>{normalizeNumber(price)}원</PriceDiv>
             <PriceDiv>
               {sign}
               {normalizeNumber(changePrice)} {sign2}
-              {changeRate}%
+              {parseFloat(changeRate).toFixed(2)}%
             </PriceDiv>
           </S.ColumnDiv>
         </HeaderDiv>
@@ -78,8 +76,8 @@ const StocksDetail = () => {
         <S.BuyBtn
           $background="#FF5959"
           onClick={() => {
+            dispatch(setTrade(1));
             navigate("/invest/trading");
-            dispatch(setTrade(0));
           }}
         >
           구매하기
@@ -87,8 +85,8 @@ const StocksDetail = () => {
         <S.BuyBtn
           $background="#5987ff"
           onClick={() => {
+            dispatch(setTrade(2));
             navigate("/invest/trading");
-            dispatch(setTrade(1));
           }}
         >
           판매하기

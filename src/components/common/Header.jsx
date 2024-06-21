@@ -40,7 +40,7 @@ const Title = styled.div`
 `;
 
 const Right = styled.div`
-  ${tw`text-lg`}
+  font-size: 20px;
   justify-self: end;
   display: flex;
   align-items: center;

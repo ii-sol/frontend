@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import StocksAbout from "../../components/Investment/StocksAbout";
 import Header from "../../components/Investment/Header";
 import Keypad from "../../components/common/Keypad";
@@ -8,13 +8,20 @@ import { useNavigate } from "react-router-dom";
 
 import { normalizeNumber } from "../../utils/normalizeNumber";
 import { useDispatch, useSelector } from "react-redux";
-import { setMyAmount, setQuantity } from "../../store/reducers/Invest/invest";
+import {
+  fetchStock,
+  setMyAmount,
+  setQuantity,
+} from "../../store/reducers/Invest/invest";
+import { postInvest } from "../../services/invest";
 
 //TODO: 매수주문증거금이 부족합니다. alert, 0주는 안됨
 const Trading = () => {
   const dispatch = useDispatch();
   const isNew = useSelector((state) => state.invest.isNew);
+  const code = useSelector((state) => state.invest.code);
   const trade = useSelector((state) => state.invest.trade);
+  const quantity = useSelector((state) => state.invest.quantity);
   const price = useSelector((state) => state.invest.price);
   const navigate = useNavigate();
   const [displayedNumber, setDisplayedNumber] = useState("0");
@@ -35,24 +42,37 @@ const Trading = () => {
     return orderQuantity * price;
   };
 
+  const postMyInvest = async (trading, ticker, quantity) => {
+    try {
+      const res = await postInvest(trading, ticker, quantity);
+      console.log(res);
+    } catch (error) {}
+  };
+
   const onTrade = () => {
     if (isNew) {
+      dispatch(setQuantity(parseInt(displayedNumber, 10)));
+      dispatch(setMyAmount(getOrderAmount()));
       navigate("/invest/member");
-      dispatch(setQuantity(parseInt(displayedNumber, 10)));
-      dispatch(setMyAmount(getOrderAmount()));
     } else {
-      navigate("/invest/send");
+      postMyInvest(trade, code, quantity);
       dispatch(setQuantity(parseInt(displayedNumber, 10)));
       dispatch(setMyAmount(getOrderAmount()));
+      navigate("/invest/send");
     }
   };
 
+  useEffect(() => {
+    dispatch(fetchStock({ code: code, pathVariable: 0 }));
+  }, [dispatch, code]);
+  console.log("pricez", price);
   return (
     <div>
       <Header type="none" />
+      <div style={{ height: 15 }}></div>
       <StocksAbout />
       <ColumDiv>
-        {trade === 0 ? (
+        {trade === 1 ? (
           <InfoDiv>얼마나 살까요?</InfoDiv>
         ) : (
           <InfoDiv>얼마나 팔까요?</InfoDiv>
@@ -65,15 +85,17 @@ const Trading = () => {
           onNumberClick={handleNumberClick}
           onBackspace={handleBackspace}
         />
-        {trade === 0 ? (
-          <S.BuyBtn $background="#FF5959" onClick={() => onTrade()}>
-            구매하기
-          </S.BuyBtn>
-        ) : (
-          <S.BuyBtn $background="#5987ff" onClick={() => onTrade()}>
-            판매하기
-          </S.BuyBtn>
-        )}
+        <div style={{ marginTop: 15 }}>
+          {trade === 1 ? (
+            <S.BuyBtn $background="#FF5959" onClick={() => onTrade()}>
+              구매하기
+            </S.BuyBtn>
+          ) : (
+            <S.BuyBtn $background="#5987ff" onClick={() => onTrade()}>
+              판매하기
+            </S.BuyBtn>
+          )}
+        </div>
       </ColumDiv>
     </div>
   );
@@ -86,28 +108,13 @@ const ColumDiv = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  margin-top: 10px;
+  margin-top: 30px;
 `;
 
 const InfoDiv = styled.div`
   color: #000000;
   font-size: 22px;
   text-align: center;
-  margin: 10px auto;
-`;
-
-const InputDiv = styled.div`
-  position: relative;
-`;
-
-const Input = styled.input`
-  background-color: #f5f5f5;
-  width: 120px;
-  height: 40px;
-  border-radius: 100px;
-  padding-right: 40px;
-
-  font-size: 20px;
 `;
 
 const Amount = styled.div`
@@ -122,11 +129,12 @@ const Amount = styled.div`
   justify-content: flex-end;
   align-items: center;
   text-align: right;
+  margin: 5px 0px;
 `;
 
 const Div = styled.div`
   font-size: 20px;
-  margin: 10px 0px 10px auto;
+  margin: 10px 0px 20px auto;
   color: #707070;
   font-size: 18px;
 `;

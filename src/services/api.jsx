@@ -13,10 +13,6 @@ export const baseInstance = axios.create({
   },
 });
 
-export const notiInstance = axios.create({
-  baseURL: BASE_URL + "/notifications",
-});
-
 baseInstance.interceptors.request.use(
   (config) => {
     const accessToken = getCookie("accessToken");
@@ -44,11 +40,15 @@ baseInstance.interceptors.response.use(
           store.dispatch(logout());
           return Promise.reject(error);
         }
-        const refreshResponse = await axios.post(`${BASE_URL}/auth/token`, null, {
-          headers: {
-            "Refresh-Token": `${refreshToken}`,
-          },
-        });
+        const refreshResponse = await axios.post(
+          `${BASE_URL}/auth/token`,
+          null,
+          {
+            headers: {
+              "Refresh-Token": `${refreshToken}`,
+            },
+          }
+        );
         console.log("refreshResponse", refreshResponse);
         const newAccessToken = refreshResponse.headers.authorization;
         setCookie("accessToken", newAccessToken, {

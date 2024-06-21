@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import * as S from "../../styles/GlobalStyles";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchStocks } from "../../store/reducers/Invest/invest";
+import { fetchStock } from "../../store/reducers/Invest/invest";
 import AreaChart from "./AreaChart";
 import CandleChart from "./CandleChart";
 import ToggleButton from "../common/ToggleButton";
@@ -22,7 +22,7 @@ const Chart = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchStocks({ code: code, pathVariable: selected }));
+    dispatch(fetchStock({ code: code, pathVariable: selected }));
   }, [dispatch, code, selected]);
 
   return (

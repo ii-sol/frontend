@@ -1,8 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { fetchStocks as reqFetchStocks } from "../../../services/stock";
+import {
+  fetchStock as reqFetchStock,
+  fetchMyStocks as reqFetchMyStocks,
+} from "../../../services/invest";
 
 const initialState = {
-  trade: 0, //0: 구매, 1: 판매
+  trade: 1, //1: 구매, 2: 판매
   price: 80000,
   myAmount: 0,
   name: "삼성전자",
@@ -20,15 +23,24 @@ const initialState = {
     dividendYield: "2.40",
     pbr: "3.00",
     per: "-18.34",
-    psr: "-1506396184",
-    roe: "14.08",
+    profitGrowth: "-",
+    roe: "-",
   },
 };
 
-export const fetchStocks = createAsyncThunk(
-  "invest/fetchStocks",
+export const fetchStock = createAsyncThunk(
+  "invest/fetchStock",
   async ({ code, pathVariable }, thunkAPI) => {
-    const response = await reqFetchStocks(code, pathVariable);
+    const response = await reqFetchStock(code, pathVariable);
+    console.log(response);
+    return response;
+  }
+);
+
+export const fetchMyStocks = createAsyncThunk(
+  "invest/fetchMyStocks",
+  async (data, thunkAPI) => {
+    const response = await reqFetchMyStocks();
     console.log(response);
     return response;
   }
@@ -68,26 +80,35 @@ const investSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchStocks.fulfilled, (state, action) => {
+      .addCase(fetchStock.fulfilled, (state, action) => {
         state.loading = "fulfilled";
-        state.charts = action.payload.data.charts;
-        state.name = action.payload.data.companyName;
-        state.price = action.payload.data.currentPrice;
-        state.changePrice = action.payload.data.changePrice;
-        state.changeRate = action.payload.data.changeRate;
-        state.changeSign = action.payload.data.changeSign;
+        state.charts = action.payload.response.charts;
+        state.name = action.payload.response.companyName;
+        state.price = action.payload.response.currentPrice * 100;
+        state.changePrice = action.payload.response.changePrice;
+        state.changeRate = action.payload.response.changeRate;
+        state.changeSign = action.payload.response.changeSign;
         state.indi.marketCapitalization =
-          action.payload.data.marketCapitalization;
-        state.indi.dividendYield = action.payload.data.dividendYield;
-        state.indi.pbr = action.payload.data.pbr;
-        state.indi.per = action.payload.data.per;
-        state.indi.roe = action.payload.data.roe;
-        state.indi.psr = action.payload.data.psr;
+          action.payload.response.marketCapitalization;
+        state.indi.dividendYield = action.payload.response.dividendYield;
+        state.indi.pbr = action.payload.response.pbr;
+        state.indi.per = action.payload.response.per;
+        state.indi.roe = action.payload.response.roe;
+        state.indi.profitGrowth = action.payload.response.profitGrowth;
       })
-      .addCase(fetchStocks.pending, (state) => {
+      .addCase(fetchStock.pending, (state) => {
         state.loading = "pending";
       })
-      .addCase(fetchStocks.rejected, (state) => {
+      .addCase(fetchStock.rejected, (state) => {
+        state.loading = "rejected";
+      })
+      .addCase(fetchMyStocks.fulfilled, (state, action) => {
+        state.loading = "fulfilled";
+      })
+      .addCase(fetchMyStocks.pending, (state) => {
+        state.loading = "pending";
+      })
+      .addCase(fetchMyStocks.rejected, (state) => {
         state.loading = "rejected";
       });
   },

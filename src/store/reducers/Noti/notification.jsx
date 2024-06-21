@@ -13,8 +13,8 @@ const initialState = {
 
 export const fetchNoti = createAsyncThunk(
   "notification/fetchNoti",
-  async (usn, thunkAPI) => {
-    const response = await reqFetchNoti(usn);
+  async (data, thunkAPI) => {
+    const response = await reqFetchNoti();
     console.log("response", response);
     return response;
   }
@@ -22,8 +22,8 @@ export const fetchNoti = createAsyncThunk(
 
 export const deleteAllNoti = createAsyncThunk(
   "notification/deleteAllNoti",
-  async (rsn, thunkAPI) => {
-    const response = await reqDeleteAllNoti(rsn);
+  async (data, thunkAPI) => {
+    const response = await reqDeleteAllNoti();
     console.log("response", response);
     return response;
   }

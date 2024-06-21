@@ -9,17 +9,14 @@ const AreaChart = ({ selected }) => {
 
   const formattedData = chartsData
     .map((price) => ({
-      time_close: `${price.stck_bsop_date.slice(
-        0,
-        4
-      )}-${price.stck_bsop_date.slice(4, 6)}-${price.stck_bsop_date.slice(
-        6,
-        8
-      )}`,
-      open: parseFloat(price.stck_oprc),
-      high: parseFloat(price.stck_hgpr),
-      low: parseFloat(price.stck_lwpr),
-      close: parseFloat(price.stck_clpr),
+      time_close: `${price.localDate.slice(0, 4)}-${price.localDate.slice(
+        4,
+        6
+      )}-${price.localDate.slice(6, 8)}`,
+      open: parseFloat(price.openPrice),
+      high: parseFloat(price.highPrice),
+      low: parseFloat(price.lowPrice),
+      close: parseFloat(price.closePrice),
     }))
     .sort((a, b) => new Date(a.time_close) - new Date(b.time_close));
 

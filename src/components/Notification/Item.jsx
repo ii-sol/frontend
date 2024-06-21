@@ -17,11 +17,6 @@ const Item = ({ data }) => {
     data.functionCode
   );
 
-  const createDate = new Date(data.createDate);
-  const timeString = `${createDate.getHours()}:${(
-    "0" + createDate.getMinutes()
-  ).slice(-2)}`;
-
   const onDelete = (nsn) => {
     if (ref.current) {
       ref.current.style.transform = "translateX(0px)";
@@ -31,7 +26,7 @@ const Item = ({ data }) => {
     dispatch(deleteNoti(nsn)).then(() => {
       if (ref.current) {
         setTimeout(() => {
-          ref.current.style.transition = "transform 800ms";
+          ref.current.style.transition = "transform 1000ms";
         }, 0);
       }
     });
@@ -55,7 +50,9 @@ const Item = ({ data }) => {
         <ColumnDiv>
           <RowDiv>
             <Div>{functionText}</Div>
-            <Div>{timeString}</Div>
+            <Div>
+              {data.createDate[3]}:{data.createDate[4]}
+            </Div>
           </RowDiv>
           <Content>{data.messageCode}</Content>
         </ColumnDiv>
