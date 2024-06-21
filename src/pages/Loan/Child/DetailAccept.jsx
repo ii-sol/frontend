@@ -62,9 +62,7 @@ const LoanDetailOnGoing = () => {
     if (loanId !== undefined) {
       const fetchLoanDetail = async () => {
         try {
-          const response = await baseInstance.get(
-            `http://localhost:8082/loan/detail/${loanId}`
-          );
+          const response = await baseInstance.get(baseUrl);
           const data = response.data.response;
 
           console.log(data);

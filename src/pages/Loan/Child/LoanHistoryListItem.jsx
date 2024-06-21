@@ -20,7 +20,7 @@ const LoanHistoryListItem = () => {
 
     const fetchData = async () => {
       try {
-        const response = await baseInstance.get();
+        const response = await baseInstance.get(baseUrl);
         const responseData = response.data;
 
         if (responseData.success) {

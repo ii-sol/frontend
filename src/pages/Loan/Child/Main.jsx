@@ -19,8 +19,6 @@ const Main = () => {
   const [loans, setLoans] = useState([]);
 
   useEffect(() => {
-    const baseUrl = "/loan";
-
     const fetchLoans = async () => {
       const baseUrl = "/loan";
       try {
