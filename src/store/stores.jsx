@@ -8,11 +8,12 @@ import investReducer from "./reducers/Invest/invest";
 import missionReducer from "./reducers/Mission/mission";
 import notiReducer from "./reducers/Noti/notification";
 import userReducer from "./reducers/Auth/user";
+import profileReducer from "./reducers/common/profile";
 
 const rootPersistConfig = {
   key: "root",
   storage: storage,
-  whitelist: ["invest", "user"],
+  whitelist: ["invest", "user", "profile"],
 };
 
 const rootReducer = combineReducers({
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   loan: loanReducer,
   noti: notiReducer,
   user: userReducer,
+  profile: profileReducer,
 });
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
