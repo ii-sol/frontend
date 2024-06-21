@@ -10,7 +10,7 @@ import LoanCard from "../../../components/Loan/LoanCard";
 import RequestCard from "../../../components/Loan/RequestCard.jsx";
 import Header from "../../../components/common/Header.jsx";
 import { styled } from "styled-components";
-import { baseInstance } from "../../../services/api.jsx";
+import { BASE_URL, baseInstance } from "../../../services/api.jsx";
 
 const Main = () => {
   const navigate = useNavigate();
@@ -19,6 +19,8 @@ const Main = () => {
   const [loans, setLoans] = useState([]);
 
   useEffect(() => {
+    const baseUrl = "/loan";
+
     const fetchLoans = async () => {
       const baseUrl = "/loan";
       try {

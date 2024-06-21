@@ -1,5 +1,7 @@
 import axios from "axios";
 import { getCookie, setCookie, removeCookie } from "./cookie";
+import { store } from "../store/stores";
+import { loginSuccess, logout } from "../store/reducers/Auth/user";
 
 export const BASE_URL = "http://127.0.0.1:8080";
 
@@ -35,39 +37,48 @@ baseInstance.interceptors.request.use(
 baseInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
+    console.log(error);
     const statusCode = error.response?.status;
-    if (statusCode === 401) {
+    if (statusCode == 401) {
+      console.log("dfsg");
       try {
         const refreshToken = getCookie("refreshToken");
         if (!refreshToken) {
           removeCookie("accessToken");
+          store.dispatch(logout());
           return Promise.reject(error);
         }
+
         const refreshResponse = await axios.post(
-          `${process.env.REACT_APP_HOST}/api/auth/token`,
+          `${BASE_URL}/auth/token`,
           null,
           {
-            params: {
-              accountId: "1",
-              token: refreshToken,
-            },
             headers: {
-              Authorization: `Bearer ${refreshToken}`,
+              "Refresh-Token": `${refreshToken}`,
             },
           }
         );
-
-        const newAccessToken = refreshResponse.data.result.accessToken;
+        console.log("refreshResponse", refreshResponse);
+        const newAccessToken = refreshResponse.headers.authorization;
         setCookie("accessToken", newAccessToken, {
           path: "/",
         });
 
-        error.config.headers.Authorization = `Bearer ${newAccessToken}`;
+        store.dispatch(
+          loginSuccess({
+            userInfo: store.getState().user.userInfo,
+            accessToken: newAccessToken,
+            refreshToken: refreshToken,
+          })
+        );
+
+        error.config.headers.Authorization = newAccessToken;
 
         return axios(error.config);
       } catch (err) {
         removeCookie("accessToken");
         removeCookie("refreshToken");
+        store.dispatch(logout());
         return Promise.reject(err);
       }
     }
