@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { styled } from "styled-components";
 
+//TODO: N/A null
 const Indicator = () => {
   const marketCapitalization = useSelector(
     (state) => state.invest.indi.marketCapitalization
@@ -9,23 +10,15 @@ const Indicator = () => {
   const dividendYield = useSelector((state) => state.invest.indi.dividendYield);
   const pbr = useSelector((state) => state.invest.indi.pbr);
   const per = useSelector((state) => state.invest.indi.per);
-  const psr = useSelector((state) => state.invest.indi.psr);
+  const profitGrowth = useSelector((state) => state.invest.indi.profitGrowth);
   const roe = useSelector((state) => state.invest.indi.roe);
-
-  const formatMarketCap = (value) => {
-    if (value >= 10000) {
-      return `${(value / 10000).toLocaleString()}조원`;
-    } else {
-      return `${value}억원`;
-    }
-  };
 
   return (
     <div>
       <RowDiv>
         <BoxDiv>
           <AboutDiv>시가총액</AboutDiv>
-          <ContentDiv>{formatMarketCap(marketCapitalization)}</ContentDiv>
+          <ContentDiv>{marketCapitalization}</ContentDiv>
         </BoxDiv>
         <BoxDiv>
           <AboutDiv>배당수익률</AboutDiv>
@@ -46,8 +39,8 @@ const Indicator = () => {
           <ContentDiv>{roe}</ContentDiv>
         </BoxDiv>
         <BoxDiv>
-          <AboutDiv>PSR</AboutDiv>
-          <ContentDiv>{psr}</ContentDiv>
+          <AboutDiv>엽업증가율</AboutDiv>
+          <ContentDiv>{profitGrowth}</ContentDiv>
         </BoxDiv>
       </RowDiv>
     </div>
