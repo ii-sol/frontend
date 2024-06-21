@@ -14,7 +14,7 @@ export default ChatBubble;
 
 const Bubble = styled.div`
   ${tw`relative mb-4`}
-  background-color: #eaf4ff;
+  background-color: #E9F2FF;
   padding: 20px;
   width: fit-content;
   max-width: 80%;
