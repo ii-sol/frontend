@@ -17,10 +17,6 @@ export const notiInstance = axios.create({
   baseURL: BASE_URL + "/notifications",
 });
 
-export const authInstance = axios.create({
-  baseURL: BASE_URL + "/auth",
-});
-
 baseInstance.interceptors.request.use(
   (config) => {
     const accessToken = getCookie("accessToken");

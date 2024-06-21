@@ -1,9 +1,9 @@
-import { authInstance } from "./api";
+import { baseInstance } from "./api";
 import { setCookie } from "./cookie";
 
 export const join = async (userData) => {
   try {
-    const response = await authInstance.post("/join", userData);
+    const response = await baseInstance.post("/auth/join", userData);
     return response.data.response;
   } catch (error) {
     throw error;
@@ -12,7 +12,7 @@ export const join = async (userData) => {
 
 export const login = async (phoneNum, accountInfo) => {
   try {
-    const response = await authInstance.post("/login", {
+    const response = await baseInstance.post("/auth/login", {
       phoneNum,
       accountInfo,
     });
@@ -30,6 +30,12 @@ export const login = async (phoneNum, accountInfo) => {
   }
 };
 
-// export const setAuthHeaders = (accessToken) => {
-//   authInstance.defaults.headers.common["Authorization"] = `${accessToken}`;
-// };
+export const checkPhoneNum = async (phoneNum) => {
+  try {
+    const response = await baseInstance.post("/auth/useful-phone", phoneNum);
+
+    return response.data.response.success;
+  } catch (error) {
+    throw error;
+  }
+};
