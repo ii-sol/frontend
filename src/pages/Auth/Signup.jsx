@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
+import { join, checkPhoneNum } from "../../services/user";
 
 import * as S from "../../styles/GlobalStyles";
 
@@ -16,9 +17,10 @@ const Signup = () => {
     name: "",
     phoneNum: "",
     accountInfo: "",
-    confirmAccountInfo: "",
     birthDate: "",
+    profileId: 1,
   });
+  const [confirmAccountInfo, setConfirmAccountInfo] = useState("");
   const [showconfirmAccountInfo, setShowconfirmAccountInfo] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -27,25 +29,33 @@ const Signup = () => {
   const handleChange = (e) => {
     if (e.target.name === "confirmAccountInfo") {
       setShowconfirmAccountInfo(true);
+      setConfirmAccountInfo(e.target.value);
+    } else {
+      setUserData({
+        ...userData,
+        [e.target.name]: e.target.value,
+      });
     }
-
-    setUserData({
-      ...userData,
-      [e.target.name]: e.target.value,
-    });
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     let error = "";
     if (step === 0 && !isNameValid(userData.name)) {
       error = "이름은 2~5글자 이내의 한글로 입력해주세요.";
-    } else if (step === 1 && !isPhoneNumValid(userData.phoneNum)) {
-      // TODO: 이미 존재하는 전화번호인지도 확인
-      error = "전화번호는 010-XXXX-XXXX 형식으로 입력해주세요.";
+    } else if (step === 1) {
+      if (!isPhoneNumValid(userData.phoneNum)) {
+        error = "전화번호는 010-XXXX-XXXX 형식으로 입력해주세요.";
+      } else {
+        try {
+          await checkPhoneNum(userData.phoneNum);
+        } catch (err) {
+          error = "이미 가입된 전화번호입니다.";
+        }
+      }
     } else if (step === 2) {
       if (!isPasswordValid(userData.accountInfo)) {
         error = "비밀번호는 6자리 숫자로 입력해주세요.";
-      } else if (showconfirmAccountInfo && userData.accountInfo !== userData.confirmAccountInfo) {
+      } else if (showconfirmAccountInfo && userData.accountInfo !== confirmAccountInfo) {
         error = "비밀번호가 일치하지 않습니다.";
       }
     } else if (step === 3 && !isBirthDateValid(userData.birthDate)) {
@@ -64,8 +74,13 @@ const Signup = () => {
     }
   };
 
-  const handleSubmit = () => {
-    setStep(4);
+  const handleSubmit = async () => {
+    try {
+      await join(userData);
+      setStep(4);
+    } catch (error) {
+      setErrorMessage(error);
+    }
   };
 
   const handleLoginRedirect = () => {
@@ -108,7 +123,7 @@ const Signup = () => {
               <div tw="flex flex-col">
                 <ChatBubble text="비밀번호를 한 번 더 알려주세요!" />
                 <RightAlignedDiv>
-                  <Input type="password" name="confirmAccountInfo" value={userData.confirmAccountInfo} onChange={handleChange} />
+                  <Input type="password" name="confirmAccountInfo" value={confirmAccountInfo} onChange={handleChange} />
                 </RightAlignedDiv>
               </div>
             )}
