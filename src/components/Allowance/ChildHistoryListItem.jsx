@@ -60,9 +60,9 @@ const ChildHistoryListItem = () => {
   const data = [
     {
       id: 1,
-      senderAccountNum: "123-456-7890",
+      senderAccountNum: "010-0000-0000-01",
       senderName: "박지민",
-      recieverAccountNum: "987-654-3210",
+      recieverAccountNum: "010-1111-1111-01",
       recieverName: "양은수",
       content: "용돈 조르기",
       amount: 50000,
@@ -71,9 +71,9 @@ const ChildHistoryListItem = () => {
     },
     {
       id: 2,
-      senderAccountNum: "123-456-7890",
+      senderAccountNum: "010-1312-1312-01",
       senderName: "박지민",
-      recieverAccountNum: "987-654-3210",
+      recieverAccountNum: "010-1121-3123-01",
       recieverName: "양은수",
       content: "돈 보내기",
       amount: -30000,

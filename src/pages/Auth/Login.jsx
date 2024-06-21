@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
+import { login } from "../../services/user";
 import tw from "twin.macro";
 
 import Button from "../../components/common/Button";
@@ -10,10 +11,19 @@ const Login = () => {
     phoneNum: "",
     accountInfo: "",
   });
+  const navigate = useNavigate();
 
-  const handleLoginClick = () => {
-    // TODO: 로그인 하기
-    console.log(userData);
+  const handleLoginClick = async () => {
+    const phoneNum = userData.phoneNum;
+    const accountInfo = userData.accountInfo;
+    try {
+      const userInfo = await login(phoneNum, accountInfo);
+      console.log("로그인 성공:", userInfo);
+      navigate("/");
+    } catch (error) {
+      console.error("로그인 실패:", error);
+      alert(error);
+    }
   };
 
   const handlePhoneChange = (e) => {

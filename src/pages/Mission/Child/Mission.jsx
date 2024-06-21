@@ -118,7 +118,7 @@ const Menu = styled.div`
 `;
 
 const Wrapper = styled.div`
-  ${tw`w-full rounded-2xl p-2`}
+  ${tw`w-full rounded-2xl`}
   .slick-prev:before,
   .slick-next:before {
     font-family: "slick";
