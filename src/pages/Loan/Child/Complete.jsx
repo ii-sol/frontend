@@ -19,9 +19,11 @@ const Complete = () => {
   console.log(store.getState());
 
   useEffect(() => {
+    const baseUrl = "/loan/create";
+
     if (loanDetails) {
-      axios
-        .post("http://localhost:8082/child/loan/create", loanDetails)
+      baseInstance
+        .post(baseUrl, loanDetails)
         .then((response) => {
           console.log(response.data);
         })

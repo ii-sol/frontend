@@ -43,15 +43,19 @@ baseInstance.interceptors.response.use(
           removeCookie("accessToken");
           return Promise.reject(error);
         }
-        const refreshResponse = await axios.post(`${process.env.REACT_APP_HOST}/api/auth/token`, null, {
-          params: {
-            accountId: "1",
-            token: refreshToken,
-          },
-          headers: {
-            Authorization: `Bearer ${refreshToken}`,
-          },
-        });
+        const refreshResponse = await axios.post(
+          `${process.env.REACT_APP_HOST}/api/auth/token`,
+          null,
+          {
+            params: {
+              accountId: "1",
+              token: refreshToken,
+            },
+            headers: {
+              Authorization: `Bearer ${refreshToken}`,
+            },
+          }
+        );
 
         const newAccessToken = refreshResponse.data.result.accessToken;
         setCookie("accessToken", newAccessToken, {

@@ -57,10 +57,12 @@ const LoanDetailOnGoing = () => {
   };
 
   useEffect(() => {
+    const baseUrl = `/loan/detail/${loanId}`;
+
     if (loanId !== undefined) {
       const fetchLoanDetail = async () => {
         try {
-          const response = await axios.get(
+          const response = await baseInstance.get(
             `http://localhost:8082/loan/detail/${loanId}`
           );
           const data = response.data.response;

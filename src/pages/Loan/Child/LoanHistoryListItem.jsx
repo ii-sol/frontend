@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
+import axios from "axios";
 import * as S from "../../../styles/GlobalStyles";
 import EmptyImage from "~/assets/img/common/empty.svg";
 import LoanHistoryCard from "../../../components/Loan/LoanHistoryCard";
 import { useSelector } from "react-redux";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const LoanHistoryListItem = () => {
   const [data, setData] = useState([]);
@@ -13,13 +14,18 @@ const LoanHistoryListItem = () => {
   const year = useSelector((state) => state.history.year);
   const month = useSelector((state) => state.history.month);
   const navigate = useNavigate();
+
   useEffect(() => {
-    fetch("http://localhost:8082/loan")
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
+    const baseUrl = `/loan`;
+
+    const fetchData = async () => {
+      try {
+        const response = await baseInstance.get();
+        const responseData = response.data;
+
+        if (responseData.success) {
           // Filter data by status
-          const filteredByStatus = data.response.filter(
+          const filteredByStatus = responseData.response.filter(
             (item) => item.status === 4 || item.status === 5
           );
 
@@ -35,12 +41,14 @@ const LoanHistoryListItem = () => {
 
           setData(filteredData);
         } else {
-          console.error("Failed to fetch data:", data.error);
+          console.error("Failed to fetch data:", responseData.error);
         }
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching data:", error);
-      });
+      }
+    };
+
+    fetchData();
   }, [status, year, month]);
 
   const handleProgress = (loanId) => {

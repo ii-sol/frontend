@@ -10,6 +10,7 @@ import LoanCard from "../../../components/Loan/LoanCard";
 import RequestCard from "../../../components/Loan/RequestCard.jsx";
 import Header from "../../../components/common/Header.jsx";
 import { styled } from "styled-components";
+import { baseInstance } from "../../../services/api.jsx";
 
 const Main = () => {
   const navigate = useNavigate();
@@ -19,8 +20,10 @@ const Main = () => {
 
   useEffect(() => {
     const fetchLoans = async () => {
+      const baseUrl = "/loan";
       try {
-        const response = await axios.get("http://localhost:8082/loan");
+        const response = await baseInstance.get(baseUrl);
+
         setLoans(response.data.response || []); // response.data.response 사용
       } catch (error) {
         console.error("Failed to fetch loans", error);
