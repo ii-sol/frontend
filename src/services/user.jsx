@@ -67,9 +67,9 @@ export const updateUserInfo = async (accessToken, newData) => {
   }
 };
 
-export const fetchPhoneNum = async (accessToken) => {
+export const fetchContacts = async (accessToken) => {
   try {
-    const response = await baseInstance.get(`/users/phones`, {
+    const response = await baseInstance.get(`/users/contacts`, {
       headers: {
         Authorization: accessToken,
       },
