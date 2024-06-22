@@ -81,9 +81,9 @@ export const fetchPhoneNum = async (accessToken) => {
   }
 };
 
-export const deleteParent = async (sn, accessToken) => {
+export const deleteParent = async (accessToken, sn) => {
   try {
-    const response = await axios.delete(`/users/${sn}`, {
+    const response = await baseInstance.delete(`/users/${sn}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },

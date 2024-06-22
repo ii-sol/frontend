@@ -16,25 +16,7 @@ import Profile from "../../components/MyPage/Profile";
 import CustomerServiceImage from "~/assets/img/MyPage/service.svg";
 import FAQImage from "~/assets/img/MyPage/faq.svg";
 
-import Profile1 from "~/assets/img/common/character/character_sol.svg";
-import Profile2 from "~/assets/img/common/character/character_moli.svg";
-import Profile3 from "~/assets/img/common/character/character_rino.svg";
-import Profile4 from "~/assets/img/common/character/character_shoo.svg";
-import Profile5 from "~/assets/img/common/character/character_doremi.svg";
-import Profile6 from "~/assets/img/common/character/character_lulu.svg";
-import Profile7 from "~/assets/img/common/character/character_pli.svg";
-import Profile8 from "~/assets/img/common/character/character_lay.svg";
-
-const availableProfiles = [
-  { id: 1, src: Profile1 },
-  { id: 2, src: Profile2 },
-  { id: 3, src: Profile3 },
-  { id: 4, src: Profile4 },
-  { id: 5, src: Profile5 },
-  { id: 6, src: Profile6 },
-  { id: 7, src: Profile7 },
-  { id: 8, src: Profile8 },
-];
+import availableProfiles from "../../assets/data/profileImages";
 
 const MyPage = () => {
   const [userInfo, setUserInfo] = useState(null);
@@ -104,12 +86,14 @@ const MyPage = () => {
       const profileToDelete = profiles.find((profile) => profile.id === selectedProfileId);
       if (profileToDelete) {
         try {
-          await deleteParent(profileToDelete.sn, accessToken);
+          await deleteParent(accessToken, profileToDelete.sn);
           setProfiles(profiles.filter((profile) => profile.id !== selectedProfileId));
+          alert("연결 삭제에 성공했습니다.");
           setIsDeleting(false);
           setSelectedProfileId(null);
         } catch (error) {
           console.error(error);
+          alert("연결 삭제에 실패했습니다.");
         }
       }
     } else {
