@@ -81,4 +81,15 @@ export const fetchPhoneNum = async (accessToken) => {
   }
 };
 
-// export const deleteParent = async (sn, accessToken, )
+export const deleteParent = async (sn, accessToken) => {
+  try {
+    const response = await axios.delete(`/users/${sn}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return response.data.response;
+  } catch (error) {
+    throw error;
+  }
+};

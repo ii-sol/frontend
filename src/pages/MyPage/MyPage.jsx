@@ -4,7 +4,7 @@ import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../styles/GlobalStyles";
 
-import { fetchUserInfo } from "../../services/user";
+import { fetchUserInfo, deleteParent } from "../../services/user";
 import { useSelector } from "react-redux";
 
 import { FiEdit2 } from "react-icons/fi";
@@ -25,7 +25,7 @@ import Profile6 from "~/assets/img/common/character/character_lulu.svg";
 import Profile7 from "~/assets/img/common/character/character_pli.svg";
 import Profile8 from "~/assets/img/common/character/character_lay.svg";
 
-const profiles = [
+const availableProfiles = [
   { id: 1, src: Profile1 },
   { id: 2, src: Profile2 },
   { id: 3, src: Profile3 },
@@ -57,10 +57,11 @@ const MyPage = () => {
           const familyProfiles = await Promise.all(
             familyInfo.map(async (member, index) => {
               const memberInfo = await fetchUserInfo(member.sn, accessToken);
-              const selectedProfile = profiles.find((profile) => profile.id === memberInfo.profileId);
+              const selectedProfile = availableProfiles.find((profile) => profile.id === memberInfo.profileId);
               const profileImageSrc = selectedProfile ? selectedProfile.src : Profile1;
               return {
                 id: index,
+                sn: member.sn,
                 src: profileImageSrc,
                 name: member.name,
               };
@@ -76,7 +77,7 @@ const MyPage = () => {
     if (sn && accessToken) {
       fetchUserData();
     }
-  }, [sn, accessToken]);
+  }, [sn, accessToken, familyInfo]);
 
   const handleLeftClick = () => {
     navigate("/");
@@ -95,14 +96,22 @@ const MyPage = () => {
     }
   };
 
-  const handleDeleteConfirm = () => {
+  const handleDeleteConfirm = async () => {
     if (selectedProfileId === null && isDeleting) {
       setIsDeleting(false);
       setSelectedProfileId(null);
     } else if (window.confirm("정말 삭제하시겠습니까?")) {
-      setProfiles(profiles.filter((profile) => profile.id !== selectedProfileId));
-      setIsDeleting(false);
-      setSelectedProfileId(null);
+      const profileToDelete = profiles.find((profile) => profile.id === selectedProfileId);
+      if (profileToDelete) {
+        try {
+          await deleteParent(profileToDelete.sn, accessToken);
+          setProfiles(profiles.filter((profile) => profile.id !== selectedProfileId));
+          setIsDeleting(false);
+          setSelectedProfileId(null);
+        } catch (error) {
+          console.error(error);
+        }
+      }
     } else {
       setIsDeleting(false);
       setSelectedProfileId(null);
