@@ -39,3 +39,70 @@ export const checkPhoneNum = async (phoneNum) => {
     throw error;
   }
 };
+
+export const fetchUserInfo = async (sn, accessToken) => {
+  try {
+    const response = await baseInstance.get(`/users/${sn}`, {
+      headers: {
+        Authorization: accessToken,
+      },
+    });
+
+    return response.data.response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateUserInfo = async (accessToken, newData) => {
+  try {
+    const response = await baseInstance.put(`/users`, newData, {
+      headers: {
+        Authorization: accessToken,
+      },
+    });
+    return response.data.response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const fetchContacts = async (accessToken) => {
+  try {
+    const response = await baseInstance.get(`/users/contacts`, {
+      headers: {
+        Authorization: accessToken,
+      },
+    });
+
+    return response.data.response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteParent = async (accessToken, sn) => {
+  try {
+    const response = await baseInstance.delete(`/users/${sn}`, {
+      headers: {
+        Authorization: accessToken,
+      },
+    });
+    return response.data.response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const addMember = async (accessToken, requestData) => {
+  try {
+    const response = await baseInstance.post("/users", requestData, {
+      headers: {
+        Authorization: accessToken,
+      },
+    });
+    return response.data.response;
+  } catch (error) {
+    throw response.data.error;
+  }
+};
