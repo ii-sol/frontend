@@ -10,6 +10,8 @@ import { fetchContacts } from "../../services/user";
 import Header from "~/components/common/Header";
 import Member from "~/components/common/Member";
 
+import { addMember } from "../../services/user";
+
 import CompleteImage from "~/assets/img/common/complete.svg";
 import NicknameImage from "~/assets/img/MyPage/nickname.svg";
 import CharacterImage1 from "~/assets/img/common/character/character_sol.svg";
@@ -21,7 +23,7 @@ const MemberManagement = () => {
   const [step, setStep] = useState(0);
   const [requestData, setRequestData] = useState({
     phoneNum: "",
-    nickname: "",
+    parentsAlias: "",
   });
   const [members, setMembers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -53,13 +55,14 @@ const MemberManagement = () => {
         if (!requestData.phoneNum) {
           alert("사용자를 선택해주세요!");
         } else {
+          console.log(requestData);
           setStep(step + 1);
         }
         break;
       case 1:
-        if (!requestData.nickname) {
+        if (!requestData.parentsAlias) {
           alert("부모님의 닉네임을 입력해주세요! (ex. 엄마)");
-        } else if (requestData.nickname.length > 5) {
+        } else if (requestData.parentsAlias.length > 5) {
           alert("닉네임은 5글자 이내로 입력해주세요!");
         } else {
           setStep(step + 1);
@@ -74,7 +77,7 @@ const MemberManagement = () => {
     const value = e.target.value;
     setRequestData({
       ...requestData,
-      nickname: value,
+      parentsAlias: value,
     });
   };
 
@@ -89,6 +92,16 @@ const MemberManagement = () => {
       ...requestData,
       phoneNum: phoneNum,
     });
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await addMember(accessToken, requestData);
+
+      setStep(step + 1);
+    } catch (error) {
+      alert(error);
+    }
   };
 
   const handleHomeRedirect = () => {
@@ -118,10 +131,10 @@ const MemberManagement = () => {
         {step === 1 && (
           <S.StepWrapper>
             <CompleteContainer>
-              <Img src={NicknameImage} alt="nickname" />
+              <Img src={NicknameImage} alt="parentsAlias" />
             </CompleteContainer>
             <StyledInputWrapper>
-              <StyledInput placeholder="부모님을 뭐라고 부를까요?" onChange={handleInputChange} value={requestData.nickname} maxLength={5}></StyledInput>
+              <StyledInput placeholder="부모님을 뭐라고 부를까요?" onChange={handleInputChange} value={requestData.parentsAlias} maxLength={5}></StyledInput>
             </StyledInputWrapper>
           </S.StepWrapper>
         )}
@@ -130,7 +143,7 @@ const MemberManagement = () => {
             <CompleteContainer>
               <Img src={CompleteImage} alt="완료" />
               <Complete>
-                <S.Question tw="m-0">박지민 님이</S.Question>
+                <S.Question tw="m-0">{requestData.parentsAlias} 님이</S.Question>
                 <S.Question tw="m-0">부모에 추가</S.Question>
                 <S.Question tw="m-0">되었습니다</S.Question>
               </Complete>
@@ -138,7 +151,15 @@ const MemberManagement = () => {
           </S.StepWrapper>
         )}
 
-        <S.ButtonWrapper>{step < 2 ? <S.BottomBtn onClick={handleNext}>다음</S.BottomBtn> : <S.BottomBtn onClick={handleHomeRedirect}>완료</S.BottomBtn>}</S.ButtonWrapper>
+        <S.ButtonWrapper>
+          {step < 1 ? (
+            <S.BottomBtn onClick={handleNext}>다음</S.BottomBtn>
+          ) : step === 1 ? (
+            <S.BottomBtn onClick={handleSubmit}>추가하기</S.BottomBtn>
+          ) : (
+            <S.BottomBtn onClick={handleHomeRedirect}>완료</S.BottomBtn>
+          )}
+        </S.ButtonWrapper>
       </S.FormWrapper>
     </S.Container>
   );

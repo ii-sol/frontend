@@ -85,11 +85,24 @@ export const deleteParent = async (accessToken, sn) => {
   try {
     const response = await baseInstance.delete(`/users/${sn}`, {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: accessToken,
       },
     });
     return response.data.response;
   } catch (error) {
     throw error;
+  }
+};
+
+export const addMember = async (accessToken, requestData) => {
+  try {
+    const response = await baseInstance.post("/users", requestData, {
+      headers: {
+        Authorization: accessToken,
+      },
+    });
+    return response.data.response;
+  } catch (error) {
+    throw response.data.error;
   }
 };
