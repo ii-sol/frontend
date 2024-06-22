@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../styles/GlobalStyles";
+
+import { useSelector } from "react-redux";
+import { fetchPhoneNum } from "../../services/user";
 
 import Header from "~/components/common/Header";
 import Member from "~/components/common/Member";
@@ -19,8 +22,24 @@ const MemberManagement = () => {
     phoneNum: "",
     nickname: "",
   });
+  const [members, setMembers] = useState([]);
+
+  const accessToken = useSelector((state) => state.user.accessToken);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const getPhoneNumbers = async () => {
+      try {
+        const data = await fetchPhoneNum(accessToken);
+        setMembers(data);
+      } catch (error) {
+        console.error("Error fetching phone numbers:", error);
+      }
+    };
+
+    getPhoneNumbers();
+  }, []);
 
   const handleLeftClick = () => {
     navigate("/mypage");
@@ -79,6 +98,16 @@ const MemberManagement = () => {
               <Search placeholder="연락처로 검색해봐요" />
             </SearchWrapper>
             <MemberContainer>
+              {members.map((member, index) => (
+                <Member
+                  key={index}
+                  img={member.img || CharacterImage1} // Assuming member object contains an img property
+                  name={member.name}
+                  role={member.role}
+                  phoneNum={member.phoneNum}
+                  onClick={() => handleMemberChange(member.phoneNum)}
+                />
+              ))}
               <Member img={CharacterImage1} name="박지민" role="부모" phoneNum="010-0000-0000" onClick={() => handleMemberChange("박지민", "010-0000-0000")}></Member>
               <Member img={CharacterImage2} name="엄마" role="부모" phoneNum="010-1234-1234" onClick={() => handleMemberChange("엄마", "010-1234-1234")}></Member>
               <Member img={CharacterImage1} name="아빠" role="부모" phoneNum="010-4321-4321" onClick={() => handleMemberChange("아빠", "010-4321-4321")}></Member>

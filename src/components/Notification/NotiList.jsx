@@ -1,25 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import * as S from "../../styles/GlobalStyles";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 import Item from "./Item";
-import { fetchNoti } from "../../services/notifications";
 import { groupDataByDate } from "../../utils/groupDataByDate";
 import EmptyImage from "~/assets/img/common/empty.svg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchNoti,
+  setFunctionCode,
+} from "../../store/reducers/Noti/notification";
+import { PuffLoader } from "react-spinners";
 
 const NotiList = () => {
-  const [noti, setNoti] = useState([]);
+  const dispatch = useDispatch();
   const functionCode = useSelector((state) => state.noti.functionCode);
-  const fetchNotificatiton = async () => {
-    try {
-      const data = await fetchNoti(1);
-      setNoti(data.response);
-    } catch (error) {}
-  };
+  const noti = useSelector((state) => state.noti.noti);
+  const loading = useSelector((state) => state.noti.loading);
 
   useEffect(() => {
-    fetchNotificatiton();
+    dispatch(fetchNoti(1));
+    dispatch(setFunctionCode(0));
   }, []);
 
   const groupedData = groupDataByDate(noti);
@@ -42,6 +43,7 @@ const NotiList = () => {
         filteredData[date] = filteredByFunctionCode;
       }
     });
+
     return filteredData;
   };
 
@@ -56,7 +58,18 @@ const NotiList = () => {
 
   return (
     <S.Container>
-      {sortedDates.length === 0 ? (
+      {loading ? (
+        <div
+          style={{
+            height: "80vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <PuffLoader color="#4056c1" />
+        </div>
+      ) : sortedDates.length === 0 ? (
         <EmptyState>
           <Img src={EmptyImage} alt="No data" />
           <EmptyText>알림이 없어요</EmptyText>
@@ -84,20 +97,16 @@ const EmptyState = styled.div`
 
 const Img = styled.img`
   ${tw`h-auto mb-4`}
-  width: 40%
+  width: 40%;
 `;
 
 const EmptyText = styled.div`
   ${tw`text-2xl`}
 `;
 
-const Date = styled.div`
-  color: #949494;
-  margin-top: 30px;
-`;
-
 const DateGroup = styled.div`
   ${tw`mb-9`}
+  overflow-x: hidden;
 `;
 
 const DateArea = styled.div`

@@ -1,15 +1,24 @@
 import React from "react";
 import { styled } from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import Header from "~/components/common/Header";
 import HistoryFilter from "~/components/common/History/HistoryFilter";
+import { MdArrowBackIos } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const LoanHistory = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   return (
     <Container>
-      <Header left={"<"} title={"빌린 기록"} />
+      <Header
+        left={<MdArrowBackIos />}
+        title={"빌린 기록"}
+        onLeftClick={() => {
+          navigate("/loan/main");
+        }}
+      />
       <HistoryFilter />
     </Container>
   );

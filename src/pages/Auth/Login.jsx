@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
+import { login } from "../../services/user";
+import { store } from "../../store/stores";
+import { loginSuccess } from "../../store/reducers/Auth/user";
 import tw from "twin.macro";
 
 import Button from "../../components/common/Button";
@@ -10,10 +13,24 @@ const Login = () => {
     phoneNum: "",
     accountInfo: "",
   });
+  const navigate = useNavigate();
 
-  const handleLoginClick = () => {
-    // TODO: 로그인 하기
-    console.log(userData);
+  const handleLoginClick = async () => {
+    const phoneNum = userData.phoneNum;
+    const accountInfo = userData.accountInfo;
+    try {
+      const { userInfo, accessToken, refreshToken } = await login(phoneNum, accountInfo);
+      store.dispatch(
+        loginSuccess({
+          userInfo: userInfo,
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+        })
+      );
+      navigate("/");
+    } catch (error) {
+      alert(error.response.data.error.message);
+    }
   };
 
   const handlePhoneChange = (e) => {
@@ -68,7 +85,7 @@ const LoginForm = styled.div`
   width: 100%;
   height: 248px;
   padding: 20px;
-  background-color: #f4f9ff;
+  background-color: #e9f2ff;
   border-radius: 15px;
 `;
 

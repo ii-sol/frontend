@@ -13,36 +13,61 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import Header from "~/components/common/Header";
 import Profile from "../../components/MyPage/Profile";
 
-import CharacterImage1 from "~/assets/img/common/character/character_sol.svg";
-import CharacterImage2 from "~/assets/img/common/character/character_lay.svg";
-import CharacterImage3 from "~/assets/img/common/character/character_moli.svg";
-import CharacterImage4 from "~/assets/img/common/character/character_lulu.svg";
 import CustomerServiceImage from "~/assets/img/MyPage/service.svg";
 import FAQImage from "~/assets/img/MyPage/faq.svg";
 
-const initialProfiles = [
-  { id: 1, src: CharacterImage1, name: "엄마" },
-  { id: 2, src: CharacterImage2, name: "아빠" },
-  // { id: 3, src: CharacterImage3 },
-  // { id: 4, src: CharacterImage4 },
+import Profile1 from "~/assets/img/common/character/character_sol.svg";
+import Profile2 from "~/assets/img/common/character/character_moli.svg";
+import Profile3 from "~/assets/img/common/character/character_rino.svg";
+import Profile4 from "~/assets/img/common/character/character_shoo.svg";
+import Profile5 from "~/assets/img/common/character/character_doremi.svg";
+import Profile6 from "~/assets/img/common/character/character_lulu.svg";
+import Profile7 from "~/assets/img/common/character/character_pli.svg";
+import Profile8 from "~/assets/img/common/character/character_lay.svg";
+
+const profiles = [
+  { id: 1, src: Profile1 },
+  { id: 2, src: Profile2 },
+  { id: 3, src: Profile3 },
+  { id: 4, src: Profile4 },
+  { id: 5, src: Profile5 },
+  { id: 6, src: Profile6 },
+  { id: 7, src: Profile7 },
+  { id: 8, src: Profile8 },
 ];
 
 const MyPage = () => {
   const [userInfo, setUserInfo] = useState(null);
-  const [profiles, setProfiles] = useState(initialProfiles);
+  const [profiles, setProfiles] = useState([]);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [selectedProfiles, setSelectedProfiles] = useState([]);
+  const [selectedProfileId, setSelectedProfileId] = useState([]);
 
   const navigate = useNavigate();
 
   const sn = useSelector((state) => state.user.userInfo.sn);
   const accessToken = useSelector((state) => state.user.accessToken);
+  const familyInfo = useSelector((state) => state.user.userInfo.familyInfo);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const data = await fetchUserInfo(sn, accessToken);
         setUserInfo(data);
+        if (familyInfo) {
+          const familyProfiles = await Promise.all(
+            familyInfo.map(async (member, index) => {
+              const memberInfo = await fetchUserInfo(member.sn, accessToken);
+              const selectedProfile = profiles.find((profile) => profile.id === memberInfo.profileId);
+              const profileImageSrc = selectedProfile ? selectedProfile.src : Profile1;
+              return {
+                id: index,
+                src: profileImageSrc,
+                name: member.name,
+              };
+            })
+          );
+          setProfiles(familyProfiles);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -59,28 +84,28 @@ const MyPage = () => {
 
   const handleDeleteClick = () => {
     setIsDeleting(!isDeleting);
-    setSelectedProfiles([]);
+    setSelectedProfileId(null);
   };
 
   const handleProfileSelect = (id) => {
-    if (selectedProfiles.includes(id)) {
-      setSelectedProfiles(selectedProfiles.filter((profileId) => profileId !== id));
+    if (selectedProfileId === id) {
+      setSelectedProfileId(null);
     } else {
-      setSelectedProfiles([...selectedProfiles, id]);
+      setSelectedProfileId(id);
     }
   };
 
   const handleDeleteConfirm = () => {
-    if (selectedProfiles.length === 0 && isDeleting) {
+    if (selectedProfileId === null && isDeleting) {
       setIsDeleting(false);
-      setSelectedProfiles([]);
+      setSelectedProfileId(null);
     } else if (window.confirm("정말 삭제하시겠습니까?")) {
-      setProfiles(profiles.filter((profile) => !selectedProfiles.includes(profile.id)));
+      setProfiles(profiles.filter((profile) => profile.id !== selectedProfileId));
       setIsDeleting(false);
-      setSelectedProfiles([]);
+      setSelectedProfileId(null);
     } else {
       setIsDeleting(false);
-      setSelectedProfiles([]);
+      setSelectedProfileId(null);
     }
   };
 
@@ -100,7 +125,7 @@ const MyPage = () => {
         <MemberGrid>
           {profiles.map((profile) => (
             <ProfileWrapper key={profile.id}>
-              <ProfileImage src={profile.src} isSelected={selectedProfiles.includes(profile.id)} onClick={() => isDeleting && handleProfileSelect(profile.id)} />
+              <ProfileImage src={profile.src} isSelected={selectedProfileId === profile.id} onClick={() => isDeleting && handleProfileSelect(profile.id)} />
               <ProfileName>{profile.name}</ProfileName>
             </ProfileWrapper>
           ))}

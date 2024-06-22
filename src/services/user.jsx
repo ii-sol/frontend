@@ -1,4 +1,5 @@
 import { baseInstance } from "./api";
+import { setCookie } from "./cookie";
 
 export const join = async (userData) => {
   try {
@@ -15,19 +16,28 @@ export const login = async (phoneNum, accountInfo) => {
       phoneNum,
       accountInfo,
     });
-    const { userInfo, accessToken, refreshToken } = response.data.response;
 
-    localStorage.setItem("accessToken", accessToken);
-    localStorage.setItem("refreshToken", refreshToken);
+    const accessToken = response.headers.authorization;
+    const refreshToken = response.headers.get("refresh-token");
+    const userInfo = response.data.response;
 
-    return userInfo;
+    setCookie("accessToken", accessToken, { path: "/" });
+    setCookie("refreshToken", refreshToken, { path: "/" });
+
+    return { userInfo, accessToken, refreshToken };
   } catch (error) {
     throw error;
   }
 };
 
-export const setAuthHeaders = (accessToken) => {
-  baseInstance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+export const checkPhoneNum = async (phoneNum) => {
+  try {
+    const response = await baseInstance.post("/auth/useful-phone", phoneNum);
+
+    return response.data.response.success;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const fetchUserInfo = async (sn, accessToken) => {
@@ -56,3 +66,19 @@ export const updateUserInfo = async (accessToken, newData) => {
     throw error;
   }
 };
+
+export const fetchPhoneNum = async (accessToken) => {
+  try {
+    const response = await baseInstance.get(`/users/phones`, {
+      headers: {
+        Authorization: accessToken,
+      },
+    });
+
+    return response.data.response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// export const deleteParent = async (sn, accessToken, )
