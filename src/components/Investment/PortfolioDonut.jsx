@@ -122,7 +122,9 @@ const PortfolioDonut = ({ toggleShow }) => {
             <Profit $isPositive={changeMoney > 0}>
               {changeMoney > 0
                 ? `▲ ${normalizeNumber(changeMoney)}원`
-                : `▼ ${normalizeNumber(changeMoney)}원`}
+                : changeMoney < 0
+                ? `▼ ${normalizeNumber(changeMoney)}원`
+                : `${normalizeNumber(changeMoney)}원`}
               &nbsp;
               {totalProfit > 0
                 ? `(+${roundedTotalProfit}%)`

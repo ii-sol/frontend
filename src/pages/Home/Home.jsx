@@ -12,13 +12,13 @@ import two from "../../assets/img/Home/two.svg";
 import three from "../../assets/img/Home/three.svg";
 import { useNavigate } from "react-router-dom";
 import * as S from "../../styles/GlobalStyles";
-import { useSelector } from "react-redux";
 import { store } from "../../store/stores";
 import { loginSuccess, logout } from "../../store/reducers/Auth/user";
+import isLogin from "../../utils/isLogin";
 
 const Home = () => {
   const navigate = useNavigate();
-  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const isLoggedIn = isLogin();
 
   return (
     <S.Container>

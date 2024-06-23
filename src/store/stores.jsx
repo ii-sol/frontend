@@ -23,7 +23,7 @@ import profileReducer from "./reducers/common/profile";
 const rootPersistConfig = {
   key: "root",
   storage: storage,
-  whitelist: ["invest", "user", "profile"],
+  whitelist: ["invest", "user", "profile", "portfolio"],
 };
 
 const rootReducer = combineReducers({
