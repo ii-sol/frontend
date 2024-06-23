@@ -1,34 +1,74 @@
-import React from "react";
+import React, { useEffect } from "react";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../styles/GlobalStyles";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchMissionHistory } from "../../store/reducers/Mission/mission";
+import { PuffLoader } from "react-spinners";
 
 import MissionCard from "./MissionCard";
 
-import MissionImage from "~/assets/img/common/happySol.svg";
 import EmptyImage from "~/assets/img/common/empty.svg";
 
 const MissionHistoryListItem = () => {
-  const data = [
-    { id: 1, status: "완료", mission: "설거지 하기", allowance: 1000, createdDate: "2024-05-31" },
-    { id: 2, status: "취소", mission: "설거지 하기", allowance: 1000, createdDate: "2024-06-04" },
-    { id: 3, status: "취소", mission: "설거지 하기", allowance: 5000, createdDate: "2024-06-11" },
-  ];
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.mission.historyData);
+  const loading = useSelector((state) => state.mission.loading);
+  const { year, month } = useSelector((state) => state.history);
+  const { status } = useSelector((state) => state.history);
 
-  const renderItem = (item) => {
-    return <MissionCard key={item.id} status={item.status} mission={item.mission} allowance={item.allowance} />;
-  };
+  const sn = useSelector((state) => state.user.userInfo.sn);
+
+  useEffect(() => {
+    const fetchHistory = async () => {
+      let params = { year: year, month: month, sn: sn };
+      if (status === 1) {
+        params.status = 4;
+      } else if (status === 2) {
+        params.status = 5;
+      }
+      dispatch(fetchMissionHistory(params));
+    };
+
+    fetchHistory();
+  }, [dispatch, year, month, status]);
+
+  // TODO: status를 params로 받기 때문에 수정해야 함
+  // const filterData = (data) => {
+  //   if (status === 0) {
+  //     return data;
+  //   } else if (status === 1) {
+  //     return data.filter((item) => item.status === 4);
+  //   } else if (status === 2) {
+  //     return data.filter((item) => item.status === 5);
+  //   }
+  //   return data;
+  // };
+
+  // const filteredData = filterData(data);
 
   return (
     <Container>
       <List>
-        {data.length === 0 ? (
-          <EmptyState>
-            <Img src={EmptyImage} alt="No data" />
-            <EmptyText>미션 내역이 없어요</EmptyText>
-          </EmptyState>
+        {loading ? (
+          <LoadingState>
+            <PuffLoader color="#4056c1" />
+          </LoadingState>
         ) : (
-          <S.CardContainer>{data.map((item) => renderItem(item))}</S.CardContainer>
+          <>
+            {data.length === 0 ? (
+              <EmptyState>
+                <Img src={EmptyImage} alt="No data" />
+                <EmptyText>미션 내역이 없어요</EmptyText>
+              </EmptyState>
+            ) : (
+              <S.CardContainer>
+                {data.map((item) => (
+                  <MissionCard key={item.id} status={item.status} mission={item.mission} allowance={item.allowance} />
+                ))}
+              </S.CardContainer>
+            )}
+          </>
         )}
       </List>
     </Container>
@@ -54,4 +94,8 @@ const Img = styled.img`
 
 const EmptyText = styled.div`
   ${tw`text-2xl`}
+`;
+
+const LoadingState = styled.div`
+  ${tw`flex items-center justify-center h-full mt-20`}
 `;
