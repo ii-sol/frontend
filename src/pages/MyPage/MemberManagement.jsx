@@ -1,26 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../styles/GlobalStyles";
 
+import { useSelector } from "react-redux";
+import { fetchContacts } from "../../services/user";
+
 import Header from "~/components/common/Header";
 import Member from "~/components/common/Member";
+
+import { addMember } from "../../services/user";
 
 import CompleteImage from "~/assets/img/common/complete.svg";
 import NicknameImage from "~/assets/img/MyPage/nickname.svg";
 import CharacterImage1 from "~/assets/img/common/character/character_sol.svg";
-import CharacterImage2 from "~/assets/img/common/character/character_lay.svg";
 import SearchIcon from "~/assets/img/MyPage/search.svg";
+
+import availableProfiles from "../../assets/data/profileImages";
 
 const MemberManagement = () => {
   const [step, setStep] = useState(0);
   const [requestData, setRequestData] = useState({
     phoneNum: "",
-    nickname: "",
+    parentsAlias: "",
   });
+  const [members, setMembers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const accessToken = useSelector((state) => state.user.accessToken);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const getContacts = async () => {
+      try {
+        const data = await fetchContacts(accessToken);
+        setMembers(data);
+      } catch (error) {
+        console.error("Error fetching contacts:", error);
+      }
+    };
+
+    getContacts();
+  }, []);
 
   const handleLeftClick = () => {
     navigate("/mypage");
@@ -32,13 +55,14 @@ const MemberManagement = () => {
         if (!requestData.phoneNum) {
           alert("사용자를 선택해주세요!");
         } else {
+          console.log(requestData);
           setStep(step + 1);
         }
         break;
       case 1:
-        if (!requestData.nickname) {
+        if (!requestData.parentsAlias) {
           alert("부모님의 닉네임을 입력해주세요! (ex. 엄마)");
-        } else if (requestData.nickname.length > 5) {
+        } else if (requestData.parentsAlias.length > 5) {
           alert("닉네임은 5글자 이내로 입력해주세요!");
         } else {
           setStep(step + 1);
@@ -53,15 +77,31 @@ const MemberManagement = () => {
     const value = e.target.value;
     setRequestData({
       ...requestData,
-      nickname: value,
+      parentsAlias: value,
     });
   };
+
+  const handleSearchInputChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredMembers = members.filter((member) => member.phoneNum.includes(searchTerm));
 
   const handleMemberChange = (phoneNum) => {
     setRequestData({
       ...requestData,
       phoneNum: phoneNum,
     });
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await addMember(accessToken, requestData);
+
+      setStep(step + 1);
+    } catch (error) {
+      alert(error);
+    }
   };
 
   const handleHomeRedirect = () => {
@@ -76,29 +116,25 @@ const MemberManagement = () => {
           <S.StepWrapper>
             <SearchWrapper>
               <Icon src={SearchIcon} />
-              <Search placeholder="연락처로 검색해봐요" />
+              <Search placeholder="연락처로 검색해봐요" value={searchTerm} onChange={handleSearchInputChange} />
             </SearchWrapper>
             <MemberContainer>
-              <Member img={CharacterImage1} name="박지민" role="부모" phoneNum="010-0000-0000" onClick={() => handleMemberChange("박지민", "010-0000-0000")}></Member>
-              <Member img={CharacterImage2} name="엄마" role="부모" phoneNum="010-1234-1234" onClick={() => handleMemberChange("엄마", "010-1234-1234")}></Member>
-              <Member img={CharacterImage1} name="아빠" role="부모" phoneNum="010-4321-4321" onClick={() => handleMemberChange("아빠", "010-4321-4321")}></Member>
-              <Member img={CharacterImage1} name="박지민" role="부모" phoneNum="010-0000-0000" onClick={() => handleMemberChange("박지민", "010-0000-0000")}></Member>
-              <Member img={CharacterImage1} name="박지민" role="부모" phoneNum="010-0000-0000" onClick={() => handleMemberChange("박지민", "010-0000-0000")}></Member>
-              <Member img={CharacterImage2} name="엄마" role="부모" phoneNum="010-1234-1234" onClick={() => handleMemberChange("엄마", "010-1234-1234")}></Member>
-              <Member img={CharacterImage1} name="아빠" role="부모" phoneNum="010-4321-4321" onClick={() => handleMemberChange("아빠", "010-4321-4321")}></Member>
-              <Member img={CharacterImage1} name="박지민" role="부모" phoneNum="010-0000-0000" onClick={() => handleMemberChange("박지민", "010-0000-0000")}></Member>
-              <Member img={CharacterImage2} name="엄마" role="부모" phoneNum="010-1234-1234" onClick={() => handleMemberChange("엄마", "010-1234-1234")}></Member>
-              <Member img={CharacterImage1} name="아빠" role="부모" phoneNum="010-4321-4321" onClick={() => handleMemberChange("아빠", "010-4321-4321")}></Member>
+              {filteredMembers.map((member, index) => {
+                const selectedProfile = availableProfiles.find((profile) => profile.id === member.profileId);
+                const profileSrc = selectedProfile ? selectedProfile.src : CharacterImage1;
+
+                return <Member key={index} name={member.name} role="부모" profileSrc={profileSrc} onClick={() => handleMemberChange(member.phoneNum)} />;
+              })}
             </MemberContainer>
           </S.StepWrapper>
         )}
         {step === 1 && (
           <S.StepWrapper>
             <CompleteContainer>
-              <Img src={NicknameImage} alt="nickname" />
+              <Img src={NicknameImage} alt="parentsAlias" />
             </CompleteContainer>
             <StyledInputWrapper>
-              <StyledInput placeholder="부모님을 뭐라고 부를까요?" onChange={handleInputChange} value={requestData.nickname} maxLength={5}></StyledInput>
+              <StyledInput placeholder="부모님을 뭐라고 부를까요?" onChange={handleInputChange} value={requestData.parentsAlias} maxLength={5}></StyledInput>
             </StyledInputWrapper>
           </S.StepWrapper>
         )}
@@ -107,7 +143,7 @@ const MemberManagement = () => {
             <CompleteContainer>
               <Img src={CompleteImage} alt="완료" />
               <Complete>
-                <S.Question tw="m-0">박지민 님이</S.Question>
+                <S.Question tw="m-0">{requestData.parentsAlias} 님이</S.Question>
                 <S.Question tw="m-0">부모에 추가</S.Question>
                 <S.Question tw="m-0">되었습니다</S.Question>
               </Complete>
@@ -115,7 +151,15 @@ const MemberManagement = () => {
           </S.StepWrapper>
         )}
 
-        <S.ButtonWrapper>{step < 2 ? <S.BottomBtn onClick={handleNext}>다음</S.BottomBtn> : <S.BottomBtn onClick={handleHomeRedirect}>완료</S.BottomBtn>}</S.ButtonWrapper>
+        <S.ButtonWrapper>
+          {step < 1 ? (
+            <S.BottomBtn onClick={handleNext}>다음</S.BottomBtn>
+          ) : step === 1 ? (
+            <S.BottomBtn onClick={handleSubmit}>추가하기</S.BottomBtn>
+          ) : (
+            <S.BottomBtn onClick={handleHomeRedirect}>완료</S.BottomBtn>
+          )}
+        </S.ButtonWrapper>
       </S.FormWrapper>
     </S.Container>
   );

@@ -50,6 +50,7 @@ import AccountMoney from "../pages/Account/Money.jsx";
 import Send from "../pages/Account/Send.jsx";
 import SendMoneyComplete from "../pages/Account/SendComplete.jsx";
 import CreditScoreInfo from "../pages/Loan/Child/Credit.jsx";
+import PrivateRoute from "../utils/PrivateRoute";
 
 const MainRouter = createBrowserRouter([
   {
@@ -59,6 +60,16 @@ const MainRouter = createBrowserRouter([
       { path: "", element: <Home /> },
       { path: "signup", element: <Signup /> },
       { path: "login", element: <Login /> },
+    ],
+  },
+  {
+    path: "/",
+    element: (
+      <PrivateRoute>
+        <MainLayout />
+      </PrivateRoute>
+    ),
+    children: [
       { path: "notification", element: <Notification /> },
       {
         path: "mypage",

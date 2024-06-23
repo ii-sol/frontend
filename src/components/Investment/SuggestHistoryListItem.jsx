@@ -1,26 +1,35 @@
 import React from "react";
 import { styled } from "styled-components";
 import * as S from "../../styles/GlobalStyles";
+import { useNavigate } from "react-router-dom";
 
 const SuggestHistoryListItem = ({ data }) => {
+  console.log(data);
+  const navigate = useNavigate();
   const renderBadge = (status) => {
     switch (status) {
-      case 0:
+      case 3:
         return (
           <S.Badge $back="#D5E0F1" $font="#346BAC">
-            수락
+            진행
           </S.Badge>
         );
-      case 1:
+      case 5:
         return (
           <S.Badge $back="#FFDCDC" $font="#CC3535">
             거절
           </S.Badge>
         );
-      case 2:
+      case 1:
         return (
           <S.Badge $back="#FFE196" $font="#FF7A00">
             대기
+          </S.Badge>
+        );
+      case 4:
+        return (
+          <S.Badge $back="#c9ff96" $font="#10703a">
+            완료
           </S.Badge>
         );
       default:
@@ -34,15 +43,21 @@ const SuggestHistoryListItem = ({ data }) => {
     >
       <RowDiv>
         {renderBadge(data.status)}
-        <DetailDiv>
-          <Div $font="#154B9B">종목 : {data.name}</Div>
-          <Div $font="#FF7A00">수량 : {data.quantity}주</Div>
-        </DetailDiv>
+        <S.TradeBadge
+          $width="50px"
+          $size="20px"
+          $back={data.tradingCode}
+          style={{ position: "absolute", top: "15px", right: "15px" }}
+        >
+          {data.tradingCode === 1 ? "매수" : "매도"}
+        </S.TradeBadge>
       </RowDiv>
-      <Who>
-        {data.direction === 1 ? "From." : "To."} {data.who}
-      </Who>
+      <Who>To. {data.parentAlias}</Who>
       <Content>{data.message}</Content>
+      <DetailDiv>
+        <Div $font="#154B9B">종목 : {data.companyName}</Div>
+        <Div $font="#FF7A00">수량 : {data.quantity}주</Div>
+      </DetailDiv>
     </Wrapper>
   );
 };
@@ -52,11 +67,11 @@ export default SuggestHistoryListItem;
 const Wrapper = styled.div`
   position: relative;
   width: 100%;
-  min-height: 155px;
+  min-height: 170px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  background-color: #ffffff;
+  background: #ffffff;
   box-shadow: 0px 0px 4px 0px #98c6ff;
   border-radius: 15px;
   padding: 15px;
@@ -77,19 +92,21 @@ const Who = styled.div`
 `;
 
 const Content = styled.div`
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 500;
   margin-top: 10px;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 `;
 
 const DetailDiv = styled.div`
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
   display: flex;
-  justify-content: end;
   gap: 5px;
 `;
 

@@ -13,14 +13,6 @@ export const baseInstance = axios.create({
   },
 });
 
-export const notiInstance = axios.create({
-  baseURL: BASE_URL + "/notifications",
-});
-
-export const authInstance = axios.create({
-  baseURL: BASE_URL + "/auth",
-});
-
 baseInstance.interceptors.request.use(
   (config) => {
     const accessToken = getCookie("accessToken");
@@ -48,7 +40,6 @@ baseInstance.interceptors.response.use(
           store.dispatch(logout());
           return Promise.reject(error);
         }
-
         const refreshResponse = await axios.post(
           `${BASE_URL}/auth/token`,
           null,

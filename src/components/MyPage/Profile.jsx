@@ -3,17 +3,25 @@ import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../styles/GlobalStyles";
 import { FiEdit2 } from "react-icons/fi";
+import { getCredibility } from "../../utils/getCredibility";
+import { updateUserInfo } from "../../services/user";
+import { useSelector } from "react-redux";
 
-import CharacterImage from "~/assets/img/common/character/character_pli.svg";
+import profiles from "../../assets/data/profileImages";
 
-const Profile = () => {
+const Profile = ({ userInfo }) => {
   const [isEditing, setIsEditing] = useState(false);
+  const initialBirthDate = new Date(userInfo.birthDate);
+  const initialBirthDateString = initialBirthDate.toISOString().slice(0, 10);
   const [profileData, setProfileData] = useState({
-    name: "이름",
-    birth: "2000.00.00",
-    phone: "010-0000-0000",
-    credibility: "매우높음",
+    name: userInfo.name,
+    birthDate: initialBirthDateString,
+    phoneNum: userInfo.phoneNum,
+    profileId: userInfo.profileId,
+    credibility: getCredibility(userInfo.score),
   });
+
+  const accessToken = useSelector((state) => state.user.accessToken);
 
   const handleEditClick = () => {
     if (isEditing === false) {
@@ -29,20 +37,28 @@ const Profile = () => {
     }));
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const isValidName = /^[\uAC00-\uD7A3]{2,5}$/.test(profileData.name); // 2~5글자의 한글 이름인지 체크하는 정규 표현식
-    const isValidPhone = profileData.phone.length === 13;
-    const isValidBirth = profileData.birth.length === 10;
+    const isValidPhone = profileData.phoneNum.length === 13;
+    const isValidBirth = profileData.birthDate.length === 10;
+
+    const { credibility, ...dataWithoutCredibility } = profileData;
 
     if (isValidName && isValidPhone && isValidBirth) {
-      setProfileData(profileData);
-      console.log(profileData);
-      alert("정보가 업데이트 되었습니다.");
+      try {
+        const data = await updateUserInfo(accessToken, dataWithoutCredibility);
+        alert("정보가 업데이트 되었습니다.");
+      } catch (error) {
+        console.error(error);
+      }
       setIsEditing(false);
     } else {
       alert("잘못된 입력입니다.");
     }
   };
+
+  const selectedProfile = profiles.find((profile) => profile.id === profileData.profileId);
+  const profileImageSrc = selectedProfile ? selectedProfile.src : Profile1;
 
   return (
     <Container>
@@ -50,11 +66,13 @@ const Profile = () => {
         <FiEdit2 tw="w-[23px] h-[23px]" />
       </EditButton>
       <ProfileWrapper>
-        <ProfileImage src={CharacterImage} alt="프로필 이미지" />
+        <ProfileImage src={profileImageSrc} alt="profile" />
         <InfoWrapper>
           <Info>이름: {isEditing ? <Input type="text" name="name" value={profileData.name} onChange={handleChange} /> : <span>{profileData.name}</span>}</Info>
-          <Info>생일: {isEditing ? <Input type="text" name="birth" value={profileData.birth} onChange={handleChange} /> : <span>{profileData.birth}</span>}</Info>
-          <Info tw="flex-col gap-0">전화번호: {isEditing ? <Input tw="w-[93%]" type="text" name="phone" value={profileData.phone} onChange={handleChange} /> : <span>{profileData.phone}</span>}</Info>
+          <Info>생일: {isEditing ? <Input type="text" name="birthDate" value={profileData.birthDate} onChange={handleChange} /> : <span>{profileData.birthDate}</span>}</Info>
+          <Info tw="flex-col gap-0">
+            전화번호: {isEditing ? <Input tw="w-[93%]" type="text" name="phoneNum" value={profileData.phoneNum} onChange={handleChange} /> : <span>{profileData.phoneNum}</span>}
+          </Info>
           <Info>
             신뢰도: <span>{profileData.credibility}</span>
           </Info>

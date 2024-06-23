@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Indicator from "./Indicator";
 import CandleChart from "./CandleChart";
 import { useDispatch, useSelector } from "react-redux";
-import { setTrade } from "../../store/reducers/Invest/invest";
+import { fetchStock, setTrade } from "../../store/reducers/Invest/invest";
 import Chart from "./Chart";
 import { normalizeNumber } from "../../utils/normalizeNumber";
 
@@ -18,8 +18,9 @@ const StocksDetail = () => {
   const changePrice = useSelector((state) => state.invest.changePrice);
   const changeRate = useSelector((state) => state.invest.changeRate);
   const changeSign = useSelector((state) => state.invest.changeSign);
-
-  console.log(changeSign);
+  const investTradeList = useSelector(
+    (state) => state.portfolio.investTradeList
+  );
 
   const getChangeInfo = () => {
     switch (changeSign) {
@@ -54,19 +55,19 @@ const StocksDetail = () => {
 
   const { sign, sign2, color } = getChangeInfo();
 
+  const isOwnedStock = investTradeList.some((item) => item.ticker === code);
+
   return (
     <Container>
       <RowDiv>
         <HeaderDiv>
           <StockDiv>{name}</StockDiv>
           <S.ColumnDiv style={{ color: color }}>
-            <PriceDiv style={{ color: color }}>
-              {normalizeNumber(price)}원
-            </PriceDiv>
+            <PriceDiv>{normalizeNumber(price)}원</PriceDiv>
             <PriceDiv>
               {sign}
               {normalizeNumber(changePrice)} {sign2}
-              {changeRate}%
+              {parseFloat(changeRate).toFixed(2)}%
             </PriceDiv>
           </S.ColumnDiv>
         </HeaderDiv>
@@ -78,21 +79,23 @@ const StocksDetail = () => {
         <S.BuyBtn
           $background="#FF5959"
           onClick={() => {
+            dispatch(setTrade(1));
             navigate("/invest/trading");
-            dispatch(setTrade(0));
           }}
         >
           구매하기
         </S.BuyBtn>
-        <S.BuyBtn
+        <BuyBtn
           $background="#5987ff"
           onClick={() => {
+            dispatch(setTrade(2));
             navigate("/invest/trading");
-            dispatch(setTrade(1));
           }}
+          disabled={!isOwnedStock}
+          $cant={!isOwnedStock}
         >
           판매하기
-        </S.BuyBtn>
+        </BuyBtn>
       </RowDiv>
     </Container>
   );
@@ -134,4 +137,13 @@ const StockDiv = styled.div`
 const InfoDiv = styled.div`
   text-align: left;
   font-size: 20px;
+`;
+
+const BuyBtn = styled(S.BuyBtn)`
+  ${(props) =>
+    props.$cant &&
+    `
+    background-color: #ccc; // 비활성화된 버튼의 색상
+    cursor: not-allowed; // 마우스 커서
+  `}
 `;
