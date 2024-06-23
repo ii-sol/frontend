@@ -91,3 +91,25 @@ export const postProposal = async (
     console.error(err);
   }
 };
+
+export const searchStocks = async (corp, page, size) => {
+  const baseUrl = `/corp${corp}?page=${page}&size=${size}`;
+  try {
+    const response = await baseInstance.get(baseUrl);
+    const data = response.data;
+    return data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const fetchProposal = async (status, year, month) => {
+  const baseUrl = `/proposal/invest/history/${status}?year=${year}&month=${month}`;
+  try {
+    const response = await baseInstance.get(baseUrl);
+    const data = response.data;
+    return data;
+  } catch (err) {
+    console.error(err);
+  }
+};
