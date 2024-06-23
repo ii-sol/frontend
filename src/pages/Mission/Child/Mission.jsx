@@ -32,8 +32,8 @@ const Mission = () => {
   useEffect(() => {
     const fetchOngoing = async () => {
       try {
-        const regularAllowance = await fetchOngoingMissions(sn);
-        setOngoingMissions(regularAllowance);
+        const data = await fetchOngoingMissions(sn);
+        setOngoingMissions(data);
       } catch (error) {
         console.error("Error fetching regular allowance:", error);
       }
@@ -100,7 +100,7 @@ const Mission = () => {
             <span tw="text-[#346BAC]">미션</span>요청하기
           </RegisterButton>
           {ongoingMissions.map((mission) => (
-            <MissionCard key={mission.id} onClick={() => handleMissionClick(mission.id)} dday={calculateDday(mission.createDate)} mission={mission.content} allowance={mission.price} />
+            <MissionCard key={mission.id} id={mission.id} onClick={() => handleMissionClick(mission.id)} dday={calculateDday(mission.createDate)} mission={mission.content} allowance={mission.price} />
           ))}
           <MissionCard onClick={handleMissionClick} dday="3" mission="설거지하기" allowance="10000" />
         </S.CardContainer>
