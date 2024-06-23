@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
@@ -6,6 +6,9 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import * as S from "../../../styles/GlobalStyles";
+import { fetchOngoingMissions } from "../../../services/mission";
+import { calculateDday } from "../../../utils/calculateDday";
+import { useSelector } from "react-redux";
 
 import Header from "~/components/common/Header";
 import MissionCard from "../../../components/Mission/MissionCard";
@@ -21,7 +24,23 @@ const sliderSettings = {
 };
 
 const Mission = () => {
+  const [ongoingMissions, setOngoingMissions] = useState([]);
   const navigate = useNavigate();
+
+  const sn = useSelector((state) => state.user.userInfo.sn);
+
+  useEffect(() => {
+    const fetchOngoing = async () => {
+      try {
+        const regularAllowance = await fetchOngoingMissions(sn);
+        setOngoingMissions(regularAllowance);
+      } catch (error) {
+        console.error("Error fetching regular allowance:", error);
+      }
+    };
+
+    fetchOngoing();
+  }, [sn]);
 
   const handleLeftClick = () => {
     navigate("/");
@@ -43,8 +62,8 @@ const Mission = () => {
     navigate("/mission/create");
   };
 
-  const handleMissionClick = () => {
-    navigate("/mission/detail");
+  const handleMissionClick = (id) => {
+    navigate(`/mission/${id}`);
   };
 
   return (
@@ -80,9 +99,10 @@ const Mission = () => {
           <RegisterButton onClick={handleRequestClick}>
             <span tw="text-[#346BAC]">미션</span>요청하기
           </RegisterButton>
+          {ongoingMissions.map((mission) => (
+            <MissionCard key={mission.id} onClick={() => handleMissionClick(mission.id)} dday={calculateDday(mission.createDate)} mission={mission.content} allowance={mission.price} />
+          ))}
           <MissionCard onClick={handleMissionClick} dday="3" mission="설거지하기" allowance="10000" />
-          <MissionCard onClick={handleMissionClick} dday="0" mission="설거지하기" allowance="10000" />
-          <MissionCard onClick={handleMissionClick} dday="7" mission="설거지하기" allowance="10000" />
         </S.CardContainer>
       </S.Container>
     </div>
