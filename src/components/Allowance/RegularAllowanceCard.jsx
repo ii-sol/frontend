@@ -1,48 +1,23 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 
 import { normalizeNumber } from "../../utils/normalizeNumber";
 
-const RegularAllowanceCard = ({
-  period,
-  allowance,
-  startDate,
-  endDate,
-  role,
-}) => {
-  const navigate = useNavigate();
-
-  const handleRegisterClick = () => {
-    navigate("/allowance/registration");
-  };
-
-  if (!allowance) {
-    handleRegisterClick();
-
-    return (
-      <RegisterButton onClick={handleRegisterClick}>
-        <span tw="text-[#346BAC]">정기용돈</span>등록하기
-      </RegisterButton>
-    );
+const RegularAllowanceCard = ({ regularAllowance }) => {
+  if (!regularAllowance || regularAllowance.length === 0) {
+    return <RegisterButton>아직 정기 용돈이 없어요</RegisterButton>;
   }
 
   return (
     <Container>
       <Content>
-        <PeriodTag status={period}>{period}</PeriodTag>
-        <Allowance>{normalizeNumber(allowance)}원</Allowance>
+        <PeriodTag status={regularAllowance.period}>{regularAllowance.period}</PeriodTag>
+        <Allowance>{normalizeNumber(regularAllowance.allowance)}원</Allowance>
         <Period>
-          {startDate}~{endDate}
+          {regularAllowance.startDate}~{regularAllowance.endDate}
         </Period>
       </Content>
-      {role === "parent" && (
-        <ButtonWrapper>
-          <Button onClick={handleRegisterClick}>변경하기</Button>
-          <Button>해지하기</Button>
-        </ButtonWrapper>
-      )}
     </Container>
   );
 };
@@ -77,8 +52,8 @@ const RegisterButton = styled.button`
   border-radius: 20px;
   background-color: rgba(151, 178, 221, 0.4);
   box-shadow: 0px 0px 15px 0px rgba(151, 178, 221, 0.4);
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 19px;
+  font-weight: 600;
 `;
 
 const Content = styled.div`

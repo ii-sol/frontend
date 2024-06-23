@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../../styles/GlobalStyles";
-import { fetchAllowanceRequest, deleteAllowanceRequest } from "../../../services/allowance";
+import { fetchRegularAllowance, fetchAllowanceRequest, deleteAllowanceRequest } from "../../../services/allowance";
 import { useSelector } from "react-redux";
 import { format, differenceInDays } from "date-fns";
 
@@ -22,10 +22,20 @@ const calculateDday = (createDate) => {
 };
 
 const AllowanceRequest = () => {
+  const [regularAllowance, setRegularAllowance] = useState(null);
   const [requestList, setRequestList] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
+    const fetchRegular = async () => {
+      try {
+        const regularAllowance = await fetchRegularAllowance();
+        setRegularAllowance(regularAllowance);
+      } catch (error) {
+        console.error("Error fetching regular allowance:", error);
+      }
+    };
+
     const fetchRequests = async () => {
       try {
         const requests = await fetchAllowanceRequest();
@@ -35,6 +45,7 @@ const AllowanceRequest = () => {
       }
     };
 
+    fetchRegular();
     fetchRequests();
   }, []);
 
@@ -65,7 +76,7 @@ const AllowanceRequest = () => {
       <Menu>
         <S.Phrase>정기용돈</S.Phrase>
       </Menu>
-      <RegularAllowanceCard period="1개월" allowance="100000" startDate={"2024.05.12"} endDate={"2024.06.12"} />
+      <RegularAllowanceCard regularAllowance={regularAllowance} />
       <Menu>
         <S.Phrase>기다리는 중</S.Phrase>
         <S.HistoryLink onClick={handleHistoryClick}>조르기 내역 &gt;</S.HistoryLink>

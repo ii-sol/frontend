@@ -64,3 +64,17 @@ export const deleteAllowanceRequest = async (id) => {
     throw error;
   }
 };
+
+export const fetchRegularAllowance = async () => {
+  try {
+    const response = await baseInstance.get(`/allowance/monthly`);
+
+    if (response.data.success) {
+      return response.data.response;
+    } else {
+      return response.data.error.message;
+    }
+  } catch (error) {
+    throw error;
+  }
+};
