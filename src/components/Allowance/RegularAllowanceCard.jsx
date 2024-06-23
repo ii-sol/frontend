@@ -13,9 +13,9 @@ const RegularAllowanceCard = ({ regularAllowance }) => {
     <Container>
       <Content>
         <PeriodTag status={regularAllowance.period}>{regularAllowance.period}</PeriodTag>
-        <Allowance>{normalizeNumber(regularAllowance.allowance)}원</Allowance>
+        <Allowance>{normalizeNumber(regularAllowance.amount)}원</Allowance>
         <Period>
-          {regularAllowance.startDate}~{regularAllowance.endDate}
+          {regularAllowance.createDate}~{regularAllowance.dueDate}
         </Period>
       </Content>
     </Container>
