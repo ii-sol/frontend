@@ -4,6 +4,7 @@ import tw from "twin.macro";
 import Header from "../../../components/common/Header";
 import { MdArrowBackIos } from "react-icons/md";
 import credit from "../../../assets/img/Loan/credit.svg";
+import { baseInstance } from "../../../services/api";
 
 const CreditScoreInfo = () => {
   const navigate = useNavigate();

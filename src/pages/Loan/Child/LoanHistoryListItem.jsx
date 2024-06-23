@@ -7,6 +7,7 @@ import EmptyImage from "~/assets/img/common/empty.svg";
 import LoanHistoryCard from "../../../components/Loan/LoanHistoryCard";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { baseInstance } from "../../../services/api";
 
 const LoanHistoryListItem = () => {
   const [data, setData] = useState([]);

@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import Header from "../../../components/common/Header";
 import { MdArrowBackIos } from "react-icons/md";
+import { baseInstance } from "../../../services/api";
 
 const LoanDetailOnGoing = () => {
   const { loanId } = useParams();

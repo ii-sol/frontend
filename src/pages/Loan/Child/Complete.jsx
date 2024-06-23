@@ -10,6 +10,7 @@ import Header from "../../../components/common/Header";
 import { MdArrowBackIos } from "react-icons/md";
 import { styled } from "styled-components";
 import { BottomBtn } from "../../../styles/GlobalStyles";
+import { baseInstance } from "../../../services/api";
 
 const Complete = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const Complete = () => {
   console.log(store.getState());
 
   useEffect(() => {
-    const baseUrl = "/loan/create";
+    const baseUrl = "/child/loan/create";
 
     if (loanDetails) {
       baseInstance
