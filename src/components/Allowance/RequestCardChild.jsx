@@ -6,7 +6,7 @@ import { normalizeNumber } from "../../utils/normalizeNumber";
 
 import AllowanceImage from "~/assets/img/Allowance/allowanceRequest.svg";
 
-const RequestCardChild = ({ dday, receiver, allowance, img, message }) => {
+const RequestCardChild = ({ id, dday, receiver, allowance, message, onDelete }) => {
   return (
     <Container>
       <Content>
@@ -16,7 +16,7 @@ const RequestCardChild = ({ dday, receiver, allowance, img, message }) => {
         <Message>{message}</Message>
       </Content>
       <Img src={AllowanceImage} alt="아이콘" />
-      <Delete>취소</Delete>
+      <Delete onClick={() => onDelete(id)}>취소</Delete>
     </Container>
   );
 };

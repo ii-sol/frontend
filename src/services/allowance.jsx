@@ -36,3 +36,31 @@ export const createAllowanceRequest = async (accessToken, psn, data) => {
     throw error;
   }
 };
+
+export const fetchAllowanceRequest = async () => {
+  try {
+    const response = await baseInstance.get(`/allowance/temporal`);
+
+    if (response.data.success) {
+      return response.data.response;
+    } else {
+      return response.data.error.message;
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteAllowanceRequest = async (id) => {
+  try {
+    const response = await baseInstance.delete(`/allowance/temporal/cancle/${id}`);
+
+    if (response.data.success) {
+      return response.data.response;
+    } else {
+      return response.data.error.message;
+    }
+  } catch (error) {
+    throw error;
+  }
+};

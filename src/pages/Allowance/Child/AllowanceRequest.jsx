@@ -1,15 +1,42 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../../styles/GlobalStyles";
+import { fetchAllowanceRequest, deleteAllowanceRequest } from "../../../services/allowance";
+import { useSelector } from "react-redux";
+import { format, differenceInDays } from "date-fns";
 
 import Header from "~/components/common/Header";
 import RequestCardChild from "~/components/Allowance/RequestCardChild";
 import RegularAllowanceCard from "../../../components/Allowance/RegularAllowanceCard";
 
+const calculateDday = (createDate) => {
+  const threeDaysLater = new Date(createDate);
+  threeDaysLater.setDate(threeDaysLater.getDate() + 3); // createDate에서 3일 후의 날짜
+
+  const today = new Date();
+  const dday = differenceInDays(threeDaysLater, today); // 오늘 날짜와 endDate 사이의 일 수 차이 계산
+
+  return dday;
+};
+
 const AllowanceRequest = () => {
+  const [requestList, setRequestList] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchRequests = async () => {
+      try {
+        const requests = await fetchAllowanceRequest();
+        setRequestList(requests);
+      } catch (error) {
+        console.error("Error fetching allowance requests:", error);
+      }
+    };
+
+    fetchRequests();
+  }, []);
 
   const handleLeftClick = () => {
     navigate("/");
@@ -21,6 +48,15 @@ const AllowanceRequest = () => {
 
   const handleCreateClick = () => {
     navigate("/allowance/irregular/create");
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteAllowanceRequest(id);
+      setRequestList(requestList.filter((request) => request.id !== id));
+    } catch (error) {
+      console.error("Error deleting allowance request:", error);
+    }
   };
 
   return (
@@ -38,9 +74,9 @@ const AllowanceRequest = () => {
         <RegisterButton onClick={handleCreateClick}>
           <span tw="text-[#346BAC]">용돈</span>조르기
         </RegisterButton>
-        <RequestCardChild dday="0" receiver="엄마" allowance="1000" />
-        <RequestCardChild dday="2" receiver="엄마" allowance="1000" />
-        <RequestCardChild dday="3" receiver="아빠" allowance="5000" />
+        {requestList.map((request, index) => (
+          <RequestCardChild key={index} id={request.id} dday={calculateDday(request.createDate)} receiver={request.name} allowance={request.amount} onDelete={handleDelete} />
+        ))}
       </S.CardContainer>
     </S.Container>
   );
