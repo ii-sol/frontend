@@ -78,3 +78,17 @@ export const fetchRegularAllowance = async () => {
     throw error;
   }
 };
+
+export const fetchAllowanceRequestHistory = async (year, month) => {
+  try {
+    const response = await baseInstance.get(`/allowance/temporal/history?year=${year}&month=${month}`);
+    console.log("야야야야ㅑ야ㅑ야야야", response);
+    if (response.data.success) {
+      return response.data.response;
+    } else {
+      throw new Error(response.data.error.message);
+    }
+  } catch (error) {
+    throw response.data.error;
+  }
+};

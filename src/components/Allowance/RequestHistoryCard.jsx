@@ -4,20 +4,12 @@ import { styled } from "styled-components";
 
 import { normalizeNumber } from "../../utils/normalizeNumber";
 
-const RequestHistoryCard = ({
-  dday,
-  receiver,
-  allowance,
-  img,
-  message,
-  createdDate,
-}) => {
+const RequestHistoryCard = ({ dday, status, receiver, allowance, img, message, createdDate }) => {
   return (
     <Container>
       <Content>
-        {dday && (
-          <DdayTag $dday={dday}>{dday === "0" ? "D-day" : `D-${dday}`}</DdayTag>
-        )}
+        {dday && <DdayTag dday={dday}>{dday === "0" ? "D-day" : `D-${dday}`}</DdayTag>}
+        {status && <StatusTag status={status}>{status === 4 ? "완료" : status === 5 ? "거절" : "취소"}</StatusTag>}
         <Receiver>{receiver}</Receiver>
         <Allowance>{normalizeNumber(allowance)}원</Allowance>
         <Message>{message}</Message>
@@ -85,4 +77,14 @@ const Img = styled.img`
   right: 10px;
   width: 78px;
   height: auto;
+`;
+
+const StatusTag = styled.div`
+  font-size: 13px;
+  font-weight: 500;
+  padding: 4px 8px;
+  margin: 3px 0px;
+  border-radius: 5px;
+  color: ${({ status }) => (status === 4 ? "#CC3535" : "#346BAC")};
+  background-color: ${({ status }) => (status === 5 || status === 6 ? "#FFDCDC" : "#D5E0F1")};
 `;
