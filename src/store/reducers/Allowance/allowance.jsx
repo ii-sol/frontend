@@ -29,7 +29,6 @@ const allowanceSlice = createSlice({
       })
       .addCase(fetchAllowanceRequestHistory.fulfilled, (state, action) => {
         state.loading = false;
-        console.log(action.payload);
         state.data = action.payload;
       })
       .addCase(fetchAllowanceRequestHistory.rejected, (state, action) => {
