@@ -13,6 +13,7 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import Header from "~/components/common/Header";
 import Profile from "../../components/MyPage/Profile";
 
+import Profile1 from "~/assets/img/common/character/character_sol.svg";
 import CustomerServiceImage from "~/assets/img/MyPage/service.svg";
 import FAQImage from "~/assets/img/MyPage/faq.svg";
 
