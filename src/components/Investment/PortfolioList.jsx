@@ -18,13 +18,13 @@ const PortfolioList = ({ toggleShow }) => {
           {investTradeList.map((trade, index) => (
             <Wrapper
               key={trade.companyName}
-              $isPositive={trade.profitAnsLossAmount > 0}
+              $isPositive={trade.profitAnsLossAmount}
             >
               <StockDiv>
                 <StockName>{trade.companyName}</StockName>
                 <StockQuantity>{trade.quantity}주</StockQuantity>
               </StockDiv>
-              <HoldingDiv $isPositive={trade.profitAnsLossAmount > 0}>
+              <HoldingDiv $isPositive={trade.profitAnsLossAmount}>
                 <EvaluationAmount>
                   {normalizeNumber(trade.evaluationAmount)}원
                 </EvaluationAmount>
@@ -32,8 +32,11 @@ const PortfolioList = ({ toggleShow }) => {
                   <Profit>
                     {trade.profitAnsLossAmount > 0
                       ? `▲ ${normalizeNumber(trade.profitAnsLossAmount)}원`
-                      : `▼ ${normalizeNumber(trade.profitAnsLossAmount)}원`}
+                      : trade.profitAnsLossAmount < 0
+                      ? `▼ ${normalizeNumber(trade.profitAnsLossAmount)}원`
+                      : `${normalizeNumber(trade.profitAnsLossAmount)}원`}
                   </Profit>
+
                   <Profit>
                     &nbsp;
                     {trade.profit > 0
@@ -88,7 +91,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   background-color: ${({ $isPositive }) =>
-    $isPositive ? "#FFE6F1" : "#d2e9ff"};
+    $isPositive > 0 ? "#FFE6F1" : $isPositive < 0 ? "#d2e9ff" : "#ebebeb"};
   border-radius: 15px;
   padding: 15px;
   height: 90px;
@@ -114,7 +117,8 @@ const StockQuantity = styled.div`
 const HoldingDiv = styled.div`
   display: flex;
   flex-direction: column;
-  color: ${({ $isPositive }) => ($isPositive ? "#EE3124" : "#154B9B")};
+  color: ${({ $isPositive }) =>
+    $isPositive > 0 ? "#EE3124" : $isPositive < 0 ? "#154B9B" : "#000000"};
   /* color: #154b9b; */
   gap: 3px;
   flex: 1;
