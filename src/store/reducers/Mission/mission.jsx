@@ -1,12 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  id: 0,
   content: "",
+  childSn: 0,
+  parentSn: 0,
   price: 0,
-  status: null,
-  createDate: null,
-  dueDate: null,
+  dueDate: "",
 };
 
 const missionSlice = createSlice({
@@ -16,17 +15,17 @@ const missionSlice = createSlice({
     setContent(state, action) {
       state.content = action.payload;
     },
-    setStatus(state, action) {
-      state.status = action.payload;
-    },
     setPrice(state, action) {
       state.price = action.payload;
     },
     setDueDate(state, action) {
       state.dueDate = action.payload;
     },
-    setCreateDate(state, action) {
-      state.createDate = action.payload;
+    setParentSn(state, action) {
+      state.parentSn = action.payload;
+    },
+    setChildSn(state, action) {
+      state.childSn = action.payload;
     },
     setInitialState(state) {
       return { ...initialState };
@@ -34,6 +33,6 @@ const missionSlice = createSlice({
   },
 });
 
-export const { setContent, setPrice, setDueDate, setParentId, setInitialState } = missionSlice.actions;
+export const { setContent, setPrice, setDueDate, setChildSn, setParentSn, setInitialState } = missionSlice.actions;
 
 export default missionSlice.reducer;
