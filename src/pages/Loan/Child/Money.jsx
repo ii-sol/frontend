@@ -8,7 +8,7 @@ import Keypad from "../../../components/Loan/KeyPad";
 import Header from "../../../components/common/Header";
 import { MdArrowBackIos } from "react-icons/md";
 import * as S from "../../../styles/GlobalStyles";
-
+import { baseInstance } from "../../../services/api";
 import SolImage from "~/assets/img/common/curiousSol.svg";
 
 const Money = () => {
@@ -34,8 +34,13 @@ const Money = () => {
 
   const handleNext = () => {
     console.log(amount);
-    if (parseInt(amount.replace(/,/g, ""), 10) > 1000 && parseInt(amount.replace(/,/g, ""), 10) < 500000) {
-      dispatch(setLoanDetails({ amount: parseInt(amount.replace(/,/g, ""), 10) }));
+    if (
+      parseInt(amount.replace(/,/g, ""), 10) > 1000 &&
+      parseInt(amount.replace(/,/g, ""), 10) < 500000
+    ) {
+      dispatch(
+        setLoanDetails({ amount: parseInt(amount.replace(/,/g, ""), 10) })
+      );
       navigate("/loan/period");
     } else {
       setError("1,000원 ~ 500,000원 사이에서 빌릴 수 있어요.");
@@ -60,7 +65,9 @@ const Money = () => {
           <div tw="bg-gray-100 rounded-2xl p-2 pl-3 pr-3 flex items-center justify-center mt-2">
             <p tw="text-xl">{formatAmount(amount)} 원</p>
           </div>
-          {error && <div tw="text-red-500 text-sm text-center mt-2">{error}</div>}
+          {error && (
+            <div tw="text-red-500 text-sm text-center mt-2">{error}</div>
+          )}
           <Keypad onButtonClick={handleButtonClick} />
           <div tw="mt-8">
             <NextButton onClick={handleNext} />

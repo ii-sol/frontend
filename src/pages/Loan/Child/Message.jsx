@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { setLoanDetails } from "../../../store/action";
 import Header from "../../../components/common/Header";
 import { MdArrowBackIos } from "react-icons/md";
-
+import { baseInstance } from "../../../services/api";
 import MessageImage from "~/assets/img/common/heartLay.svg";
 
 const Message = () => {
