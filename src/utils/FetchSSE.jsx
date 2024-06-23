@@ -4,10 +4,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { StyledToastContainer, Toast } from "./Toast";
 // import isLogin from "./isLogin";
 import { getCookie } from "../services/cookie";
-import { useSelector } from "react-redux";
+import isLogin from "./isLogin";
 
 const FetchSSE = () => {
-  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const isLoggedIn = isLogin();
 
   const accessToken = getCookie("accessToken");
   const [realtimeData, setRealtimeData] = useState(null);
@@ -26,6 +26,7 @@ const FetchSSE = () => {
                 "Content-Type": "text/event-stream",
                 Authorization: `Bearer ${accessToken}`,
               },
+              heartbeatTimeout: 3600000,
               withCredentials: true,
             }
           );

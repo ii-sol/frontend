@@ -32,6 +32,9 @@ const Item = ({ data }) => {
     });
   };
 
+  const hour = String(data.createDate[3]).padStart(2, "0");
+  const minute = String(data.createDate[4]).padStart(2, "0");
+
   return (
     <RowDivs>
       <DeleteDiv onClick={() => onDelete(data.notificationSerialNumber)}>
@@ -51,7 +54,7 @@ const Item = ({ data }) => {
           <RowDiv>
             <Div>{functionText}</Div>
             <Div>
-              {data.createDate[3]}:{data.createDate[4]}
+              {hour}:{minute}
             </Div>
           </RowDiv>
           <Content>{data.messageCode}</Content>
