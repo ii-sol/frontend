@@ -15,9 +15,10 @@ const Filter = () => {
     if (location.pathname === "/invest/history") {
       const newOptions = [
         { label: "전체", status: 0 },
-        { label: "수락", status: 1 },
-        { label: "거절", status: 2 },
-        { label: "대기", status: 3 },
+        { label: "진행", status: 1 },
+        { label: "대기", status: 2 },
+        { label: "완료", status: 3 },
+        { label: "거절", status: 4 },
       ];
       setOptions(newOptions);
       setSelectedOption(newOptions[0]);
@@ -65,7 +66,7 @@ const Filter = () => {
       const newOptions = [
         { label: "전체", status: 0 },
         { label: "완료", status: 4 },
-        { label: "취소", status: 5 },
+        { label: "거절", status: 5 },
       ];
       setOptions(newOptions);
       setSelectedOption(newOptions[0]);
@@ -100,11 +101,11 @@ const Container = styled.div`
 `;
 
 const Button = styled.button`
-  ${tw`px-3.5 py-1.5 rounded-[5px] border-none`}
+  ${tw`px-3 py-1.5 rounded-[5px] border-none`}
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
 
   ${({ selected }) => selected && tw`bg-[#154B9B] text-[#FFFFFF]`}
   ${({ selected }) => !selected && tw`bg-[#FFFFFF] text-[#949494]`}
-  font-size:15px;
+  font-size:17px;
   font-weight: 400;
 `;

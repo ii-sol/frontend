@@ -12,12 +12,17 @@ import two from "../../assets/img/Home/two.svg";
 import three from "../../assets/img/Home/three.svg";
 import { useNavigate } from "react-router-dom";
 import * as S from "../../styles/GlobalStyles";
+import { store } from "../../store/stores";
+import { loginSuccess, logout } from "../../store/reducers/Auth/user";
+import isLogin from "../../utils/isLogin";
 
 const Home = () => {
   const navigate = useNavigate();
+  const isLoggedIn = isLogin();
 
   return (
     <S.Container>
+      <div onClick={() => store.dispatch(logout())}>logout</div>
       <Wrapper>
         <div style={{ color: "#404040", fontSize: "25px", fontWeight: "700" }}>
           안녕하세요! <br />
@@ -37,7 +42,11 @@ const Home = () => {
         </S.RowDiv>
       </Wrapper>
       <S.CenterDiv>
-        <Account accountNum={0}></Account>
+        {isLoggedIn ? (
+          <Account accountNum={0}></Account>
+        ) : (
+          <Account accountNum={2}></Account>
+        )}
       </S.CenterDiv>
       <RowDiv $isFirst>
         <Btn $width={1} $back="#FFDEDE" onClick={() => navigate("/invest")}>
@@ -104,7 +113,8 @@ const Wrapper = styled.div`
 
 const Btn = styled.div`
   position: relative;
-  width: ${(props) => (props.$width === 1 ? "calc(57vw - 20px)" : "calc(43vw - 20px)")};
+  width: ${(props) =>
+    props.$width === 1 ? "calc(57vw - 20px)" : "calc(43vw - 20px)"};
   height: 155px;
   border-radius: 15px;
   background: ${(props) => props.$back};

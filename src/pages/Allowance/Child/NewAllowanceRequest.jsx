@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../../styles/GlobalStyles";
+import { useSelector } from "react-redux";
+import { createAllowanceRequest } from "../../../services/allowance";
+import { fetchUserInfo } from "../../../services/user";
 
 import { normalizeNumber } from "../../../utils/normalizeNumber";
 
@@ -11,26 +14,33 @@ import Member from "~/components/common/Member";
 import Message from "~/components/common/Message";
 
 import CharacterImage1 from "~/assets/img/common/character/character_sol.svg";
-import CharacterImage2 from "~/assets/img/common/character/character_lay.svg";
+import availableProfiles from "../../../assets/data/profileImages";
 
 import MessageImage from "~/assets/img/common/lovelyRino.svg";
 import KeypadInput from "../../../components/Allowance/KeypadInput";
 import CompleteImage from "~/assets/img/common/complete.svg";
 
 const initialState = {
-  childPhone: "",
-  parentPhone: "",
-  amount: "",
+  amount: 0,
   content: "",
+};
+
+const dataInitialState = {
+  parentPhone: "",
+  parentName: "",
+  parentSn: "",
 };
 
 const NewAllowanceRequest = () => {
   const [step, setStep] = useState(0);
   const [displayedNumber, setDisplayedNumber] = useState("0");
-  const [message, setMessage] = useState("");
   const [requestData, setRequestData] = useState(initialState);
+  const [data, setData] = useState(dataInitialState);
+  const [memberDetail, setMemberDetail] = useState([]);
 
   const navigate = useNavigate();
+
+  const familyInfo = useSelector((state) => state.user.userInfo.familyInfo);
 
   const today = new Date();
   const dueDate = new Date(today.getTime() + 3 * 24 * 60 * 60 * 1000);
@@ -40,12 +50,37 @@ const NewAllowanceRequest = () => {
   const day = dueDate.getDate().toString().padStart(2, "0");
   const formattedDate = `${year}-${month}-${day}`;
 
+  useEffect(() => {
+    const fetchProfiles = async () => {
+      const profiles = await Promise.all(
+        familyInfo.map(async (member) => {
+          const userInfo = await fetchUserInfo(member.sn);
+          return {
+            ...member,
+            profileId: userInfo.profileId,
+            phoneNum: userInfo.phoneNum,
+          };
+        })
+      );
+      setMemberDetail(profiles);
+    };
+
+    fetchProfiles();
+  }, [familyInfo]);
+
+  useEffect(() => {
+    setRequestData((prevData) => ({
+      ...prevData,
+      amount: parseInt(displayedNumber),
+    }));
+  }, [displayedNumber]);
+
   const handleNext = () => {
     let error = "";
 
     switch (step) {
       case 0:
-        if (!requestData.parentPhone) {
+        if (!data.parentPhone) {
           error = "부모님을 선택해주세요!";
         }
         break;
@@ -63,11 +98,6 @@ const NewAllowanceRequest = () => {
       case 2:
         if (!requestData.content) {
           error = "메세지를 입력해주세요!";
-        } else {
-          setRequestData({
-            ...requestData,
-            content: message,
-          });
         }
         break;
       default:
@@ -98,10 +128,11 @@ const NewAllowanceRequest = () => {
     }
   };
 
-  const handleMemberChange = (name, phoneNum) => {
-    setRequestData({
-      ...requestData,
+  const handleMemberChange = (name, sn, phoneNum) => {
+    setData({
+      ...data,
       parentName: name,
+      parentSn: sn,
       parentPhone: phoneNum,
     });
   };
@@ -109,11 +140,19 @@ const NewAllowanceRequest = () => {
   const isDisplayedNumberZero = () => displayedNumber === "0";
 
   const handleInputChange = (message) => {
-    setMessage(message);
     setRequestData({
       ...requestData,
       content: message,
     });
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await createAllowanceRequest(data.parentSn, requestData);
+      setStep(step + 1);
+    } catch (error) {
+      alert("용돈 조르기에 실패했습니다. 다시 시도해주세요.");
+    }
   };
 
   const handleAllowanceRedirect = () => {
@@ -128,9 +167,12 @@ const NewAllowanceRequest = () => {
           <S.StepWrapper>
             <S.Question>누구에게 용돈을 부탁드릴까요?</S.Question>
             <MemberContainer>
-              <Member img={CharacterImage1} name="박지민" role="부모" phoneNum="010-0000-0000" onClick={() => handleMemberChange("박지민", "010-0000-0000")}></Member>
-              <Member img={CharacterImage2} name="엄마" role="부모"></Member>
-              <Member img={CharacterImage1} name="아빠" role="부모" phoneNum="010-4321-4321" onClick={() => handleMemberChange("아빠", "010-4321-4321")}></Member>
+              {memberDetail.map((member, index) => {
+                const selectedProfile = availableProfiles.find((profile) => profile.id === member.profileId);
+                const profileSrc = selectedProfile ? selectedProfile.src : CharacterImage1;
+
+                return <Member key={index} name={member.name} profileSrc={profileSrc} onClick={() => handleMemberChange(member.name, member.sn, member.phoneNum)} />;
+              })}
             </MemberContainer>
           </S.StepWrapper>
         )}
@@ -143,7 +185,7 @@ const NewAllowanceRequest = () => {
         {step === 2 && (
           <S.StepWrapper>
             <div style={{ margin: "20px" }}>
-              <S.Question style={{ margin: 0 }}>{requestData.parentName} 님에게</S.Question>
+              <S.Question style={{ margin: 0 }}>{data.parentName} 님에게</S.Question>
               <S.Question style={{ margin: 0 }}>{normalizeNumber(requestData.amount)}원을 부탁드릴게요</S.Question>
               <SmallPhrase>용돈이 필요한 이유를 작성해주세요!</SmallPhrase>
             </div>
@@ -160,7 +202,7 @@ const NewAllowanceRequest = () => {
               <Img src={CompleteImage} alt="complete" />
               <S.Question style={{ marginTop: "0px" }}>용돈 조르기 완료</S.Question>
               <S.CompleteCard tw="text-[20px]">
-                <div>{requestData.parentName} 님에게</div>
+                <div>{data.parentName} 님에게</div>
                 <div>용돈 조르기를 요청했습니다.</div>
                 <div tw="text-[#154B9B]">{normalizeNumber(requestData.amount)}원</div>
               </S.CompleteCard>
@@ -170,7 +212,15 @@ const NewAllowanceRequest = () => {
             </CompleteContainer>
           </S.StepWrapper>
         )}
-        <S.ButtonWrapper>{step < 3 ? <S.BottomBtn onClick={handleNext}>다음</S.BottomBtn> : <S.BottomBtn onClick={handleAllowanceRedirect}>완료</S.BottomBtn>}</S.ButtonWrapper>
+        <S.ButtonWrapper>
+          {step < 2 ? (
+            <S.BottomBtn onClick={handleNext}>다음</S.BottomBtn>
+          ) : step === 2 ? (
+            <S.BottomBtn onClick={handleSubmit}>조르기</S.BottomBtn>
+          ) : (
+            <S.BottomBtn onClick={handleAllowanceRedirect}>완료</S.BottomBtn>
+          )}
+        </S.ButtonWrapper>
       </S.FormWrapper>
     </S.Container>
   );
@@ -207,6 +257,7 @@ const CompleteContainer = styled.div`
   ${tw`flex
   flex-col
   items-center
-  my-20
+  justify-center
   gap-2`}
+  height: calc(100vh - 230px);
 `;

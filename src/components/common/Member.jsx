@@ -2,12 +2,13 @@ import React from "react";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 
-const Member = ({ img, name, role, phoneNum, onClick }) => {
+import profileImage from "~/assets/img/common/character/character_sol.svg";
+
+const Member = ({ name, role, profileSrc, onClick }) => {
   return (
     <Container onClick={onClick}>
       <ImgContainer>
-        <img src={img} alt="프로필" tw="w-full h-auto" />{" "}
-        {/* tw="w-[30px] h-auto" /> */}
+        <img src={profileSrc ? profileSrc : profileImage} alt="프로필" tw="w-full h-auto" /> {/* tw="w-[30px] h-auto" /> */}
       </ImgContainer>
       <Info>
         <NameRoleContainer>

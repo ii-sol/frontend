@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setParent } from "../../store/reducers/Invest/invest";
 
+//TODO: familyInfo
 const ParentSelection = () => {
   const dispatch = useDispatch();
   const [parents, setParents] = useState(null);
@@ -25,14 +26,14 @@ const ParentSelection = () => {
             name="엄마"
             role="부모"
             phoneNum="010-0000-0000"
-            onClick={() => setParents(333)}
+            onClick={() => setParents(2843878383)}
           />
           <Member
             img={CharacterImage1}
             name="아빠"
             role="부모"
             phoneNum="010-4321-4321"
-            onClick={() => setParents(444)}
+            onClick={() => setParents(2843878383)}
           />
         </MemberContainer>
       </S.StepWrapper>

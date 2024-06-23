@@ -1,141 +1,38 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 
-import { fetchHistory } from "../../services/allowance";
+// import { fetchHistory } from "../../services/allowance";
 
 import HistoryListItem from "~/components/Allowance/HistoryListItem";
 
 import EmptyImage from "~/assets/img/common/empty.svg";
 import { groupDataByDate } from "../../utils/groupDataByDate";
 
-const data = [
-  {
-    "id": 1,
-    "senderAccountNum": "123-456-7890",
-    "senderName": "박지민",
-    "recieverAccountNum": "987-654-3210",
-    "recieverName": "양은수",
-    "content": "용돈 조르기",
-    "amount": 50000,
-    "balance": "250000",
-    "createdDate": "2024-05-10",
-  },
-  {
-    "id": 2,
-    "senderAccountNum": "123-456-7890",
-    "senderName": "박지민",
-    "recieverAccountNum": "987-654-3210",
-    "recieverName": "양은수",
-    "content": "돈 보내기",
-    "amount": -30000,
-    "balance": "220000",
-    "createdDate": "2024-06-01",
-  },
-  {
-    "id": 3,
-    "senderAccountNum": "123-456-7890",
-    "senderName": "박지민",
-    "recieverAccountNum": "987-654-3210",
-    "recieverName": "양은수",
-    "content": "결제",
-    "amount": -5000,
-    "balance": "215000",
-    "createdDate": "2024-06-05",
-  },
-  {
-    "id": 4,
-    "senderAccountNum": "123-456-7890",
-    "senderName": "박지민",
-    "recieverAccountNum": "987-654-3210",
-    "recieverName": "양은수",
-    "content": "대출금",
-    "amount": -50000,
-    "balance": "233000",
-    "createdDate": "2024-06-10",
-  },
-];
-
 const ChildHistoryListItem = () => {
-  const data = [
-    {
-      id: 1,
-      senderAccountNum: "123-456-7890",
-      senderName: "박지민",
-      recieverAccountNum: "987-654-3210",
-      recieverName: "양은수",
-      content: "용돈 조르기",
-      amount: 50000,
-      balance: "250000",
-      createdDate: "2024-05-10",
-    },
-    {
-      id: 2,
-      senderAccountNum: "123-456-7890",
-      senderName: "박지민",
-      recieverAccountNum: "987-654-3210",
-      recieverName: "양은수",
-      content: "돈 보내기",
-      amount: -30000,
-      balance: "220000",
-      createdDate: "2024-06-01",
-    },
-    {
-      id: 3,
-      senderAccountNum: "123-456-7890",
-      senderName: "박지민",
-      recieverAccountNum: "987-654-3210",
-      recieverName: "양은수",
-      content: "결제",
-      amount: -5000,
-      balance: "215000",
-      createdDate: "2024-06-05",
-    },
-    {
-      id: 4,
-      senderAccountNum: "123-456-7890",
-      senderName: "박지민",
-      recieverAccountNum: "987-654-3210",
-      recieverName: "양은수",
-      content: "결제",
-      amount: -12000,
-      balance: "203000",
-      createdDate: "2024-06-09",
-    },
-    {
-      id: 5,
-      senderAccountNum: "123-456-7890",
-      senderName: "박지민",
-      recieverAccountNum: "987-654-3210",
-      recieverName: "양은수",
-      content: "대출금",
-      amount: -50000,
-      balance: "233000",
-      createdDate: "2024-06-10",
-    },
-    {
-      id: 6,
-      senderAccountNum: "123-456-7890",
-      senderName: "박지민",
-      recieverAccountNum: "987-654-3210",
-      recieverName: "양은수",
-      content: "용돈",
-      amount: 50000,
-      balance: "285000",
-      createdDate: "2024-06-10",
-    },
-    {
-      id: 7,
-      senderAccountNum: "123-456-7890",
-      senderName: "박지민",
-      recieverAccountNum: "987-654-3210",
-      recieverName: "양은수",
-      content: "미션",
-      amount: 30000,
-      balance: "233000",
-      createdDate: "2024-06-10",
-    },
-  ];
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState([]);
+  const { year, month, status } = useSelector((state) => state.history);
+
+  const accessToken = useSelector((state) => state.user.accessToken);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     setIsLoading(true);
+  //     try {
+  //       const data = await fetchHistory(accessToken, year, month, status);
+
+  //       setData(data);
+  //     } catch (error) {
+  //       console.error("Error fetching history:", error);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [accessToken, year, month, status]);
 
   const groupedData = groupDataByDate(data);
   const sortedGroupedData = Object.keys(groupedData).sort((a, b) => new Date(b) - new Date(a));
@@ -143,7 +40,9 @@ const ChildHistoryListItem = () => {
   return (
     <Container>
       <List>
-        {sortedGroupedData.length === 0 ? (
+        {isLoading ? (
+          <LoadingState>Loading...</LoadingState>
+        ) : sortedGroupedData.length === 0 ? (
           <EmptyState>
             <Img src={EmptyImage} alt="No data" />
             <EmptyText>용돈 내역이 없어요</EmptyText>
@@ -198,8 +97,6 @@ const EmptyText = styled.div`
   ${tw`text-2xl`}
 `;
 
-const CardContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 20px;
+const LoadingState = styled.div`
+  ${tw`flex flex-col items-center justify-center h-full mt-20`}
 `;

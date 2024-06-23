@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { normalizeNumber } from "../../utils/normalizeNumber";
 
+//TODO:Parent 이름
 const Done = () => {
   const parent = useSelector((state) => state.invest.parent);
   const isNew = useSelector((state) => state.invest.isNew);
@@ -17,6 +18,17 @@ const Done = () => {
   const price = useSelector((state) => state.invest.price);
   const myAmount = useSelector((state) => state.invest.myAmount);
   const navigate = useNavigate();
+
+  const cancelDate = new Date();
+  cancelDate.setDate(cancelDate.getDate() + 3);
+
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}.${month}.${day}`;
+  };
+
   return (
     <S.Container>
       <Header type="none" />
@@ -51,8 +63,8 @@ const Done = () => {
         </Box>
         {isNew ? (
           <div tw="text-sm mt-2">
-            <span tw="text-[#154B9B]"> 2024.05.31 금</span>까지 응답하지 않으면
-            취소돼요.
+            <span tw="text-[#154B9B]"> {formatDate(cancelDate)}</span>까지
+            응답하지 않으면 취소돼요.
           </div>
         ) : (
           <></>

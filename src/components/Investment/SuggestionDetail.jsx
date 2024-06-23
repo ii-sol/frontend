@@ -2,6 +2,7 @@ import React from "react";
 import { styled } from "styled-components";
 import Indicator from "./Indicator";
 import Chart from "./Chart";
+import * as S from "../../styles/GlobalStyles";
 
 const SuggestionDetail = ({ data }) => {
   return (
@@ -12,7 +13,7 @@ const SuggestionDetail = ({ data }) => {
           <DetailDiv>시장가 : {data.price}원</DetailDiv>
           <DetailDiv>수량 : {data.quantity}주</DetailDiv>
         </DetailWrapper>
-        <Badge>{data.trade}</Badge>
+        <S.TradeBadge $width="70px">{data.trade}</S.TradeBadge>
       </RowDiv>
       <Div>{data.message}</Div>
       <Div style={{ textAlign: "right", marginBottom: "0px" }}>{data.date}</Div>
@@ -30,7 +31,8 @@ const Container = styled.div`
   flex-direction: column;
   width: 100%;
   border-radius: 15px;
-  background: #f4f9ff;
+  background: #ffffffb7;
+  box-shadow: 0px 0px 4px 0px #98c6ff;
   padding: 20px;
 `;
 
@@ -46,18 +48,6 @@ const RowDiv = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-`;
-
-const Badge = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #ff4c4c;
-  color: white;
-  width: 70px;
-  height: 70px;
-  font-size: 25px;
-  border-radius: 15px;
 `;
 
 const DetailWrapper = styled.div`

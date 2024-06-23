@@ -9,6 +9,8 @@ import NextButton from "../../components/Loan/NextButton";
 import Header from "../../components/common/Header";
 import { MdArrowBackIos } from "react-icons/md";
 
+import SolImage from "~/assets/img/common/curiousSol.svg";
+
 const AccountMoney = () => {
   const [amount, setAmount] = useState("0");
   const [error, setError] = useState("");
@@ -48,20 +50,16 @@ const AccountMoney = () => {
           navigate("/");
         }}
       />
-      <div tw="flex flex-col justify-between h-screen">
-        <header tw="mt-4">
-          <p tw="text-xl text-center font-bold mb-2">얼마를 보낼까요?</p>
-          <div tw="flex justify-center">
-            <img src={moneyHand} alt="Piggy Bank" tw="w-44 h-44" />
-          </div>
-        </header>
+      <div tw="flex flex-col gap-7" styled="height: calc(100vh - 60px)">
+        <div tw="flex flex-col items-center mt-4 gap-7">
+          <h2 tw="text-2xl font-semibold">얼마를 보낼래요?</h2>
+          <img src={SolImage} alt="Money Hand" tw="w-[40%]" />
+        </div>
         <main tw="flex flex-col items-center flex-grow justify-start mt-2">
           <div tw="bg-gray-200 rounded-2xl p-2 pl-3 pr-3 flex items-center justify-center mt-2">
             <p tw="text-xl">{formatAmount(amount)} 원</p>
           </div>
-          {error && (
-            <div tw="text-red-500 text-sm text-center mt-2">{error}</div>
-          )}
+          {error && <div tw="text-red-500 text-sm text-center mt-2">{error}</div>}
           <Keypad onButtonClick={handleButtonClick} />
           <div tw="mt-4">
             <NextButton onClick={handleNext} />

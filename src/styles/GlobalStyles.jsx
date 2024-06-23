@@ -106,6 +106,13 @@ export const CardContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 20px;
+  justify-items: center;
+  align-items: center;
+
+  // @media (max-width: 480px) {
+  //   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  //   gap: 10px;
+  // }
 `;
 
 export const FormWrapper = styled.div`
@@ -172,4 +179,16 @@ export const rejectBtn = styled.button`
   color: #9b1d15;
   font-size: 20px;
   padding: 8px;
+`;
+
+export const TradeBadge = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({ $back }) => ($back === 1 ? "#FF5959" : "#5987ff")};
+  color: white;
+  width: ${({ $width }) => $width};
+  height: ${({ $width }) => $width};
+  font-size: ${({ $size }) => $size || "25px"};
+  border-radius: 15px;
 `;

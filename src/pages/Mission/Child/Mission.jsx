@@ -52,7 +52,7 @@ const Mission = () => {
       <S.Container>
         <Header left={"<"} onLeftClick={handleLeftClick} title={"미션"} />
         {/* TODO: dday = due_date - craete_date */}
-        <div tw="w-full rounded-2xl p-2">
+        <Wrapper>
           <Slider {...sliderSettings}>
             {/* {requests
                 .filter((request) => request.status === 1)
@@ -70,7 +70,7 @@ const Mission = () => {
             <RequestCard status="receive" name="엄마" content="심부름 다녀오기" dday="0" onClick={handleReceiveRequestClick} />
             <RequestCard status="send" name="엄마" content="심부름 다녀오기" dday="3" onClick={handleSendRequestClick} />
           </Slider>
-        </div>
+        </Wrapper>
 
         <Menu>
           <S.Phrase>진행 중</S.Phrase>
@@ -115,4 +115,25 @@ const Menu = styled.div`
   items-center
   `}
   grid-template-columns: auto auto;
+`;
+
+const Wrapper = styled.div`
+  ${tw`w-full rounded-2xl`}
+  .slick-prev:before,
+  .slick-next:before {
+    font-family: "slick";
+    font-size: 20px;
+    line-height: 1;
+
+    opacity: 0.75;
+    color: #97b2dd;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .slick-prev.slick-disabled:before,
+  .slick-next.slick-disabled:before {
+    opacity: 0.2;
+  }
 `;

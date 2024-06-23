@@ -16,23 +16,41 @@ const Account = ({ accountNum }) => {
   return (
     <ThemeProvider theme={theme}>
       <AccountContainer>
-        <InfoWrapper>
-          <InfoDiv>
-            {name}님의 {accountNum === 0 ? "용돈 계좌" : "투자 계좌"}
-          </InfoDiv>
-          <AccountDiv>{account}</AccountDiv>
-        </InfoWrapper>
-        <BalanceDiv>{balance}원</BalanceDiv>
+        {accountNum === 2 ? (
+          <WelcomeDiv>
+            지금 바로 <br />
+            iSOL 시작하기
+          </WelcomeDiv>
+        ) : (
+          <>
+            <InfoWrapper>
+              <InfoDiv>
+                {name}님의 {accountNum === 0 ? "용돈 계좌" : "투자 계좌"}
+              </InfoDiv>
+              <AccountDiv>{account}</AccountDiv>
+            </InfoWrapper>
+            <BalanceDiv>{balance}원</BalanceDiv>
+          </>
+        )}
         <ButtonWrapper>
           {accountNum === 0 ? (
             <>
               <Btn onClick={() => navigate("/account/select")}>돈 보내기</Btn>
-              <Btn onClick={() => navigate("/allowance/history")}>용돈 내역</Btn>
+              <Btn onClick={() => navigate("/allowance/history")}>
+                용돈 내역
+              </Btn>
+            </>
+          ) : accountNum === 1 ? (
+            <>
+              <Btn onClick={() => navigate("/invest/start")}>투자하기</Btn>
+              <Btn onClick={() => navigate("/invest/tradehistory")}>
+                투자 내역
+              </Btn>
             </>
           ) : (
             <>
-              <Btn onClick={() => navigate("/invest/start")}>투자하기</Btn>
-              <Btn onClick={() => navigate("/invest/tradehistory")}>투자 내역</Btn>
+              <Btn onClick={() => navigate("/login")}>로그인</Btn>
+              <Btn onClick={() => navigate("/signup")}>회원가입</Btn>
             </>
           )}
         </ButtonWrapper>
@@ -47,7 +65,12 @@ const AccountContainer = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 13px;
-  background: ${({ theme }) => (theme.accountNum === 0 ? "#E5EFFF" : theme.accountNum === 1 ? "#FFF4BD" : "#E5EFFF")};
+  background: ${({ theme }) =>
+    theme.accountNum === 0
+      ? "#E5EFFF"
+      : theme.accountNum === 1
+      ? "#FFF4BD"
+      : "#E5EFFF"};
   padding: 20px 26px;
   width: 305px;
   width: 100%;
@@ -61,6 +84,15 @@ const AccountContainer = styled.div`
   @media (min-width: 400px) {
     max-width: 350px;
   }
+`;
+
+const WelcomeDiv = styled.div`
+  font-size: 25px;
+  font-weight: 700;
+  height: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
 `;
 
 const InfoWrapper = styled.div`
@@ -86,7 +118,7 @@ const BalanceDiv = styled.div`
 
 const ButtonWrapper = styled.div`
   display: flex;
-  justify-content: ${({ theme }) => (theme.accountNum === 0 ? "center" : "flex-end")};
+  justify-content: center;
   gap: 30px;
 `;
 
@@ -95,6 +127,11 @@ const Btn = styled.button`
   height: 45px;
   border-radius: 15px;
   border: none;
-  background: ${({ theme }) => (theme.accountNum === 0 ? "#CDE0FF" : theme.accountNum === 1 ? "#FFDD86" : "#CDE0FF")};
+  background: ${({ theme }) =>
+    theme.accountNum === 0
+      ? "#CDE0FF"
+      : theme.accountNum === 1
+      ? "#FFDD86"
+      : "#CDE0FF"};
   font-size: 18px;
 `;

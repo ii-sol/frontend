@@ -1,18 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/Investment/Header";
 import Account from "../../components/common/Account";
 import { styled } from "styled-components";
 import PortfolioDonut from "../../components/Investment/PortfolioDonut";
 import PortfolioList from "../../components/Investment/PortfolioList";
 import * as S from "../../styles/GlobalStyles";
+import { useDispatch } from "react-redux";
+import { fetchPortfolio } from "../../store/reducers/Invest/portfolio";
 
 const InvestMain = () => {
+  const dispatch = useDispatch();
   const [isDonut, setIsDonut] = useState(true);
-  const [height, setHeight] = useState(0);
 
   const toggleShow = () => {
     setIsDonut(!isDonut);
   };
+
+  useEffect(() => {
+    dispatch(fetchPortfolio());
+  }, []);
 
   return (
     <S.Container>
@@ -21,9 +27,9 @@ const InvestMain = () => {
         <Page>
           <Account accountNum={1} />
           {isDonut ? (
-            <PortfolioDonut toggleShow={toggleShow} setHeight={setHeight} />
+            <PortfolioDonut toggleShow={toggleShow} />
           ) : (
-            <PortfolioList toggleShow={toggleShow} height={height} />
+            <PortfolioList toggleShow={toggleShow} />
           )}
         </Page>
       </CenterWrapper>
