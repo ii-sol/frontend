@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 
-import { fetchHistory } from "../../services/allowance";
+// import { fetchHistory } from "../../services/allowance";
 
 import HistoryListItem from "~/components/Allowance/HistoryListItem";
 
@@ -10,53 +11,28 @@ import EmptyImage from "~/assets/img/common/empty.svg";
 import { groupDataByDate } from "../../utils/groupDataByDate";
 
 const ChildHistoryListItem = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { year, month, status } = useSelector((state) => state.history);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetchHistory(0, 2024, 6, 0);
-        setData(response);
-      } catch (error) {
-        console.error("Failed to fetch history", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const accessToken = useSelector((state) => state.user.accessToken);
 
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     setIsLoading(true);
+  //     try {
+  //       const data = await fetchHistory(accessToken, year, month, status);
 
-  // const data = [
-  //   {
-  //     id: 1,
-  //     senderName: "박지민",
-  //     recieverName: "양은수",
-  //     content: "용돈 조르기",
-  //     amount: 50000,
-  //     balance: "250000",
-  //     createdDate: "2024-05-10",
-  //   },
-  //   {
-  //     id: 2,
-  //     senderName: "박지민",
-  //     recieverName: "양은수",
-  //     content: "용돈 조르기",
-  //     amount: 50000,
-  //     balance: "250000",
-  //     createdDate: "2024-05-10",
-  //   },
-  //   {
-  //     id: 3,
-  //     senderName: "박지민",
-  //     recieverName: "양은수",
-  //     content: "용돈 조르기",
-  //     amount: 50000,
-  //     balance: "250000",
-  //     createdDate: "2024-05-10",
-  //   },
-  // ];
+  //       setData(data);
+  //     } catch (error) {
+  //       console.error("Error fetching history:", error);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [accessToken, year, month, status]);
 
   const groupedData = groupDataByDate(data);
   const sortedGroupedData = Object.keys(groupedData).sort((a, b) => new Date(b) - new Date(a));

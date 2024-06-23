@@ -106,6 +106,13 @@ export const CardContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 20px;
+  justify-items: center;
+  align-items: center;
+
+  // @media (max-width: 480px) {
+  //   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  //   gap: 10px;
+  // }
 `;
 
 export const FormWrapper = styled.div`

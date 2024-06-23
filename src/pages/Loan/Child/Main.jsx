@@ -10,6 +10,7 @@ import LoanCard from "../../../components/Loan/LoanCard";
 import RequestCard from "../../../components/Loan/RequestCard.jsx";
 import Header from "../../../components/common/Header.jsx";
 import { styled } from "styled-components";
+import { BASE_URL, baseInstance } from "../../../services/api.jsx";
 
 const Main = () => {
   const navigate = useNavigate();
@@ -18,9 +19,11 @@ const Main = () => {
   const [loans, setLoans] = useState([]);
 
   useEffect(() => {
+    const baseUrl = "/loan";
+
     const fetchLoans = async () => {
       try {
-        const response = await axios.get("http://localhost:8082/loan");
+        const response = await baseInstance.get(baseUrl);
         setLoans(response.data.response || []); // response.data.response 사용
       } catch (error) {
         console.error("Failed to fetch loans", error);
@@ -86,17 +89,30 @@ const Main = () => {
   return (
     <>
       <div tw="flex flex-col h-screen">
-        <Header left={<MdArrowBackIos />} title={"빌리기"} onLeftClick={handleLeftClick} />
+        <Header
+          left={<MdArrowBackIos />}
+          title={"빌리기"}
+          onLeftClick={handleLeftClick}
+          right={"신뢰도"}
+          onRightClick={() => navigate("/loan/credit")}
+        />
 
         <main tw="flex flex-col flex-1 justify-start space-y-4 mt-1">
           {/* Credit Score */}
-          <div tw="flex flex-col items-center justify-center bg-blue-400 w-full rounded-2xl p-4 shadow-md" onClick={handleSelect}>
+          <div
+            tw="flex flex-col items-center justify-center bg-blue-400 w-full rounded-2xl p-4 shadow-md"
+            onClick={handleSelect}
+          >
             {!isSelected ? (
               <>
                 <div tw="flex items-center justify-center text-center">
-                  <p tw="text-lg text-white font-bold">현재 정우성의 신뢰도는?</p>
+                  <p tw="text-lg text-white font-bold">
+                    현재 정우성의 신뢰도는?
+                  </p>
                 </div>
-                <p tw="text-4xl font-bold mt-2 text-white text-center">매우 높음</p>
+                <p tw="text-4xl font-bold mt-2 text-white text-center">
+                  매우 높음
+                </p>
               </>
             ) : (
               <>
@@ -112,7 +128,14 @@ const Main = () => {
               {loans
                 .filter((loan) => loan.status === 1)
                 .map((loan) => (
-                  <RequestCard key={loan.id} status={loan.status} name={loan.parentName} title={loan.title} dday={calculateDday(loan.createDate)} onClick={() => handleRequestProgress(loan.id)} />
+                  <RequestCard
+                    key={loan.id}
+                    status={loan.status}
+                    name={loan.parentName}
+                    title={loan.title}
+                    dday={calculateDday(loan.createDate)}
+                    onClick={() => handleRequestProgress(loan.id)}
+                  />
                 ))}
             </Slider>
           </Container>
@@ -136,7 +159,9 @@ const Main = () => {
                 <LoanCard
                   key={loan.id}
                   amount={loan.amount}
-                  period={`${formatDate(loan.createDate)} ~ ${formatDate(loan.dueDate)}`}
+                  period={`${formatDate(loan.createDate)} ~ ${formatDate(
+                    loan.dueDate
+                  )}`}
                   title={loan.title}
                   totalAmount={loan.balance}
                   onClick={() => handleProgress(loan.id)}

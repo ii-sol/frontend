@@ -1,13 +1,39 @@
 import { baseInstance } from "./api";
 
-export const fetchHistory = async (sn, year, month, status) => {
+// // 포트번호 8081
+// export const fetchHistory = async (accessToken, year, month, status) => {
+//   try {
+//     const response = await baseInstance.get(`/account/history?year=${year}&month=${month}&status=${status}`, {
+//       headers: {
+//         Authorization: accessToken,
+//       },
+//     });
+
+//     if (response.data.success) {
+//       return response.data.response.accountHistorys;
+//     } else {
+//       return response.data.error.message;
+//     }
+//   } catch (error) {
+//     throw response.data.error;
+//   }
+// };
+
+export const createAllowanceRequest = async (accessToken, psn, data) => {
   try {
-    const response = await baseInstance.get(`/account/history?sn=${sn}&year=${year}&month=${month}&status=${status}`);
-    console.log(222, response);
+    console.log("psn: ", psn);
+    console.log("accessToken: ", accessToken);
+    console.log("data: ", data);
+    const response = await baseInstance.post(`/allowances/temporal/${psn}`, data, {
+      headers: {
+        Authorization: accessToken,
+      },
+    });
+
     if (response.data.success) {
-      return response.data.response.accountHistorys;
+      return response.data.response;
     } else {
-      throw new Error("Failed to fetch account history");
+      return response.data.error.message;
     }
   } catch (error) {
     throw error;

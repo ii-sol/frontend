@@ -7,19 +7,43 @@ import Message from "../../components/common/Message";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setMessage } from "../../store/reducers/Invest/invest";
+import { postProposal } from "../../services/invest";
 
+//TODO:Parent 이름
 const Suggestion = () => {
   const dispatch = useDispatch();
   const parent = useSelector((state) => state.invest.parent);
   const name = useSelector((state) => state.invest.name);
   const trade = useSelector((state) => state.invest.trade);
+  const code = useSelector((state) => state.invest.code);
+  const quantity = useSelector((state) => state.invest.quantity);
   const navigate = useNavigate();
   const [messages, setMessages] = useState("");
   const handleInputChange = (message) => {
     setMessages(message);
   };
 
+  const postMyProposal = async (
+    psn,
+    ticker,
+    message,
+    quantity,
+    tradingCode
+  ) => {
+    try {
+      const res = await postProposal(
+        psn,
+        ticker,
+        message,
+        quantity,
+        tradingCode
+      );
+      console.log(res);
+    } catch (error) {}
+  };
+
   const onSuggest = () => {
+    postMyProposal(parent, code, messages, quantity, trade);
     navigate("/invest/send");
     dispatch(setMessage(messages));
   };
@@ -39,7 +63,7 @@ const Suggestion = () => {
             작성해주세요!
           </Div>
         </>
-        {trade === 0 ? (
+        {trade === 1 ? (
           <S.Badge
             $back="#FFDCDC"
             $font="#CC3535"
@@ -80,7 +104,7 @@ const Div = styled.div`
 `;
 
 const Img = styled.img`
-  margin-top: -70px;
+  margin: 40px 0px 60px 0px;
 `;
 
 const Wrapper = styled.div`

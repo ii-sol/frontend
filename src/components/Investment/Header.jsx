@@ -33,7 +33,9 @@ const Header = ({ type, title }) => {
           }}
         >
           {/* <img src={whitenote} /> */}
-          <div onClick={() => navigate("/invest")}>취소</div>
+          <div style={{ fontSize: 20 }} onClick={() => navigate("/invest")}>
+            취소
+          </div>
         </Right>
       ) : (
         <Right

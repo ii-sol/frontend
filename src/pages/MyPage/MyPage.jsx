@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../styles/GlobalStyles";
+
+import { fetchUserInfo, deleteParent } from "../../services/user";
+import { useSelector } from "react-redux";
 
 import { FiEdit2 } from "react-icons/fi";
 import { RiDeleteBinLine } from "react-icons/ri";
@@ -10,26 +13,54 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import Header from "~/components/common/Header";
 import Profile from "../../components/MyPage/Profile";
 
-import CharacterImage1 from "~/assets/img/common/character/character_sol.svg";
-import CharacterImage2 from "~/assets/img/common/character/character_lay.svg";
-import CharacterImage3 from "~/assets/img/common/character/character_moli.svg";
-import CharacterImage4 from "~/assets/img/common/character/character_lulu.svg";
+import Profile1 from "~/assets/img/common/character/character_sol.svg";
 import CustomerServiceImage from "~/assets/img/MyPage/service.svg";
 import FAQImage from "~/assets/img/MyPage/faq.svg";
 
-const initialProfiles = [
-  { id: 1, src: CharacterImage1, name: "엄마" },
-  { id: 2, src: CharacterImage2, name: "아빠" },
-  // { id: 3, src: CharacterImage3 },
-  // { id: 4, src: CharacterImage4 },
-];
+import availableProfiles from "../../assets/data/profileImages";
 
 const MyPage = () => {
-  const [profiles, setProfiles] = useState(initialProfiles);
+  const [userInfo, setUserInfo] = useState(null);
+  const [profiles, setProfiles] = useState([]);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [selectedProfiles, setSelectedProfiles] = useState([]);
+  const [selectedProfileId, setSelectedProfileId] = useState([]);
 
   const navigate = useNavigate();
+
+  const sn = useSelector((state) => state.user.userInfo.sn);
+  const accessToken = useSelector((state) => state.user.accessToken);
+  const familyInfo = useSelector((state) => state.user.userInfo.familyInfo);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const data = await fetchUserInfo(sn, accessToken);
+        setUserInfo(data);
+        if (familyInfo) {
+          const familyProfiles = await Promise.all(
+            familyInfo.map(async (member, index) => {
+              const memberInfo = await fetchUserInfo(member.sn, accessToken);
+              const selectedProfile = availableProfiles.find((profile) => profile.id === memberInfo.profileId);
+              const profileImageSrc = selectedProfile ? selectedProfile.src : Profile1;
+              return {
+                id: index,
+                sn: member.sn,
+                src: profileImageSrc,
+                name: member.name,
+              };
+            })
+          );
+          setProfiles(familyProfiles);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    if (sn && accessToken) {
+      fetchUserData();
+    }
+  }, [sn, accessToken, familyInfo]);
 
   const handleLeftClick = () => {
     navigate("/");
@@ -37,28 +68,38 @@ const MyPage = () => {
 
   const handleDeleteClick = () => {
     setIsDeleting(!isDeleting);
-    setSelectedProfiles([]);
+    setSelectedProfileId(null);
   };
 
   const handleProfileSelect = (id) => {
-    if (selectedProfiles.includes(id)) {
-      setSelectedProfiles(selectedProfiles.filter((profileId) => profileId !== id));
+    if (selectedProfileId === id) {
+      setSelectedProfileId(null);
     } else {
-      setSelectedProfiles([...selectedProfiles, id]);
+      setSelectedProfileId(id);
     }
   };
 
-  const handleDeleteConfirm = () => {
-    if (selectedProfiles.length === 0 && isDeleting) {
+  const handleDeleteConfirm = async () => {
+    if (selectedProfileId === null && isDeleting) {
       setIsDeleting(false);
-      setSelectedProfiles([]);
+      setSelectedProfileId(null);
     } else if (window.confirm("정말 삭제하시겠습니까?")) {
-      setProfiles(profiles.filter((profile) => !selectedProfiles.includes(profile.id)));
-      setIsDeleting(false);
-      setSelectedProfiles([]);
+      const profileToDelete = profiles.find((profile) => profile.id === selectedProfileId);
+      if (profileToDelete) {
+        try {
+          await deleteParent(accessToken, profileToDelete.sn);
+          setProfiles(profiles.filter((profile) => profile.id !== selectedProfileId));
+          alert("연결 삭제에 성공했습니다.");
+          setIsDeleting(false);
+          setSelectedProfileId(null);
+        } catch (error) {
+          console.error(error);
+          alert("연결 삭제에 실패했습니다.");
+        }
+      }
     } else {
       setIsDeleting(false);
-      setSelectedProfiles([]);
+      setSelectedProfileId(null);
     }
   };
 
@@ -70,7 +111,7 @@ const MyPage = () => {
     <S.Container>
       <Header left={"<"} onLeftClick={handleLeftClick} title={"마이페이지"} right={""} />
       <S.StepWrapper>
-        <Profile />
+        {userInfo ? <Profile userInfo={userInfo} /> : <LoadingPlaceholder>Loading...</LoadingPlaceholder>}
         <Management>
           <S.Phrase>연결 관리</S.Phrase>
           <EditButton onClick={isDeleting ? handleDeleteConfirm : handleDeleteClick}>{isDeleting ? <RiDeleteBinLine tw="w-[18px] h-[18px]" /> : <FiEdit2 tw="w-[18px] h-[18px]" />}</EditButton>
@@ -78,7 +119,7 @@ const MyPage = () => {
         <MemberGrid>
           {profiles.map((profile) => (
             <ProfileWrapper key={profile.id}>
-              <ProfileImage src={profile.src} isSelected={selectedProfiles.includes(profile.id)} onClick={() => isDeleting && handleProfileSelect(profile.id)} />
+              <ProfileImage src={profile.src} isSelected={selectedProfileId === profile.id} onClick={() => isDeleting && handleProfileSelect(profile.id)} />
               <ProfileName>{profile.name}</ProfileName>
             </ProfileWrapper>
           ))}
@@ -177,4 +218,13 @@ const Menu = styled.div`
     w-14
     `}
   }
+`;
+
+const LoadingPlaceholder = styled.div`
+  ${tw`
+    flex
+    items-center
+    justify-center
+    h-full
+  `}
 `;
