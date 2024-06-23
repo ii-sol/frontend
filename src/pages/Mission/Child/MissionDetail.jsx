@@ -18,21 +18,21 @@ const MissionDetail = () => {
   const [mission, setMission] = useState(null);
   const navigate = useNavigate();
 
-  const csn = useSelector((state) => state.user.sn);
-  // TODO: 응답할 때 부모 sn 넣어줘야 하는데 어떡하지 const psn =
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await fetchMissionDetail(id);
         setMission(data);
       } catch (error) {
-        console.error("Error fetching regular allowance:", error);
+        console.error("Error fetching mission detail:", error);
       }
     };
 
     fetchData();
   }, [id]);
+
+  const csn = useSelector((state) => state.user.sn);
+  const psn = mission.parentSn;
 
   const handleLeftClick = () => {
     navigate("/mission");

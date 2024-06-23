@@ -102,8 +102,8 @@ const MainRouter = createBrowserRouter([
           { path: "amount", element: <CreateMissionPrice /> },
           { path: "member", element: <CreateMissionMember /> },
           { path: "complete", element: <CreateMissionComplete /> },
-          { path: "request/send/detail", element: <MissionSendDetail /> },
-          { path: "request/receive/detail", element: <MissionReceiveDetail /> },
+          { path: "request/send/:id", element: <MissionSendDetail /> },
+          { path: "request/receive/:id", element: <MissionReceiveDetail /> },
         ],
       },
       {

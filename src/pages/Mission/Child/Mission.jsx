@@ -6,8 +6,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import * as S from "../../../styles/GlobalStyles";
-import { fetchOngoingMissions } from "../../../services/mission";
-import { calculateDday } from "../../../utils/calculateDday";
+import { fetchOngoingMissions, fetchPendingMissions } from "../../../services/mission";
 import { useSelector } from "react-redux";
 
 import Header from "~/components/common/Header";
@@ -25,6 +24,7 @@ const sliderSettings = {
 
 const Mission = () => {
   const [ongoingMissions, setOngoingMissions] = useState([]);
+  const [pendingMissions, setPendingMissions] = useState([]);
   const navigate = useNavigate();
 
   const sn = useSelector((state) => state.user.userInfo.sn);
@@ -35,23 +35,33 @@ const Mission = () => {
         const data = await fetchOngoingMissions(sn);
         setOngoingMissions(data);
       } catch (error) {
-        console.error("Error fetching regular allowance:", error);
+        console.error("Error fetching ongoing missions:", error);
+      }
+    };
+
+    const fetchPending = async () => {
+      try {
+        const data = await fetchPendingMissions(sn);
+        setPendingMissions(data);
+      } catch (error) {
+        console.error("Error fetching pending missions:", error);
       }
     };
 
     fetchOngoing();
+    fetchPending();
   }, [sn]);
 
   const handleLeftClick = () => {
     navigate("/");
   };
 
-  const handleReceiveRequestClick = () => {
-    navigate("/mission/request/receive/detail");
-  };
-
-  const handleSendRequestClick = () => {
-    navigate("/mission/request/send/detail");
+  const handleRequestProgress = (id, status) => {
+    if (status === 1) {
+      navigate(`/mission/request/send/${id}`);
+    } else {
+      navigate(`/mission/request/receive/${id}`);
+    }
   };
 
   const handleHistoryClick = () => {
@@ -66,29 +76,39 @@ const Mission = () => {
     navigate(`/mission/${id}`);
   };
 
+  const calculateDday = (createDate) => {
+    const threeDaysLater = new Date(createDate);
+    threeDaysLater.setDate(threeDaysLater.getDate() + 3); // createDate에서 3일 후의 날짜
+
+    const today = new Date();
+    const dday = differenceInDays(threeDaysLater, today); // 오늘 날짜와 endDate 사이의 일 수 차이 계산
+
+    return dday;
+  };
+
   return (
     <div>
       <S.Container>
         <Header left={"<"} onLeftClick={handleLeftClick} title={"미션"} />
-        {/* TODO: dday = due_date - craete_date */}
         <Wrapper>
-          <Slider {...sliderSettings}>
-            {/* {requests
-                .filter((request) => request.status === 1)
-                .map((request) => (
-                  <RequestCard
-                    key={request.id}
-                    status={request.status}
-                    name={request.parentName}
-                    title={request.title}
-                    dday={calculateDday(request.createDate)}
-                    onClick={() => handleRequestProgress(request.id)}
-                  />
-                ))} */}
-            <RequestCard status="send" name="엄마" content="심부름 다녀오기" dday="3" onClick={handleSendRequestClick} />
-            <RequestCard status="receive" name="엄마" content="심부름 다녀오기" dday="0" onClick={handleReceiveRequestClick} />
-            <RequestCard status="send" name="엄마" content="심부름 다녀오기" dday="3" onClick={handleSendRequestClick} />
-          </Slider>
+          {pendingMissions.length > 0 ? (
+            <Slider {...sliderSettings}>
+              {pendingMissions.map((mission) => (
+                <RequestCard
+                  key={mission.id}
+                  status={mission.status}
+                  name={mission.parentName} //TODO: 보낸 사람 이름 넣어야 함
+                  content={mission.content}
+                  dday={calculateDday(mission.createDate)}
+                  onClick={() => handleRequestProgress(mission.id, mission.status)}
+                />
+              ))}
+            </Slider>
+          ) : (
+            <EmptyRequestContainer>
+              <span>대기 중인 미션이 없습니다.</span>
+            </EmptyRequestContainer>
+          )}
         </Wrapper>
 
         <Menu>
@@ -155,5 +175,17 @@ const Wrapper = styled.div`
   .slick-prev.slick-disabled:before,
   .slick-next.slick-disabled:before {
     opacity: 0.2;
+  }
+`;
+
+const EmptyRequestContainer = styled.div`
+  ${tw`flex items-center justify-center bg-[#E9F2FF] w-full h-[88px] rounded-2xl text-lg p-4 my-4`}
+
+  span {
+    ${tw`
+      text-lg
+      font-semibold
+      text-gray-600
+    `}
   }
 `;
