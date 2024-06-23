@@ -21,8 +21,6 @@ const Profile = ({ userInfo }) => {
     credibility: getCredibility(userInfo.score),
   });
 
-  const accessToken = useSelector((state) => state.user.accessToken);
-
   const handleEditClick = () => {
     if (isEditing === false) {
       setIsEditing(!isEditing);
@@ -46,7 +44,7 @@ const Profile = ({ userInfo }) => {
 
     if (isValidName && isValidPhone && isValidBirth) {
       try {
-        const data = await updateUserInfo(accessToken, dataWithoutCredibility);
+        const data = await updateUserInfo(dataWithoutCredibility);
         alert("정보가 업데이트 되었습니다.");
       } catch (error) {
         console.error(error);

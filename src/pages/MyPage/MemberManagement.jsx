@@ -28,14 +28,12 @@ const MemberManagement = () => {
   const [members, setMembers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const accessToken = useSelector((state) => state.user.accessToken);
-
   const navigate = useNavigate();
 
   useEffect(() => {
     const getContacts = async () => {
       try {
-        const data = await fetchContacts(accessToken);
+        const data = await fetchContacts();
         setMembers(data);
       } catch (error) {
         console.error("Error fetching contacts:", error);
@@ -96,7 +94,7 @@ const MemberManagement = () => {
 
   const handleSubmit = async () => {
     try {
-      await addMember(accessToken, requestData);
+      await addMember(requestData);
 
       setStep(step + 1);
     } catch (error) {

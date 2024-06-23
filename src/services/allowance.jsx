@@ -1,12 +1,8 @@
 import { baseInstance } from "./api";
 
-export const createAllowanceRequest = async (accessToken, psn, data) => {
+export const createAllowanceRequest = async (psn, data) => {
   try {
-    const response = await baseInstance.post(`/allowance/temporal/${psn}`, data, {
-      headers: {
-        Authorization: accessToken,
-      },
-    });
+    const response = await baseInstance.post(`/allowance/temporal/${psn}`, data);
 
     if (response.data.success) {
       return response.data.response;
