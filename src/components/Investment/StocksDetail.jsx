@@ -18,8 +18,9 @@ const StocksDetail = () => {
   const changePrice = useSelector((state) => state.invest.changePrice);
   const changeRate = useSelector((state) => state.invest.changeRate);
   const changeSign = useSelector((state) => state.invest.changeSign);
-
-  console.log(changeSign);
+  const investTradeList = useSelector(
+    (state) => state.portfolio.investTradeList
+  );
 
   const getChangeInfo = () => {
     switch (changeSign) {
@@ -54,6 +55,8 @@ const StocksDetail = () => {
 
   const { sign, sign2, color } = getChangeInfo();
 
+  const isOwnedStock = investTradeList.some((item) => item.ticker === code);
+
   return (
     <Container>
       <RowDiv>
@@ -82,15 +85,17 @@ const StocksDetail = () => {
         >
           구매하기
         </S.BuyBtn>
-        <S.BuyBtn
+        <BuyBtn
           $background="#5987ff"
           onClick={() => {
             dispatch(setTrade(2));
             navigate("/invest/trading");
           }}
+          disabled={!isOwnedStock}
+          $cant={!isOwnedStock}
         >
           판매하기
-        </S.BuyBtn>
+        </BuyBtn>
       </RowDiv>
     </Container>
   );
@@ -132,4 +137,13 @@ const StockDiv = styled.div`
 const InfoDiv = styled.div`
   text-align: left;
   font-size: 20px;
+`;
+
+const BuyBtn = styled(S.BuyBtn)`
+  ${(props) =>
+    props.$cant &&
+    `
+    background-color: #ccc; // 비활성화된 버튼의 색상
+    cursor: not-allowed; // 마우스 커서
+  `}
 `;

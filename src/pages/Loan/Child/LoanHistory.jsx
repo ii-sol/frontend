@@ -5,6 +5,7 @@ import Header from "~/components/common/Header";
 import HistoryFilter from "~/components/common/History/HistoryFilter";
 import { MdArrowBackIos } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import { baseInstance } from "../../../services/api";
 
 const LoanHistory = () => {
   const dispatch = useDispatch();

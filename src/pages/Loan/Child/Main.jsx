@@ -19,11 +19,11 @@ const Main = () => {
   const [loans, setLoans] = useState([]);
 
   useEffect(() => {
-    const baseUrl = "/loan";
-
     const fetchLoans = async () => {
+      const baseUrl = "/loan";
       try {
         const response = await baseInstance.get(baseUrl);
+
         setLoans(response.data.response || []); // response.data.response 사용
       } catch (error) {
         console.error("Failed to fetch loans", error);
@@ -97,7 +97,7 @@ const Main = () => {
           onRightClick={() => navigate("/loan/credit")}
         />
 
-        <main tw="flex flex-col flex-1 justify-start space-y-4 mt-1">
+        <main tw="flex flex-col flex-1 justify-start space-y-4 mt-1 mb-2">
           {/* Credit Score */}
           <div
             tw="flex flex-col items-center justify-center bg-blue-400 w-full rounded-2xl p-4 shadow-md"
@@ -147,7 +147,7 @@ const Main = () => {
             </button>
           </div>
           {/* Loan History */}
-          <div tw="grid grid-cols-2 gap-5 w-full">
+          <div tw="grid grid-cols-2 gap-5 w-full mb-4">
             <Card onClick={handleCreateLoan}>
               <p tw="font-bold text-2xl">빌리기</p>
               <p tw="font-bold text-2xl">부탁하기</p>
@@ -169,6 +169,7 @@ const Main = () => {
               ))}
           </div>
         </main>
+        <div tw="mb-3 h-10 w-12"></div>
       </div>
     </>
   );

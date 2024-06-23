@@ -5,210 +5,35 @@ import * as S from "../../styles/GlobalStyles";
 import { useSelector } from "react-redux";
 import EmptyImage from "~/assets/img/common/empty.svg";
 import { normalizeNumber } from "../../utils/normalizeNumber";
-import { groupDataByDate } from "../../utils/groupDataByDate";
+import { fetchInvestHistory } from "../../services/invest";
+import { groupDataByDatetwo } from "../../utils/groupDataByDatetwo";
 
 const TradeHistoryList = () => {
   const status = useSelector((state) => state.history.status);
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    let updatedData;
-    if (status === 0) {
-      updatedData = [
-        {
-          tradeId: 0,
-          code: "005930",
-          name: "삼성전자",
-          quantity: 3,
-          price: 80000,
-          createdDate: "2024-05-10",
-          trade: 0,
-        },
-        {
-          tradeId: 1,
-          code: "000660",
-          name: "SK하이닉스",
-          quantity: 5,
-          price: 120000,
-          createdDate: "2024-05-12",
-          trade: 0,
-        },
-        {
-          tradeId: 2,
-          code: "005380",
-          name: "현대차",
-          quantity: 2,
-          price: 200000,
-          createdDate: "2024-05-14",
-          trade: 1,
-        },
-        {
-          tradeId: 3,
-          code: "051910",
-          name: "LG화학",
-          quantity: 1,
-          price: 700000,
-          createdDate: "2024-05-16",
-          trade: 0,
-        },
-        {
-          tradeId: 4,
-          code: "035420",
-          name: "NAVER",
-          quantity: 4,
-          price: 350000,
-          createdDate: "2024-05-18",
-          trade: 1,
-        },
-        {
-          tradeId: 5,
-          code: "005490",
-          name: "POSCO",
-          quantity: 3,
-          price: 300000,
-          createdDate: "2024-05-20",
-          trade: 1,
-        },
-        {
-          tradeId: 6,
-          code: "000270",
-          name: "기아",
-          quantity: 6,
-          price: 90000,
-          createdDate: "2024-05-22",
-          trade: 0,
-        },
-        {
-          tradeId: 7,
-          code: "005935",
-          name: "삼성전자우",
-          quantity: 2,
-          price: 75000,
-          createdDate: "2024-05-28",
-          trade: 0,
-        },
-        {
-          tradeId: 8,
-          code: "035720",
-          name: "카카오",
-          quantity: 113,
-          price: 100000,
-          createdDate: "2024-05-28",
-          trade: 0,
-        },
-        {
-          tradeId: 9,
-          code: "105560",
-          name: "KB금융",
-          quantity: 14,
-          price: 50000,
-          createdDate: "2024-05-28",
-          trade: 0,
-        },
-      ];
-    } else if (status === 1) {
-      updatedData = [
-        {
-          tradeId: 2,
-          code: "005380",
-          name: "현대차",
-          quantity: 2,
-          price: 200000,
-          createdDate: "2024-05-14",
-          trade: 1,
-        },
-        {
-          tradeId: 4,
-          code: "035420",
-          name: "NAVER",
-          quantity: 4,
-          price: 350000,
-          createdDate: "2024-05-18",
-          trade: 1,
-        },
-        {
-          tradeId: 5,
-          code: "005490",
-          name: "POSCO",
-          quantity: 3,
-          price: 300000,
-          createdDate: "2024-05-20",
-          trade: 1,
-        },
-      ];
-    } else if (status === 2) {
-      updatedData = [
-        {
-          tradeId: 0,
-          code: "005930",
-          name: "삼성전자",
-          quantity: 3,
-          price: 80000,
-          createdDate: "2024-05-10",
-          trade: 0,
-        },
-        {
-          tradeId: 1,
-          code: "000660",
-          name: "SK하이닉스",
-          quantity: 5,
-          price: 120000,
-          createdDate: "2024-05-12",
-          trade: 0,
-        },
-        {
-          tradeId: 3,
-          code: "051910",
-          name: "LG화학",
-          quantity: 1,
-          price: 700000,
-          createdDate: "2024-05-16",
-          trade: 0,
-        },
-        {
-          tradeId: 6,
-          code: "000270",
-          name: "기아",
-          quantity: 6,
-          price: 90000,
-          createdDate: "2024-05-22",
-          trade: 0,
-        },
-        {
-          tradeId: 7,
-          code: "005935",
-          name: "삼성전자우",
-          quantity: 2,
-          price: 75000,
-          createdDate: "2024-05-28",
-          trade: 0,
-        },
-        {
-          tradeId: 8,
-          code: "035720",
-          name: "카카오",
-          quantity: 3,
-          price: 100000,
-          createdDate: "2024-05-28",
-          trade: 0,
-        },
-        {
-          tradeId: 9,
-          code: "105560",
-          name: "KB금융",
-          quantity: 4,
-          price: 50000,
-          createdDate: "2024-05-28",
-          trade: 0,
-        },
-      ];
+  const fetchMyInvestHistory = async (status) => {
+    try {
+      const data = await fetchInvestHistory(status);
+      setData(data.response);
+    } catch (err) {
+      console.error(err);
     }
-    setData(updatedData);
+  };
+
+  useEffect(() => {
+    if (status === 0) {
+      fetchMyInvestHistory(0);
+    } else if (status === 1) {
+      fetchMyInvestHistory(1);
+    } else if (status === 2) {
+      fetchMyInvestHistory(2);
+    }
   }, [status]);
 
   const renderBadge = (status) => {
     switch (status) {
-      case 0:
+      case 2:
         return (
           <S.Badge $back="#D5E0F1" $font="#346BAC">
             판매
@@ -225,7 +50,7 @@ const TradeHistoryList = () => {
     }
   };
 
-  const groupedData = groupDataByDate(data);
+  const groupedData = groupDataByDatetwo(data);
   const sortedGroupedData = Object.keys(groupedData).sort(
     (a, b) => new Date(b) - new Date(a)
   );
@@ -258,17 +83,17 @@ const TradeHistoryList = () => {
               <DateArea>{date}</DateArea>
               <Hr />
               {groupedData[date].map((d, dIndex) => (
-                <Wrapper key={d.tradeId}>
-                  {renderBadge(d.trade)}
+                <Wrapper key={dIndex}>
+                  {renderBadge(d.tradingCode)}
                   <RowDiv>
                     <S.ColumnDiv style={{ position: "relative" }}>
-                      <Name>{d.name}</Name>
+                      <Name>{d.companyName}</Name>
                       <Code style={{ position: "absolute", top: "25px" }}>
-                        {d.code}
+                        {d.ticker}
                       </Code>
                     </S.ColumnDiv>
                     <DetailDiv>
-                      <Div>{normalizeNumber(d.price)}</Div>
+                      <Div>{normalizeNumber(d.stockPrice)}</Div>
                       <Div>{d.quantity}주</Div>
                     </DetailDiv>
                   </RowDiv>

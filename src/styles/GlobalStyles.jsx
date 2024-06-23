@@ -180,3 +180,15 @@ export const rejectBtn = styled.button`
   font-size: 20px;
   padding: 8px;
 `;
+
+export const TradeBadge = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({ $back }) => ($back === 1 ? "#FF5959" : "#5987ff")};
+  color: white;
+  width: ${({ $width }) => $width};
+  height: ${({ $width }) => $width};
+  font-size: ${({ $size }) => $size || "25px"};
+  border-radius: 15px;
+`;

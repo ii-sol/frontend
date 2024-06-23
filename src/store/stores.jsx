@@ -15,7 +15,7 @@ import allowanceReducer from "./reducers/Allowance/allowance";
 const rootPersistConfig = {
   key: "root",
   storage: storage,
-  whitelist: ["invest", "user", "profile"],
+  whitelist: ["invest", "user", "profile", "portfolio"],
 };
 
 const rootReducer = combineReducers({
