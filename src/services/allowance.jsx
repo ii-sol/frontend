@@ -21,10 +21,7 @@ import { baseInstance } from "./api";
 
 export const createAllowanceRequest = async (accessToken, psn, data) => {
   try {
-    console.log("psn: ", psn);
-    console.log("accessToken: ", accessToken);
-    console.log("data: ", data);
-    const response = await baseInstance.post(`/allowances/temporal/${psn}`, data, {
+    const response = await baseInstance.post(`/allowance/temporal/${psn}`, data, {
       headers: {
         Authorization: accessToken,
       },
