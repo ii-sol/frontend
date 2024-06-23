@@ -40,7 +40,6 @@ const NewAllowanceRequest = () => {
 
   const navigate = useNavigate();
 
-  const accessToken = useSelector((state) => state.user.accessToken);
   const familyInfo = useSelector((state) => state.user.userInfo.familyInfo);
 
   const today = new Date();
@@ -55,7 +54,7 @@ const NewAllowanceRequest = () => {
     const fetchProfiles = async () => {
       const profiles = await Promise.all(
         familyInfo.map(async (member) => {
-          const userInfo = await fetchUserInfo(member.sn, accessToken);
+          const userInfo = await fetchUserInfo(member.sn);
           return {
             ...member,
             profileId: userInfo.profileId,
@@ -149,7 +148,7 @@ const NewAllowanceRequest = () => {
 
   const handleSubmit = async () => {
     try {
-      await createAllowanceRequest(accessToken, data.parentSn, requestData);
+      await createAllowanceRequest(data.parentSn, requestData);
       setStep(step + 1);
     } catch (error) {
       alert("용돈 조르기에 실패했습니다. 다시 시도해주세요.");

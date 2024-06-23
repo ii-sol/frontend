@@ -28,18 +28,17 @@ const MyPage = () => {
   const navigate = useNavigate();
 
   const sn = useSelector((state) => state.user.userInfo.sn);
-  const accessToken = useSelector((state) => state.user.accessToken);
   const familyInfo = useSelector((state) => state.user.userInfo.familyInfo);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const data = await fetchUserInfo(sn, accessToken);
+        const data = await fetchUserInfo(sn);
         setUserInfo(data);
         if (familyInfo) {
           const familyProfiles = await Promise.all(
             familyInfo.map(async (member, index) => {
-              const memberInfo = await fetchUserInfo(member.sn, accessToken);
+              const memberInfo = await fetchUserInfo(member.sn);
               const selectedProfile = availableProfiles.find((profile) => profile.id === memberInfo.profileId);
               const profileImageSrc = selectedProfile ? selectedProfile.src : Profile1;
               return {
@@ -57,10 +56,10 @@ const MyPage = () => {
       }
     };
 
-    if (sn && accessToken) {
+    if (sn) {
       fetchUserData();
     }
-  }, [sn, accessToken, familyInfo]);
+  }, [sn, familyInfo]);
 
   const handleLeftClick = () => {
     navigate("/");
@@ -87,7 +86,7 @@ const MyPage = () => {
       const profileToDelete = profiles.find((profile) => profile.id === selectedProfileId);
       if (profileToDelete) {
         try {
-          await deleteParent(accessToken, profileToDelete.sn);
+          await deleteParent(profileToDelete.sn);
           setProfiles(profiles.filter((profile) => profile.id !== selectedProfileId));
           alert("연결 삭제에 성공했습니다.");
           setIsDeleting(false);
