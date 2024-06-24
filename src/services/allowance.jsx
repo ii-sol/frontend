@@ -30,7 +30,7 @@ export const fetchAllowanceRequest = async () => {
 
 export const deleteAllowanceRequest = async (id) => {
   try {
-    const response = await baseInstance.delete(`/allowance/temporal/cancle/${id}`);
+    const response = await baseInstance.post(`/allowance/temporal/cancle/${id}`);
 
     if (response.data.success) {
       return response.data.response;
