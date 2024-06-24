@@ -10,9 +10,9 @@ export const fetchMissionDetail = async (id) => {
   }
 };
 
-export const fetchMissions = async (sn, status) => {
+export const fetchMissions = async (status) => {
   try {
-    const response = await baseInstance.get(`/missions/${sn}/${status}`);
+    const response = await baseInstance.get(`/missions/${status}`);
 
     return response.data.response;
   } catch (error) {
@@ -20,9 +20,9 @@ export const fetchMissions = async (sn, status) => {
   }
 };
 
-export const fetchPendingMissions = async (sn) => {
+export const fetchPendingMissions = async () => {
   try {
-    const response = await baseInstance.get(`/missions/${sn}/pending`);
+    const response = await baseInstance.get(`/missions/pending`);
 
     return response.data.response;
   } catch (error) {
@@ -30,9 +30,9 @@ export const fetchPendingMissions = async (sn) => {
   }
 };
 
-export const fetchOngoingMissions = async (sn) => {
+export const fetchOngoingMissions = async () => {
   try {
-    const response = await baseInstance.get(`/missions/${sn}/ongoing`);
+    const response = await baseInstance.get(`/missions/ongoing`);
 
     return response.data.response;
   } catch (error) {
@@ -40,9 +40,9 @@ export const fetchOngoingMissions = async (sn) => {
   }
 };
 
-export const fetchMissionHistory = async (sn, year, month, status) => {
+export const fetchMissionHistory = async (year, month, status) => {
   try {
-    const response = await baseInstance.get(`/mission/${sn}/history?year=${year}&month=${month}&status=${status}`);
+    const response = await baseInstance.get(`/mission/history?year=${year}&month=${month}&status=${status}`);
 
     return response.data.response;
   } catch (error) {

@@ -11,9 +11,9 @@ const initialState = {
   dueDate: "",
 };
 
-export const fetchMissionHistory = createAsyncThunk("mission/fetchMissionHistory", async ({ sn, year, month, status }, thunkAPI) => {
+export const fetchMissionHistory = createAsyncThunk("mission/fetchMissionHistory", async ({ year, month, status }, thunkAPI) => {
   try {
-    const response = await reqFetchMissionHistory(sn, year, month, status);
+    const response = await reqFetchMissionHistory(year, month, status);
     return response;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.message);

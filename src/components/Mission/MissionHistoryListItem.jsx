@@ -21,7 +21,7 @@ const MissionHistoryListItem = () => {
 
   useEffect(() => {
     const fetchHistory = async () => {
-      let params = { year: year, month: month, sn: sn };
+      let params = { year: year, month: month };
       if (status === 1) {
         params.status = 4;
       } else if (status === 2) {

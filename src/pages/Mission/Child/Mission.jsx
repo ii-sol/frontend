@@ -8,6 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import * as S from "../../../styles/GlobalStyles";
 import { fetchOngoingMissions, fetchPendingMissions } from "../../../services/mission";
 import { useSelector } from "react-redux";
+import { format, differenceInDays } from "date-fns";
 
 import Header from "~/components/common/Header";
 import MissionCard from "../../../components/Mission/MissionCard";
@@ -32,7 +33,7 @@ const Mission = () => {
   useEffect(() => {
     const fetchOngoing = async () => {
       try {
-        const data = await fetchOngoingMissions(sn);
+        const data = await fetchOngoingMissions();
         setOngoingMissions(data);
       } catch (error) {
         console.error("Error fetching ongoing missions:", error);
@@ -41,7 +42,7 @@ const Mission = () => {
 
     const fetchPending = async () => {
       try {
-        const data = await fetchPendingMissions(sn);
+        const data = await fetchPendingMissions();
         setPendingMissions(data);
       } catch (error) {
         console.error("Error fetching pending missions:", error);
