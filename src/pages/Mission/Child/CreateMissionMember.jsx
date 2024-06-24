@@ -25,9 +25,13 @@ const CreateMissionMember = () => {
 
   useEffect(() => {
     if (typeof requestDueDate === "string") {
-      const [year, month, day] = requestDueDate.split(". ").map((part) => parseInt(part));
-      const dueDate = new Date(year, month - 1, day, 23, 59, 59).getTime();
-      dispatch(setDueDate(dueDate));
+      if (requestDueDate === "완료일 없음") {
+        dispatch(setDueDate(""));
+      } else {
+        const [year, month, day] = requestDueDate.split(". ").map((part) => parseInt(part));
+        const dueDate = new Date(year, month - 1, day, 23, 59, 59).getTime();
+        dispatch(setDueDate(dueDate));
+      }
     }
 
     dispatch(setChildSn(csn));

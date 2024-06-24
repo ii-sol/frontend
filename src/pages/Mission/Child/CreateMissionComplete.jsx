@@ -71,7 +71,7 @@ const CreateMissionComplete = () => {
               <div>{parentName} 님에게</div>
               <div>"{requestData.content}"를 요청했습니다.</div>
               <div tw="text-[#154B9B]">{normalizeNumber(requestData.price)}원</div>
-              <div>미션 완료일 : {formatDate(new Date(requestData.dueDate))}</div>
+              <div>미션 완료일 : {isNaN(dueDate) ? "완료일 없음" : formatDate(dueDate)}</div>
             </S.CompleteCard>
             <div tw="text-sm">
               <span tw="text-[#154B9B]">{formattedDate}</span>까지 응답하지 않으면 취소돼요.
