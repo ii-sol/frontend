@@ -3,7 +3,8 @@ import { getCookie, setCookie, removeCookie } from "./cookie";
 import { store } from "../store/stores";
 import { loginSuccess, logout } from "../store/reducers/Auth/user";
 
-export const BASE_URL = "http://127.0.0.1:8080";
+export const BASE_URL =
+  "http://ec2-43-203-199-109.ap-northeast-2.compute.amazonaws.com:8080";
 
 export const baseInstance = axios.create({
   baseURL: BASE_URL,
