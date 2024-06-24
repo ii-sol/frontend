@@ -64,7 +64,7 @@ const MissionHistoryListItem = () => {
             ) : (
               <S.CardContainer>
                 {data.map((item) => (
-                  <MissionCard key={item.id} status={item.status} mission={item.mission} allowance={item.allowance} />
+                  <MissionCard key={item.id} status={item.status} mission={item.content} allowance={item.price} />
                 ))}
               </S.CardContainer>
             )}
