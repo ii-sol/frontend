@@ -6,7 +6,7 @@ export const selectLoanDetails = createSelector(
   [selectLoanState],
   (loanState) => {
     if (!loanState) return null;
-    const { period, parentId, amount, title, message } = loanState;
-    return { period, parentId, amount, title, message };
+    const { period, parentId, amount, title, message, loanLimit } = loanState;
+    return { period, parentId, amount, title, message, loanLimit };
   }
 );

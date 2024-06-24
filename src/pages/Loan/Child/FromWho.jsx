@@ -17,6 +17,7 @@ import { baseInstance } from "../../../services/api";
 const FromWho = () => {
   const [selected, setSelected] = useState("");
   const [error, setError] = useState("");
+  const [loanLimit, setLoanLimit] = useState(0); // 대출 한도 추가
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -30,6 +31,18 @@ const FromWho = () => {
 
   useEffect(() => {
     dispatch(setLoanDetails({ childId: childInfo }));
+
+    const fetchLoanLimit = async () => {
+      try {
+        const response = await baseInstance.get("/users/child-manage");
+        const limit = response.data.response.loanLimit || 100; // 기본 한도 설정
+        setLoanLimit(limit);
+      } catch (error) {
+        console.error("Failed to fetch loan limit", error);
+      }
+    };
+
+    fetchLoanLimit();
   }, [childInfo, dispatch]);
 
   const handleNext = () => {
@@ -37,12 +50,13 @@ const FromWho = () => {
       const selectedMember = familyInfo.find(
         (member) => member.name === selected
       );
-      dispatch(setLoanDetails({ parentId: selectedMember.sn }));
+      dispatch(setLoanDetails({ parentId: selectedMember.sn, loanLimit }));
       navigate("/loan/money");
     } else {
       setError("대출을 신청할 사람을 선택해 주세요");
     }
   };
+
   console.log(familyInfo);
 
   return (
