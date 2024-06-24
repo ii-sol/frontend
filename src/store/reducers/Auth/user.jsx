@@ -23,9 +23,12 @@ const userSlice = createSlice({
       state.accessToken = null;
       state.refreshToken = null;
     },
+    setFamilyInfo(state, action) {
+      state.userInfo.familyInfo = [...state.userInfo.familyInfo, action.payload];
+    },
   },
 });
 
-export const { loginSuccess, logout } = userSlice.actions;
+export const { loginSuccess, logout, setFamilyInfo } = userSlice.actions;
 
 export default userSlice.reducer;

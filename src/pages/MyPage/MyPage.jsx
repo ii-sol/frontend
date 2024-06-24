@@ -38,8 +38,7 @@ const MyPage = () => {
         if (familyInfo) {
           const familyProfiles = await Promise.all(
             familyInfo.map(async (member, index) => {
-              const memberInfo = await fetchUserInfo(member.sn);
-              const selectedProfile = availableProfiles.find((profile) => profile.id === memberInfo.profileId);
+              const selectedProfile = availableProfiles.find((profile) => profile.id === member.profileId);
               const profileImageSrc = selectedProfile ? selectedProfile.src : Profile1;
               return {
                 id: index,
