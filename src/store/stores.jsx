@@ -18,9 +18,9 @@ import portfolioReducer from "./reducers/Invest/portfolio";
 import missionReducer from "./reducers/Mission/mission";
 import notiReducer from "./reducers/Noti/notification";
 import userReducer from "./reducers/Auth/user";
-import accountReducer from "./reducers/Account/account";
 import profileReducer from "./reducers/common/profile";
 import allowanceReducer from "./reducers/Allowance/allowance";
+import accountReducer from "./reducers/Account/account";
 import suggestDetailReducer from "./reducers/Invest/suggestDetail";
 
 const rootPersistConfig = {

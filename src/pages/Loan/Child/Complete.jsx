@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import Completes from "~/assets/img/Loan/completeImg.svg";
 import { useSelector } from "react-redux";
-import { selectLoanDetails } from "../../../store/selectors";
 import { store } from "../../../store/stores";
 import Header from "../../../components/common/Header";
 import { MdArrowBackIos } from "react-icons/md";
