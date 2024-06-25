@@ -22,7 +22,7 @@ const MissionHistoryListItem = () => {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const responseData = await fetchMissionHistory({ year: year, month: month, status: status });
+        const responseData = await fetchMissionHistory(year, month, status);
         dispatch(setHistoryData(responseData));
       } catch (error) {
         console.error("Error fetching mission history:", error);
