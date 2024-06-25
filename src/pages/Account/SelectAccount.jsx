@@ -6,37 +6,44 @@ import Header from "../../components/common/Header";
 import { MdArrowBackIos } from "react-icons/md";
 import * as S from "../../styles/GlobalStyles";
 import SpaceSolImg from "~/assets/img/Account/spaceSol.svg";
-import { setAccountDetails } from "../../store/action";
+import { store } from "../../store/stores";
+import { setReceiverAccountNum } from "../../store/reducers/Account/account";
 
 const SelectAccount = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [selectedAccount, setSelectedAccount] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
 
   const handlePhoneNumberChange = (e) => {
-    setPhoneNumber(e.target.value);
-  };
+    const value = e.target.value.replace(/[^0-9]/g, "");
+    let formattedValue = "";
 
-  const handleAccountSelect = (account) => {
-    setSelectedAccount(account);
+    if (value.length <= 3) {
+      formattedValue = value;
+    } else if (value.length <= 7) {
+      formattedValue = `${value.slice(0, 3)}-${value.slice(3)}`;
+    } else if (value.length <= 11) {
+      formattedValue = `${value.slice(0, 3)}-${value.slice(3, 7)}-${value.slice(
+        7
+      )}`;
+    } else {
+      formattedValue = `${value.slice(0, 3)}-${value.slice(3, 7)}-${value.slice(
+        7,
+        11
+      )}-${value.slice(11, 13)}`;
+    }
+
+    setPhoneNumber(formattedValue);
   };
 
   const complete = () => {
-    if (/^\d{11}$/.test(phoneNumber)) {
-      if (selectedAccount) {
-        dispatch(
-          setAccountDetails({
-            receiverAccountNum: phoneNumber + selectedAccount,
-          })
-        );
-        navigate("/account/money");
-      } else {
-        setErrorMessage("계좌번호를 선택해주세요.");
-      }
+    if (phoneNumber.replace(/-/g, "").length !== 13) {
+      setErrorMessage("형식에 맞지 않는 계좌번호 입니다.");
     } else {
-      setErrorMessage("올바른 계좌번호 형식이 아닙니다");
+      dispatch(setReceiverAccountNum(phoneNumber));
+      console.log(store.getState());
+      navigate("/account/money");
     }
   };
 
@@ -51,7 +58,7 @@ const SelectAccount = () => {
       />
       <div
         tw="flex flex-col items-center gap-7"
-        styled="height: calc(100vh - 60px)"
+        style={{ height: "calc(100vh - 60px)" }}
       >
         <div tw="flex flex-col items-center mt-4 gap-7">
           <h2 tw="text-2xl font-semibold">누구에게 보낼래요?</h2>
@@ -60,7 +67,7 @@ const SelectAccount = () => {
         <div tw="flex flex-col items-center w-full mt-6">
           <div tw="w-full p-3 rounded-2xl border border-blue-300 bg-blue-100 text-xl">
             <label htmlFor="phoneNumber" tw="p-4">
-              전화번호
+              계좌번호
             </label>
             <input
               id="phoneNumber"
@@ -68,30 +75,10 @@ const SelectAccount = () => {
               value={phoneNumber}
               onChange={handlePhoneNumberChange}
               tw="w-11/12 mt-2 ml-2 p-2 border-none text-xl rounded bg-blue-100"
-              placeholder="01012341234"
+              placeholder="000-0000-0000-00"
             />
           </div>
           {errorMessage && <p tw="text-red-500 text-sm mt-2">{errorMessage}</p>}
-          <div tw="flex justify-around w-full mt-4 gap-2">
-            <button
-              tw="flex-1 p-3 rounded-2xl text-xl text-center"
-              css={[
-                selectedAccount === "01" ? tw`bg-blue-200` : tw`bg-blue-100`,
-              ]}
-              onClick={() => handleAccountSelect("01")}
-            >
-              01 <p>용돈 계좌</p>
-            </button>
-            <button
-              tw="flex-1 p-3 rounded-2xl text-xl text-center"
-              css={[
-                selectedAccount === "02" ? tw`bg-blue-200` : tw`bg-blue-100`,
-              ]}
-              onClick={() => handleAccountSelect("02")}
-            >
-              02 <p>증권 계좌</p>
-            </button>
-          </div>
         </div>
         <S.BottomBtn onClick={complete}>다음</S.BottomBtn>
       </div>

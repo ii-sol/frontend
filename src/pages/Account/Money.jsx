@@ -7,17 +7,15 @@ import NextButton from "../../components/Loan/NextButton";
 import Header from "../../components/common/Header";
 import { MdArrowBackIos } from "react-icons/md";
 import SolImage from "~/assets/img/common/curiousSol.svg";
-import { setAccountDetails } from "../../store/action";
+import { setAmounts } from "../../store/reducers/Account/account";
+import { useSelector } from "react-redux";
 
 const AccountMoney = () => {
   const [amount, setAmount] = useState("0");
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const formatAmount = (amount) => {
-    return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  };
+  const balance = useSelector((state) => state.account.balance1);
 
   const handleButtonClick = (value) => {
     if (value === "←") {
@@ -31,16 +29,21 @@ const AccountMoney = () => {
   };
 
   const handleNext = () => {
-    if (parseInt(amount.replace(/,/g, ""), 10) > 0) {
-      dispatch(
-        setAccountDetails({
-          amount: parseInt(amount.replace(/,/g, ""), 10),
-        })
-      );
-      navigate("/account/send");
+    const numericAmount = parseInt(amount.replace(/,/g, ""), 10);
+    if (numericAmount > 0) {
+      dispatch(setAmounts(numericAmount));
+      if (balance > numericAmount) {
+        navigate("/account/send");
+      } else {
+        setError("이체 금액이 현재 잔고를 초과했습니다.");
+      }
     } else {
       setError("금액을 입력해주세요.");
     }
+  };
+
+  const formatAmount = (amount) => {
+    return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
   return (
@@ -52,7 +55,7 @@ const AccountMoney = () => {
           navigate("/");
         }}
       />
-      <div tw="flex flex-col gap-7" styled="height: calc(100vh - 60px)">
+      <div tw="flex flex-col gap-7" style={{ height: "calc(100vh - 60px)" }}>
         <div tw="flex flex-col items-center mt-4 gap-7">
           <h2 tw="text-2xl font-semibold">얼마를 보낼래요?</h2>
           <img src={SolImage} alt="Money Hand" tw="w-[40%]" />
