@@ -11,7 +11,7 @@ const MissionCard = ({ onClick, status, dday, mission, allowance }) => {
     <Container onClick={onClick}>
       <Content>
         {status && <StatusTag status={status}>{status}</StatusTag>}
-        {dday && <StatusTag dday={dday}>{dday == 0 ? "D-day" : `D-${dday}`}</StatusTag>}
+        {dday !== undefined && dday !== null && status !== 6 && <StatusTag dday={dday}>{dday === 0 ? "D-day" : `D-${dday}`}</StatusTag>}
         <Mission>{mission}</Mission>
         <Allowance>{normalizeNumber(allowance)}원</Allowance>
       </Content>

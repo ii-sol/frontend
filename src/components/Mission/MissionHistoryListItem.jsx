@@ -3,49 +3,34 @@ import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../styles/GlobalStyles";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchMissionHistory } from "../../store/reducers/Mission/mission";
+import { fetchMissionHistory } from "../../services/mission";
+import { setHistoryData } from "../../store/reducers/Mission/mission";
 import { PuffLoader } from "react-spinners";
 
 import MissionCard from "./MissionCard";
 
+import MissionImage from "~/assets/img/common/happySol.svg";
 import EmptyImage from "~/assets/img/common/empty.svg";
+import { useAsync } from "react-use";
 
 const MissionHistoryListItem = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.mission.historyData);
   const loading = useSelector((state) => state.mission.loading);
-  const { year, month } = useSelector((state) => state.history);
-  const { status } = useSelector((state) => state.history);
-
-  const sn = useSelector((state) => state.user.userInfo.sn);
+  const { year, month, status } = useSelector((state) => state.history);
 
   useEffect(() => {
     const fetchHistory = async () => {
-      let params = { year: year, month: month };
-      if (status === 1) {
-        params.status = 4;
-      } else if (status === 2) {
-        params.status = 5;
+      try {
+        const responseData = await fetchMissionHistory({ year: year, month: month, status: status });
+        dispatch(setHistoryData(responseData));
+      } catch (error) {
+        console.error("Error fetching mission history:", error);
       }
-      dispatch(fetchMissionHistory(params));
     };
 
     fetchHistory();
   }, [dispatch, year, month, status]);
-
-  // TODO: status를 params로 받기 때문에 수정해야 함
-  // const filterData = (data) => {
-  //   if (status === 0) {
-  //     return data;
-  //   } else if (status === 1) {
-  //     return data.filter((item) => item.status === 4);
-  //   } else if (status === 2) {
-  //     return data.filter((item) => item.status === 5);
-  //   }
-  //   return data;
-  // };
-
-  // const filteredData = filterData(data);
 
   return (
     <Container>
@@ -64,7 +49,7 @@ const MissionHistoryListItem = () => {
             ) : (
               <S.CardContainer>
                 {data.map((item) => (
-                  <MissionCard key={item.id} status={item.status} mission={item.content} allowance={item.price} />
+                  <MissionCard key={item.id} status={item.status} mission={item.content} allowance={item.allowance} />
                 ))}
               </S.CardContainer>
             )}

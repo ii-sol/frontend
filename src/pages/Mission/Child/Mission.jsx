@@ -33,16 +33,17 @@ const Mission = () => {
   const sn = useSelector((state) => state.user.userInfo.sn);
   const familyInfo = useSelector((state) => state.user.userInfo.familyInfo);
   const ongoingMissions = useSelector((state) => state.mission.ongoingData);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchMissions = async () => {
       try {
         const ongoingData = await fetchOngoingMissions();
         dispatch(setOngoingData(ongoingData));
-
+        console.log(ongoingData);
         const pendingData = await fetchPendingMissions();
-
-        const mappedPendingMissions = pendingData.map((mission) => {
+        setData(pendingData);
+        const mappedPendingMissions = data.map((mission) => {
           const parent = familyInfo.find((member) => member.sn === mission.parentsSn);
           return {
             ...mission,
@@ -56,7 +57,7 @@ const Mission = () => {
     };
 
     fetchMissions();
-  }, [sn, familyInfo.sn, familyInfo.name, dispatch]);
+  }, [dispatch, sn, familyInfo.sn, familyInfo.name]);
 
   const handleLeftClick = () => {
     navigate("/");
@@ -92,6 +93,15 @@ const Mission = () => {
     return dday;
   };
 
+  const sortedOngoingMissions = ongoingMissions
+    .map((mission) => ({
+      ...mission,
+      dday: calculateMissionDday(mission.dueDate),
+    }))
+    .sort((a, b) => {
+      return a.dday - b.dday;
+    });
+
   return (
     <div>
       <S.Container>
@@ -125,16 +135,19 @@ const Mission = () => {
           <RegisterButton onClick={handleRequestClick}>
             <span tw="text-[#346BAC]">미션</span>요청하기
           </RegisterButton>
-          {ongoingMissions.map((mission) => (
-            <MissionCard
-              key={mission.id}
-              id={mission.id}
-              onClick={() => handleMissionClick(mission.id)}
-              dday={calculateMissionDday(mission.dueDate)}
-              mission={mission.content}
-              allowance={mission.price}
-            />
-          ))}
+          {sortedOngoingMissions.map(
+            (mission) =>
+              mission.status === 3 && (
+                <MissionCard
+                  key={mission.id}
+                  id={mission.id}
+                  onClick={() => handleMissionClick(mission.id)}
+                  dday={calculateMissionDday(mission.dueDate)}
+                  mission={mission.content}
+                  allowance={mission.price}
+                />
+              )
+          )}
         </S.CardContainer>
       </S.Container>
     </div>

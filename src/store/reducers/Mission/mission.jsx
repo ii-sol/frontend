@@ -3,7 +3,7 @@ import { fetchMissionHistory as reqFetchMissionHistory } from "../../../services
 
 const initialState = {
   historyData: [],
-  loading: true,
+  loading: false,
   content: "",
   childSn: 0,
   parentSn: 0,
@@ -44,6 +44,9 @@ const missionSlice = createSlice({
     setChildSn(state, action) {
       state.childSn = action.payload;
     },
+    setHistoryData(state, action) {
+      state.historyData = action.payload;
+    },
     setOngoingData(state, action) {
       state.ongoingData = action.payload;
     },
@@ -65,12 +68,12 @@ const missionSlice = createSlice({
         state.historyData = action.payload;
       })
       .addCase(fetchMissionHistory.rejected, (state, action) => {
-        state.loading = true;
+        state.loading = false;
         state.error = action.payload;
       });
   },
 });
 
-export const { setMissionData, setContent, setPrice, setDueDate, setChildSn, setParentSn, setOngoingData, deleteOngoingData, setInitialState } = missionSlice.actions;
+export const { setMissionData, setContent, setPrice, setDueDate, setChildSn, setParentSn, setHistoryData, setOngoingData, deleteOngoingData, setInitialState } = missionSlice.actions;
 
 export default missionSlice.reducer;

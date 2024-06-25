@@ -62,7 +62,8 @@ const MissionDetail = () => {
     const confirmAccept = window.confirm("미션을 완료했나요?");
     if (confirmAccept) {
       try {
-        await acceptMissionRequest({ id: id, childSn: csn, parentsSn: psn, answer: true });
+        const result = await acceptMissionRequest({ id: id, childSn: csn, parentsSn: psn, answer: true });
+        console.log(result);
         dispatch(deleteOngoingData(id));
         navigate("/mission");
       } catch (error) {
