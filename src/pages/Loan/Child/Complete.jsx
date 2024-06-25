@@ -3,31 +3,42 @@ import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import Completes from "~/assets/img/Loan/completeImg.svg";
 import { useSelector } from "react-redux";
-import axios from "axios";
 import { selectLoanDetails } from "../../../store/selectors";
 import { store } from "../../../store/stores";
 import Header from "../../../components/common/Header";
 import { MdArrowBackIos } from "react-icons/md";
 import { styled } from "styled-components";
 import { BottomBtn } from "../../../styles/GlobalStyles";
+import { baseInstance } from "../../../services/api";
+import { setLoanDetails } from "../../../store/action";
 
 const Complete = () => {
   const navigate = useNavigate();
-
   const loanDetails = store.getState().loan;
+
   console.log(loanDetails);
   console.log(store.getState());
 
   useEffect(() => {
+    const baseUrl = "/child/loan/create";
     if (loanDetails) {
-      axios
-        .post("http://localhost:8082/child/loan/create", loanDetails)
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.error("There was an error creating the loan!", error);
-        });
+      const loanPost = {
+        amount: loanDetails.amount,
+        childId: loanDetails.childId,
+        message: loanDetails.message,
+        parentId: loanDetails.parentId,
+        period: loanDetails.period,
+        title: loanDetails.title,
+      };
+      const postLoanData = async () => {
+        try {
+          const res = await baseInstance.post(baseUrl, loanPost);
+          console.log(res);
+        } catch (error) {
+          console.error("Error posting loan details:", error);
+        }
+      };
+      postLoanData();
     }
   }, [loanDetails]);
 

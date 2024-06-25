@@ -1,36 +1,88 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Slider from "react-slick";
 import tw from "twin.macro";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
-import { useNavigate, useLocation } from "react-router-dom";
+import { MdArrowBackIos } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 import LoanCard from "../../../components/Loan/LoanCard";
 import RequestCard from "../../../components/Loan/RequestCard.jsx";
 import Header from "../../../components/common/Header.jsx";
 import { styled } from "styled-components";
-import { BASE_URL, baseInstance } from "../../../services/api.jsx";
+import { baseInstance } from "../../../services/api.jsx";
+import { useSelector } from "react-redux";
 
 const Main = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const [isSelected, setIsSelected] = useState(false);
   const [loans, setLoans] = useState([]);
+  const [score, setScore] = useState(0);
+  const [grad, setGrad] = useState("보통");
+  const [baseRate, setBaseRate] = useState(0);
+  const [loanLimit, setLoanLimit] = useState(0);
+  const [investLimit, setInvestLimit] = useState(0);
+  const userName = useSelector((state) => state.user.userInfo.name);
 
   useEffect(() => {
-    const baseUrl = "/loan";
-
-    const fetchLoans = async () => {
+    const fetchData = async () => {
       try {
-        const response = await baseInstance.get(baseUrl);
-        setLoans(response.data.response || []); // response.data.response 사용
+        // Fetch loans
+        const loanResponse = await baseInstance.get("/loan");
+
+        setLoans(loanResponse.data.response || []);
+        console.log(loans);
+
+        // Fetch credit base info
+        const creditResponse = await baseInstance.get("/users/child-manage");
+        console.log(creditResponse);
+        const baseRate1 = creditResponse.data.response.baseRate || 4.5;
+        const loanLimit1 = creditResponse.data.response.loanLimit || 100;
+        const investLimit1 = creditResponse.data.response.investLimit || 100;
+
+        setBaseRate(baseRate1);
+        setLoanLimit(loanLimit1);
+        setInvestLimit(investLimit1);
+
+        // Fetch score
+        const scoreResponse = await baseInstance.get("/users/score");
+        const fetchedScore = scoreResponse.data.response || 0;
+
+        console.log(fetchedScore);
+        setScore(fetchedScore);
+
+        // Adjust rate and limits based on score
+        if (fetchedScore <= 19) {
+          setGrad("매우 낮음");
+          setBaseRate(Math.max(baseRate1 + 2, 0)); // 기준 금리보다 2% 높음
+          setLoanLimit(Math.max(loanLimit1 - 100, 0)); // 기준 상한 금액보다 100만원 낮음
+          setInvestLimit(Math.max(investLimit1 - 100, 0)); // 기준 상한 금액보다 100만원 낮음
+        } else if (fetchedScore <= 39) {
+          setGrad("낮음");
+          setBaseRate(Math.max(baseRate1 + 1, 0)); // 기준 금리보다 1% 높음
+          setLoanLimit(Math.max(loanLimit1 - 50, 0)); // 기준 상한 금액보다 50만원 낮음
+          setInvestLimit(Math.max(investLimit1 - 50, 0)); // 기준 상한 금액보다 50만원 낮음
+        } else if (fetchedScore <= 59) {
+          setGrad("보통");
+          setBaseRate(baseRate1); // 기준 금리
+          setLoanLimit(loanLimit1); // 기준 상한 금액
+          setInvestLimit(investLimit1); // 기준 상한 금액
+        } else if (fetchedScore <= 79) {
+          setGrad("높음");
+          setBaseRate(Math.max(baseRate1 - 1, 0)); // 기준 금리보다 1% 낮음
+          setLoanLimit(loanLimit1 + 50); // 기준 상한 금액보다 50만원 높음
+          setInvestLimit(investLimit1 + 50); // 기준 상한 금액보다 50만원 높음
+        } else if (fetchedScore <= 100) {
+          setGrad("매우 높음");
+          setBaseRate(Math.max(baseRate1 - 2, 0)); // 기준 금리보다 2% 낮음
+          setLoanLimit(loanLimit1 + 100); // 기준 상한 금액보다 100만원 높음
+          setInvestLimit(investLimit1 + 100); // 기준 상한 금액보다 100만원 높음
+        }
       } catch (error) {
-        console.error("Failed to fetch loans", error);
+        console.error("Failed to fetch data", error);
       }
     };
 
-    fetchLoans();
+    fetchData();
   }, []);
 
   const handleSelect = () => {
@@ -86,6 +138,8 @@ const Main = () => {
     arrows: true,
   };
 
+  console.log(baseRate, grad);
+
   return (
     <>
       <div tw="flex flex-col h-screen">
@@ -97,7 +151,7 @@ const Main = () => {
           onRightClick={() => navigate("/loan/credit")}
         />
 
-        <main tw="flex flex-col flex-1 justify-start space-y-4 mt-1">
+        <main tw="flex flex-col flex-1 justify-start space-y-4 mt-1 mb-2">
           {/* Credit Score */}
           <div
             tw="flex flex-col items-center justify-center bg-blue-400 w-full rounded-2xl p-4 shadow-md"
@@ -107,19 +161,23 @@ const Main = () => {
               <>
                 <div tw="flex items-center justify-center text-center">
                   <p tw="text-lg text-white font-bold">
-                    현재 정우성의 신뢰도는?
+                    현재 {userName}님의 신뢰도는?
                   </p>
                 </div>
                 <p tw="text-4xl font-bold mt-2 text-white text-center">
-                  매우 높음
+                  {grad}
                 </p>
               </>
             ) : (
               <>
                 <div tw="flex items-center justify-center text-center">
-                  <p tw="text-lg text-white font-bold">현재 정우성의 금리는?</p>
+                  <p tw="text-lg text-white font-bold">
+                    현재 {userName}의 금리는?
+                  </p>
                 </div>
-                <p tw="text-4xl font-bold mt-2 text-white text-center">4.5%</p>
+                <p tw="text-4xl font-bold mt-2 text-white text-center">
+                  {baseRate}%
+                </p>
               </>
             )}
           </div>
@@ -147,7 +205,7 @@ const Main = () => {
             </button>
           </div>
           {/* Loan History */}
-          <div tw="grid grid-cols-2 gap-5 w-full">
+          <div tw="grid grid-cols-2 gap-5 w-full mb-4">
             <Card onClick={handleCreateLoan}>
               <p tw="font-bold text-2xl">빌리기</p>
               <p tw="font-bold text-2xl">부탁하기</p>
@@ -169,6 +227,7 @@ const Main = () => {
               ))}
           </div>
         </main>
+        <div tw="mb-3 h-10 w-12"></div>
       </div>
     </>
   );

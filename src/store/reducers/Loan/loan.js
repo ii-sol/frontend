@@ -6,6 +6,7 @@ const initialState = {
   amount: null,
   title: null,
   message: null,
+  childId: null,
 };
 
 const loanReducer = (state = initialState, action) => {

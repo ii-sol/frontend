@@ -18,11 +18,13 @@ const Login = () => {
   const handleLoginClick = async () => {
     const phoneNum = userData.phoneNum;
     const accountInfo = userData.accountInfo;
+    console.log(accountInfo);
     try {
       const { userInfo, accessToken, refreshToken } = await login(
         phoneNum,
         accountInfo
       );
+      console.log("gsd");
       store.dispatch(
         loginSuccess({
           userInfo: userInfo,
@@ -30,10 +32,11 @@ const Login = () => {
           refreshToken: refreshToken,
         })
       );
+
       navigate("/");
       // window.location.href = "/";
     } catch (error) {
-      alert(error.response.data.error.message);
+      // alert(error.response.data?.error.message);
     }
   };
 

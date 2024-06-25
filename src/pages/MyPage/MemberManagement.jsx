@@ -4,8 +4,9 @@ import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../styles/GlobalStyles";
 
-import { useSelector } from "react-redux";
-import { fetchContacts } from "../../services/user";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchContacts, fetchUserInfo } from "../../services/user";
+import { setFamilyInfo } from "../../store/reducers/Auth/user";
 
 import Header from "~/components/common/Header";
 import Member from "~/components/common/Member";
@@ -26,16 +27,17 @@ const MemberManagement = () => {
     parentsAlias: "",
   });
   const [members, setMembers] = useState([]);
+  const [sn, setSn] = useState();
+  const [profile, setProfile] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const accessToken = useSelector((state) => state.user.accessToken);
-
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getContacts = async () => {
       try {
-        const data = await fetchContacts(accessToken);
+        const data = await fetchContacts();
         setMembers(data);
       } catch (error) {
         console.error("Error fetching contacts:", error);
@@ -55,7 +57,6 @@ const MemberManagement = () => {
         if (!requestData.phoneNum) {
           alert("사용자를 선택해주세요!");
         } else {
-          console.log(requestData);
           setStep(step + 1);
         }
         break;
@@ -87,16 +88,20 @@ const MemberManagement = () => {
 
   const filteredMembers = members.filter((member) => member.phoneNum.includes(searchTerm));
 
-  const handleMemberChange = (phoneNum) => {
-    setRequestData({
-      ...requestData,
-      phoneNum: phoneNum,
-    });
+  const handleMemberChange = (phoneNum, sn, profileId) => {
+    setSn(sn),
+      setProfile(profileId),
+      setRequestData({
+        ...requestData,
+        phoneNum: phoneNum,
+      });
   };
 
   const handleSubmit = async () => {
     try {
-      await addMember(accessToken, requestData);
+      await addMember(requestData);
+
+      dispatch(setFamilyInfo({ name: requestData.parentsAlias, sn: sn, profileId: profile }));
 
       setStep(step + 1);
     } catch (error) {
@@ -123,7 +128,7 @@ const MemberManagement = () => {
                 const selectedProfile = availableProfiles.find((profile) => profile.id === member.profileId);
                 const profileSrc = selectedProfile ? selectedProfile.src : CharacterImage1;
 
-                return <Member key={index} name={member.name} role="부모" profileSrc={profileSrc} onClick={() => handleMemberChange(member.phoneNum)} />;
+                return <Member key={index} name={member.name} role="부모" profileSrc={profileSrc} onClick={() => handleMemberChange(member.phoneNum, member.sn, member.profileId)} />;
               })}
             </MemberContainer>
           </S.StepWrapper>

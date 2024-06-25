@@ -3,7 +3,7 @@ import { removeCookie } from "../../../services/cookie";
 
 const initialState = {
   isLoggedIn: false,
-  userInfo: null,
+  userInfo: { sn: "null", familyInfo: [] },
   accessToken: null,
   refreshToken: null,
 };
@@ -26,9 +26,12 @@ const userSlice = createSlice({
       removeCookie("accessToken");
       removeCookie("refreshToken");
     },
+    setFamilyInfo(state, action) {
+      state.userInfo.familyInfo = [...state.userInfo.familyInfo, action.payload];
+    },
   },
 });
 
-export const { loginSuccess, logout } = userSlice.actions;
+export const { loginSuccess, logout, setFamilyInfo } = userSlice.actions;
 
 export default userSlice.reducer;

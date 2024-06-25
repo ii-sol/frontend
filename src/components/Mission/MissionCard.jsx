@@ -11,7 +11,7 @@ const MissionCard = ({ onClick, status, dday, mission, allowance }) => {
     <Container onClick={onClick}>
       <Content>
         {status && <StatusTag status={status}>{status}</StatusTag>}
-        {dday && <StatusTag dday={dday}>{parseInt(dday, 10) === 0 ? "D-day" : `D-${dday}`}</StatusTag>}
+        {dday !== undefined && dday !== null && status !== 6 && <StatusTag dday={dday}>{dday === 0 ? "D-day" : `D-${dday}`}</StatusTag>}
         <Mission>{mission}</Mission>
         <Allowance>{normalizeNumber(allowance)}원</Allowance>
       </Content>
@@ -53,8 +53,8 @@ const StatusTag = styled.div`
   padding: 4px 8px;
   margin: 3px 0px;
   border-radius: 5px;
-  color: ${({ status, dday }) => (status === "취소" || dday === "0" ? "#CC3535" : status || dday ? "#346BAC" : "#000000")};
-  background-color: ${({ status, dday }) => (status === "취소" || dday === "0" ? "#FFDCDC" : status || dday ? "#D5E0F1" : "#FFFFFF")};
+  color: ${({ status, dday }) => (status === "취소" || dday === 0 ? "#CC3535" : status || dday ? "#346BAC" : "#000000")};
+  background-color: ${({ status, dday }) => (status === "취소" || dday === 0 ? "#FFDCDC" : status || dday ? "#D5E0F1" : "#FFFFFF")};
 `;
 
 const Mission = styled.div`

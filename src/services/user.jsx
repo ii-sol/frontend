@@ -16,14 +16,14 @@ export const login = async (phoneNum, accountInfo) => {
       phoneNum,
       accountInfo,
     });
-
+    console.log("dsss", response);
     const accessToken = response.headers.authorization;
     const refreshToken = response.headers.get("refresh-token");
     const userInfo = response.data.response;
-
+    console.log(accessToken);
     setCookie("accessToken", accessToken, { path: "/" });
     setCookie("refreshToken", refreshToken, { path: "/" });
-
+    console.log("dsss", response);
     return { userInfo, accessToken, refreshToken };
   } catch (error) {
     throw error;
@@ -40,13 +40,9 @@ export const checkPhoneNum = async (phoneNum) => {
   }
 };
 
-export const fetchUserInfo = async (sn, accessToken) => {
+export const fetchUserInfo = async (sn) => {
   try {
-    const response = await baseInstance.get(`/users/${sn}`, {
-      headers: {
-        Authorization: accessToken,
-      },
-    });
+    const response = await baseInstance.get(`/users/${sn}`);
 
     return response.data.response;
   } catch (error) {
@@ -54,26 +50,18 @@ export const fetchUserInfo = async (sn, accessToken) => {
   }
 };
 
-export const updateUserInfo = async (accessToken, newData) => {
+export const updateUserInfo = async (newData) => {
   try {
-    const response = await baseInstance.put(`/users`, newData, {
-      headers: {
-        Authorization: accessToken,
-      },
-    });
+    const response = await baseInstance.put(`/users`, newData);
     return response.data.response;
   } catch (error) {
     throw error;
   }
 };
 
-export const fetchContacts = async (accessToken) => {
+export const fetchContacts = async () => {
   try {
-    const response = await baseInstance.get(`/users/contacts`, {
-      headers: {
-        Authorization: accessToken,
-      },
-    });
+    const response = await baseInstance.get(`/users/contacts`);
 
     return response.data.response;
   } catch (error) {
@@ -81,26 +69,18 @@ export const fetchContacts = async (accessToken) => {
   }
 };
 
-export const deleteParent = async (accessToken, sn) => {
+export const deleteParent = async (sn) => {
   try {
-    const response = await baseInstance.delete(`/users/${sn}`, {
-      headers: {
-        Authorization: accessToken,
-      },
-    });
+    const response = await baseInstance.delete(`/users/${sn}`);
     return response.data.response;
   } catch (error) {
     throw error;
   }
 };
 
-export const addMember = async (accessToken, requestData) => {
+export const addMember = async (requestData) => {
   try {
-    const response = await baseInstance.post("/users", requestData, {
-      headers: {
-        Authorization: accessToken,
-      },
-    });
+    const response = await baseInstance.post("/users", requestData);
     return response.data.response;
   } catch (error) {
     throw response.data.error;
