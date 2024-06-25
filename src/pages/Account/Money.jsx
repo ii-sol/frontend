@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import tw from "twin.macro";
-import moneyHand from "~/assets/img/Account/moneyhand.svg";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-
 import Keypad from "../../components/Loan/KeyPad";
 import NextButton from "../../components/Loan/NextButton";
 import Header from "../../components/common/Header";
 import { MdArrowBackIos } from "react-icons/md";
-
 import SolImage from "~/assets/img/common/curiousSol.svg";
+import { setAccountDetails } from "../../store/action";
 
 const AccountMoney = () => {
   const [amount, setAmount] = useState("0");
@@ -33,8 +31,12 @@ const AccountMoney = () => {
   };
 
   const handleNext = () => {
-    console.log(amount);
     if (parseInt(amount.replace(/,/g, ""), 10) > 0) {
+      dispatch(
+        setAccountDetails({
+          amount: parseInt(amount.replace(/,/g, ""), 10),
+        })
+      );
       navigate("/account/send");
     } else {
       setError("금액을 입력해주세요.");
@@ -59,15 +61,11 @@ const AccountMoney = () => {
           <div tw="bg-gray-200 rounded-2xl p-2 pl-3 pr-3 flex items-center justify-center mt-2">
             <p tw="text-xl">{formatAmount(amount)} 원</p>
           </div>
-          {error && <div tw="text-red-500 text-sm text-center mt-2">{error}</div>}
+          {error && (
+            <div tw="text-red-500 text-sm text-center mt-2">{error}</div>
+          )}
           <Keypad onButtonClick={handleButtonClick} />
           <div tw="mt-4">
-            <NextButton onClick={handleNext} />
-          </div>
-          <div tw="mt-8">
-            <NextButton onClick={handleNext} />
-          </div>
-          <div tw="mt-8">
             <NextButton onClick={handleNext} />
           </div>
         </main>

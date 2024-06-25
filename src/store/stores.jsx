@@ -1,6 +1,15 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
-import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistReducer, persistStore } from "redux-persist";
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+  persistReducer,
+  persistStore,
+} from "redux-persist";
 import logger from "redux-logger";
 import loanReducer from "./reducers/Loan/loan";
 import historyReducer from "./reducers/common/history";
@@ -11,6 +20,7 @@ import notiReducer from "./reducers/Noti/notification";
 import userReducer from "./reducers/Auth/user";
 import profileReducer from "./reducers/common/profile";
 import allowanceReducer from "./reducers/Allowance/allowance";
+import accountReducer from "./reducers/Account/account";
 
 const rootPersistConfig = {
   key: "root",
@@ -28,6 +38,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   profile: profileReducer,
   allowance: allowanceReducer,
+  account: accountReducer,
 });
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
