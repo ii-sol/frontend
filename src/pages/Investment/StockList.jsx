@@ -10,11 +10,10 @@ import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
 import StocksDetail from "../../components/Investment/StocksDetail";
 import { useDispatch } from "react-redux";
-import { setCode } from "../../store/reducers/Invest/invest";
+import { setCode, setIsNew } from "../../store/reducers/Invest/invest";
 import { searchStocks } from "../../services/invest";
 import { normalizeNumber } from "../../utils/normalizeNumber";
 
-//TODO : 관심 구분 링크 연결
 const StockList = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -36,7 +35,9 @@ const StockList = () => {
         data = await searchStocks("/" + corp, page, size);
       }
       console.log(data);
-      setItems((prevItems) => [...prevItems, ...data.response]);
+      // setItems((prevItems) => [...prevItems, ...data.response]);
+      const filteredData = data.response.filter((item) => item.canTrading);
+      setItems((prevItems) => [...prevItems, ...filteredData]);
     } catch (err) {
       console.error(err);
     }
@@ -44,17 +45,22 @@ const StockList = () => {
 
   const onChangeInput = (e) => {
     const inputValue = e.target.value;
+    setItems([]);
     setSearchInput(inputValue);
     setPage(0);
     setItems([]);
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    if (searchInput.trim() === "") {
       fetchStocks(searchInput, page, size);
-    }, 100);
+    } else {
+      const timer = setTimeout(() => {
+        fetchStocks(searchInput, page, size);
+      }, 300);
 
-    return () => clearTimeout(timer);
+      return () => clearTimeout(timer);
+    }
   }, [searchInput, page]);
 
   const containerRef = useRef(null);
@@ -96,6 +102,11 @@ const StockList = () => {
                 $isMyStock={result.myStock}
                 onClick={() => {
                   if (result.canTrading) {
+                    if (result.myStock) {
+                      dispatch(setIsNew(false));
+                    } else {
+                      dispatch(setIsNew(true));
+                    }
                     setOpen(true);
                     dispatch(setCode(result.ticker));
                   }
@@ -111,7 +122,7 @@ const StockList = () => {
                   <S.RowDiv style={{ gap: 5 }}>
                     <S.ColumnDiv>
                       <PriceDiv $isPositive={result.changePrice}>
-                        {result.currentPrice.replace(".0", "")}원
+                        {parseInt(result.currentPrice)}원
                       </PriceDiv>
                       <PriceDiv $isPositive={result.changePrice}>
                         {result.changePrice > 0
@@ -127,7 +138,7 @@ const StockList = () => {
                     </S.ColumnDiv>
                   </S.RowDiv>
                 ) : (
-                  <></>
+                  <div style={{ color: "#adadad" }}>상장폐지</div>
                 )}
               </SearchResult>
               <hr
@@ -226,4 +237,19 @@ const PriceDiv = styled.div`
   color: ${({ $isPositive }) =>
     $isPositive > 0 ? "#EE3124" : $isPositive < 0 ? "#154B9B" : "#000000"};
   text-align: right;
+`;
+
+const StyledBottomSheet = styled(BottomSheet)`
+  .rsbs-container {
+    top: 0 !important;
+    height: 100vh !important;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .rsbs-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
 `;

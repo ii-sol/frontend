@@ -2,7 +2,10 @@ import { baseInstance } from "./api";
 
 export const createAllowanceRequest = async (psn, data) => {
   try {
-    const response = await baseInstance.post(`/allowance/temporal/${psn}`, data);
+    const response = await baseInstance.post(
+      `/allowance/temporal/${psn}`,
+      data
+    );
 
     if (response.data.success) {
       return response.data.response;
@@ -58,7 +61,9 @@ export const fetchRegularAllowance = async () => {
 
 export const fetchAllowanceRequestHistory = async (year, month) => {
   try {
-    const response = await baseInstance.get(`/allowance/temporal/history?year=${year}&month=${month}`);
+    const response = await baseInstance.get(
+      `/allowance/temporal/history?year=${year}&month=${month}`
+    );
     if (response.data.success) {
       return response.data.response;
     } else {
@@ -66,5 +71,16 @@ export const fetchAllowanceRequestHistory = async (year, month) => {
     }
   } catch (error) {
     throw response.data.error;
+  }
+};
+
+export const fetchHistory = async (year, month, status) => {
+  try {
+    const response = await baseInstance.get(
+      `/account/history?year=${year}&month=${month}&status=${status}`
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
   }
 };

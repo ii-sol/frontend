@@ -13,16 +13,27 @@ const Indicator = () => {
   const profitGrowth = useSelector((state) => state.invest.indi.profitGrowth);
   const roe = useSelector((state) => state.invest.indi.roe);
 
+  const formattedMarketCapitalization = marketCapitalization
+    .split(" ")
+    .map((word, index) => (
+      <React.Fragment key={index}>
+        {word}
+        {index < marketCapitalization.split(" ").length - 1 && <br />}
+      </React.Fragment>
+    ));
+
   return (
     <div>
       <RowDiv>
         <BoxDiv>
           <AboutDiv>시가총액</AboutDiv>
-          <ContentDiv>{marketCapitalization}</ContentDiv>
+          <ContentDiv>{formattedMarketCapitalization}</ContentDiv>
         </BoxDiv>
         <BoxDiv>
           <AboutDiv>배당수익률</AboutDiv>
-          <ContentDiv>{dividendYield}</ContentDiv>
+          <ContentDiv>
+            {dividendYield == "N/A" ? "없음" : dividendYield}
+          </ContentDiv>
         </BoxDiv>
         <BoxDiv>
           <AboutDiv>PBR</AboutDiv>
@@ -32,7 +43,7 @@ const Indicator = () => {
       <RowDiv>
         <BoxDiv>
           <AboutDiv>PER</AboutDiv>
-          <ContentDiv>{per}</ContentDiv>
+          <ContentDiv>{per == "N/A" ? "적자" : per}</ContentDiv>
         </BoxDiv>
         <BoxDiv>
           <AboutDiv>ROE</AboutDiv>
@@ -76,5 +87,6 @@ const AboutDiv = styled.div`
 `;
 
 const ContentDiv = styled.div`
-  font-size: 15px;
+  font-size: 14px;
+  text-align: center;
 `;

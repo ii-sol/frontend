@@ -2,24 +2,49 @@ import React, { useRef, useState } from "react";
 import { ThemeProvider, styled } from "styled-components";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { onTouchStart, onTouchEnd } from "../../utils/touchDeleteHandler.jsx";
+import { normalizeNumber } from "../../utils/normalizeNumber.jsx";
+import { useDispatch } from "react-redux";
+import {
+  deleteMyStocks,
+  setCode,
+} from "../../store/reducers/Invest/invest.jsx";
 
 const StockItem = ({ stock, setOpen, onClick }) => {
+  const dispatch = useDispatch();
   const ref = useRef();
   const [startX, setStartX] = useState(0);
 
   const handleClick = () => {
     onClick();
-    setOpen(true);
+    dispatch(setCode(stock.ticker));
+    setTimeout(() => {
+      setOpen(true);
+    }, 250);
   };
 
   const theme = {
     stock,
   };
 
+  const onDelete = (ticker) => {
+    if (ref.current) {
+      ref.current.style.transform = "translateX(0px)";
+      ref.current.style.transition = "none";
+    }
+
+    dispatch(deleteMyStocks({ ticker: ticker })).then(() => {
+      if (ref.current) {
+        setTimeout(() => {
+          ref.current.style.transition = "transform 1000ms";
+        }, 0);
+      }
+    });
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <RowDiv>
-        <DeleteDiv>
+        <DeleteDiv onClick={() => onDelete(stock.ticker)}>
           <FaRegTrashAlt size="30" />
         </DeleteDiv>
         <Wrapper
@@ -29,11 +54,22 @@ const StockItem = ({ stock, setOpen, onClick }) => {
           onClick={handleClick}
         >
           <StockDiv>
-            <StockName>{stock.name}</StockName>
+            <StockName>{stock.companyName}</StockName>
+            <StockName style={{ fontSize: "15px" }}>{stock.ticker}</StockName>
           </StockDiv>
           <HoldingDiv>
-            <CurrentPrice>{stock.price}</CurrentPrice>
-            <ChangeRate>{stock.change}</ChangeRate>
+            <CurrentPrice>{parseInt(stock.currentPrice)}</CurrentPrice>
+            <ChangeRate>
+              {stock.changePrice > 0
+                ? `▲ ${normalizeNumber(parseFloat(stock.changePrice) * 100)}`
+                : stock.changePrice < 0
+                ? `▼ ${normalizeNumber(parseFloat(stock.changePrice) * 100)}`
+                : `${normalizeNumber(parseFloat(stock.changePrice) * 100)}`}
+              &nbsp;
+              {stock.profit > 0
+                ? `(+${parseFloat(stock.changeRate).toFixed(2)}%)`
+                : `(${parseFloat(stock.changeRate).toFixed(2)}%)`}
+            </ChangeRate>
           </HoldingDiv>
         </Wrapper>
       </RowDiv>
@@ -54,7 +90,11 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   background-color: ${({ theme }) =>
-    theme.stock.change < 0 ? "#dceeff" : "#FFE6F1"};
+    theme.stock.changePrice < 0
+      ? "#dceeff"
+      : theme.stock.changePrice > 0
+      ? "#FFE6F1"
+      : "#ebebeb"};
   border-radius: 15px;
   padding: 15px;
   height: 80px;
@@ -67,7 +107,7 @@ const Wrapper = styled.div`
 const StockDiv = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 0px;
   flex: 1;
 `;
 
@@ -87,7 +127,12 @@ const ChangeRate = styled.div`
 const HoldingDiv = styled.div`
   display: flex;
   flex-direction: column;
-  color: ${({ theme }) => (theme.stock.change < 0 ? "#154b9b" : "#E84040")};
+  color: ${({ theme }) =>
+    theme.stock.changePrice < 0
+      ? "#154b9b"
+      : theme.stock.changePrice > 0
+      ? "#E84040"
+      : "#000000"};
   gap: 5px;
   flex: 1;
   text-align: right;

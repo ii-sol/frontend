@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { removeCookie } from "../../../services/cookie";
 
 const initialState = {
   isLoggedIn: false,
@@ -22,6 +23,8 @@ const userSlice = createSlice({
       state.userInfo = null;
       state.accessToken = null;
       state.refreshToken = null;
+      removeCookie("accessToken");
+      removeCookie("refreshToken");
     },
     setFamilyInfo(state, action) {
       state.userInfo.familyInfo = [...state.userInfo.familyInfo, action.payload];

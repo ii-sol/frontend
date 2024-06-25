@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Account from "../../components/common/Account";
 import styled from "styled-components";
 import invest from "../../assets/img/Home/invest.svg";
@@ -15,38 +15,77 @@ import * as S from "../../styles/GlobalStyles";
 import { store } from "../../store/stores";
 import { loginSuccess, logout } from "../../store/reducers/Auth/user";
 import isLogin from "../../utils/isLogin";
+import { fetchMyInfo } from "../../services/home";
+import { normalizeNumber } from "../../utils/normalizeNumber";
+import {
+  fetchMyAccount,
+  setAccountType,
+} from "../../store/reducers/Account/account";
+import { useDispatch, useSelector } from "react-redux";
 
 const Home = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const isLoggedIn = isLogin();
+  const accountType = useSelector((state) => state.account.accountType);
+  const [userInfo, setUserInfo] = useState(null);
+  let myName;
+  if (isLoggedIn) {
+    myName = useSelector((state) => state.user.userInfo.name);
+  }
+
+  useEffect(() => {
+    const getMyInfo = async () => {
+      const data = await fetchMyInfo();
+      console.log(data);
+      setUserInfo(data.response);
+    };
+
+    if (isLoggedIn) {
+      getMyInfo();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      dispatch(setAccountType(1));
+      dispatch(fetchMyAccount());
+    } else {
+      dispatch(setAccountType(0));
+    }
+  }, [isLoggedIn, accountType]);
+  console.log(userInfo);
 
   return (
     <S.Container>
       <div onClick={() => store.dispatch(logout())}>logout</div>
-      <Wrapper>
-        <div style={{ color: "#404040", fontSize: "25px", fontWeight: "700" }}>
-          안녕하세요! <br />
-          프디아님
-        </div>
-        <S.RowDiv style={{ gap: "20px" }}>
-          <img
-            src={mypage}
-            style={{ width: "42px" }}
-            onClick={() => navigate("/mypage")}
-          />
-          <img
-            src={noti}
-            style={{ width: "42px" }}
-            onClick={() => navigate("/notification")}
-          />
-        </S.RowDiv>
-      </Wrapper>
+      {isLoggedIn ? (
+        <Wrapper>
+          <div
+            style={{ color: "#404040", fontSize: "25px", fontWeight: "700" }}
+          >
+            안녕하세요! <br />
+            {myName}님
+          </div>
+          <S.RowDiv style={{ gap: "20px" }}>
+            <img
+              src={mypage}
+              style={{ width: "42px" }}
+              onClick={() => navigate("/mypage")}
+            />
+            <img
+              src={noti}
+              style={{ width: "42px" }}
+              onClick={() => navigate("/notification")}
+            />
+          </S.RowDiv>
+        </Wrapper>
+      ) : (
+        <></>
+      )}
+
       <S.CenterDiv>
-        {isLoggedIn ? (
-          <Account accountNum={0}></Account>
-        ) : (
-          <Account accountNum={2}></Account>
-        )}
+        <Account />
       </S.CenterDiv>
       <RowDiv $isFirst>
         <Btn $width={1} $back="#FFDEDE" onClick={() => navigate("/invest")}>
@@ -74,30 +113,34 @@ const Home = () => {
           <Img src={loan} $bottom={10} $right={10} $imgwidth={90} />
         </Btn>
       </RowDiv>
-      <ColumnDiv>
-        <BottomDiv>
-          <BImg src={one} />
-          <Div>
-            프디아님의 금리는 <br />
-            4.5%입니다.
-          </Div>
-        </BottomDiv>
-        <BottomDiv>
-          <BImg src={two} />
-          <Div>
-            프디아님의 대출 상한선은 <br />
-            500,000원입니다.
-          </Div>
-        </BottomDiv>
-        <BottomDiv $isLast>
-          <BImg src={three} />
-          <Div>
-            프디아님의 투자 상한선은
-            <br />
-            200,000원입니다.
-          </Div>
-        </BottomDiv>
-      </ColumnDiv>
+      {isLoggedIn ? (
+        <ColumnDiv>
+          <BottomDiv>
+            <BImg src={one} />
+            <Div>
+              {myName}님의 금리는 <br />
+              {userInfo?.baseRate}%입니다.
+            </Div>
+          </BottomDiv>
+          <BottomDiv>
+            <BImg src={two} />
+            <Div>
+              {myName}님의 대출 상한선은 <br />
+              {normalizeNumber(userInfo?.loanLimit)}만원입니다.
+            </Div>
+          </BottomDiv>
+          <BottomDiv $isLast>
+            <BImg src={three} />
+            <Div>
+              {myName}님의 투자 상한선은
+              <br />
+              {normalizeNumber(userInfo?.investLimit)}만원입니다.
+            </Div>
+          </BottomDiv>
+        </ColumnDiv>
+      ) : (
+        <></>
+      )}
     </S.Container>
   );
 };

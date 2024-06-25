@@ -9,7 +9,6 @@ import Header from "../../../components/common/Header";
 import { MdArrowBackIos } from "react-icons/md";
 import * as S from "../../../styles/GlobalStyles";
 import SolImage from "~/assets/img/common/curiousSol.svg";
-import { baseInstance } from "../../../services/api";
 import { store } from "../../../store/stores";
 
 const Money = () => {

@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   fetchStock as reqFetchStock,
   fetchMyStocks as reqFetchMyStocks,
+  deleteMyStocks as reqDeleteMyStocks,
 } from "../../../services/invest";
 
 const initialState = {
@@ -16,6 +17,7 @@ const initialState = {
   changeSign: 3,
   isNew: false,
   parent: 10,
+  parentName: "",
   message: "",
   charts: [],
   indi: {
@@ -26,6 +28,9 @@ const initialState = {
     profitGrowth: "-",
     roe: "-",
   },
+  pathVariable: 1,
+  proposeId: null,
+  tradableStockList: [],
 };
 
 export const fetchStock = createAsyncThunk(
@@ -41,6 +46,15 @@ export const fetchMyStocks = createAsyncThunk(
   "invest/fetchMyStocks",
   async (data, thunkAPI) => {
     const response = await reqFetchMyStocks();
+    console.log(response);
+    return response;
+  }
+);
+
+export const deleteMyStocks = createAsyncThunk(
+  "invest/deleteMyStocks",
+  async ({ ticker }, thunkAPI) => {
+    const response = await reqDeleteMyStocks(ticker);
     console.log(response);
     return response;
   }
@@ -74,8 +88,17 @@ const investSlice = createSlice({
     setParent(state, action) {
       state.parent = action.payload;
     },
+    setParentName(state, action) {
+      state.parentName = action.payload;
+    },
     setMessage(state, action) {
       state.message = action.payload;
+    },
+    setPathVariable(state, action) {
+      state.pathVariable = action.payload;
+    },
+    setProposeId(state, action) {
+      state.proposeId = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -104,11 +127,29 @@ const investSlice = createSlice({
       })
       .addCase(fetchMyStocks.fulfilled, (state, action) => {
         state.loading = "fulfilled";
+        state.tradableStockList = action.payload.response.tradableStockList;
       })
       .addCase(fetchMyStocks.pending, (state) => {
         state.loading = "pending";
       })
       .addCase(fetchMyStocks.rejected, (state) => {
+        state.loading = "rejected";
+      })
+      .addCase(deleteMyStocks.fulfilled, (state, action) => {
+        state.loading = "fulfilled";
+        console.log("gg", JSON.stringify(state.tradableStockList, null, 2));
+        console.log("ggss", action.meta.arg);
+
+        const filteredStockList = state.tradableStockList.filter(
+          (stock) => stock.ticker !== action.meta.arg.ticker
+        );
+
+        state.tradableStockList = filteredStockList;
+      })
+      .addCase(deleteMyStocks.pending, (state) => {
+        state.loading = "pending";
+      })
+      .addCase(deleteMyStocks.rejected, (state) => {
         state.loading = "rejected";
       });
   },
@@ -123,7 +164,10 @@ export const {
   setQuantity,
   setIsNew,
   setParent,
+  setParentName,
   setMessage,
+  setPathVariable,
+  setProposeId,
 } = investSlice.actions;
 
 export default investSlice.reducer;

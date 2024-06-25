@@ -32,7 +32,7 @@ const Login = () => {
           refreshToken: refreshToken,
         })
       );
-      console.log("gd");
+
       navigate("/");
       // window.location.href = "/";
     } catch (error) {
