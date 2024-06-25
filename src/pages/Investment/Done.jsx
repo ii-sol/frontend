@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { normalizeNumber } from "../../utils/normalizeNumber";
 
-//TODO:Parent 이름
 const Done = () => {
   const parent = useSelector((state) => state.invest.parent);
   const parentName = useSelector((state) => state.invest.parentName);
@@ -51,11 +50,12 @@ const Done = () => {
               <span className="trade">{trade === 1 ? "구매 " : "판매 "}</span>
               완료했습니다.
               <br />
-              주문 단가
+              주문 단가&nbsp;
               <span style={{ fontWeight: "700" }}>
                 {normalizeNumber(price)}원
               </span>
-              <br />총
+              <br />
+              총&nbsp;
               <span style={{ fontWeight: "700" }}>
                 {normalizeNumber(myAmount)}원
               </span>

@@ -3,7 +3,11 @@ import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../../styles/GlobalStyles";
-import { fetchRegularAllowance, fetchAllowanceRequest, deleteAllowanceRequest } from "../../../services/allowance";
+import {
+  fetchRegularAllowance,
+  fetchAllowanceRequest,
+  deleteAllowanceRequest,
+} from "../../../services/allowance";
 import { useSelector } from "react-redux";
 import { format, differenceInDays } from "date-fns";
 
@@ -25,7 +29,9 @@ const AllowanceRequest = () => {
   const [regularAllowance, setRegularAllowance] = useState(null);
   const [requestList, setRequestList] = useState([]);
   const navigate = useNavigate();
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   useEffect(() => {
     const fetchRegular = async () => {
       try {
@@ -79,14 +85,23 @@ const AllowanceRequest = () => {
       <RegularAllowanceCard regularAllowance={regularAllowance} />
       <Menu>
         <S.Phrase>기다리는 중</S.Phrase>
-        <S.HistoryLink onClick={handleHistoryClick}>조르기 내역 &gt;</S.HistoryLink>
+        <S.HistoryLink onClick={handleHistoryClick}>
+          조르기 내역 &gt;
+        </S.HistoryLink>
       </Menu>
       <S.CardContainer>
         <RegisterButton onClick={handleCreateClick}>
           <span tw="text-[#346BAC]">용돈</span>조르기
         </RegisterButton>
         {requestList.map((request, index) => (
-          <RequestCardChild key={index} id={request.id} dday={calculateDday(request.createDate)} receiver={request.name} allowance={request.amount} onDelete={handleDelete} />
+          <RequestCardChild
+            key={index}
+            id={request.id}
+            dday={calculateDday(request.createDate)}
+            receiver={request.name}
+            allowance={request.amount}
+            onDelete={handleDelete}
+          />
         ))}
       </S.CardContainer>
     </S.Container>

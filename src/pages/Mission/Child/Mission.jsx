@@ -6,7 +6,10 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import * as S from "../../../styles/GlobalStyles";
-import { fetchOngoingMissions, fetchPendingMissions } from "../../../services/mission";
+import {
+  fetchOngoingMissions,
+  fetchPendingMissions,
+} from "../../../services/mission";
 import { setOngoingData } from "../../../store/reducers/Mission/mission";
 import { calculateMissionDday } from "../../../utils/calculateMissionDday";
 import { useSelector, useDispatch } from "react-redux";
@@ -36,6 +39,10 @@ const Mission = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     const fetchMissions = async () => {
       try {
         const ongoingData = await fetchOngoingMissions();
@@ -44,7 +51,9 @@ const Mission = () => {
         const pendingData = await fetchPendingMissions();
         setData(pendingData);
         const mappedPendingMissions = data.map((mission) => {
-          const parent = familyInfo.find((member) => member.sn === mission.parentsSn);
+          const parent = familyInfo.find(
+            (member) => member.sn === mission.parentsSn
+          );
           return {
             ...mission,
             parentName: parent ? parent.name : "미확인",
@@ -116,7 +125,13 @@ const Mission = () => {
                   name={mission.parentName}
                   content={mission.content}
                   dday={calculateDday(mission.createDate)}
-                  onClick={() => handleRequestProgress(mission.id, mission.status, mission.parentName)}
+                  onClick={() =>
+                    handleRequestProgress(
+                      mission.id,
+                      mission.status,
+                      mission.parentName
+                    )
+                  }
                 />
               ))}
             </Slider>
@@ -129,7 +144,9 @@ const Mission = () => {
 
         <Menu>
           <S.Phrase>진행 중</S.Phrase>
-          <S.HistoryLink onClick={handleHistoryClick}>지난 미션 &gt;</S.HistoryLink>
+          <S.HistoryLink onClick={handleHistoryClick}>
+            지난 미션 &gt;
+          </S.HistoryLink>
         </Menu>
         <S.CardContainer>
           <RegisterButton onClick={handleRequestClick}>
