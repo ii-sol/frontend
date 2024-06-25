@@ -19,6 +19,10 @@ const Notification = () => {
   const handleDismiss = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <S.Container>
       <Header

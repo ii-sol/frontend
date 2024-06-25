@@ -40,9 +40,7 @@ const ChildHistoryListItem = () => {
   return (
     <Container>
       <List>
-        {isLoading ? (
-          <LoadingState>Loading...</LoadingState>
-        ) : sortedGroupedData.length === 0 ? (
+        {sortedGroupedData.length === 0 ? (
           <EmptyState>
             <Img src={EmptyImage} alt="No data" />
             <EmptyText>용돈 내역이 없어요</EmptyText>
@@ -52,9 +50,12 @@ const ChildHistoryListItem = () => {
             <DateGroup key={index}>
               <DateArea>{date}</DateArea>
               <Hr />
-              {groupedData[date].map((item, index) => (
-                <HistoryListItem key={index} data={item} />
-              ))}
+              {groupedData[date]
+                .slice()
+                .reverse()
+                .map((item, index) => (
+                  <HistoryListItem key={index} data={item} />
+                ))}
             </DateGroup>
           ))
         )}
@@ -95,8 +96,4 @@ const Img = styled.img`
 
 const EmptyText = styled.div`
   ${tw`text-2xl`}
-`;
-
-const LoadingState = styled.div`
-  ${tw`flex flex-col items-center justify-center h-full mt-20`}
 `;
