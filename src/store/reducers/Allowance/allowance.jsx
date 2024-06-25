@@ -10,7 +10,6 @@ const initialState = {
 export const fetchAllowanceRequestHistory = createAsyncThunk("allowance/fetchAllowanceRequestHistory", async ({ year, month }, thunkAPI) => {
   try {
     const response = await reqFetchAllowanceRequestHistory(year, month);
-    console.log("rd", response);
     return response;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.message);

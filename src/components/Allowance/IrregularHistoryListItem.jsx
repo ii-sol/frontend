@@ -55,7 +55,7 @@ const IrregularHistoryListItem = () => {
                   <RequestHistoryCard key={index} status={item.status} receiver={item.name} allowance={item.amount} img={AllowanceImage} createdDate={item.createDate} />
                 ))}
               </S.CardContainer>
-            )}{" "}
+            )}
           </>
         )}
       </List>

@@ -10,26 +10,31 @@ import RequestCard from "../../../components/Loan/RequestCard.jsx";
 import Header from "../../../components/common/Header.jsx";
 import { styled } from "styled-components";
 import { baseInstance } from "../../../services/api.jsx";
+import { useSelector } from "react-redux";
 
 const Main = () => {
   const navigate = useNavigate();
   const [isSelected, setIsSelected] = useState(false);
   const [loans, setLoans] = useState([]);
   const [score, setScore] = useState(0);
-  const [grad, setGrad] = useState("");
+  const [grad, setGrad] = useState("보통");
   const [baseRate, setBaseRate] = useState(0);
   const [loanLimit, setLoanLimit] = useState(0);
   const [investLimit, setInvestLimit] = useState(0);
+  const userName = useSelector((state) => state.user.userInfo.name);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         // Fetch loans
         const loanResponse = await baseInstance.get("/loan");
+
         setLoans(loanResponse.data.response || []);
+        console.log(loans);
 
         // Fetch credit base info
         const creditResponse = await baseInstance.get("/users/child-manage");
+        console.log(creditResponse);
         const baseRate1 = creditResponse.data.response.baseRate || 4.5;
         const loanLimit1 = creditResponse.data.response.loanLimit || 100;
         const investLimit1 = creditResponse.data.response.investLimit || 100;
@@ -155,7 +160,9 @@ const Main = () => {
             {!isSelected ? (
               <>
                 <div tw="flex items-center justify-center text-center">
-                  <p tw="text-lg text-white font-bold">현재 {}의 신뢰도는?</p>
+                  <p tw="text-lg text-white font-bold">
+                    현재 {userName}님의 신뢰도는?
+                  </p>
                 </div>
                 <p tw="text-4xl font-bold mt-2 text-white text-center">
                   {grad}
@@ -164,7 +171,9 @@ const Main = () => {
             ) : (
               <>
                 <div tw="flex items-center justify-center text-center">
-                  <p tw="text-lg text-white font-bold">현재 정우성의 금리는?</p>
+                  <p tw="text-lg text-white font-bold">
+                    현재 {userName}의 금리는?
+                  </p>
                 </div>
                 <p tw="text-4xl font-bold mt-2 text-white text-center">
                   {baseRate}%

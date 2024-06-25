@@ -16,14 +16,14 @@ export const login = async (phoneNum, accountInfo) => {
       phoneNum,
       accountInfo,
     });
-
+    console.log("dsss", response);
     const accessToken = response.headers.authorization;
     const refreshToken = response.headers.get("refresh-token");
     const userInfo = response.data.response;
-
+    console.log(accessToken);
     setCookie("accessToken", accessToken, { path: "/" });
     setCookie("refreshToken", refreshToken, { path: "/" });
-
+    console.log("dsss", response);
     return { userInfo, accessToken, refreshToken };
   } catch (error) {
     throw error;

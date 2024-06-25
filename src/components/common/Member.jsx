@@ -4,11 +4,11 @@ import { styled } from "styled-components";
 
 import profileImage from "~/assets/img/common/character/character_sol.svg";
 
-const Member = ({ name, role, profileSrc, onClick }) => {
+const Member = ({ name, role, img, onClick }) => {
   return (
     <Container onClick={onClick}>
       <ImgContainer>
-        <img src={profileSrc ? profileSrc : profileImage} alt="프로필" tw="w-full h-auto" /> {/* tw="w-[30px] h-auto" /> */}
+        <img src={img ? img : profileImage} alt="프로필" tw="w-full h-auto" /> {/* tw="w-[30px] h-auto" /> */}
       </ImgContainer>
       <Info>
         <NameRoleContainer>
