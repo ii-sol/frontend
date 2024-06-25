@@ -4,8 +4,9 @@ import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../../styles/GlobalStyles";
 import { fetchMissionDetail, acceptMissionRequest } from "../../../services/mission";
+import { setMissionData } from "../../../store/reducers/Mission/mission";
 import { formatDate } from "../../../utils/formatDate";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { normalizeNumber } from "../../../utils/normalizeNumber";
 
@@ -14,25 +15,31 @@ import MissionImage from "~/assets/img/common/sdamSol.svg";
 import Header from "~/components/common/Header";
 
 const MissionDetail = () => {
+  const dispatch = useDispatch();
   const { id } = useParams();
-  const [mission, setMission] = useState(null);
   const navigate = useNavigate();
+
+  const mission = useSelector((state) => state.mission.missionData);
+  const familyInfo = useSelector((state) => state.user.userInfo.familyInfo);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await fetchMissionDetail(id);
-        setMission(data);
+        if (data) {
+          dispatch(setMissionData({ ...data }));
+        }
       } catch (error) {
         console.error("Error fetching mission detail:", error);
       }
     };
 
     fetchData();
-  }, [id]);
+  }, [dispatch, id]);
 
-  const csn = useSelector((state) => state.user.sn);
-  const psn = mission.parentSn;
+  const csn = useSelector((state) => state.user.userInfo.sn);
+  const psn = mission.parentsSn;
+  const parentName = familyInfo.find((member) => member.sn === psn)?.name || "미확인";
 
   const handleLeftClick = () => {
     navigate("/mission");
@@ -40,7 +47,7 @@ const MissionDetail = () => {
 
   const handleRejectClick = async () => {
     try {
-      await acceptMissionRequest({ id: id, childSn: csn, parentSn: psn, answer: false });
+      await acceptMissionRequest({ id: id, childSn: csn, parentsSn: psn, answer: false });
       navigate("/mission");
     } catch (error) {
       console.error("Error rejecting the mission:", error);
@@ -49,7 +56,7 @@ const MissionDetail = () => {
 
   const handleAcceptClick = async () => {
     try {
-      await acceptMissionRequest({ id: id, childSn: csn, parentSn: psn, answer: true });
+      await acceptMissionRequest({ id: id, childSn: csn, parentsSn: psn, answer: true });
       navigate("/mission");
     } catch (error) {
       console.error("Error completing the mission:", error);
@@ -63,7 +70,7 @@ const MissionDetail = () => {
         <CompleteContainer>
           <StatusTag>진행중</StatusTag>
           <Img src={MissionImage} alt="mission" />
-          <S.Question>{mission.name}의 미션</S.Question>
+          <S.Question>{parentName} 의 미션</S.Question>
           <S.CompleteCard>
             <div>{mission.content}</div>
             <div tw="text-[#154B9B]">{normalizeNumber(mission.price)}원</div>

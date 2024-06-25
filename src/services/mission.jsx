@@ -12,7 +12,7 @@ export const fetchMissionDetail = async (id) => {
 
 export const fetchMissions = async (status) => {
   try {
-    const response = await baseInstance.get(`/missions/${status}`);
+    const response = await baseInstance.get(`/missions/filter?status=${status}`);
 
     return response.data.response;
   } catch (error) {

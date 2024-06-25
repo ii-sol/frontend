@@ -35,7 +35,7 @@ const CreateMissionMember = () => {
     }
 
     dispatch(setChildSn(csn));
-  }, [familyInfo, csn, requestDueDate, familyInfo]);
+  }, [familyInfo, csn, requestDueDate]);
 
   const handleLeftClick = () => {
     navigate("/mission/amount");
@@ -54,6 +54,7 @@ const CreateMissionMember = () => {
     } else {
       try {
         const data = { childSn: requestData.childSn, parentsSn: requestData.parentSn, dueDate: requestData.dueDate, price: requestData.price, content: requestData.content };
+        console.log(data);
         await createMissionRequest(data);
         navigate("/mission/complete");
       } catch (error) {

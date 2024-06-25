@@ -9,6 +9,7 @@ const initialState = {
   parentSn: 0,
   price: 0,
   dueDate: "",
+  missionData: [],
 };
 
 export const fetchMissionHistory = createAsyncThunk("mission/fetchMissionHistory", async ({ year, month, status }, thunkAPI) => {
@@ -24,6 +25,9 @@ const missionSlice = createSlice({
   name: "mission",
   initialState: initialState,
   reducers: {
+    setMissionData(state, action) {
+      state.missionData = action.payload;
+    },
     setContent(state, action) {
       state.content = action.payload;
     },
@@ -60,6 +64,6 @@ const missionSlice = createSlice({
   },
 });
 
-export const { setContent, setPrice, setDueDate, setChildSn, setParentSn, setInitialState } = missionSlice.actions;
+export const { setMissionData, setContent, setPrice, setDueDate, setChildSn, setParentSn, setInitialState } = missionSlice.actions;
 
 export default missionSlice.reducer;

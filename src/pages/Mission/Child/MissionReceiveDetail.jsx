@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../../styles/GlobalStyles";
 import { fetchMissionDetail, acceptMissionRequest } from "../../../services/mission";
-import { useSelector } from "react-redux";
+import { setMissionData } from "../../../store/reducers/Mission/mission";
+import { useSelector, useDispatch } from "react-redux";
 
 import { normalizeNumber } from "../../../utils/normalizeNumber";
 
@@ -12,36 +13,47 @@ import MissionImage from "~/assets/img/common/sdamSol.svg";
 
 import Header from "~/components/common/Header";
 
+const padZero = (num) => (num < 10 ? `0${num}` : num);
+
 const MissionReceiveDetail = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
-  const [mission, setMission] = useState(null);
+  const location = useLocation();
+  const { name } = location.state || {};
   const [cancelDate, setCancelDate] = useState("");
+
+  const mission = useSelector((state) => state.mission.missionData);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await fetchMissionDetail(id);
-        setMission(data);
 
-        const dueDate = new Date(mission.dueDate);
-        const formattedDueDate = `${dueDate.getFullYear()}.${padZero(dueDate.getMonth() + 1)}.${padZero(dueDate.getDate())}`;
-        setMission({ ...data, formattedDueDate });
+        if (data) {
+          const dueDate = new Date(data.dueDate);
+          const formattedDueDate = `${dueDate.getFullYear()}.${padZero(dueDate.getMonth() + 1)}.${padZero(dueDate.getDate())}`;
 
-        const currentDate = new Date();
-        const cancelDate = new Date(currentDate.setDate(currentDate.getDate() + 3));
-        const formattedCancelDate = `${cancelDate.getFullYear()}.${padZero(cancelDate.getMonth() + 1)}.${padZero(cancelDate.getDate())}`;
-        setCancelDate(formattedCancelDate);
+          const currentDate = new Date();
+          const cancelDate = new Date(currentDate.setDate(currentDate.getDate() + 3));
+          const formattedCancelDate = `${cancelDate.getFullYear()}.${padZero(cancelDate.getMonth() + 1)}.${padZero(cancelDate.getDate())}`;
+
+          const finalCancelDate = new Date(Math.min(cancelDate.getTime(), dueDate.getTime()));
+          const formattedFinalCancelDate = `${finalCancelDate.getFullYear()}.${padZero(finalCancelDate.getMonth() + 1)}.${padZero(finalCancelDate.getDate())}`;
+
+          dispatch(setMissionData({ ...data, formattedDueDate }));
+          setCancelDate(formattedFinalCancelDate);
+        }
       } catch (error) {
         console.error("Error fetching mission detail:", error);
       }
     };
 
     fetchData();
-  }, [id]);
+  }, [dispatch, id]);
 
-  const csn = useSelector((state) => state.user.sn);
-  const psn = mission.parentSn;
+  const csn = useSelector((state) => state.user.userInfo.sn);
+  const psn = mission.parentsSn;
 
   const handleLeftClick = () => {
     navigate("/mission");
@@ -49,7 +61,7 @@ const MissionReceiveDetail = () => {
 
   const handleRejectClick = async () => {
     try {
-      await acceptMissionRequest({ id: id, childSn: csn, parentSn: psn, answer: false });
+      await acceptMissionRequest({ id: id, childSn: csn, parentsSn: psn, answer: false });
       navigate("/mission");
     } catch (error) {
       console.error("Error rejecting the mission:", error);
@@ -58,7 +70,7 @@ const MissionReceiveDetail = () => {
 
   const handleAcceptClick = async () => {
     try {
-      await acceptMissionRequest({ id: id, childSn: csn, parentSn: psn, answer: true });
+      await acceptMissionRequest({ id: id, childSn: csn, parentsSn: psn, answer: true });
       navigate("/mission");
     } catch (error) {
       console.error("Error completing the mission:", error);
@@ -72,7 +84,7 @@ const MissionReceiveDetail = () => {
         <CompleteContainer>
           <S.Question>미션을 요청받았어요!</S.Question>
           <Img src={MissionImage} alt="mission" />
-          <S.Question>{mission.name}</S.Question>
+          <S.Question>{name}</S.Question>
           <S.CompleteCard>
             <div>"{mission.content}"</div>
             <div tw="text-[#154B9B]">{normalizeNumber(mission.price)}원</div>

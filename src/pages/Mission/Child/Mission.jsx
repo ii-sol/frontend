@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import * as S from "../../../styles/GlobalStyles";
 import { fetchOngoingMissions, fetchPendingMissions } from "../../../services/mission";
+import { calculateMissionDday } from "../../../utils/calculateMissionDday";
 import { useSelector } from "react-redux";
 import { format, differenceInDays } from "date-fns";
 
@@ -29,39 +30,41 @@ const Mission = () => {
   const navigate = useNavigate();
 
   const sn = useSelector((state) => state.user.userInfo.sn);
+  const familyInfo = useSelector((state) => state.user.userInfo.familyInfo);
 
   useEffect(() => {
-    const fetchOngoing = async () => {
+    const fetchMissions = async () => {
       try {
-        const data = await fetchOngoingMissions();
-        setOngoingMissions(data);
+        const ongoingData = await fetchOngoingMissions();
+        setOngoingMissions(ongoingData);
+
+        const pendingData = await fetchPendingMissions();
+
+        const mappedPendingMissions = pendingData.map((mission) => {
+          const parent = familyInfo.find((member) => member.sn === mission.parentsSn);
+          return {
+            ...mission,
+            parentName: parent ? parent.name : "미확인",
+          };
+        });
+        setPendingMissions(mappedPendingMissions);
       } catch (error) {
-        console.error("Error fetching ongoing missions:", error);
+        console.error("Error fetching missions:", error);
       }
     };
 
-    const fetchPending = async () => {
-      try {
-        const data = await fetchPendingMissions();
-        setPendingMissions(data);
-      } catch (error) {
-        console.error("Error fetching pending missions:", error);
-      }
-    };
-
-    fetchOngoing();
-    fetchPending();
-  }, [sn]);
+    fetchMissions();
+  }, [sn, familyInfo.sn, familyInfo.name]);
 
   const handleLeftClick = () => {
     navigate("/");
   };
 
-  const handleRequestProgress = (id, status) => {
+  const handleRequestProgress = (id, status, name) => {
     if (status === 1) {
-      navigate(`/mission/request/send/${id}`);
+      navigate(`/mission/request/send/${id}`, { state: { name } });
     } else {
-      navigate(`/mission/request/receive/${id}`);
+      navigate(`/mission/request/receive/${id}`, { state: { name } });
     }
   };
 
@@ -98,10 +101,10 @@ const Mission = () => {
                 <RequestCard
                   key={mission.id}
                   status={mission.status}
-                  name={mission.parentName} //TODO: 보낸 사람 이름 넣어야 함
+                  name={mission.parentName}
                   content={mission.content}
                   dday={calculateDday(mission.createDate)}
-                  onClick={() => handleRequestProgress(mission.id, mission.status)}
+                  onClick={() => handleRequestProgress(mission.id, mission.status, mission.parentName)}
                 />
               ))}
             </Slider>
@@ -121,9 +124,15 @@ const Mission = () => {
             <span tw="text-[#346BAC]">미션</span>요청하기
           </RegisterButton>
           {ongoingMissions.map((mission) => (
-            <MissionCard key={mission.id} id={mission.id} onClick={() => handleMissionClick(mission.id)} dday={calculateDday(mission.createDate)} mission={mission.content} allowance={mission.price} />
+            <MissionCard
+              key={mission.id}
+              id={mission.id}
+              onClick={() => handleMissionClick(mission.id)}
+              dday={calculateMissionDday(mission.dueDate)}
+              mission={mission.content}
+              allowance={mission.price}
+            />
           ))}
-          <MissionCard onClick={handleMissionClick} dday="3" mission="설거지하기" allowance="10000" />
         </S.CardContainer>
       </S.Container>
     </div>
