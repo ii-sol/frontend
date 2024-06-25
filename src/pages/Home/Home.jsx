@@ -24,19 +24,16 @@ import {
 } from "../../store/reducers/Account/account";
 import { useDispatch, useSelector } from "react-redux";
 
-//TODO name
 const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isLoggedIn = isLogin();
   const accountType = useSelector((state) => state.account.accountType);
   const [userInfo, setUserInfo] = useState(null);
-  const userName = useSelector((state) => state.user.userInfo.name);
-  const [score, setScore] = useState(0);
-  const [grad, setGrad] = useState("보통");
-  const [baseRate, setBaseRate] = useState(0);
-  const [loanLimit, setLoanLimit] = useState(0);
-  const [investLimit, setInvestLimit] = useState(0);
+  let myName;
+  if (isLoggedIn) {
+    myName = useSelector((state) => state.user.userInfo.name);
+  }
 
   useEffect(() => {
     const getMyInfo = async () => {
@@ -121,7 +118,7 @@ const Home = () => {
             style={{ color: "#404040", fontSize: "25px", fontWeight: "700" }}
           >
             안녕하세요! <br />
-            {userName}님
+            {myName}님
           </div>
           <S.RowDiv style={{ gap: "20px" }}>
             <img
@@ -174,21 +171,21 @@ const Home = () => {
           <BottomDiv>
             <BImg src={one} />
             <Div>
-              {userName}님의 금리는 <br />
-              {baseRate}%입니다.
+              {myName}님의 금리는 <br />
+              {userInfo?.baseRate}%입니다.
             </Div>
           </BottomDiv>
           <BottomDiv>
             <BImg src={two} />
             <Div>
-              {userName}님의 대출 상한선은 <br />
-              {normalizeNumber(loanLimit)}만원입니다.
+              {myName}님의 대출 상한선은 <br />
+              {normalizeNumber(userInfo?.loanLimit)}만원입니다.
             </Div>
           </BottomDiv>
           <BottomDiv $isLast>
             <BImg src={three} />
             <Div>
-              {userName}님의 투자 상한선은
+              {myName}님의 투자 상한선은
               <br />
               {normalizeNumber(investLimit)}만원입니다.
             </Div>

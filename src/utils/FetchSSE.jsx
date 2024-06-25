@@ -19,7 +19,7 @@ const FetchSSE = () => {
       try {
         const fetchSSE = async () => {
           eventSource.current = new EventSource(
-            `http://127.0.0.1:8080/notifications/subscribe`,
+            `http://127.0.0.1:8080/api/notifications/subscribe`,
             {
               headers: {
                 "Content-Type": "text/event-stream",
