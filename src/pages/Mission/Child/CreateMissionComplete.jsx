@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setInitialState } from "../../../store/reducers/Mission/mission";
-import { fetchUserInfo } from "../../../services/user";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../../styles/GlobalStyles";
@@ -37,17 +36,13 @@ const CreateMissionComplete = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchInfo = async () => {
-      try {
-        const userInfo = await fetchUserInfo(requestData.parentSn);
-        setParentName(userInfo.name);
-      } catch (error) {
-        console.error("Error fetching user info:", error);
-      }
-    };
+  const familyInfo = useSelector((state) => state.user.userInfo.familyInfo);
 
-    fetchInfo();
+  useEffect(() => {
+    const parent = familyInfo.find((member) => member.sn === requestData.parentSn);
+    if (parent) {
+      setParentName(parent.name);
+    }
   }, [requestData.parentSn]);
 
   const handleLeftClick = () => {
