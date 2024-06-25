@@ -15,16 +15,19 @@ import {
 } from "../../store/reducers/Invest/invest";
 import { postInvest } from "../../services/invest";
 
-//TODO: 매수주문증거금이 부족합니다. alert, 0주는 안됨
+//TODO: 매수주문증거금이 부족합니다. 판매
 const Trading = () => {
   const dispatch = useDispatch();
   const isNew = useSelector((state) => state.invest.isNew);
   const code = useSelector((state) => state.invest.code);
   const trade = useSelector((state) => state.invest.trade);
-  const quantity = useSelector((state) => state.invest.quantity);
   const price = useSelector((state) => state.invest.price);
   const navigate = useNavigate();
   const [displayedNumber, setDisplayedNumber] = useState("0");
+  const balance = useSelector((state) => state.account.balance2);
+  const maxQuantity = Math.floor(balance / price);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [click, setClick] = useState(true);
   const handleNumberClick = (number) => {
     if (displayedNumber.length < 7) {
       setDisplayedNumber((prevNumber) => prevNumber + number);
@@ -35,37 +38,75 @@ const Trading = () => {
     if (displayedNumber.length > 1) {
       setDisplayedNumber((prevNumber) => prevNumber.slice(0, -1));
     }
+    setClick(!click);
   };
 
   const getOrderAmount = () => {
     const orderQuantity = parseInt(displayedNumber, 10);
     return orderQuantity * price;
   };
+  const orderQuantity = parseInt(displayedNumber, 10);
 
-  const postMyInvest = async (trading, ticker, quantity) => {
+  const investTradeList = useSelector(
+    (state) => state.portfolio.investTradeList
+  );
+
+  const matchingTrade = investTradeList.find((trade) => trade.ticker === code);
+  const quantity = matchingTrade ? matchingTrade.quantity : null;
+
+  useEffect(() => {
+    setAlertMessage("");
+  }, [click]);
+  const onTrade = async () => {
     try {
-      const res = await postInvest(trading, ticker, quantity);
-      console.log(res);
-    } catch (error) {}
-  };
+      const orderQuantity = parseInt(displayedNumber, 10);
 
-  const onTrade = () => {
-    if (isNew) {
-      dispatch(setQuantity(parseInt(displayedNumber, 10)));
-      dispatch(setMyAmount(getOrderAmount()));
-      navigate("/invest/member");
-    } else {
-      postMyInvest(trade, code, quantity);
-      dispatch(setQuantity(parseInt(displayedNumber, 10)));
-      dispatch(setMyAmount(getOrderAmount()));
-      navigate("/invest/send");
+      if (orderQuantity <= 0) {
+        setAlertMessage("0주 이상 입력해주세요");
+        return;
+      }
+
+      if (orderQuantity > 100) {
+        setAlertMessage("100주 미만 입력해주세요");
+        return;
+      }
+      if (trade === 1 && orderQuantity > maxQuantity) {
+        setAlertMessage(`최대 ${maxQuantity}주 구매 가능합니다.`);
+        return;
+      }
+
+      if (trade === 2 && orderQuantity > quantity) {
+        setAlertMessage("보유수량이 부족합니다.");
+        return;
+      }
+
+      const orderAmount = getOrderAmount();
+
+      if (isNew) {
+        dispatch(setQuantity(orderQuantity));
+        dispatch(setMyAmount(orderAmount));
+        navigate("/invest/member");
+      } else {
+        const result = await postInvest(trade, code, orderQuantity);
+        if (result.error) {
+          console.log(result.error);
+          setAlertMessage(result.error);
+        } else {
+          dispatch(setQuantity(orderQuantity));
+          dispatch(setMyAmount(orderAmount));
+          navigate("/invest/send");
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      setAlertMessage("An unexpected error occurred");
     }
   };
 
   useEffect(() => {
     dispatch(fetchStock({ code: code, pathVariable: 0 }));
   }, [dispatch, code]);
-  console.log("pricez", price);
+
   return (
     <div>
       <Header type="none" />
@@ -80,10 +121,13 @@ const Trading = () => {
         <Amount>
           {normalizeNumber(displayedNumber)} <span>주</span>
         </Amount>
+        <AlertDiv>{alertMessage ? alertMessage : " "}</AlertDiv>
         <Div>주문금액 {normalizeNumber(getOrderAmount())}원</Div>
         <Keypad
           onNumberClick={handleNumberClick}
           onBackspace={handleBackspace}
+          click={click}
+          setClick={setClick}
         />
         <div style={{ marginTop: 15 }}>
           {trade === 1 ? (
@@ -137,4 +181,10 @@ const Div = styled.div`
   margin: 10px 0px 20px auto;
   color: #707070;
   font-size: 18px;
+`;
+
+const AlertDiv = styled.div`
+  color: red;
+  font-size: 16px;
+  height: 16px;
 `;

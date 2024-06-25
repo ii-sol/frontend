@@ -13,12 +13,21 @@ const Indicator = () => {
   const profitGrowth = useSelector((state) => state.invest.indi.profitGrowth);
   const roe = useSelector((state) => state.invest.indi.roe);
 
+  const formattedMarketCapitalization = marketCapitalization
+    .split(" ")
+    .map((word, index) => (
+      <React.Fragment key={index}>
+        {word}
+        {index < marketCapitalization.split(" ").length - 1 && <br />}
+      </React.Fragment>
+    ));
+
   return (
     <div>
       <RowDiv>
         <BoxDiv>
           <AboutDiv>시가총액</AboutDiv>
-          <ContentDiv>{marketCapitalization}</ContentDiv>
+          <ContentDiv>{formattedMarketCapitalization}</ContentDiv>
         </BoxDiv>
         <BoxDiv>
           <AboutDiv>배당수익률</AboutDiv>
@@ -76,5 +85,6 @@ const AboutDiv = styled.div`
 `;
 
 const ContentDiv = styled.div`
-  font-size: 15px;
+  font-size: 14px;
+  text-align: center;
 `;

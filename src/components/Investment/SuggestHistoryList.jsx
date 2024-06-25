@@ -18,12 +18,25 @@ const SuggestHistoryList = () => {
   const year = useSelector((state) => state.history.year);
   const month = useSelector((state) => state.history.month);
   const [data, setData] = useState([]);
-  fetchProposal(status, year, month);
 
-  const fetchMyProposal = async (status, year, month) => {
+  const fetchProposals = async () => {
     try {
-      const data = await fetchProposal(status, year, month);
-      setData(data.response);
+      if (status === 0) {
+        const data = await fetchProposal(0, year, month);
+        setData(data.response);
+      } else if (status === 1) {
+        const [data1, data2] = await Promise.all([
+          fetchProposal(3, year, month),
+          fetchProposal(4, year, month),
+        ]);
+        setData([...data1.response, ...data2.response]);
+      } else if (status === 2) {
+        const data = await fetchProposal(1, year, month);
+        setData(data.response);
+      } else if (status === 3) {
+        const data = await fetchProposal(5, year, month);
+        setData(data.response);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -37,18 +50,8 @@ const SuggestHistoryList = () => {
   }, []);
 
   useEffect(() => {
-    if (status === 0) {
-      fetchMyProposal(0, year, month);
-    } else if (status === 1) {
-      fetchMyProposal(3, year, month);
-    } else if (status === 2) {
-      fetchMyProposal(1, year, month);
-    } else if (status === 3) {
-      fetchMyProposal(4, year, month);
-    } else if (status === 4) {
-      fetchMyProposal(5, year, month);
-    }
-  }, [status]);
+    fetchProposals();
+  }, [status, year, month]);
 
   const groupedData = groupDataByDatetwo(data);
   const sortedGroupedData = Object.keys(groupedData).sort(

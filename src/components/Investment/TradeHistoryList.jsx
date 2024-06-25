@@ -10,26 +10,23 @@ import { groupDataByDatetwo } from "../../utils/groupDataByDatetwo";
 
 const TradeHistoryList = () => {
   const status = useSelector((state) => state.history.status);
+  const year = useSelector((state) => state.history.year);
+  const month = useSelector((state) => state.history.month);
   const [data, setData] = useState([]);
 
-  const fetchMyInvestHistory = async (status) => {
-    try {
-      const data = await fetchInvestHistory(status);
-      setData(data.response);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   useEffect(() => {
-    if (status === 0) {
-      fetchMyInvestHistory(0);
-    } else if (status === 1) {
-      fetchMyInvestHistory(1);
-    } else if (status === 2) {
-      fetchMyInvestHistory(2);
-    }
-  }, [status]);
+    const fetchData = async (status, year, month) => {
+      try {
+        const data = await fetchInvestHistory(status, year, month);
+        setData(data.response);
+        console.log(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchData(status, year, month);
+  }, [status, year, month]);
 
   const renderBadge = (status) => {
     switch (status) {
@@ -157,7 +154,6 @@ const RowDiv = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   margin-top: 5px;
 `;
 

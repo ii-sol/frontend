@@ -11,6 +11,7 @@ import { normalizeNumber } from "../../utils/normalizeNumber";
 //TODO:Parent 이름
 const Done = () => {
   const parent = useSelector((state) => state.invest.parent);
+  const parentName = useSelector((state) => state.invest.parentName);
   const isNew = useSelector((state) => state.invest.isNew);
   const trade = useSelector((state) => state.invest.trade);
   const name = useSelector((state) => state.invest.name);
@@ -18,7 +19,7 @@ const Done = () => {
   const price = useSelector((state) => state.invest.price);
   const myAmount = useSelector((state) => state.invest.myAmount);
   const navigate = useNavigate();
-
+  console.log("parentName", parentName);
   const cancelDate = new Date();
   cancelDate.setDate(cancelDate.getDate() + 3);
 
@@ -38,8 +39,8 @@ const Done = () => {
         <Box>
           {isNew ? (
             <Message>
-              <span style={{ fontWeight: "700" }}>{parent}</span> 님에게 <br />{" "}
-              투자 제안서를 보냈습니다!
+              <span style={{ fontWeight: "700" }}>{parentName}</span> 님에게
+              <br /> 투자 제안서를 보냈습니다!
             </Message>
           ) : (
             <Message $trade={trade}>
@@ -47,14 +48,14 @@ const Done = () => {
                 {name} {quantity}주
               </span>
               <br />
-              <span className="trade">{trade === 0 ? "구매 " : "판매 "}</span>
+              <span className="trade">{trade === 1 ? "구매 " : "판매 "}</span>
               완료했습니다.
               <br />
-              주문 단가{" "}
+              주문 단가
               <span style={{ fontWeight: "700" }}>
-                {normalizeNumber(price)}원{" "}
+                {normalizeNumber(price)}원
               </span>
-              <br />총{" "}
+              <br />총
               <span style={{ fontWeight: "700" }}>
                 {normalizeNumber(myAmount)}원
               </span>
@@ -105,6 +106,6 @@ const Message = styled.div`
 
   .trade {
     font-weight: 700;
-    color: ${(props) => (props.$trade === 0 ? "#FF5959" : "#1573FE")};
+    color: ${(props) => (props.$trade === 1 ? "#FF5959" : "#1573FE")};
   }
 `;
