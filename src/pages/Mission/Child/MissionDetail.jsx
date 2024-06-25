@@ -4,7 +4,7 @@ import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../../styles/GlobalStyles";
 import { fetchMissionDetail, acceptMissionRequest } from "../../../services/mission";
-import { setMissionData } from "../../../store/reducers/Mission/mission";
+import { setMissionData, deleteOngoingData } from "../../../store/reducers/Mission/mission";
 import { formatDate } from "../../../utils/formatDate";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -46,20 +46,28 @@ const MissionDetail = () => {
   };
 
   const handleRejectClick = async () => {
-    try {
-      await acceptMissionRequest({ id: id, childSn: csn, parentsSn: psn, answer: false });
-      navigate("/mission");
-    } catch (error) {
-      console.error("Error rejecting the mission:", error);
+    const confirmReject = window.confirm("정말 그만할래요?");
+    if (confirmReject) {
+      try {
+        await acceptMissionRequest({ id: id, childSn: csn, parentsSn: psn, answer: false });
+        dispatch(deleteOngoingData(id));
+        navigate("/mission");
+      } catch (error) {
+        console.error("Error rejecting the mission:", error);
+      }
     }
   };
 
   const handleAcceptClick = async () => {
-    try {
-      await acceptMissionRequest({ id: id, childSn: csn, parentsSn: psn, answer: true });
-      navigate("/mission");
-    } catch (error) {
-      console.error("Error completing the mission:", error);
+    const confirmAccept = window.confirm("미션을 완료했나요?");
+    if (confirmAccept) {
+      try {
+        await acceptMissionRequest({ id: id, childSn: csn, parentsSn: psn, answer: true });
+        dispatch(deleteOngoingData(id));
+        navigate("/mission");
+      } catch (error) {
+        console.error("Error completing the mission:", error);
+      }
     }
   };
 

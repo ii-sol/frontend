@@ -7,8 +7,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import * as S from "../../../styles/GlobalStyles";
 import { fetchOngoingMissions, fetchPendingMissions } from "../../../services/mission";
+import { setOngoingData } from "../../../store/reducers/Mission/mission";
 import { calculateMissionDday } from "../../../utils/calculateMissionDday";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { format, differenceInDays } from "date-fns";
 
 import Header from "~/components/common/Header";
@@ -25,18 +26,19 @@ const sliderSettings = {
 };
 
 const Mission = () => {
-  const [ongoingMissions, setOngoingMissions] = useState([]);
   const [pendingMissions, setPendingMissions] = useState([]);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const sn = useSelector((state) => state.user.userInfo.sn);
   const familyInfo = useSelector((state) => state.user.userInfo.familyInfo);
+  const ongoingMissions = useSelector((state) => state.mission.ongoingData);
 
   useEffect(() => {
     const fetchMissions = async () => {
       try {
         const ongoingData = await fetchOngoingMissions();
-        setOngoingMissions(ongoingData);
+        dispatch(setOngoingData(ongoingData));
 
         const pendingData = await fetchPendingMissions();
 
@@ -47,14 +49,14 @@ const Mission = () => {
             parentName: parent ? parent.name : "미확인",
           };
         });
-        setPendingMissions(mappedPendingMissions);
+        setPendingMissions(mappedPendingMissions.reverse());
       } catch (error) {
         console.error("Error fetching missions:", error);
       }
     };
 
     fetchMissions();
-  }, [sn, familyInfo.sn, familyInfo.name]);
+  }, [sn, familyInfo.sn, familyInfo.name, dispatch]);
 
   const handleLeftClick = () => {
     navigate("/");

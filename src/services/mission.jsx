@@ -33,7 +33,6 @@ export const fetchPendingMissions = async () => {
 export const fetchOngoingMissions = async () => {
   try {
     const response = await baseInstance.get(`/missions/ongoing`);
-
     return response.data.response;
   } catch (error) {
     throw error;

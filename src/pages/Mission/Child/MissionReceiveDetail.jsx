@@ -3,8 +3,8 @@ import { useParams, useLocation, useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../../styles/GlobalStyles";
-import { fetchMissionDetail, acceptMissionRequest } from "../../../services/mission";
-import { setMissionData } from "../../../store/reducers/Mission/mission";
+import { fetchMissionDetail, acceptMissionRequest, fetchOngoingMissions } from "../../../services/mission";
+import { setMissionData, setOngoingData } from "../../../store/reducers/Mission/mission";
 import { useSelector, useDispatch } from "react-redux";
 
 import { normalizeNumber } from "../../../utils/normalizeNumber";
@@ -71,6 +71,8 @@ const MissionReceiveDetail = () => {
   const handleAcceptClick = async () => {
     try {
       await acceptMissionRequest({ id: id, childSn: csn, parentsSn: psn, answer: true });
+      const ongoingData = await fetchOngoingMissions();
+      dispatch(setOngoingData(ongoingData));
       navigate("/mission");
     } catch (error) {
       console.error("Error completing the mission:", error);
