@@ -2,16 +2,19 @@ import React from "react";
 import { styled } from "styled-components";
 import * as S from "../../styles/GlobalStyles";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setCode, setProposeId } from "../../store/reducers/Invest/invest";
 
 const SuggestHistoryListItem = ({ data }) => {
   console.log(data);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const renderBadge = (status) => {
     switch (status) {
       case 3:
         return (
           <S.Badge $back="#D5E0F1" $font="#346BAC">
-            진행
+            수락
           </S.Badge>
         );
       case 5:
@@ -28,8 +31,14 @@ const SuggestHistoryListItem = ({ data }) => {
         );
       case 4:
         return (
-          <S.Badge $back="#c9ff96" $font="#10703a">
-            완료
+          <S.Badge $back="#D5E0F1" $font="#346BAC">
+            수락
+          </S.Badge>
+        );
+      case 6:
+        return (
+          <S.Badge $back="#dfdfdf" $font="#5a5a5a">
+            불가
           </S.Badge>
         );
       default:
@@ -39,7 +48,11 @@ const SuggestHistoryListItem = ({ data }) => {
   return (
     <Wrapper
       key={data.proposeId}
-      onClick={() => navigate(`/invest/history/${data.proposeId}`)}
+      onClick={() => {
+        dispatch(setProposeId(data.proposeId));
+        dispatch(setCode(data.ticker));
+        navigate(`/invest/history/${data.proposeId}`);
+      }}
     >
       <RowDiv>
         {renderBadge(data.status)}
@@ -52,7 +65,7 @@ const SuggestHistoryListItem = ({ data }) => {
           {data.tradingCode === 1 ? "매수" : "매도"}
         </S.TradeBadge>
       </RowDiv>
-      <Who>To. {data.parentAlias}</Who>
+      <Who>To. {data.recieverName}</Who>
       <Content>{data.message}</Content>
       <DetailDiv>
         <Div $font="#154B9B">종목 : {data.companyName}</Div>

@@ -30,8 +30,8 @@ const Login = () => {
           refreshToken: refreshToken,
         })
       );
-      // navigate("/");
-      window.location.href = "/";
+      navigate("/");
+      // window.location.href = "/";
     } catch (error) {
       alert(error.response.data.error.message);
     }

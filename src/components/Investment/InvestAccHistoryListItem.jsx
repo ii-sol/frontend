@@ -3,52 +3,19 @@ import tw from "twin.macro";
 import { styled } from "styled-components";
 import { useSelector } from "react-redux";
 
-const HistoryListItem = ({ data }) => {
+const InvestAccHistoryListItem = ({ data }) => {
   const myName = useSelector((state) => state.user.userInfo.name);
   let amount;
-  let anotherName;
-  if (myName == data.senderName) {
-    amount = data.amount * -1;
-    anotherName = data.recieverName;
-  } else {
-    amount = data.amount;
-    anotherName = data.senderName;
-  }
+  let trade;
 
-  if (
-    data.messageCode === 2 ||
-    data.messageCode === 3 ||
-    data.messageCode === 4
-  ) {
-    anotherName = data.senderName;
-  }
-
-  console.log("dd", data);
-  const renderAmount = (amount) => {
-    if (amount > 0) {
-      return <ItemAmount color="#FF4848">+{amount}</ItemAmount>;
-    } else if (amount < 0) {
-      return <ItemAmount color="#5A74FF">{amount}</ItemAmount>;
+  const renderAmount = (code) => {
+    if (code == 5) {
+      return <ItemAmount color="#FF4848">{amount}</ItemAmount>;
     } else {
-      return <ItemAmount>{amount}</ItemAmount>;
+      return <ItemAmount color="#5A74FF">{amount}</ItemAmount>;
     }
   };
-
-  const renderMessage = (messageCode) => {
-    switch (messageCode) {
-      case 1:
-        return "이체";
-      case 2:
-        return "용돈 조르기";
-      case 3:
-        return "미션 완료";
-      case 4:
-        return "대출금";
-      default:
-        return "알 수 없는 코드";
-    }
-  };
-
+  console.log(data);
   return (
     <Container>
       <Wrapper>
@@ -66,7 +33,7 @@ const HistoryListItem = ({ data }) => {
   );
 };
 
-export default HistoryListItem;
+export default InvestAccHistoryListItem;
 
 const Container = styled.li`
   ${tw`flex justify-between items-center mb-5 border-b border-gray-200`}

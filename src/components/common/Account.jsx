@@ -1,22 +1,27 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
+import { normalizeNumber } from "../../utils/normalizeNumber";
+import isLogin from "../../utils/isLogin";
 
-const Account = ({ accountNum }) => {
+const Account = () => {
   const navigate = useNavigate();
-  const name = "프디아";
-  const account = "010-1234-1234-01";
-  const accountType = "용돈";
-  const balance = 15000;
+  const isLoggedIn = isLogin();
+  const accountNum1 = useSelector((state) => state.account.accountNum1);
+  const accountNum2 = useSelector((state) => state.account.accountNum2);
+  const balance1 = useSelector((state) => state.account.balance1);
+  const balance2 = useSelector((state) => state.account.balance2);
+  const accountType = useSelector((state) => state.account.accountType);
 
   const theme = {
-    accountNum,
+    accountType,
   };
 
   return (
     <ThemeProvider theme={theme}>
       <AccountContainer>
-        {accountNum === 2 ? (
+        {!isLoggedIn ? (
           <WelcomeDiv>
             지금 바로 <br />
             iSOL 시작하기
@@ -24,27 +29,32 @@ const Account = ({ accountNum }) => {
         ) : (
           <>
             <InfoWrapper>
-              <InfoDiv>
-                {name}님의 {accountNum === 0 ? "용돈 계좌" : "투자 계좌"}
-              </InfoDiv>
-              <AccountDiv>{account}</AccountDiv>
+              <InfoDiv>{accountType === 1 ? "용돈 계좌" : "투자 계좌"}</InfoDiv>
+              <AccountDiv>
+                {accountType === 1 ? accountNum1 : accountNum2}
+              </AccountDiv>
             </InfoWrapper>
-            <BalanceDiv>{balance}원</BalanceDiv>
+            <BalanceDiv>
+              {accountType === 1
+                ? normalizeNumber(balance1)
+                : normalizeNumber(balance2)}
+              원
+            </BalanceDiv>
           </>
         )}
         <ButtonWrapper>
-          {accountNum === 0 ? (
+          {accountType === 1 ? (
             <>
               <Btn onClick={() => navigate("/account/select")}>돈 보내기</Btn>
               <Btn onClick={() => navigate("/allowance/history")}>
                 용돈 내역
               </Btn>
             </>
-          ) : accountNum === 1 ? (
+          ) : accountType === 2 ? (
             <>
               <Btn onClick={() => navigate("/invest/start")}>투자하기</Btn>
-              <Btn onClick={() => navigate("/invest/tradehistory")}>
-                투자 내역
+              <Btn onClick={() => navigate("/invest/investhistory")}>
+                계좌 내역
               </Btn>
             </>
           ) : (
@@ -66,9 +76,9 @@ const AccountContainer = styled.div`
   flex-direction: column;
   border-radius: 13px;
   background: ${({ theme }) =>
-    theme.accountNum === 0
+    theme.accountType === 1
       ? "#E5EFFF"
-      : theme.accountNum === 1
+      : theme.accountType === 2
       ? "#FFF4BD"
       : "#E5EFFF"};
   padding: 20px 26px;
@@ -128,9 +138,9 @@ const Btn = styled.button`
   border-radius: 15px;
   border: none;
   background: ${({ theme }) =>
-    theme.accountNum === 0
+    theme.accountType === 1
       ? "#CDE0FF"
-      : theme.accountNum === 1
+      : theme.accountType === 2
       ? "#FFDD86"
       : "#CDE0FF"};
   font-size: 18px;

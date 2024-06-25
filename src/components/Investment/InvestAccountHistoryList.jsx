@@ -2,62 +2,13 @@ import React, { useState, useEffect } from "react";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 
-import { fetchHistory } from "../../services/allowance";
-
-import HistoryListItem from "~/components/Allowance/HistoryListItem";
-
 import EmptyImage from "~/assets/img/common/empty.svg";
 import { groupDataByDate } from "../../utils/groupDataByDate";
 import { useSelector } from "react-redux";
+import InvestAccHistoryListItem from "./InvestAccHistoryListItem";
+import { fetchHistory } from "../../services/allowance";
 
-const data = [
-  {
-    "id": 1,
-    "senderAccountNum": "123-456-7890",
-    "senderName": "박지민",
-    "recieverAccountNum": "987-654-3210",
-    "recieverName": "양은수",
-    "content": "용돈 조르기",
-    "amount": 50000,
-    "balance": "250000",
-    "createdDate": "2024-05-10",
-  },
-  {
-    "id": 2,
-    "senderAccountNum": "123-456-7890",
-    "senderName": "박지민",
-    "recieverAccountNum": "987-654-3210",
-    "recieverName": "양은수",
-    "content": "돈 보내기",
-    "amount": -30000,
-    "balance": "220000",
-    "createdDate": "2024-06-01",
-  },
-  {
-    "id": 3,
-    "senderAccountNum": "123-456-7890",
-    "senderName": "박지민",
-    "recieverAccountNum": "987-654-3210",
-    "recieverName": "양은수",
-    "content": "결제",
-    "amount": -5000,
-    "balance": "215000",
-    "createdDate": "2024-06-05",
-  },
-  {
-    "id": 4,
-    "senderAccountNum": "123-456-7890",
-    "senderName": "박지민",
-    "recieverAccountNum": "987-654-3210",
-    "recieverName": "양은수",
-    "content": "대출금",
-    "amount": -50000,
-    "balance": "233000",
-    "createdDate": "2024-06-10",
-  },
-];
-
-const ChildHistoryListItem = () => {
+const InvestAccountHistoryList = () => {
   const year = useSelector((state) => state.history.year);
   const month = useSelector((state) => state.history.month);
   console.log(month);
@@ -74,7 +25,7 @@ const ChildHistoryListItem = () => {
       }
     };
 
-    fetchData(year, month, 1);
+    fetchData(year, month, 2);
   }, [year, month]);
 
   const groupedData = groupDataByDate(data);
@@ -83,7 +34,6 @@ const ChildHistoryListItem = () => {
   );
 
   console.log(groupedData);
-
   return (
     <Container>
       <List>
@@ -98,7 +48,7 @@ const ChildHistoryListItem = () => {
               <DateArea>{date}</DateArea>
               <Hr />
               {groupedData[date].map((item, index) => (
-                <HistoryListItem key={index} data={item} />
+                <InvestAccHistoryListItem key={index} data={item} />
               ))}
             </DateGroup>
           ))
@@ -108,7 +58,7 @@ const ChildHistoryListItem = () => {
   );
 };
 
-export default ChildHistoryListItem;
+export default InvestAccountHistoryList;
 
 const Container = styled.div``;
 

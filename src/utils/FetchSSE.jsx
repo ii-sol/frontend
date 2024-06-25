@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
 import "react-toastify/dist/ReactToastify.css";
 import { StyledToastContainer, Toast } from "./Toast";
-// import isLogin from "./isLogin";
 import { getCookie } from "../services/cookie";
 import isLogin from "./isLogin";
 

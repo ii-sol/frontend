@@ -11,6 +11,7 @@ import ChildAllowanceHistory from "../../Allowance/ChildHistoryListItem";
 import IrregularAllowanceHistory from "../../Allowance/IrregularHistoryListItem";
 import MissionHistory from "../../Mission/MissionHistoryListItem";
 import LoanHistoryListItem from "../../../pages/Loan/Child/LoanHistoryListItem";
+import InvestAccountHistoryList from "../../Investment/InvestAccountHistoryList";
 
 const HistoryList = () => {
   const location = useLocation();
@@ -22,6 +23,8 @@ const HistoryList = () => {
           <SuggestHistory />
         ) : location.pathname === "/invest/tradehistory" ? (
           <TradeHistory />
+        ) : location.pathname === "/invest/investhistory" ? (
+          <InvestAccountHistoryList />
         ) : location.pathname === "/allowance/history" ? (
           <ChildAllowanceHistory />
         ) : location.pathname === "/allowance/irregular/history" ? (

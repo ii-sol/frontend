@@ -51,6 +51,7 @@ import Send from "../pages/Account/Send.jsx";
 import SendMoneyComplete from "../pages/Account/SendComplete.jsx";
 import CreditScoreInfo from "../pages/Loan/Child/Credit.jsx";
 import PrivateRoute from "../utils/PrivateRoute";
+import InvestAccountHistory from "../pages/Investment/InvestAccountHistory";
 
 const MainRouter = createBrowserRouter([
   {
@@ -119,6 +120,7 @@ const MainRouter = createBrowserRouter([
           { path: "history", element: <InvestHistory /> },
           { path: "history/:id", element: <SuggestionDetail /> },
           { path: "tradehistory", element: <TradeHistory /> },
+          { path: "investhistory", element: <InvestAccountHistory /> },
         ],
       },
       {

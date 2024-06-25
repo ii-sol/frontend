@@ -5,12 +5,20 @@ import { styled } from "styled-components";
 import PortfolioDonut from "../../components/Investment/PortfolioDonut";
 import PortfolioList from "../../components/Investment/PortfolioList";
 import * as S from "../../styles/GlobalStyles";
-import { useDispatch } from "react-redux";
+import tw from "twin.macro";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchPortfolio } from "../../store/reducers/Invest/portfolio";
+import {
+  fetchInvestAccount,
+  setAccountType,
+} from "../../store/reducers/Account/account";
+import { useNavigate } from "react-router-dom";
 
 const InvestMain = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isDonut, setIsDonut] = useState(true);
+  const accountType = useSelector((state) => state.account.accountType);
 
   const toggleShow = () => {
     setIsDonut(!isDonut);
@@ -20,12 +28,22 @@ const InvestMain = () => {
     dispatch(fetchPortfolio());
   }, []);
 
+  useEffect(() => {
+    dispatch(setAccountType(2));
+    dispatch(fetchInvestAccount());
+  }, [accountType]);
+
   return (
     <S.Container>
       <Header />
       <CenterWrapper>
         <Page>
-          <Account accountNum={1} />
+          <Account />
+          <Menu>
+            <S.HistoryLink onClick={() => navigate("/invest/tradehistory")}>
+              투자 내역 &gt;
+            </S.HistoryLink>
+          </Menu>
           {isDonut ? (
             <PortfolioDonut toggleShow={toggleShow} />
           ) : (
@@ -50,4 +68,12 @@ const Page = styled.div`
   flex-direction: column;
   gap: 20px;
   align-items: center;
+`;
+
+const Menu = styled.div`
+  ${tw`
+  items-center
+  `}
+
+  margin-left:auto;
 `;
