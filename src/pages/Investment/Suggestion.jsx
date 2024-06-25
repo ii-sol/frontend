@@ -13,6 +13,7 @@ import { postProposal } from "../../services/invest";
 const Suggestion = () => {
   const dispatch = useDispatch();
   const parent = useSelector((state) => state.invest.parent);
+  const parentName = useSelector((state) => state.invest.parentName);
   const name = useSelector((state) => state.invest.name);
   const trade = useSelector((state) => state.invest.trade);
   const code = useSelector((state) => state.invest.code);
@@ -23,29 +24,15 @@ const Suggestion = () => {
     setMessages(message);
   };
 
-  const postMyProposal = async (
-    psn,
-    ticker,
-    message,
-    quantity,
-    tradingCode
-  ) => {
+  const onSuggest = async () => {
     try {
-      const res = await postProposal(
-        psn,
-        ticker,
-        message,
-        quantity,
-        tradingCode
-      );
+      const res = await postProposal(parent, code, messages, quantity, trade);
       console.log(res);
-    } catch (error) {}
-  };
-
-  const onSuggest = () => {
-    postMyProposal(parent, code, messages, quantity, trade);
-    navigate("/invest/send");
-    dispatch(setMessage(messages));
+      navigate("/invest/send");
+      dispatch(setMessage(messages));
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <S.Container>
@@ -53,7 +40,7 @@ const Suggestion = () => {
       <S.CenterDiv>
         <>
           <Div $size="25" $top="20">
-            {parent}에게
+            {parentName}에게
             <br />
             {name} 투자를 제안드릴게요
           </Div>
@@ -101,6 +88,7 @@ const Div = styled.div`
   font-size: ${(props) => props.$size}px;
   text-align: center;
   margin-top: ${(props) => props.$top}px;
+  word-break: keep-all;
 `;
 
 const Img = styled.img`

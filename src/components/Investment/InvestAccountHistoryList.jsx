@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 
-import { fetchHistory } from "../../services/allowance";
-
-import HistoryListItem from "~/components/Allowance/HistoryListItem";
-
 import EmptyImage from "~/assets/img/common/empty.svg";
 import { groupDataByDate } from "../../utils/groupDataByDate";
+import { useSelector } from "react-redux";
+import InvestAccHistoryListItem from "./InvestAccHistoryListItem";
+import { fetchHistory } from "../../services/allowance";
 
-const ChildHistoryListItem = () => {
+const InvestAccountHistoryList = () => {
   const year = useSelector((state) => state.history.year);
   const month = useSelector((state) => state.history.month);
   console.log(month);
@@ -27,7 +25,7 @@ const ChildHistoryListItem = () => {
       }
     };
 
-    fetchData(year, month, 1);
+    fetchData(year, month, 2);
   }, [year, month]);
 
   const groupedData = groupDataByDate(data);
@@ -36,13 +34,10 @@ const ChildHistoryListItem = () => {
   );
 
   console.log(groupedData);
-
   return (
     <Container>
       <List>
-        {isLoading ? (
-          <LoadingState>Loading...</LoadingState>
-        ) : sortedGroupedData.length === 0 ? (
+        {sortedGroupedData.length === 0 ? (
           <EmptyState>
             <Img src={EmptyImage} alt="No data" />
             <EmptyText>용돈 내역이 없어요</EmptyText>
@@ -53,7 +48,7 @@ const ChildHistoryListItem = () => {
               <DateArea>{date}</DateArea>
               <Hr />
               {groupedData[date].map((item, index) => (
-                <HistoryListItem key={index} data={item} />
+                <InvestAccHistoryListItem key={index} data={item} />
               ))}
             </DateGroup>
           ))
@@ -63,7 +58,7 @@ const ChildHistoryListItem = () => {
   );
 };
 
-export default ChildHistoryListItem;
+export default InvestAccountHistoryList;
 
 const Container = styled.div``;
 
@@ -97,6 +92,8 @@ const EmptyText = styled.div`
   ${tw`text-2xl`}
 `;
 
-const LoadingState = styled.div`
-  ${tw`flex flex-col items-center justify-center h-full mt-20`}
+const CardContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 20px;
 `;

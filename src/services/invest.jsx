@@ -22,8 +22,8 @@ export const fetchPortfolio = async () => {
   }
 };
 
-export const fetchInvestHistory = async (status) => {
-  const baseUrl = `/invest/history/${status}`;
+export const fetchInvestHistory = async (status, year, month) => {
+  const baseUrl = `/invest/history/${status}?year=${year}&month=${month}`;
   try {
     const response = await baseInstance.get(baseUrl);
     const data = response.data;
@@ -66,7 +66,12 @@ export const postInvest = async (trading, ticker, quantity) => {
     const data = response.data;
     return data;
   } catch (err) {
-    console.error(err);
+    // console.error(err);
+    if (err.response.data.error) {
+      return { error: err.response.data.error };
+    } else {
+      return { error: "An unexpected error occurred" };
+    }
   }
 };
 
@@ -105,6 +110,17 @@ export const searchStocks = async (corp, page, size) => {
 
 export const fetchProposal = async (status, year, month) => {
   const baseUrl = `/proposal/invest/history/${status}?year=${year}&month=${month}`;
+  try {
+    const response = await baseInstance.get(baseUrl);
+    const data = response.data;
+    return data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const fetchProposalDetail = async (proposeId, pathVariable) => {
+  const baseUrl = `/proposal/invest/${proposeId}/${pathVariable}`;
   try {
     const response = await baseInstance.get(baseUrl);
     const data = response.data;

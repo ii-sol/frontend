@@ -18,6 +18,7 @@
     font-size: 20px;
   } */
   -webkit-tap-highlight-color: transparent;
+  --vh: 100%;
 }
 
 #root {
