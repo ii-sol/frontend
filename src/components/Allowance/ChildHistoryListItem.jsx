@@ -3,13 +3,12 @@ import { useSelector } from "react-redux";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 
-// import { fetchHistory } from "../../services/allowance";
+import { fetchHistory } from "../../services/allowance";
 
 import HistoryListItem from "~/components/Allowance/HistoryListItem";
 
 import EmptyImage from "~/assets/img/common/empty.svg";
 import { groupDataByDate } from "../../utils/groupDataByDate";
-import { useSelector } from "react-redux";
 
 const ChildHistoryListItem = () => {
   const year = useSelector((state) => state.history.year);
