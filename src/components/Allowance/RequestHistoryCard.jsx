@@ -13,7 +13,9 @@ const RequestHistoryCard = ({ dday, status, receiver, allowance, img, message, c
         <Receiver>{receiver}</Receiver>
         <Allowance>{normalizeNumber(allowance)}원</Allowance>
         <Message>{message}</Message>
-        <Message>{createdDate}</Message>
+        <Message>
+          {createdDate[0]}-{createdDate[1]}-{createdDate[2]}
+        </Message>
       </Content>
       <Img src={img} alt="아이콘" />
     </Container>
@@ -86,5 +88,5 @@ const StatusTag = styled.div`
   margin: 3px 0px;
   border-radius: 5px;
   color: ${({ status }) => (status === 4 ? "#CC3535" : "#346BAC")};
-  background-color: ${({ status }) => (status === 5 || status === 6 ? "#FFDCDC" : "#D5E0F1")};
+  background-color: ${({ status }) => (status === 4 ? "#FFDCDC" : "#D5E0F1")};
 `;

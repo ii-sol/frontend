@@ -20,6 +20,7 @@ import Profile8 from "~/assets/img/common/character/character_lay.svg";
 
 //TODO: familyInfo -> 부모님이 없을 때!!!
 const ParentSelection = () => {
+  const [alertMessage, setAlertMessage] = useState("");
   const profiles = [
     { id: 1, src: Profile1 },
     { id: 2, src: Profile2 },
@@ -46,6 +47,7 @@ const ParentSelection = () => {
       <Header type="none" />
       <S.StepWrapper>
         <Div>누구에게 투자 제안을 할까요?</Div>
+        <AlertDiv>{alertMessage ? alertMessage : " "}</AlertDiv>
         <MemberContainer>
           {familyInfo.map((family) => (
             <Member
@@ -54,6 +56,7 @@ const ParentSelection = () => {
               role="부모"
               phoneNum="010-0000-0000"
               onClick={() => {
+                setAlertMessage("");
                 setParents(family.sn);
                 setParentsName(family.name);
               }}
@@ -64,9 +67,13 @@ const ParentSelection = () => {
       </S.StepWrapper>
       <S.BottomBtn
         onClick={() => {
-          dispatch(setParent(parents));
-          dispatch(setParentName(parentsName));
-          navigate("/invest/suggest");
+          if (parents) {
+            dispatch(setParent(parents));
+            dispatch(setParentName(parentsName));
+            navigate("/invest/suggest");
+          } else {
+            setAlertMessage("선택된 부모가 없습니다.");
+          }
         }}
       >
         다음
@@ -90,4 +97,11 @@ const Div = styled.div`
   text-align: center;
   margin: 30px auto;
   font-weight: 600;
+`;
+
+const AlertDiv = styled.div`
+  color: red;
+  font-size: 16px;
+  height: 16px;
+  text-align: center;
 `;

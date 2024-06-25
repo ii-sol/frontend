@@ -24,6 +24,9 @@ const Main = () => {
   const userName = useSelector((state) => state.user.userInfo.name);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  useEffect(() => {
     const fetchData = async () => {
       try {
         // Fetch loans
