@@ -6,10 +6,8 @@ import * as S from "../../styles/GlobalStyles";
 import { useSelector } from "react-redux";
 import { PuffLoader } from "react-spinners";
 
+//TODO: responseProposal?.message 확인
 const SuggestionDetail = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
   const companyInfo = useSelector((state) => state.suggestDetail.companyInfo);
   const requestProposal = useSelector(
     (state) => state.suggestDetail.requestProposal

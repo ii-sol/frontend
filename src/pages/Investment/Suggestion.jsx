@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setMessage } from "../../store/reducers/Invest/invest";
 import { postProposal } from "../../services/invest";
 
+//TODO:Parent 이름
 const Suggestion = () => {
   const dispatch = useDispatch();
   const parent = useSelector((state) => state.invest.parent);
@@ -69,7 +70,7 @@ const Suggestion = () => {
         <Img src={suggest} />
         <Wrapper>
           <Message
-            placeholder="제안 메세지를 적어주세요!"
+            placeholder="투자 제안 메세지를 적어주세요!"
             maxLength="100"
             onChange={handleInputChange}
             isInvest={true}

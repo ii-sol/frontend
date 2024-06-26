@@ -15,6 +15,7 @@ import {
 } from "../../store/reducers/Invest/invest";
 import { postInvest } from "../../services/invest";
 
+//TODO: 매수주문증거금이 부족합니다. 판매
 const Trading = () => {
   const dispatch = useDispatch();
   const isNew = useSelector((state) => state.invest.isNew);
@@ -98,7 +99,7 @@ const Trading = () => {
       }
     } catch (error) {
       console.error(error);
-      setAlertMessage("다시 시도해주세요.");
+      setAlertMessage("An unexpected error occurred");
     }
   };
 

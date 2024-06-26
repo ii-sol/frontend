@@ -12,7 +12,9 @@ export const fetchMissionDetail = async (id) => {
 
 export const fetchMissions = async (status) => {
   try {
-    const response = await baseInstance.get(`/missions/filter?status=${status}`);
+    const response = await baseInstance.get(
+      `/missions/filter?status=${status}`
+    );
 
     return response.data.response;
   } catch (error) {
@@ -23,7 +25,7 @@ export const fetchMissions = async (status) => {
 export const fetchPendingMissions = async () => {
   try {
     const response = await baseInstance.get(`/missions/pending`);
-
+    console.log(response);
     return response.data.response;
   } catch (error) {
     throw error;
@@ -43,11 +45,17 @@ export const fetchMissionHistory = async (year, month, status) => {
   try {
     let response;
     if (status === 0) {
-      response = await baseInstance.get(`/missions/history?year=${year}&month=${month}`);
+      response = await baseInstance.get(
+        `/missions/history?year=${year}&month=${month}`
+      );
     } else if (status === 1) {
-      response = await baseInstance.get(`/missions/history?year=${year}&month=${month}&status=4`);
+      response = await baseInstance.get(
+        `/missions/history?year=${year}&month=${month}&status=4`
+      );
     } else if (status === 2) {
-      response = await baseInstance.get(`/missions/history?year=${year}&month=${month}&status=5`);
+      response = await baseInstance.get(
+        `/missions/history?year=${year}&month=${month}&status=5`
+      );
     }
 
     return response.data.response;

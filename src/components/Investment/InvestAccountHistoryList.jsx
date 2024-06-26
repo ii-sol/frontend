@@ -47,12 +47,9 @@ const InvestAccountHistoryList = () => {
             <DateGroup key={index}>
               <DateArea>{date}</DateArea>
               <Hr />
-              {groupedData[date]
-                .slice()
-                .reverse()
-                .map((item, index) => (
-                  <InvestAccHistoryListItem key={index} data={item} />
-                ))}
+              {groupedData[date].map((item, index) => (
+                <InvestAccHistoryListItem key={index} data={item} />
+              ))}
             </DateGroup>
           ))
         )}

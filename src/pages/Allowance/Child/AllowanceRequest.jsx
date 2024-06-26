@@ -3,8 +3,11 @@ import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 import * as S from "../../../styles/GlobalStyles";
-import { fetchRegularAllowance, fetchAllowanceRequest, deleteAllowanceRequest } from "../../../services/allowance";
-
+import {
+  fetchRegularAllowance,
+  fetchAllowanceRequest,
+  deleteAllowanceRequest,
+} from "../../../services/allowance";
 import { useSelector } from "react-redux";
 import { format, differenceInDays } from "date-fns";
 
@@ -12,26 +15,30 @@ import Header from "~/components/common/Header";
 import RequestCardChild from "~/components/Allowance/RequestCardChild";
 import RegularAllowanceCard from "../../../components/Allowance/RegularAllowanceCard";
 
-const calculateDday = (createDate) => {
-  const [year, month, day, hours, minutes, seconds] = createDate;
-  const convertedCreateDate = new Date(year, month - 1, day, hours, minutes, seconds);
+const calculateDday = (createDateArray) => {
+  const createDate = new Date(
+    createDateArray[0],
+    createDateArray[1] - 1, // month is 0-indexed
+    createDateArray[2],
+    createDateArray[3],
+    createDateArray[4],
+    createDateArray[5]
+  );
 
-  const threeDaysLater = new Date(convertedCreateDate);
+  const threeDaysLater = new Date(createDate);
   threeDaysLater.setDate(threeDaysLater.getDate() + 3); // createDate에서 3일 후의 날짜
 
   const today = new Date();
   const dday = differenceInDays(threeDaysLater, today); // 오늘 날짜와 endDate 사이의 일 수 차이 계산
 
-  return dday + 1;
+  return dday;
 };
 
 const AllowanceRequest = () => {
   const [regularAllowance, setRegularAllowance] = useState(null);
   const [requestList, setRequestList] = useState([]);
   const navigate = useNavigate();
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+
   useEffect(() => {
     const fetchRegular = async () => {
       try {
@@ -46,6 +53,8 @@ const AllowanceRequest = () => {
       try {
         const requests = await fetchAllowanceRequest();
         setRequestList(requests);
+
+        console.log(requests);
       } catch (error) {
         console.error("Error fetching allowance requests:", error);
       }
@@ -68,9 +77,6 @@ const AllowanceRequest = () => {
   };
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("용돈 조르기를 취소할까요?");
-    if (!confirmDelete) return;
-
     try {
       await deleteAllowanceRequest(id);
       setRequestList(requestList.filter((request) => request.id !== id));

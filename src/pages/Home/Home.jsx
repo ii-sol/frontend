@@ -24,6 +24,7 @@ import {
 } from "../../store/reducers/Account/account";
 import { useDispatch, useSelector } from "react-redux";
 
+//TODO name
 const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -31,10 +32,13 @@ const Home = () => {
   const accountType = useSelector((state) => state.account.accountType);
   const [userInfo, setUserInfo] = useState(null);
 
-  let myName;
-  if (isLoggedIn) {
-    myName = useSelector((state) => state.user.userInfo.name);
-  }
+  const userName = useSelector((state) => state.user.userInfo.name);
+  const familyInfo = useSelector((state) => state.user.userInfo.familyInfo);
+  const [score, setScore] = useState(0);
+  const [grad, setGrad] = useState("보통");
+  const [baseRate, setBaseRate] = useState(0);
+  const [loanLimit, setLoanLimit] = useState(0);
+  const [investLimit, setInvestLimit] = useState(0);
 
   useEffect(() => {
     const getMyInfo = async () => {
@@ -110,6 +114,15 @@ const Home = () => {
     }
   }, [isLoggedIn]);
 
+  const handleNavigation = (path) => {
+    if (familyInfo.length === 0) {
+      alert("부모 계정을 연결하세요!");
+      navigate("/mypage");
+    } else {
+      navigate(path);
+    }
+  };
+
   return (
     <S.Container>
       <div onClick={() => store.dispatch(logout())}>logout</div>
@@ -119,7 +132,7 @@ const Home = () => {
             style={{ color: "#404040", fontSize: "25px", fontWeight: "700" }}
           >
             안녕하세요! <br />
-            {myName}님
+            {userName}님
           </div>
           <S.RowDiv style={{ gap: "20px" }}>
             <img
@@ -142,14 +155,18 @@ const Home = () => {
         <Account />
       </S.CenterDiv>
       <RowDiv $isFirst>
-        <Btn $width={1} $back="#FFDEDE" onClick={() => navigate("/invest")}>
+        <Btn
+          $width={1}
+          $back="#FFDEDE"
+          onClick={() => handleNavigation("/invest")}
+        >
           투자하기
           <Img src={invest} $right={10} $imgwidth={140} />
         </Btn>
         <Btn
           $width={2}
           $back="#E3FFD5"
-          onClick={() => navigate("/allowance/irregular")}
+          onClick={() => handleNavigation("/allowance/irregular")}
         >
           용돈
           <br />
@@ -158,11 +175,19 @@ const Home = () => {
         </Btn>
       </RowDiv>
       <RowDiv>
-        <Btn $width={2} $back="#FFFEE3" onClick={() => navigate("/mission")}>
+        <Btn
+          $width={2}
+          $back="#FFFEE3"
+          onClick={() => handleNavigation("/mission")}
+        >
           미션
           <Img src={mission} $bottom={10} $right={5} $imgwidth={90} />
         </Btn>
-        <Btn $width={1} $back="#FFE8F2" onClick={() => navigate("/loan/main")}>
+        <Btn
+          $width={1}
+          $back="#FFE8F2"
+          onClick={() => handleNavigation("/loan/main")}
+        >
           대출하기
           <Img src={loan} $bottom={10} $right={10} $imgwidth={90} />
         </Btn>
@@ -172,21 +197,21 @@ const Home = () => {
           <BottomDiv>
             <BImg src={one} />
             <Div>
-              {myName}님의 금리는 <br />
-              {userInfo?.baseRate}%입니다.
+              {userName}님의 금리는 <br />
+              {baseRate}%입니다.
             </Div>
           </BottomDiv>
           <BottomDiv>
             <BImg src={two} />
             <Div>
-              {myName}님의 대출 상한선은 <br />
-              {normalizeNumber(userInfo?.loanLimit)}만원입니다.
+              {userName}님의 대출 상한선은 <br />
+              {normalizeNumber(loanLimit)}만원입니다.
             </Div>
           </BottomDiv>
           <BottomDiv $isLast>
             <BImg src={three} />
             <Div>
-              {myName}님의 투자 상한선은
+              {userName}님의 투자 상한선은
               <br />
               {normalizeNumber(investLimit)}만원입니다.
             </Div>

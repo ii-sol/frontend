@@ -3,6 +3,7 @@ import { styled } from "styled-components";
 import { useSelector } from "react-redux";
 import { normalizeNumber } from "../../utils/normalizeNumber";
 
+// TODO: 보유잔고, 주문 가능 수량(잔고 / price)
 const StocksAbout = () => {
   const name = useSelector((state) => state.invest.name);
   const trade = useSelector((state) => state.invest.trade);

@@ -14,6 +14,7 @@ import { setCode, setIsNew } from "../../store/reducers/Invest/invest";
 import { searchStocks } from "../../services/invest";
 import { normalizeNumber } from "../../utils/normalizeNumber";
 
+//TODO : 관심 구분 링크 연결
 const StockList = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
