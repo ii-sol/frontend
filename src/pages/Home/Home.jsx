@@ -13,7 +13,11 @@ import three from "../../assets/img/Home/three.svg";
 import { useNavigate } from "react-router-dom";
 import * as S from "../../styles/GlobalStyles";
 import { store } from "../../store/stores";
-import { loginSuccess, logout } from "../../store/reducers/Auth/user";
+import {
+  fetchFamilyInfo,
+  loginSuccess,
+  logout,
+} from "../../store/reducers/Auth/user";
 import isLogin from "../../utils/isLogin";
 import { fetchMyInfo } from "../../services/home";
 import { baseInstance } from "../../services/api";
@@ -113,6 +117,12 @@ const Home = () => {
       fetchUserInfo();
     }
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      dispatch(fetchFamilyInfo());
+    }
+  }, []);
 
   const handleNavigation = (path) => {
     if (familyInfo.length === 0) {

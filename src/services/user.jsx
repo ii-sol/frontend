@@ -86,3 +86,14 @@ export const addMember = async (requestData) => {
     throw response.data.error;
   }
 };
+
+export const fetchFamilyInfo = async () => {
+  const baseUrl = `/users/my-family`;
+  try {
+    const response = await baseInstance.get(baseUrl);
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

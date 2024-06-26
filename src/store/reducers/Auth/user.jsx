@@ -1,5 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { removeCookie } from "../../../services/cookie";
+import { fetchFamilyInfo as reqFetchFamilyInfo } from "../../../services/user";
 
 const initialState = {
   isLoggedIn: false,
@@ -7,6 +8,15 @@ const initialState = {
   accessToken: null,
   refreshToken: null,
 };
+
+export const fetchFamilyInfo = createAsyncThunk(
+  "user/fetchFamilyInfo",
+  async (data, thunkAPI) => {
+    const response = await reqFetchFamilyInfo();
+    console.log(response);
+    return response;
+  }
+);
 
 const userSlice = createSlice({
   name: "user",
@@ -27,8 +37,24 @@ const userSlice = createSlice({
       removeCookie("refreshToken");
     },
     setFamilyInfo(state, action) {
-      state.userInfo.familyInfo = [...state.userInfo.familyInfo, action.payload];
+      state.userInfo.familyInfo = [
+        ...state.userInfo.familyInfo,
+        action.payload,
+      ];
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchFamilyInfo.fulfilled, (state, action) => {
+        state.loading = "fulfilled";
+        state.userInfo.familyInfo = action.payload.response;
+      })
+      .addCase(fetchFamilyInfo.pending, (state) => {
+        state.loading = "pending";
+      })
+      .addCase(fetchFamilyInfo.rejected, (state) => {
+        state.loading = "rejected";
+      });
   },
 });
 
