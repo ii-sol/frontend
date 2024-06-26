@@ -58,7 +58,6 @@ const Home = () => {
 
   return (
     <S.Container>
-      <div onClick={() => store.dispatch(logout())}>logout</div>
       {isLoggedIn ? (
         <Wrapper>
           <div
