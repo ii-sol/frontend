@@ -28,7 +28,6 @@ import {
 } from "../../store/reducers/Account/account";
 import { useDispatch, useSelector } from "react-redux";
 
-//TODO name
 const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -36,13 +35,10 @@ const Home = () => {
   const accountType = useSelector((state) => state.account.accountType);
   const [userInfo, setUserInfo] = useState(null);
 
-  const userName = useSelector((state) => state.user.userInfo.name);
-  const familyInfo = useSelector((state) => state.user.userInfo.familyInfo);
-  const [score, setScore] = useState(0);
-  const [grad, setGrad] = useState("보통");
-  const [baseRate, setBaseRate] = useState(0);
-  const [loanLimit, setLoanLimit] = useState(0);
-  const [investLimit, setInvestLimit] = useState(0);
+  let myName;
+  if (isLoggedIn) {
+    myName = useSelector((state) => state.user.userInfo.name);
+  }
 
   useEffect(() => {
     const getMyInfo = async () => {
@@ -142,7 +138,7 @@ const Home = () => {
             style={{ color: "#404040", fontSize: "25px", fontWeight: "700" }}
           >
             안녕하세요! <br />
-            {userName}님
+            {myName}님
           </div>
           <S.RowDiv style={{ gap: "20px" }}>
             <img
@@ -165,18 +161,14 @@ const Home = () => {
         <Account />
       </S.CenterDiv>
       <RowDiv $isFirst>
-        <Btn
-          $width={1}
-          $back="#FFDEDE"
-          onClick={() => handleNavigation("/invest")}
-        >
+        <Btn $width={1} $back="#FFDEDE" onClick={() => navigate("/invest")}>
           투자하기
           <Img src={invest} $right={10} $imgwidth={140} />
         </Btn>
         <Btn
           $width={2}
           $back="#E3FFD5"
-          onClick={() => handleNavigation("/allowance/irregular")}
+          onClick={() => navigate("/allowance/irregular")}
         >
           용돈
           <br />
@@ -185,19 +177,11 @@ const Home = () => {
         </Btn>
       </RowDiv>
       <RowDiv>
-        <Btn
-          $width={2}
-          $back="#FFFEE3"
-          onClick={() => handleNavigation("/mission")}
-        >
+        <Btn $width={2} $back="#FFFEE3" onClick={() => navigate("/mission")}>
           미션
           <Img src={mission} $bottom={10} $right={5} $imgwidth={90} />
         </Btn>
-        <Btn
-          $width={1}
-          $back="#FFE8F2"
-          onClick={() => handleNavigation("/loan/main")}
-        >
+        <Btn $width={1} $back="#FFE8F2" onClick={() => navigate("/loan/main")}>
           대출하기
           <Img src={loan} $bottom={10} $right={10} $imgwidth={90} />
         </Btn>
@@ -207,21 +191,21 @@ const Home = () => {
           <BottomDiv>
             <BImg src={one} />
             <Div>
-              {userName}님의 금리는 <br />
-              {baseRate}%입니다.
+              {myName}님의 금리는 <br />
+              {userInfo?.baseRate}%입니다.
             </Div>
           </BottomDiv>
           <BottomDiv>
             <BImg src={two} />
             <Div>
-              {userName}님의 대출 상한선은 <br />
-              {normalizeNumber(loanLimit)}만원입니다.
+              {myName}님의 대출 상한선은 <br />
+              {normalizeNumber(userInfo?.loanLimit)}만원입니다.
             </Div>
           </BottomDiv>
           <BottomDiv $isLast>
             <BImg src={three} />
             <Div>
-              {userName}님의 투자 상한선은
+              {myName}님의 투자 상한선은
               <br />
               {normalizeNumber(investLimit)}만원입니다.
             </Div>

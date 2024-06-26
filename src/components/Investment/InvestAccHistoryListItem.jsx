@@ -2,32 +2,52 @@ import React from "react";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 import { useSelector } from "react-redux";
+import { normalizeNumber } from "../../utils/normalizeNumber";
 
 const InvestAccHistoryListItem = ({ data }) => {
   const myName = useSelector((state) => state.user.userInfo.name);
-  let amount;
   let trade;
+  let balance;
+
+  if (myName == data.senderName) {
+    trade = 1;
+    balance = data.senderBalance;
+  } else {
+    trade = 2;
+    balance = data.receiverBalance;
+  }
 
   const renderAmount = (code) => {
     if (code == 5) {
-      return <ItemAmount color="#FF4848">{amount}</ItemAmount>;
+      return (
+        <ItemAmount color="#FF4848">{normalizeNumber(data.amount)}</ItemAmount>
+      );
     } else {
-      return <ItemAmount color="#5A74FF">{amount}</ItemAmount>;
+      return (
+        <ItemAmount color="#5A74FF">{normalizeNumber(data.amount)}</ItemAmount>
+      );
     }
   };
   console.log(data);
+
+  const renderMessage = (messageCode) => {
+    switch (messageCode) {
+      case 5:
+        return "구매";
+      case 6:
+        return "판매";
+      default:
+        return "알 수 없는 코드";
+    }
+  };
   return (
     <Container>
       <Wrapper>
         <ItemContent>{renderMessage(data.messageCode)}</ItemContent>
-        <ItemName>
-          {amount > 0 ? "From. " : "To. "}
-          {anotherName}
-        </ItemName>
       </Wrapper>
       <AmountContainer>
-        {renderAmount(amount)}
-        <Balance>남은 돈: {"만원"}</Balance>
+        {renderAmount(data.messageCode)}
+        <Balance>남은 돈: {normalizeNumber(balance)}원</Balance>
       </AmountContainer>
     </Container>
   );

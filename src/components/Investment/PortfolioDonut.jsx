@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { normalizeNumber } from "../../utils/normalizeNumber";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
-// TODO: companyName, ticker, 오류
+
 const PortfolioDonut = ({ toggleShow }) => {
   const totalEvaluationAmount = useSelector(
     (state) => state.portfolio.totalEvaluationAmount

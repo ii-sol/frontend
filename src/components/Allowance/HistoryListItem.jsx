@@ -2,16 +2,20 @@ import React from "react";
 import tw from "twin.macro";
 import { styled } from "styled-components";
 import { useSelector } from "react-redux";
+import { normalizeNumber } from "../../utils/normalizeNumber";
 
 const HistoryListItem = ({ data }) => {
   const myName = useSelector((state) => state.user.userInfo.name);
   let amount;
   let anotherName;
+  let balance;
   if (myName == data.senderName) {
     amount = data.amount * -1;
+    balance = data.senderBalance;
     anotherName = data.recieverName;
   } else {
     amount = data.amount;
+    balance = data.receiverBalance;
     anotherName = data.senderName;
   }
 
@@ -26,11 +30,13 @@ const HistoryListItem = ({ data }) => {
   console.log("dd", data);
   const renderAmount = (amount) => {
     if (amount > 0) {
-      return <ItemAmount color="#FF4848">+{amount}</ItemAmount>;
+      return (
+        <ItemAmount color="#FF4848">+{normalizeNumber(amount)}</ItemAmount>
+      );
     } else if (amount < 0) {
-      return <ItemAmount color="#5A74FF">{amount}</ItemAmount>;
+      return <ItemAmount color="#5A74FF">{normalizeNumber(amount)}</ItemAmount>;
     } else {
-      return <ItemAmount>{amount}</ItemAmount>;
+      return <ItemAmount>{normalizeNumber(amount)}</ItemAmount>;
     }
   };
 
@@ -60,7 +66,7 @@ const HistoryListItem = ({ data }) => {
       </Wrapper>
       <AmountContainer>
         {renderAmount(amount)}
-        <Balance>남은 돈: {"만원"}</Balance>
+        <Balance>남은 돈: {normalizeNumber(balance)}원</Balance>
       </AmountContainer>
     </Container>
   );
