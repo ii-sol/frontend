@@ -13,14 +13,9 @@ import three from "../../assets/img/Home/three.svg";
 import { useNavigate } from "react-router-dom";
 import * as S from "../../styles/GlobalStyles";
 import { store } from "../../store/stores";
-import {
-  fetchFamilyInfo,
-  loginSuccess,
-  logout,
-} from "../../store/reducers/Auth/user";
+import { loginSuccess, logout } from "../../store/reducers/Auth/user";
 import isLogin from "../../utils/isLogin";
 import { fetchMyInfo } from "../../services/home";
-import { baseInstance } from "../../services/api";
 import { normalizeNumber } from "../../utils/normalizeNumber";
 import {
   fetchMyAccount,
@@ -34,7 +29,6 @@ const Home = () => {
   const isLoggedIn = isLogin();
   const accountType = useSelector((state) => state.account.accountType);
   const [userInfo, setUserInfo] = useState(null);
-
   let myName;
   if (isLoggedIn) {
     myName = useSelector((state) => state.user.userInfo.name);
@@ -50,7 +44,7 @@ const Home = () => {
     if (isLoggedIn) {
       getMyInfo();
     }
-  }, [isLoggedIn]);
+  }, []);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -60,78 +54,11 @@ const Home = () => {
       dispatch(setAccountType(0));
     }
   }, [isLoggedIn, accountType]);
-
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      const creditResponse = await baseInstance.get("/users/child-manage");
-      console.log(creditResponse);
-      const baseRate1 = creditResponse.data.response.baseRate || 3;
-      const loanLimit1 = creditResponse.data.response.loanLimit || 100;
-      const investLimit1 = creditResponse.data.response.investLimit || 200;
-
-      setBaseRate(baseRate1);
-      setLoanLimit(loanLimit1);
-      setInvestLimit(investLimit1);
-
-      // Fetch score
-      const scoreResponse = await baseInstance.get("/users/score");
-      const fetchedScore = scoreResponse.data.response || 0;
-
-      console.log(fetchedScore);
-      setScore(fetchedScore);
-
-      // Adjust rate and limits based on score
-      if (fetchedScore <= 19) {
-        setGrad("매우 낮음");
-        setBaseRate(Math.max(baseRate1 + 2, 0)); // 기준 금리보다 2% 높음
-        setLoanLimit(Math.max(loanLimit1 - 100, 0)); // 기준 상한 금액보다 100만원 낮음
-        setInvestLimit(Math.max(investLimit1 - 100, 0)); // 기준 상한 금액보다 100만원 낮음
-      } else if (fetchedScore <= 39) {
-        setGrad("낮음");
-        setBaseRate(Math.max(baseRate1 + 1, 0)); // 기준 금리보다 1% 높음
-        setLoanLimit(Math.max(loanLimit1 - 50, 0)); // 기준 상한 금액보다 50만원 낮음
-        setInvestLimit(Math.max(investLimit1 - 50, 0)); // 기준 상한 금액보다 50만원 낮음
-      } else if (fetchedScore <= 59) {
-        setGrad("보통");
-        setBaseRate(baseRate1); // 기준 금리
-        setLoanLimit(loanLimit1); // 기준 상한 금액
-        setInvestLimit(investLimit1); // 기준 상한 금액
-      } else if (fetchedScore <= 79) {
-        setGrad("높음");
-        setBaseRate(Math.max(baseRate1 - 1, 0)); // 기준 금리보다 1% 낮음
-        setLoanLimit(loanLimit1 + 50); // 기준 상한 금액보다 50만원 높음
-        setInvestLimit(investLimit1 + 50); // 기준 상한 금액보다 50만원 높음
-      } else if (fetchedScore <= 100) {
-        setGrad("매우 높음");
-        setBaseRate(Math.max(baseRate1 - 2, 0)); // 기준 금리보다 2% 낮음
-        setLoanLimit(loanLimit1 + 100); // 기준 상한 금액보다 100만원 높음
-        setInvestLimit(investLimit1 + 100); // 기준 상한 금액보다 100만원 높음
-      }
-    };
-
-    if (isLoggedIn) {
-      fetchUserInfo();
-    }
-  }, [isLoggedIn]);
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      dispatch(fetchFamilyInfo());
-    }
-  }, []);
-
-  const handleNavigation = (path) => {
-    if (familyInfo.length === 0) {
-      alert("부모 계정을 연결하세요!");
-      navigate("/mypage");
-    } else {
-      navigate(path);
-    }
-  };
+  console.log(userInfo);
 
   return (
     <S.Container>
-      {/* <div onClick={() => store.dispatch(logout())}>logout</div> */}
+      <div onClick={() => store.dispatch(logout())}>logout</div>
       {isLoggedIn ? (
         <Wrapper>
           <div
@@ -207,7 +134,7 @@ const Home = () => {
             <Div>
               {myName}님의 투자 상한선은
               <br />
-              {normalizeNumber(investLimit)}만원입니다.
+              {normalizeNumber(userInfo?.investLimit)}만원입니다.
             </Div>
           </BottomDiv>
         </ColumnDiv>
