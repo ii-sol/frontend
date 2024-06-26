@@ -16,6 +16,7 @@ import { store } from "../../store/stores";
 import { loginSuccess, logout } from "../../store/reducers/Auth/user";
 import isLogin from "../../utils/isLogin";
 import { fetchMyInfo } from "../../services/home";
+import { baseInstance } from "../../services/api";
 import { normalizeNumber } from "../../utils/normalizeNumber";
 import {
   fetchMyAccount,
@@ -23,16 +24,21 @@ import {
 } from "../../store/reducers/Account/account";
 import { useDispatch, useSelector } from "react-redux";
 
+//TODO name
 const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isLoggedIn = isLogin();
   const accountType = useSelector((state) => state.account.accountType);
   const [userInfo, setUserInfo] = useState(null);
-  let myName;
-  if (isLoggedIn) {
-    myName = useSelector((state) => state.user.userInfo.name);
-  }
+
+  const userName = useSelector((state) => state.user.userInfo.name);
+  const familyInfo = useSelector((state) => state.user.userInfo.familyInfo);
+  const [score, setScore] = useState(0);
+  const [grad, setGrad] = useState("보통");
+  const [baseRate, setBaseRate] = useState(0);
+  const [loanLimit, setLoanLimit] = useState(0);
+  const [investLimit, setInvestLimit] = useState(0);
 
   useEffect(() => {
     const getMyInfo = async () => {
@@ -44,7 +50,7 @@ const Home = () => {
     if (isLoggedIn) {
       getMyInfo();
     }
-  }, []);
+  }, [isLoggedIn]);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -54,7 +60,68 @@ const Home = () => {
       dispatch(setAccountType(0));
     }
   }, [isLoggedIn, accountType]);
-  console.log(userInfo);
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      const creditResponse = await baseInstance.get("/users/child-manage");
+      console.log(creditResponse);
+      const baseRate1 = creditResponse.data.response.baseRate || 3;
+      const loanLimit1 = creditResponse.data.response.loanLimit || 100;
+      const investLimit1 = creditResponse.data.response.investLimit || 200;
+
+      setBaseRate(baseRate1);
+      setLoanLimit(loanLimit1);
+      setInvestLimit(investLimit1);
+
+      // Fetch score
+      const scoreResponse = await baseInstance.get("/users/score");
+      const fetchedScore = scoreResponse.data.response || 0;
+
+      console.log(fetchedScore);
+      setScore(fetchedScore);
+
+      // Adjust rate and limits based on score
+      if (fetchedScore <= 19) {
+        setGrad("매우 낮음");
+        setBaseRate(Math.max(baseRate1 + 2, 0)); // 기준 금리보다 2% 높음
+        setLoanLimit(Math.max(loanLimit1 - 100, 0)); // 기준 상한 금액보다 100만원 낮음
+        setInvestLimit(Math.max(investLimit1 - 100, 0)); // 기준 상한 금액보다 100만원 낮음
+      } else if (fetchedScore <= 39) {
+        setGrad("낮음");
+        setBaseRate(Math.max(baseRate1 + 1, 0)); // 기준 금리보다 1% 높음
+        setLoanLimit(Math.max(loanLimit1 - 50, 0)); // 기준 상한 금액보다 50만원 낮음
+        setInvestLimit(Math.max(investLimit1 - 50, 0)); // 기준 상한 금액보다 50만원 낮음
+      } else if (fetchedScore <= 59) {
+        setGrad("보통");
+        setBaseRate(baseRate1); // 기준 금리
+        setLoanLimit(loanLimit1); // 기준 상한 금액
+        setInvestLimit(investLimit1); // 기준 상한 금액
+      } else if (fetchedScore <= 79) {
+        setGrad("높음");
+        setBaseRate(Math.max(baseRate1 - 1, 0)); // 기준 금리보다 1% 낮음
+        setLoanLimit(loanLimit1 + 50); // 기준 상한 금액보다 50만원 높음
+        setInvestLimit(investLimit1 + 50); // 기준 상한 금액보다 50만원 높음
+      } else if (fetchedScore <= 100) {
+        setGrad("매우 높음");
+        setBaseRate(Math.max(baseRate1 - 2, 0)); // 기준 금리보다 2% 낮음
+        setLoanLimit(loanLimit1 + 100); // 기준 상한 금액보다 100만원 높음
+        setInvestLimit(investLimit1 + 100); // 기준 상한 금액보다 100만원 높음
+      }
+    };
+
+    if (isLoggedIn) {
+      fetchUserInfo();
+    }
+  }, [isLoggedIn]);
+
+  const handleNavigation = (path) => {
+    if (familyInfo.length === 0) {
+      alert("부모 계정을 연결하세요!");
+      navigate("/mypage");
+    } else {
+      navigate(path);
+    }
+  };
 
   return (
     <S.Container>
@@ -65,7 +132,7 @@ const Home = () => {
             style={{ color: "#404040", fontSize: "25px", fontWeight: "700" }}
           >
             안녕하세요! <br />
-            {myName}님
+            {userName}님
           </div>
           <S.RowDiv style={{ gap: "20px" }}>
             <img
@@ -88,14 +155,18 @@ const Home = () => {
         <Account />
       </S.CenterDiv>
       <RowDiv $isFirst>
-        <Btn $width={1} $back="#FFDEDE" onClick={() => navigate("/invest")}>
+        <Btn
+          $width={1}
+          $back="#FFDEDE"
+          onClick={() => handleNavigation("/invest")}
+        >
           투자하기
           <Img src={invest} $right={10} $imgwidth={140} />
         </Btn>
         <Btn
           $width={2}
           $back="#E3FFD5"
-          onClick={() => navigate("/allowance/irregular")}
+          onClick={() => handleNavigation("/allowance/irregular")}
         >
           용돈
           <br />
@@ -104,11 +175,19 @@ const Home = () => {
         </Btn>
       </RowDiv>
       <RowDiv>
-        <Btn $width={2} $back="#FFFEE3" onClick={() => navigate("/mission")}>
+        <Btn
+          $width={2}
+          $back="#FFFEE3"
+          onClick={() => handleNavigation("/mission")}
+        >
           미션
           <Img src={mission} $bottom={10} $right={5} $imgwidth={90} />
         </Btn>
-        <Btn $width={1} $back="#FFE8F2" onClick={() => navigate("/loan/main")}>
+        <Btn
+          $width={1}
+          $back="#FFE8F2"
+          onClick={() => handleNavigation("/loan/main")}
+        >
           대출하기
           <Img src={loan} $bottom={10} $right={10} $imgwidth={90} />
         </Btn>
@@ -118,23 +197,23 @@ const Home = () => {
           <BottomDiv>
             <BImg src={one} />
             <Div>
-              {myName}님의 금리는 <br />
-              {userInfo?.baseRate}%입니다.
+              {userName}님의 금리는 <br />
+              {baseRate}%입니다.
             </Div>
           </BottomDiv>
           <BottomDiv>
             <BImg src={two} />
             <Div>
-              {myName}님의 대출 상한선은 <br />
-              {normalizeNumber(userInfo?.loanLimit)}만원입니다.
+              {userName}님의 대출 상한선은 <br />
+              {normalizeNumber(loanLimit)}만원입니다.
             </Div>
           </BottomDiv>
           <BottomDiv $isLast>
             <BImg src={three} />
             <Div>
-              {myName}님의 투자 상한선은
+              {userName}님의 투자 상한선은
               <br />
-              {normalizeNumber(userInfo?.investLimit)}만원입니다.
+              {normalizeNumber(investLimit)}만원입니다.
             </Div>
           </BottomDiv>
         </ColumnDiv>

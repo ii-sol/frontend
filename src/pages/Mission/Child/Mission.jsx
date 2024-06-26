@@ -36,11 +36,6 @@ const Mission = () => {
   const sn = useSelector((state) => state.user.userInfo.sn);
   const familyInfo = useSelector((state) => state.user.userInfo.familyInfo);
   const ongoingMissions = useSelector((state) => state.mission.ongoingData);
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   useEffect(() => {
     const fetchMissions = async () => {
@@ -48,11 +43,12 @@ const Mission = () => {
         const ongoingData = await fetchOngoingMissions();
         dispatch(setOngoingData(ongoingData));
         console.log(ongoingData);
+
         const pendingData = await fetchPendingMissions();
-        setData(pendingData);
-        const mappedPendingMissions = data.map((mission) => {
+
+        const mappedPendingMissions = pendingData.map((mission) => {
           const parent = familyInfo.find(
-            (member) => member.sn === mission.parentsSn
+            (member) => member.sn == mission.parentsSn
           );
           return {
             ...mission,
@@ -66,7 +62,7 @@ const Mission = () => {
     };
 
     fetchMissions();
-  }, [dispatch, sn, familyInfo.sn, familyInfo.name]);
+  }, [dispatch, familyInfo]);
 
   const handleLeftClick = () => {
     navigate("/");
@@ -110,6 +106,7 @@ const Mission = () => {
     .sort((a, b) => {
       return a.dday - b.dday;
     });
+  console.log(pendingMissions);
 
   return (
     <div>

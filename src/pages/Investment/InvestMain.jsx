@@ -33,10 +33,6 @@ const InvestMain = () => {
     dispatch(fetchInvestAccount());
   }, [accountType]);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   return (
     <S.Container>
       <Header />

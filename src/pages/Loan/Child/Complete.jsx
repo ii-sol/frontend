@@ -70,7 +70,7 @@ const Complete = () => {
         </p>
       </div>
       <div tw="text-sm text-center mt-2">
-        <span tw="text-[#154B9B]"> 2024.05.31 금</span>까지 응답하지 않으면
+        <span tw="text-[#154B9B]"> 2024.06.30 금</span>까지 응답하지 않으면
         취소돼요.
       </div>
 
